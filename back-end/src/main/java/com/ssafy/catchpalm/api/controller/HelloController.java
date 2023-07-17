@@ -1,4 +1,4 @@
-package com.ssafy.catchpalm.Controller;
+package com.ssafy.catchpalm.api.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
