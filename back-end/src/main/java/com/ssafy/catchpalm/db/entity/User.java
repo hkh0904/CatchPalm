@@ -47,6 +47,9 @@ public class User{
 
     private double synk = 0.0;
 
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
     // 0:오프라인, 1:온라인, 2:게임중
     private int status = 0;
 

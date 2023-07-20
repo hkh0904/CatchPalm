@@ -25,15 +25,17 @@ import static com.google.common.collect.Lists.newArrayList;
 public class JwtTokenUtil {
     private static String secretKey;
     private static Integer expirationTime;
-
+    private static Integer refreshExpirationTime;
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
     
     @Autowired
-	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
+	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime,
+        @Value("${jwt.refresh.expiration}") Integer refreshExpirationTime) {
 		this.secretKey = secretKey;
 		this.expirationTime = expirationTime;
+        this.refreshExpirationTime = refreshExpirationTime;
 	}
     
 	public void setExpirationTime() {
@@ -66,10 +68,25 @@ public class JwtTokenUtil {
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
     }
-    
+
+    public static String getRefreshToken(String userId) {
+        Date expires = JwtTokenUtil.getRefreshTokenExpiration(refreshExpirationTime);
+        return JWT.create()
+                .withSubject(userId)
+                .withExpiresAt(expires)
+                .withIssuer(ISSUER)
+                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
+    }
+
     public static Date getTokenExpiration(int expirationTime) {
     		Date now = new Date();
     		return new Date(now.getTime() + expirationTime);
+    }
+
+    public static Date getRefreshTokenExpiration(int refreshExpirationTime) {
+        Date now = new Date();
+        return new Date(now.getTime() + refreshExpirationTime);
     }
 
     public static void handleError(String token) {

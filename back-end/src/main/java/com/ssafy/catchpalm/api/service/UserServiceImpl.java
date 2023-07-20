@@ -41,4 +41,10 @@ public class UserServiceImpl implements UserService {
 		User user = userRepositorySupport.findUserByUserId(userId).get();
 		return user;
 	}
+
+	public void updateRefreshToken(String userId, String refreshToken) {
+		User user = getUserByUserId(userId);
+		user.setRefreshToken(refreshToken);
+		userRepository.save(user);
+	}
 }
