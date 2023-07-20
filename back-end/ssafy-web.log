@@ -1,160 +1,103 @@
-2023-07-17 16:10:46.567  INFO 11948 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_372 on DESKTOP-BLHP263 with PID 11948 (C:\ssafy\workspace\Common_Project_2\catchpalm\back-end\build\classes\java\main started by SSAFY in C:\ssafy\workspace\Common_Project_2\catchpalm\back-end)
-2023-07-17 16:10:46.570  INFO 11948 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
-2023-07-17 16:10:46.622  INFO 11948 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-07-17 16:10:46.622  INFO 11948 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-07-17 16:10:48.031  INFO 11948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-07-17 16:10:48.112  INFO 11948 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 72 ms. Found 1 JPA repository interfaces.
-2023-07-17 16:10:48.519  INFO 11948 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@53a3d70e' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-07-17 16:10:48.525  INFO 11948 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-07-17 16:10:49.209  INFO 11948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2023-07-17 16:10:49.223  INFO 11948 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-07-17 16:10:49.224  INFO 11948 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
-2023-07-17 16:10:49.377  INFO 11948 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-07-17 16:10:49.378  INFO 11948 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2756 ms
-2023-07-17 16:10:49.602 DEBUG 11948 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
-2023-07-17 16:10:49.603 DEBUG 11948 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
-2023-07-17 16:10:49.815  INFO 11948 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-07-17 16:10:49.896  INFO 11948 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
-2023-07-17 16:10:50.099  INFO 11948 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-07-17 16:10:50.248  INFO 11948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-07-17 16:10:50.676  INFO 11948 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-07-17 16:10:50.702  INFO 11948 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
-2023-07-17 16:10:51.573  INFO 11948 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-07-17 16:10:51.583  INFO 11948 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-07-17 16:10:51.599  INFO 11948 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-07-17 16:10:52.444  WARN 11948 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-07-17 16:10:52.844 DEBUG 11948 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 11 mappings in 'requestMappingHandlerMapping'
-2023-07-17 16:10:52.920  INFO 11948 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2023-07-17 16:10:53.192  INFO 11948 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@634cb129, org.springframework.security.web.context.SecurityContextPersistenceFilter@6342efd2, org.springframework.security.web.header.HeaderWriterFilter@55894ca7, org.springframework.web.filter.CorsFilter@11d3aa09, org.springframework.security.web.authentication.logout.LogoutFilter@251dcf4c, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@66757269, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3be653e0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@8235841, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@261678c9, org.springframework.security.web.session.SessionManagementFilter@61c967e8, org.springframework.security.web.access.ExceptionTranslationFilter@4d8150b2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@27280956]
-2023-07-17 16:10:53.288  INFO 11948 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2023-07-17 16:10:53.301 DEBUG 11948 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2023-07-17 16:10:53.341  INFO 11948 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
-2023-07-17 16:10:53.357 DEBUG 11948 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
-2023-07-17 16:10:53.370 DEBUG 11948 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
-2023-07-17 16:10:53.697 DEBUG 11948 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
-2023-07-17 16:10:53.707 DEBUG 11948 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2023-07-17 16:10:53.974  INFO 11948 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-07-17 16:10:54.191  INFO 11948 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 8.118 seconds (JVM running for 8.803)
-2023-07-17 16:11:04.772  INFO 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-07-17 16:11:04.772  INFO 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2023-07-17 16:11:04.773 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
-2023-07-17 16:11:04.773 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
-2023-07-17 16:11:04.773 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
-2023-07-17 16:11:04.774 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@22512a32
-2023-07-17 16:11:04.774 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@96e16e7
-2023-07-17 16:11:04.774 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
-2023-07-17 16:11:04.775  INFO 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2023-07-17 16:11:04.815 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
-2023-07-17 16:11:04.832 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
-2023-07-17 16:11:04.833 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.servlet.view.InternalResourceView  : View name 'forward:', model {}
-2023-07-17 16:11:04.834 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.servlet.view.InternalResourceView  : Forwarding to [index.html]
-2023-07-17 16:11:04.836 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : "FORWARD" dispatch for GET "/index.html", parameters={}
-2023-07-17 16:11:04.837  WARN 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /index.html
-2023-07-17 16:11:04.846 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.ssafy.catchpalm.common.exception.handler.NotFoundHandler#renderDefaultPage(NoHandlerFoundException)
-2023-07-17 16:11:04.853 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:text/html' in response
-2023-07-17 16:11:04.853 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" conte (truncated)...]
-2023-07-17 16:11:04.858  WARN 11948 --- [http-nio-127.0.0.1-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /index.html]
-2023-07-17 16:11:04.859 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Exiting from "FORWARD" dispatch, status 200
-2023-07-17 16:11:04.860 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:04.927 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/app.80f35f85.css", parameters={}
-2023-07-17 16:11:04.929 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [dist/css/]]
-2023-07-17 16:11:04.937 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:04.998 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/css/chunk-vendors.b8a9ac7a.css", parameters={}
-2023-07-17 16:11:04.999 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [dist/css/]]
-2023-07-17 16:11:05.002 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:05.012 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/js/app.c36d8eb6.js", parameters={}
-2023-07-17 16:11:05.013 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [dist/js/]]
-2023-07-17 16:11:05.016 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:05.033 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/js/chunk-vendors.d26042b2.js", parameters={}
-2023-07-17 16:11:05.033 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [dist/js/]]
-2023-07-17 16:11:05.093 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:05.563 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/img/ssafy-logo.74eec4f3.png", parameters={}
-2023-07-17 16:11:05.564 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [dist/img/]]
-2023-07-17 16:11:05.567 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:05.593 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/fonts/SpoqaHanSansNeo-Regular.998877fd.ttf", parameters={}
-2023-07-17 16:11:05.593 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [dist/fonts/]]
-2023-07-17 16:11:05.598 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/fonts/SpoqaHanSansNeo-Bold.48d433af.ttf", parameters={}
-2023-07-17 16:11:05.599 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [dist/fonts/]]
-2023-07-17 16:11:05.615 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:05.621 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:11:05.638 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/favicon.ico", parameters={}
-2023-07-17 16:11:05.639  WARN 11948 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /favicon.ico
-2023-07-17 16:11:05.639 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.ssafy.catchpalm.common.exception.handler.NotFoundHandler#renderDefaultPage(NoHandlerFoundException)
-2023-07-17 16:11:05.639 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:text/html' in response
-2023-07-17 16:11:05.640 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" conte (truncated)...]
-2023-07-17 16:11:05.649  WARN 11948 --- [http-nio-127.0.0.1-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /favicon.ico]
-2023-07-17 16:11:05.649 DEBUG 11948 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2023-07-17 16:19:54.723  INFO 9644 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_372 on DESKTOP-BLHP263 with PID 9644 (C:\ssafy\workspace\Common_Project_2\catchpalm\back-end\build\classes\java\main started by SSAFY in C:\ssafy\workspace\Common_Project_2\catchpalm\back-end)
-2023-07-17 16:19:54.726  INFO 9644 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
-2023-07-17 16:19:54.777  INFO 9644 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-07-17 16:19:54.777  INFO 9644 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-07-17 16:19:56.105  INFO 9644 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-07-17 16:19:56.179  INFO 9644 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 1 JPA repository interfaces.
-2023-07-17 16:19:56.558  INFO 9644 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@6f2c3866' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-07-17 16:19:56.563  INFO 9644 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-07-17 16:19:57.258  INFO 9644 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2023-07-17 16:19:57.271  INFO 9644 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-07-17 16:19:57.272  INFO 9644 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
-2023-07-17 16:19:57.403  INFO 9644 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-07-17 16:19:57.404  INFO 9644 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2626 ms
-2023-07-17 16:19:57.624 DEBUG 9644 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
-2023-07-17 16:19:57.624 DEBUG 9644 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
-2023-07-17 16:19:57.821  INFO 9644 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-07-17 16:19:57.897  INFO 9644 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
-2023-07-17 16:19:58.051  INFO 9644 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-07-17 16:19:58.179  INFO 9644 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-07-17 16:19:58.487  INFO 9644 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-07-17 16:19:58.509  INFO 9644 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
-2023-07-17 16:19:59.233  INFO 9644 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-07-17 16:19:59.243  INFO 9644 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-07-17 16:19:59.259  INFO 9644 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-07-17 16:19:59.954  WARN 9644 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-07-17 16:20:00.291 DEBUG 9644 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 11 mappings in 'requestMappingHandlerMapping'
-2023-07-17 16:20:00.372  INFO 9644 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2023-07-17 16:20:00.604  INFO 9644 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@76dd89d4, org.springframework.security.web.context.SecurityContextPersistenceFilter@77ea8813, org.springframework.security.web.header.HeaderWriterFilter@33feea8b, org.springframework.web.filter.CorsFilter@1d1a5239, org.springframework.security.web.authentication.logout.LogoutFilter@42649f64, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@2113fb1f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@43937818, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@71716723, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@53f3790c, org.springframework.security.web.session.SessionManagementFilter@37a57d47, org.springframework.security.web.access.ExceptionTranslationFilter@58f43298, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@775d85ef]
-2023-07-17 16:20:00.676  INFO 9644 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2023-07-17 16:20:00.692 DEBUG 9644 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2023-07-17 16:20:00.727  INFO 9644 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
-2023-07-17 16:20:00.740 DEBUG 9644 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
-2023-07-17 16:20:00.752 DEBUG 9644 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
-2023-07-17 16:20:01.098 DEBUG 9644 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
-2023-07-17 16:20:01.112 DEBUG 9644 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2023-07-17 16:20:01.389  INFO 9644 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-07-17 16:20:01.622  INFO 9644 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 7.358 seconds (JVM running for 8.039)
-2023-07-17 16:42:09.889  INFO 18636 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_372 on DESKTOP-BLHP263 with PID 18636 (C:\ssafy\workspace\Common_Project_2\catchpalm\back-end\build\classes\java\main started by SSAFY in C:\ssafy\workspace\Common_Project_2\catchpalm\back-end)
-2023-07-17 16:42:09.892  INFO 18636 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
-2023-07-17 16:42:09.950  INFO 18636 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-07-17 16:42:09.950  INFO 18636 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-07-17 16:42:11.662  INFO 18636 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-07-17 16:42:11.746  INFO 18636 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 72 ms. Found 1 JPA repository interfaces.
-2023-07-17 16:42:12.203  INFO 18636 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3c35adf0' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-07-17 16:42:12.209  INFO 18636 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-07-17 16:42:12.901  INFO 18636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2023-07-17 16:42:12.920  INFO 18636 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-07-17 16:42:12.920  INFO 18636 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
-2023-07-17 16:42:13.068  INFO 18636 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-07-17 16:42:13.068  INFO 18636 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3117 ms
-2023-07-17 16:42:13.313 DEBUG 18636 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
-2023-07-17 16:42:13.314 DEBUG 18636 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
-2023-07-17 16:42:13.558  INFO 18636 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-07-17 16:42:13.647  INFO 18636 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
-2023-07-17 16:42:13.836  INFO 18636 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-07-17 16:42:13.972  INFO 18636 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-07-17 16:42:14.332  INFO 18636 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-07-17 16:42:14.363  INFO 18636 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
-2023-07-17 16:42:15.262  INFO 18636 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-07-17 16:42:15.272  INFO 18636 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-07-17 16:42:15.289  INFO 18636 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-07-17 16:42:16.065  WARN 18636 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-07-17 16:42:16.444 DEBUG 18636 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 11 mappings in 'requestMappingHandlerMapping'
-2023-07-17 16:42:16.534  INFO 18636 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2023-07-17 16:42:16.793  INFO 18636 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@702b4d79, org.springframework.security.web.context.SecurityContextPersistenceFilter@47c1a963, org.springframework.security.web.header.HeaderWriterFilter@8443b4c, org.springframework.web.filter.CorsFilter@74ec382f, org.springframework.security.web.authentication.logout.LogoutFilter@38ba6d47, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@4b37c230, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@364ff315, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@25bdc58b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@62ce0932, org.springframework.security.web.session.SessionManagementFilter@19465f1c, org.springframework.security.web.access.ExceptionTranslationFilter@770525c1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@52204b1]
-2023-07-17 16:42:16.878  INFO 18636 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2023-07-17 16:42:16.891 DEBUG 18636 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2023-07-17 16:42:16.933  INFO 18636 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
-2023-07-17 16:42:16.956 DEBUG 18636 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
-2023-07-17 16:42:16.972 DEBUG 18636 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
-2023-07-17 16:42:17.361 DEBUG 18636 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
-2023-07-17 16:42:17.374 DEBUG 18636 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2023-07-17 16:42:17.684  INFO 18636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-07-17 16:42:17.935  INFO 18636 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 8.589 seconds (JVM running for 9.423)
+2023-07-20 08:53:17.345  WARN 21192 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14h53m33s619ms881?s700ns).
+2023-07-20 09:57:29.617 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:57:29.618 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:57:29.621 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:57:29.638 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@1bd57858]
+2023-07-20 09:57:29.722 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:57:29.723 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@3cd772cd]
+2023-07-20 09:57:29.725 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:57:29.725 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:57:42.773 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:57:42.773 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-20 09:57:42.774 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-20 09:57:42.776 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:57:42.777 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@78e7a59b]
+2023-07-20 09:57:42.777 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:57:42.777 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-20 09:59:03.352 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:03.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-20 09:59:03.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-20 09:59:03.355 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:03.355 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@68d8eeb9]
+2023-07-20 09:59:03.356 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:03.356 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-20 09:59:06.195 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:06.195 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:06.195 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:06.196 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@1216964b]
+2023-07-20 09:59:06.259 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:06.259 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@71454d]
+2023-07-20 09:59:06.260 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:06.260 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:07.230 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:07.230 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:07.230 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:07.231 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@5d49f0a7]
+2023-07-20 09:59:07.297 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:07.298 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@785f1163]
+2023-07-20 09:59:07.299 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:07.299 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:08.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:08.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:08.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:08.354 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@3805b1f7]
+2023-07-20 09:59:08.417 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:08.417 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@160b621c]
+2023-07-20 09:59:08.418 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:08.418 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:09.025 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:09.025 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:09.025 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:09.026 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@7d057d6d]
+2023-07-20 09:59:09.089 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:09.090 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@52d079c9]
+2023-07-20 09:59:09.090 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:09.091 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:09.653 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:09.653 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:09.653 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:09.654 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@5c0ce5a9]
+2023-07-20 09:59:09.718 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:09.719 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@205ff862]
+2023-07-20 09:59:09.719 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:09.720 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:10.296 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:10.296 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:10.296 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:10.297 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@72dc4630]
+2023-07-20 09:59:10.360 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:10.360 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@5546a24b]
+2023-07-20 09:59:10.361 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:10.361 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:10.909 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:10.909 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:10.909 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:10.910 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@33ae98f7]
+2023-07-20 09:59:10.973 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:10.973 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@45c29426]
+2023-07-20 09:59:10.974 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:10.974 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]

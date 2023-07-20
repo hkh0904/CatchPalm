@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -42,7 +43,7 @@ public class JwtTokenUtil {
 
 	public static JWTVerifier getVerifier() {
         return JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
+                .require(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)))
                 .withIssuer(ISSUER)
                 .build();
     }
@@ -54,7 +55,7 @@ public class JwtTokenUtil {
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+                .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String getToken(Instant expires, String userId) {
@@ -63,7 +64,7 @@ public class JwtTokenUtil {
                 .withExpiresAt(Date.from(expires))
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+                .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
     }
     
     public static Date getTokenExpiration(int expirationTime) {
@@ -73,7 +74,7 @@ public class JwtTokenUtil {
 
     public static void handleError(String token) {
         JWTVerifier verifier = JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
+                .require(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)))
                 .withIssuer(ISSUER)
                 .build();
 
