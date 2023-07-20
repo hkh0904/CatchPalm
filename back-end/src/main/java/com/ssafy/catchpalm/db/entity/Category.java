@@ -13,7 +13,7 @@ public class Category {
     @Column(name = "category_number")
     private int categoryNumber;
     @Column(nullable = false)
-    
+
     private int type;
     @Column(nullable = false)
     private int value;

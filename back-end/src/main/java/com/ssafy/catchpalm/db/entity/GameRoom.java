@@ -17,6 +17,7 @@ public class GameRoom {
     private int roomNumber;
 
 
+
     @OneToMany(mappedBy = "gameRoom")// 양방향 매핑.
     private List<GameRoomUserInfo> userInfos = new ArrayList<>();
 

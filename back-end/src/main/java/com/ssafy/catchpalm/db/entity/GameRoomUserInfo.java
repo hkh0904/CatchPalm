@@ -13,6 +13,7 @@ public class GameRoomUserInfo {
     @Column(name = "userinfo_number")
     private int userInfoNumber;
 
+
     @ManyToOne// 단방향 매핑
     @JoinColumn(name = "user_number", nullable = false)
     private User user;
