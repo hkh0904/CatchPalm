@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="mediapipe.css" />
+<link
+  href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+  rel="stylesheet"
+/>
+<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
+  crossorigin="anonymous"
+></script>
+<script src="mediapipe.js" type="module"></script>
+
+<h1>캐치팜</h1>
+
+<div id="liveView" class="videoView">
+  <button id="webcamButton" class="mdc-button mdc-button--raised">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__label">ENABLE WEBCAM</span>
+  </button>
+  <button id="onOffButton" class="mdc-button mdc-button--raised">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__label">WEBCAM ON/OFF</span>
+  </button>
+  <div id="webcamWrapper">
+    <video id="webcam" autoplay playsinline></video>
+    <canvas
+      class="output_canvas"
+      id="output_canvas"
+      width="1280"
+      height="720"
+      style="position: absolute; left: 0px; top: 0px; border: 1px solid black"
+    ></canvas>
+    <p id="gesture_output" class="output"></p>
+  </div>
+</div>
