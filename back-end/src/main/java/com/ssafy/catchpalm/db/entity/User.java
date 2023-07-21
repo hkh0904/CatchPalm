@@ -63,6 +63,8 @@ public class User{
     //민우추가
     @OneToMany(mappedBy = "userLike")
     private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
+    @OneToOne(mappedBy = "rankUser")
+    private Rank rank;
 
     public User() {
         this.joinDate = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정

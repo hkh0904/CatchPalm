@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "RANKING")
 @Getter
 @Setter
 public class Rank {
@@ -16,7 +16,7 @@ public class Rank {
 
     @OneToOne
     @JoinColumn(name = "user_number")
-    private User user; // 랭거 정보 : 단방향 매핑
+    private User rankUser; // 랭거 정보 : 단방향 매핑
 
     @ManyToOne
     @JoinColumn(name = "music_number")
