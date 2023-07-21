@@ -9,4 +9,5 @@ import com.ssafy.catchpalm.db.entity.User;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUserId(String userId);
+	void updateRefreshToken(String userId, String refreshToken);
 }
