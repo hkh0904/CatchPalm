@@ -1,5 +1,6 @@
 package com.ssafy.catchpalm.api.service;
 
+import com.ssafy.catchpalm.common.util.AESUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,18 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	public void updateRefreshToken(String userId, String refreshToken) {
+	public void updateRefreshToken(String userId, String refreshToken) throws Exception {
 		User user = getUserByUserId(userId);
-		user.setRefreshToken(refreshToken);
+		// refresh Token을 암호화
+		String encryptedRefreshToken = AESUtil.encrypt(refreshToken);
+		user.setRefreshToken(encryptedRefreshToken);
 		userRepository.save(user);
 	}
+
+	public String getRefreshTokenByUserId(String userId) throws Exception {
+		User user = userRepositorySupport.findUserByUserId(userId).get();
+		String decryptRefreshToken = AESUtil.decrypt(user.getRefreshToken());
+		return decryptRefreshToken;
+	}
+
 }

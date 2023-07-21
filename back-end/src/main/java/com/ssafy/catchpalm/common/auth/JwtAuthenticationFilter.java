@@ -10,6 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.ssafy.catchpalm.common.exception.handler.InvalidTokenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,17 +56,37 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        
+
+        Authentication authentication = null;
+
         try {
             // If header is present, try grab user principal from database and perform authorization
-            Authentication authentication = getAuthentication(request);
+            authentication = getAuthentication(request);
+            if(authentication == null){
+                throw new InvalidTokenException("Invalid token");
+            }
             // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception ex) {
+        }catch (TokenExpiredException ex){
+            String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+            DecodedJWT decodedJWT = JWT.decode(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+            String userId = decodedJWT.getSubject();
+            String refreshToken = null; // Get refreshToken from database
+            try {
+                refreshToken = userService.getRefreshTokenByUserId(userId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            String newToken = JwtTokenUtil.renewAccessTokenWithRefreshToken(refreshToken, userId);
+            response.setHeader(JwtTokenUtil.HEADER_STRING, JwtTokenUtil.TOKEN_PREFIX + newToken);
             ResponseBodyWriteUtil.sendError(request, response, ex);
             return;
         }
-        
+        catch (Exception ex) {
+            ResponseBodyWriteUtil.sendError(request, response, ex);
+            return;
+        }
+
         filterChain.doFilter(request, response);
 	}
 	

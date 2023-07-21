@@ -43,7 +43,7 @@ public class AuthController {
         @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
         @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-	public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) {
+	public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) throws Exception {
 		String userId = loginInfo.getId();
 		String password = loginInfo.getPassword();
 		String refreshToken = JwtTokenUtil.getRefreshToken(userId);
@@ -57,21 +57,5 @@ public class AuthController {
 		}
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
-	}
-
-	@PostMapping("/refresh")
-	@ApiOperation(value = "토큰 갱신", notes = "<strong>Refresh 토큰</strong>을 통해 새로운 Access 토큰을 발급받는다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-			@ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-			@ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
-			@ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
-	})
-	public ResponseEntity<UserLoginPostRes> refresh(@RequestBody @ApiParam(value="Refresh 토큰 정보", required = true) String refreshToken
-		,@RequestBody @ApiParam(value="new Access 토큰을 요청한 유저 ID", required = true) String userId) {
-		// refreshToken을 검증하고, 새로운 Access 토큰을 발급받는다.
-		String newAccessToken = JwtTokenUtil.renewAccessTokenWithRefreshToken(refreshToken, userId);
-		// 응답을 반환한다.
-		return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", newAccessToken));
 	}
 }
