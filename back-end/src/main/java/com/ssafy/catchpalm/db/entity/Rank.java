@@ -16,14 +16,14 @@ public class Rank {
 
     @OneToOne
     @JoinColumn(name = "user_number")
-    private User user;
+    private User user; // 랭거 정보 : 단방향 매핑
 
     @ManyToOne
     @JoinColumn(name = "music_number")
-    private Music music;
+    private Music music; // 랭킹등록된 해당 음악 정보 : 단방향 매핑
 
-    private int score;
+    private int score; // 해당 점수
 
     @Column(name = "play_datetime")
-    private LocalDateTime playDateTime;
+    private LocalDateTime playDateTime; // 플레이 시작일
 }

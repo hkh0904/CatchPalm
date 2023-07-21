@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,4 +40,7 @@ public class Music {
 
     @Column(name = "background_address")
     private String backgroundAddress; // 배경파일 저장위치
+
+    @OneToMany(mappedBy = "music")
+    private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
 }

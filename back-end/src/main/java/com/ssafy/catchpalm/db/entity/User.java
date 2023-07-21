@@ -5,10 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 유저 모델 정의.
@@ -19,7 +22,8 @@ import java.time.LocalDateTime;
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_number = null;
+    @Column(name = "user_number")
+    private Long userNumber = null;
 
     @Column(unique = true, nullable = false)
     private String userId;
@@ -55,6 +59,10 @@ public class User{
 
     @Column(name = "join_date", nullable = false, updatable = false)
     private LocalDateTime joinDate;
+
+    //민우추가
+    @OneToMany(mappedBy = "userLike")
+    private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
 
     public User() {
         this.joinDate = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정
