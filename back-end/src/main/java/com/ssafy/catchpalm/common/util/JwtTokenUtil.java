@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -77,6 +78,27 @@ public class JwtTokenUtil {
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    public static String renewAccessTokenWithRefreshToken(String refreshToken, String userId) {
+        try {
+            // refreshToken의 검증
+            JWTVerifier verifier = JWT
+                    .require(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)))
+                    .withIssuer(ISSUER)
+                    .build();
+            DecodedJWT jwt = verifier.verify(refreshToken);
+
+            if (!jwt.getSubject().equals(userId)) {
+                throw new JWTVerificationException("User ID does not match");
+            }
+
+            // 새로운 accessToken 생성
+            String newAccessToken = getToken(userId);
+            return newAccessToken;
+        } catch (JWTVerificationException ex) {
+            throw ex;
+        }
     }
 
     public static Date getTokenExpiration(int expirationTime) {
