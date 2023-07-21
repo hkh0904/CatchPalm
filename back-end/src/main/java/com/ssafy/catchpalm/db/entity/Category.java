@@ -12,11 +12,13 @@ public class Category {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "category_number")
     private int categoryNumber;
-    @Column(nullable = false)
 
+    @Column(nullable = false)
     private int type;
+
     @Column(nullable = false)
     private int value;
+
     @Column(nullable = false)
     private String name;
 }

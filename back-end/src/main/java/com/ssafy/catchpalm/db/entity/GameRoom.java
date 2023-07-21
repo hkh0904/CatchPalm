@@ -27,6 +27,7 @@ public class GameRoom {
 
     @Column(nullable = false)
     private int capacity;
+    @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private String title;
