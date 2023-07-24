@@ -1,0 +1,103 @@
+2023-07-20 08:53:17.345  WARN 21192 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14h53m33s619ms881?s700ns).
+2023-07-20 09:57:29.617 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:57:29.618 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:57:29.621 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:57:29.638 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@1bd57858]
+2023-07-20 09:57:29.722 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:57:29.723 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@3cd772cd]
+2023-07-20 09:57:29.725 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:57:29.725 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:57:42.773 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:57:42.773 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-20 09:57:42.774 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-20 09:57:42.776 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:57:42.777 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@78e7a59b]
+2023-07-20 09:57:42.777 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:57:42.777 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-20 09:59:03.352 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:03.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-20 09:59:03.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-20 09:59:03.355 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:03.355 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@68d8eeb9]
+2023-07-20 09:59:03.356 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:03.356 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=ssafy, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FmeSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY5MTExMDY0OSwiaWF0IjoxNjg5ODE0NjQ5fQ.Mpwx_2SsDMzqt5Rqr7ZMLZp3p7BBrQIRil_zJMi6TCf5ss2tf-KPpgfWGCYpFcb9uFA44VR3d_iSYHD3GURl-g", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-20 09:59:06.195 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:06.195 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:06.195 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:06.196 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@1216964b]
+2023-07-20 09:59:06.259 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:06.259 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@71454d]
+2023-07-20 09:59:06.260 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:06.260 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:07.230 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:07.230 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:07.230 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:07.231 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@5d49f0a7]
+2023-07-20 09:59:07.297 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:07.298 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@785f1163]
+2023-07-20 09:59:07.299 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:07.299 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:08.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:08.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:08.353 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:08.354 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@3805b1f7]
+2023-07-20 09:59:08.417 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:08.417 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@160b621c]
+2023-07-20 09:59:08.418 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:08.418 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:09.025 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:09.025 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:09.025 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:09.026 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@7d057d6d]
+2023-07-20 09:59:09.089 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:09.090 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@52d079c9]
+2023-07-20 09:59:09.090 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:09.091 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:09.653 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:09.653 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:09.653 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:09.654 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@5c0ce5a9]
+2023-07-20 09:59:09.718 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:09.719 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@205ff862]
+2023-07-20 09:59:09.719 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:09.720 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:10.296 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:10.296 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:10.296 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:10.297 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@72dc4630]
+2023-07-20 09:59:10.360 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:10.360 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@5546a24b]
+2023-07-20 09:59:10.361 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:10.361 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
+2023-07-20 09:59:10.909 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-20 09:59:10.909 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-20 09:59:10.909 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-20 09:59:10.910 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@33ae98f7]
+2023-07-20 09:59:10.973 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-20 09:59:10.973 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@45c29426]
+2023-07-20 09:59:10.974 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-20 09:59:10.974 DEBUG 21192 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"42", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "ssafy",
+  "password": "ssafy"
+}]
