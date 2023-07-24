@@ -2,7 +2,7 @@ import {
   GestureRecognizer,
   FilesetResolver,
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0"; // 미디어파이프 받아오기
-const demosSection = document.getElementById("demos");
+// const demosSection = document.getElementById("demos");
 let gestureRecognizer;
 let runningMode = "IMAGE";
 let enableWebcamButton;
@@ -23,7 +23,6 @@ fetch(jsonFilePath)
   .then((jsonData) => {
     // jsonData를 원하는 변수에 저장하면 됩니다.
     nodes = jsonData;
-    console.log(nodes);
   })
   .catch((error) => {
     console.error("Error fetching JSON:", error);
@@ -84,7 +83,7 @@ async function enableCam(event) {
     if (nodes) {
       nodes.forEach((node) => {
         setTimeout(() => {
-          console.log(`Log at ${node.APPEAR_TIME}`);
+          // console.log(`Log at ${node.APPEAR_TIME}`);  // 노드 노출시간 출력 (APPEAR_TIME)
 
           // circle 클래스를 가진 div를 생성합니다.
           const circleDiv = document.createElement("div");
@@ -92,17 +91,16 @@ async function enableCam(event) {
 
           // webcam의 위치와 크기를 얻습니다.
           const webcamElement = document.getElementById("webcam");
-          const webcamRect = webcamElement.getBoundingClientRect();
 
           // div의 위치를 설정합니다. X-COORDINATE와 Y-COORDINATE 값은 0~1 범위라고 가정합니다.
+          const radius = 40; // 원의 반지름입니다. 원의 크기에 따라 이 값을 조정해야 합니다.
 
-          console.log(webcamRect);
-          circleDiv.style.left = `calc(${
-            webcamRect.left + node["X-COORDINATE"] * webcamRect.width
-          }px - 40px)`; // 40px is half of the circle's width
-          circleDiv.style.top = `calc(${
-            webcamRect.top + node["Y-COORDINATE"] * webcamRect.height
-          }px - 40px)`; // 40px is half of the circle's height
+          circleDiv.style.left = `${
+            (1 - node["X-COORDINATE"]) * webcamElement.offsetWidth - radius
+          }px`;
+          circleDiv.style.top = `${
+            node["Y-COORDINATE"] * webcamElement.offsetHeight - radius
+          }px`;
 
           // div를 웹캠의 컨테이너인 webcamWrapper에 추가합니다.
           const webcamWrapper = document.getElementById("webcamWrapper");
@@ -174,6 +172,7 @@ async function enableCam(event) {
 
   let lastVideoTime = -1;
   let results = undefined;
+
   async function predictWebcam() {
     const webcamElement = document.getElementById("webcam");
     // Now let's start detecting the stream.
@@ -201,30 +200,27 @@ async function enableCam(event) {
           lineWidth: 5,
         });
         drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
-
-        // x, y 좌표출력
-        for (const [index, landmark] of landmarks.entries()) {
-          // console.log(`Landmark ${index}: (${landmark.x}, ${landmark.y})`);
-        }
       }
     }
 
     canvasCtx.restore();
+
+    let handX = 0;
+    let handY = 0;
+
     if (results.gestures.length > 0) {
-      gestureOutput.style.display = "block";
-      gestureOutput.style.width = videoWidth;
-      const firstHand = results.gestures[0][0].categoryName;
-      const categoryScore = parseFloat(
-        results.gestures[0][0].score * 100
-      ).toFixed(2);
-      // gestureOutput.innerText = `firstHand: ${firstHand}\n Confidence: ${categoryScore} %`;
+      handX = results.landmarks[0][9].x;
+      handY = results.landmarks[0][9].y;
+      if (results.gestures[0][0].categoryName === "Closed_Fist") {
+        hideCircle(handX, handY);
+      }
 
       if (results.gestures.length > 1) {
-        const secondHand = results.gestures[1][0].categoryName;
-        const secondCategoryScore = parseFloat(
-          results.gestures[1][0].score * 100
-        ).toFixed(2);
-        // gestureOutput.innerText += `\n secondHand: ${secondHand}\n Confidence: ${secondCategoryScore} %`;
+        handX = results.landmarks[1][9].x;
+        handY = results.landmarks[1][9].y;
+        if (results.gestures[1][0].categoryName === "Closed_Fist") {
+          hideCircle(handX, handY);
+        }
       }
     } else {
       gestureOutput.style.display = "none";
@@ -234,4 +230,30 @@ async function enableCam(event) {
       window.requestAnimationFrame(predictWebcam);
     }
   }
+}
+
+function hideCircle(handX, handY) {
+  const circleElements = document.querySelectorAll(".circle");
+  circleElements.forEach((circleElement) => {
+    // 원형 div의 위치를 얻습니다. (0~1 범위로 변환)
+    const circleX =
+      1 -
+      parseFloat(circleElement.style.left.replace("px", "")) /
+        document.getElementById("webcam").offsetWidth;
+    const circleY =
+      parseFloat(circleElement.style.top.replace("px", "")) /
+      document.getElementById("webcam").offsetHeight;
+
+    // 손의 위치와 원형 div의 위치 사이의 거리를 계산합니다.
+    const distance = Math.sqrt(
+      Math.pow(handX - circleX, 2) + Math.pow(handY - circleY, 2)
+    );
+
+    console.log(distance);
+    // 거리가 특정 임계값 이하이면 원형 div를 삭제합니다.
+    const threshold = 0.1; // 필요에 따라 이 값을 조정할 수 있습니다.
+    if (distance <= threshold) {
+      circleElement.style.display = "none";
+    }
+  });
 }
