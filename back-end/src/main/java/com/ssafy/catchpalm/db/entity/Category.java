@@ -21,4 +21,13 @@ public class Category {
 
     @Column(nullable = false)
     private String name; // 카테고리 value 이름.
+
+    public Category(int type, int value, String name) {
+        this.type = type;
+        this.value = value;
+        this.name = name;
+    }
+
+    public Category() {
+    }
 }

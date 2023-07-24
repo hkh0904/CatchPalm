@@ -67,6 +67,8 @@ public class User{
     private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
     @OneToOne(mappedBy = "rankUser")
     private Rank rank;
+    @OneToOne(mappedBy = "captain")
+    private GameRoom gameRoom;
 
     public User() {
         this.joinDate = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정

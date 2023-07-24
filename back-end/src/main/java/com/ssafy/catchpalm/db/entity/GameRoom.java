@@ -16,9 +16,11 @@ public class GameRoom {
     @Column(name = "room_number")
     private int roomNumber;
 
+    @OneToOne
+    @JoinColumn(name = "user_number")
+    private User captain;
 
-
-    @OneToMany(mappedBy = "gameRoom")// 양방향 매핑 : 게임방 유저 리스트.
+    @OneToMany(mappedBy = "gameRoom", fetch = FetchType.LAZY)// 양방향 매핑 : 게임방 유저 리스트., 지연로딩
     private List<GameRoomUserInfo> userInfos = new ArrayList<>();
 
     @ManyToOne // 단방향 매핑 : 카테고리 정보
