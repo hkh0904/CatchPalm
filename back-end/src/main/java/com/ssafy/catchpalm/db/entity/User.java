@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.checkerframework.checker.units.qual.C;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -62,6 +63,7 @@ public class User{
 
     //민우추가
     @OneToMany(mappedBy = "userLike")
+    @Lazy
     private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
     @OneToOne(mappedBy = "rankUser")
     private Rank rank;
