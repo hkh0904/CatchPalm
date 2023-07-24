@@ -29,15 +29,12 @@ public class User{
     @Column(unique = true, nullable = false)
     private String userId;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(unique = true, nullable = false)
-    private String nickName;
+    @Column(unique = true, nullable = true)
+    private String nickName = null;
 
     @Lob
     @Column(name = "profile_img", columnDefinition = "BLOB")
@@ -50,6 +47,11 @@ public class User{
     private int point = 0;
 
     private double synk = 0.0;
+
+    private int age = 0;
+
+    // 0:남자, 1:여자, 2:기타
+    private int sex = 0;
 
     @Column(name = "refresh_token",length = 1024)
     private String refreshToken;
