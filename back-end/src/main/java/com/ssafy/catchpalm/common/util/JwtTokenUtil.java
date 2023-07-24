@@ -57,6 +57,7 @@ public class JwtTokenUtil {
                 .withSubject(userId)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
+                .withClaim("typ", "AccessToken")
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
     }
@@ -76,6 +77,18 @@ public class JwtTokenUtil {
                 .withSubject(userId)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
+                .withClaim("typ", "RefreshToken")
+                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    public static String getEmailToken(String userId) {
+        Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+        return JWT.create()
+                .withSubject(userId)
+                .withExpiresAt(expires)
+                .withIssuer(ISSUER)
+                .withClaim("typ", "EmailVerificationToken")
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)));
     }
@@ -87,10 +100,12 @@ public class JwtTokenUtil {
                     .require(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)))
                     .withIssuer(ISSUER)
                     .build();
-            DecodedJWT jwt = verifier.verify(refreshToken);
+            DecodedJWT jwt = verifier.verify(refreshToken.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
 
             if (!jwt.getSubject().equals(userId)) {
                 throw new JWTVerificationException("User ID does not match");
+            } else if(!jwt.getClaim("typ").asString().equals("RefreshToken") ){
+                throw new JWTVerificationException("Token type does not match");
             }
 
             // 새로운 accessToken 생성
@@ -100,6 +115,14 @@ public class JwtTokenUtil {
             throw ex;
         }
     }
+
+    public static DecodedJWT decodedJWT(String token){
+        JWTVerifier verifier = JwtTokenUtil.getVerifier();
+        JwtTokenUtil.handleError(token);
+        DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+        return decodedJWT;
+    }
+
 
     public static Date getTokenExpiration(int expirationTime) {
     		Date now = new Date();
@@ -112,10 +135,7 @@ public class JwtTokenUtil {
     }
 
     public static void handleError(String token) {
-        JWTVerifier verifier = JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)))
-                .withIssuer(ISSUER)
-                .build();
+        JWTVerifier verifier = getVerifier();
 
         try {
             verifier.verify(token.replace(TOKEN_PREFIX, ""));

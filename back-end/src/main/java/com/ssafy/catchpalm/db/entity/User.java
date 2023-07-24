@@ -24,8 +24,7 @@ public class User{
     @Column(unique = true, nullable = false)
     private String userId;
 
-    @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @JsonIgnore
@@ -55,6 +54,12 @@ public class User{
 
     @Column(name = "join_date", nullable = false, updatable = false)
     private LocalDateTime joinDate;
+
+    @Column(name = "email_verification_token",nullable = false,length = 1024)
+    private String emailVerificationToken;
+
+    @Column(name = "email_verified",nullable = false)
+    private int emailVerified = 0;
 
     public User() {
         this.joinDate = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정

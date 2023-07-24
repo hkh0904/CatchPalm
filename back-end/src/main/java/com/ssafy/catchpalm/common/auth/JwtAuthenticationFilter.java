@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +34,8 @@ import com.ssafy.catchpalm.api.service.UserService;
 import com.ssafy.catchpalm.common.util.JwtTokenUtil;
 import com.ssafy.catchpalm.common.util.ResponseBodyWriteUtil;
 import com.ssafy.catchpalm.db.entity.User;
+
+import static com.ssafy.catchpalm.common.util.JwtTokenUtil.decodedJWT;
 
 /**
  * 요청 헤더에 jwt 토큰이 있는 경우, 토큰 검증 및 인증 처리 로직 정의.
@@ -94,12 +97,19 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     public Authentication getAuthentication(HttpServletRequest request) throws Exception {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         // 요청 헤더에 Authorization 키값에 jwt 토큰이 포함된 경우에만, 토큰 검증 및 인증 처리 로직 실행.
+
         if (token != null) {
             // parse the token and validate it (decode)
-            JWTVerifier verifier = JwtTokenUtil.getVerifier();
-            JwtTokenUtil.handleError(token);
-            DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+            DecodedJWT decodedJWT = decodedJWT(token);
             String userId = decodedJWT.getSubject();
+
+            // 토큰 타입 확인
+            String typ = decodedJWT.getClaim("typ").asString();
+
+            // 토큰 타입이 AccessToken이 아닐 경우에 예외 처리
+            if (!"AccessToken".equals(typ)) {
+                throw new BadCredentialsException("Invalid token type: " + typ);
+            }
             
             // Search in the DB if we find the user by token subject (username)
             // If so, then grab user details and create spring auth token using username, pass, authorities/roles
