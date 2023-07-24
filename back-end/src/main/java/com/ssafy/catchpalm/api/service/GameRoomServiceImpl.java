@@ -1,15 +1,13 @@
 package com.ssafy.catchpalm.api.service;
 
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
-import com.ssafy.catchpalm.api.request.UserRegisterPostReq;
 import com.ssafy.catchpalm.db.entity.Category;
 import com.ssafy.catchpalm.db.entity.GameRoom;
+import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
 import com.ssafy.catchpalm.db.entity.User;
 import com.ssafy.catchpalm.db.repository.GameRoomRepository;
-import com.ssafy.catchpalm.db.repository.UserRepository;
-import com.ssafy.catchpalm.db.repository.UserRepositorySupport;
+import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +19,9 @@ import java.util.Optional;
 public class GameRoomServiceImpl implements GameRoomService {
 	@Autowired
 	GameRoomRepository gameRoomRepository;
+
+	@Autowired
+	GameRoomUserInfoRepository gameRoomUserInfoRepository;
 
 	@Override
 	public GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq) {
@@ -54,5 +55,20 @@ public class GameRoomServiceImpl implements GameRoomService {
 			//GameRoom gameRoom = optionalGameRoom.get(); // 해당 게임 룸 정보 받기.
 			gameRoomRepository.deleteById(roomNumber); // 존재한다면 해당 방 삭제.
 		}
+	}
+
+	@Override
+	public GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber) {
+		User user = new User();
+		GameRoom gameRoom = new GameRoom();
+		GameRoomUserInfo userInfo = new GameRoomUserInfo();
+
+		userInfo.setUser(user);
+		user.setUserNumber(userNumber);
+
+		userInfo.setGameRoom(gameRoom);
+		gameRoom.setRoomNumber(roomNumber);
+
+		return gameRoomUserInfoRepository.save(userInfo);
 	}
 }
