@@ -10,6 +10,7 @@ import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -50,10 +51,15 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Override
 	public void deleteRoom(int roomNumber) {
-		Optional<GameRoom> optionalGameRoom = gameRoomRepository.findById(roomNumber);
-		if(optionalGameRoom.isPresent()){ // 입력받은 게임룸 번호가 존재하는지 확인.
-			//GameRoom gameRoom = optionalGameRoom.get(); // 해당 게임 룸 정보 받기.
-			gameRoomRepository.deleteById(roomNumber); // 존재한다면 해당 방 삭제.
+		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
+
+		if (gameRoom != null) {
+			// GameRoom과 연관된 GameRoomUserInfo들을 찾습니다.
+			List<GameRoomUserInfo> gameRoomUserInfos = gameRoom.getUserInfos();
+			// GameRoom과 연관된 GameRoomUserInfo들을 삭제합니다.
+			gameRoomUserInfoRepository.deleteAll(gameRoomUserInfos);
+			// GameRoom을 삭제합니다.
+			gameRoomRepository.delete(gameRoom);
 		}
 	}
 

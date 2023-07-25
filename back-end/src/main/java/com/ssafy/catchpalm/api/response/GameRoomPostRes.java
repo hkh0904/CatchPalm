@@ -1,6 +1,11 @@
-package com.ssafy.catchpalm.db.entity;
+package com.ssafy.catchpalm.api.response;
 
-import jdk.Exported;
+import com.ssafy.catchpalm.db.entity.Category;
+import com.ssafy.catchpalm.db.entity.GameRoom;
+import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
+import com.ssafy.catchpalm.db.entity.User;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,38 +13,44 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "GAME_ROOM")
 @Getter
 @Setter
-public class GameRoom {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "room_number")
-    private int roomNumber;
+@ApiModel("GameRoomResponse")
+public class GameRoomPostRes {
+    @ApiModelProperty(name="GameRoom Number")
+    int roomNumber;
 
-    @OneToOne
-    @JoinColumn(name = "user_number")
-    private User captain;
+    @ApiModelProperty(name="GameRoom captainNickName")
+    String nickName;
 
-    // 양방향 매핑 : 게임방 유저 리스트., 지연로딩, 영속성 관리를 통해 방 생성자 정보가 자동으로 게임방유저 테이블에 저장
-    @OneToMany(mappedBy = "gameRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<GameRoomUserInfo> userInfos = new ArrayList<>();
+    @ApiModelProperty(name="GameRoom Type")
+    String typeName;
 
-    @ManyToOne // 단방향 매핑 : 카테고리 정보
-    @JoinColumn(name = "category_number", nullable = false)
-    private Category category;
+    @ApiModelProperty(name="GameRoom capacity")
+    int capacity; // 게임방 총 정원
 
-    @Column(nullable = false)
-    private int capacity; // 게임방 정원
-    @Column(nullable = false)
-    private String password; // 게임방 비밀번호
-    @Column(nullable = false)
-    private String title; // 게임방 제목
-    @Column(nullable = false)
-    private int status; // 게임방 상태 : 0 = wait, 1 = gaming
+    @ApiModelProperty(name="GameRoom cntUser")
+    int cntUser; // 게임방 현재정원
 
-    //연관관계 편의 메서드 : 방 유저 추가
-    public void addUser(GameRoomUserInfo userInfo){
-        userInfos.add(userInfo);
-        userInfo.setGameRoom(this);
+    @ApiModelProperty(name="GameRoom password")
+    String password; // 게임방 비밀번호, NULL 여부로 비번 유무 확인.
+
+    @ApiModelProperty(name="GameRoom title")
+    String title; // 게임방 제목
+
+    @ApiModelProperty(name="GameRoom status")
+    int status; // 게임방 상태 : 0 = wait, 1 = gaming
+
+    public static GameRoomPostRes of(GameRoom gameRoom, int cntUser) {
+        GameRoomPostRes res = new GameRoomPostRes();
+        res.setRoomNumber(gameRoom.getRoomNumber());
+        res.setCapacity(gameRoom.getCapacity());
+        res.setPassword(gameRoom.getPassword());
+        res.setStatus(gameRoom.getStatus());
+        res.setCntUser(gameRoom.getUserInfos().size());
+        res.setNickName(gameRoom.getCaptain().getNickName());
+        res.setTitle(gameRoom.getTitle());
+        res.setTypeName(gameRoom.getCategory().getName());
+        return res;
     }
 }

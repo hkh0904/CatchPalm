@@ -21,4 +21,13 @@ public class GameRoomUserInfo {
     @JoinColumn(name = "room_number", nullable = false)
     private GameRoom gameRoom; // 게임방 정보
     private int team;
+
+    @Override
+    public String toString() {
+        return "GameRoomUserInfo{" +
+                "userInfoNumber=" + userInfoNumber +
+                ", user=" + user +
+                ", team=" + team +
+                '}';
+    }
 }
