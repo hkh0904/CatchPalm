@@ -1,5 +1,6 @@
 package com.ssafy.catchpalm.api.service;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.catchpalm.common.util.AESUtil;
 import com.ssafy.catchpalm.common.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,15 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) throws Exception {
-		Optional<User> optionalUser = userRepositorySupport.findUserByUserId(userRegisterInfo.getUserId());
+		Optional<User> optionalUser =userRepository.findByUserId(userRegisterInfo.getUserId());
 		User user = null;
 
 		if(optionalUser.isPresent()){
 			user = optionalUser.get();
 			// do something with userCheck
+			if(user.getEmailVerified() == 1){
+				throw new RuntimeException("Already registed userId");
+			}
 		} else {
 			// handle the case where no User was found
 			user = new User();
@@ -53,8 +57,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void randomNickname(String userId) throws Exception{
-		User user = userRepositorySupport.findUserByUserId(userId).get();
-		user.setNickName("catchpalm@"+user.getUserNumber());
+		User user = getUserByUserId(userId);
+		user.setNickname("catchpalm@"+user.getUserNumber());
 		userRepository.save(user);
 	}
 
@@ -68,17 +72,56 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void updateUser(User user) throws  Exception{
+		userRepository.save(user);
+	}
+
+	@Override
+	public void reSendEmail(String userId) throws Exception{
+		User user = getUserByUserId(userId);
+		String emailVerificationToken = JwtTokenUtil.getEmailToken(userId);
+		user.setEmailVerificationToken(AESUtil.encrypt(emailVerificationToken));
+		userRepository.save(user);
+	}
+
+	@Override
 	public User getUserByUserId(String userId) {
 		// 디비에 유저 정보 조회 (userId 를 통한 조회).
-		User user = userRepositorySupport.findUserByUserId(userId).get();
+		Optional<User> optionalUser = userRepository.findByUserId(userId);
+
+		if(!optionalUser.isPresent()){
+			throw new RuntimeException("User not found");
+		}
+		User user = optionalUser.get();
 		return user;
 	}
 
 	@Override
 	public String getRefreshTokenByUserId(String userId) throws Exception {
-		User user = userRepositorySupport.findUserByUserId(userId).get();
+		User user = getUserByUserId(userId);
 		String decryptRefreshToken = AESUtil.decrypt(user.getRefreshToken());
 		return decryptRefreshToken;
 	}
+
+	@Override
+	public User getUserByVerificationToken(String emailVerificationToken) throws Exception{
+		emailVerificationToken = AESUtil.decrypt(emailVerificationToken);
+		DecodedJWT decodedJWT = JwtTokenUtil.decodedJWT(emailVerificationToken);
+		User user = getUserByUserId(decodedJWT.getSubject());
+
+		return user;
+	}
+
+	@Override
+	public boolean isDuplicatedUserId(String userId) throws Exception{
+		return userRepository.existsByUserId(userId);
+	}
+
+	@Override
+	public boolean isDuplicatedNickname(String userNickname) throws Exception{
+		return userRepository.existsByNickname(userNickname);
+	}
+
+
 
 }

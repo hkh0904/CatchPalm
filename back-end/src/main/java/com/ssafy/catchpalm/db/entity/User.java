@@ -34,7 +34,7 @@ public class User{
     private String password;
 
     @Column(unique = true, nullable = true)
-    private String nickName = null;
+    private String nickname = null;
 
     @Lob
     @Column(name = "profile_img", columnDefinition = "BLOB")
