@@ -53,6 +53,7 @@ public class GameRoomController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> deleteRoom(
+			
 			@ApiParam(value="방 정보", required = true)@PathVariable("roomNumber") int roomNumber) {
 
 		//
