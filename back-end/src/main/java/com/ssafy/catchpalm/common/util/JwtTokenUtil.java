@@ -96,11 +96,7 @@ public class JwtTokenUtil {
     public static String renewAccessTokenWithRefreshToken(String refreshToken, String userId) {
         try {
             // refreshToken의 검증
-            JWTVerifier verifier = JWT
-                    .require(Algorithm.HMAC512(secretKey.getBytes(StandardCharsets.UTF_8)))
-                    .withIssuer(ISSUER)
-                    .build();
-            DecodedJWT jwt = verifier.verify(refreshToken.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+            DecodedJWT jwt = decodedJWT(refreshToken);
 
             if (!jwt.getSubject().equals(userId)) {
                 throw new JWTVerificationException("User ID does not match");

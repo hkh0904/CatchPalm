@@ -1,0 +1,830 @@
+2023-07-25 21:46:31.774  INFO 7160 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_211 on DESKTOP-8P8UEOI with PID 7160 (C:\SSAFY\workspace\Common Project\catchpalm\back-end\build\classes\java\main started by 檜熱團 in C:\SSAFY\workspace\Common Project\catchpalm\back-end)
+2023-07-25 21:46:31.776  INFO 7160 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-25 21:46:31.813  INFO 7160 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-07-25 21:46:31.813  INFO 7160 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-07-25 21:46:32.898  INFO 7160 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-25 21:46:32.972  INFO 7160 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 2 JPA repository interfaces.
+2023-07-25 21:46:33.293  INFO 7160 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@61403704' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 21:46:33.296  INFO 7160 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 21:46:33.707  INFO 7160 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-25 21:46:33.718  INFO 7160 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-25 21:46:33.718  INFO 7160 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-25 21:46:33.804  INFO 7160 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-25 21:46:33.804  INFO 7160 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1990 ms
+2023-07-25 21:46:34.008 DEBUG 7160 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-25 21:46:34.008 DEBUG 7160 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2023-07-25 21:46:34.151  INFO 7160 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-25 21:46:34.212  INFO 7160 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2023-07-25 21:46:34.382  INFO 7160 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-07-25 21:46:34.492  INFO 7160 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-25 21:46:34.900  INFO 7160 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-25 21:46:34.921  INFO 7160 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-25 21:46:36.097  INFO 7160 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-25 21:46:36.106  INFO 7160 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 21:46:36.120  INFO 7160 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-25 21:46:36.689  WARN 7160 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-25 21:46:37.017 DEBUG 7160 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 16 mappings in 'requestMappingHandlerMapping'
+2023-07-25 21:46:37.085  INFO 7160 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-25 21:46:37.277  INFO 7160 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@10d72e49, org.springframework.security.web.context.SecurityContextPersistenceFilter@52a56a28, org.springframework.security.web.header.HeaderWriterFilter@3ae8015b, org.springframework.web.filter.CorsFilter@5e3764b3, org.springframework.security.web.authentication.logout.LogoutFilter@51c2ad89, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@6e804f3a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@640b080a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@480116fc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@577d9252, org.springframework.security.web.session.SessionManagementFilter@4dada9f7, org.springframework.security.web.access.ExceptionTranslationFilter@370fc955, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5e0fb863]
+2023-07-25 21:46:37.338  INFO 7160 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-25 21:46:37.348 DEBUG 7160 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-25 21:46:37.376  INFO 7160 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-25 21:46:37.388 DEBUG 7160 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-25 21:46:37.400 DEBUG 7160 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-25 21:46:37.730 DEBUG 7160 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-25 21:46:37.739 DEBUG 7160 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-25 21:46:37.932  INFO 7160 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 21:46:38.165  INFO 7160 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 6.729 seconds (JVM running for 7.205)
+2023-07-25 21:47:48.479  INFO 2468 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_211 on DESKTOP-8P8UEOI with PID 2468 (C:\SSAFY\workspace\Common Project\catchpalm\back-end\build\classes\java\main started by 檜熱團 in C:\SSAFY\workspace\Common Project\catchpalm\back-end)
+2023-07-25 21:47:48.481  INFO 2468 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-25 21:47:48.518  INFO 2468 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-07-25 21:47:48.519  INFO 2468 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-07-25 21:47:49.506  INFO 2468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-25 21:47:49.573  INFO 2468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 2 JPA repository interfaces.
+2023-07-25 21:47:49.877  INFO 2468 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@42423702' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 21:47:49.880  INFO 2468 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 21:47:50.259  INFO 2468 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-25 21:47:50.269  INFO 2468 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-25 21:47:50.269  INFO 2468 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-25 21:47:50.352  INFO 2468 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-25 21:47:50.352  INFO 2468 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1833 ms
+2023-07-25 21:47:50.537 DEBUG 2468 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-25 21:47:50.537 DEBUG 2468 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2023-07-25 21:47:50.671  INFO 2468 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-25 21:47:50.720  INFO 2468 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2023-07-25 21:47:50.843  INFO 2468 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-07-25 21:47:50.933  INFO 2468 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-25 21:47:51.301  INFO 2468 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-25 21:47:51.318  INFO 2468 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-25 21:47:52.355  INFO 2468 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-25 21:47:52.363  INFO 2468 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 21:47:52.376  INFO 2468 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-25 21:47:52.940  WARN 2468 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-25 21:47:53.300 DEBUG 2468 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 16 mappings in 'requestMappingHandlerMapping'
+2023-07-25 21:47:53.368  INFO 2468 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-25 21:47:53.548  INFO 2468 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@66f017b, org.springframework.security.web.context.SecurityContextPersistenceFilter@77334557, org.springframework.security.web.header.HeaderWriterFilter@371bf7dc, org.springframework.web.filter.CorsFilter@6f32c746, org.springframework.security.web.authentication.logout.LogoutFilter@72200192, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@5cc8ae28, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2b341a13, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@59237682, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@19ecd899, org.springframework.security.web.session.SessionManagementFilter@750db540, org.springframework.security.web.access.ExceptionTranslationFilter@f51e91b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3f7d22d2]
+2023-07-25 21:47:53.610  INFO 2468 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-25 21:47:53.620 DEBUG 2468 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-25 21:47:53.647  INFO 2468 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-25 21:47:53.659 DEBUG 2468 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-25 21:47:53.672 DEBUG 2468 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-25 21:47:53.977 DEBUG 2468 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-25 21:47:53.985 DEBUG 2468 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-25 21:47:54.159  INFO 2468 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 21:47:54.372  INFO 2468 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 6.23 seconds (JVM running for 6.698)
+2023-07-25 22:00:27.614  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_211 on DESKTOP-8P8UEOI with PID 12832 (C:\SSAFY\workspace\Common Project\catchpalm\back-end\build\classes\java\main started by 檜熱團 in C:\SSAFY\workspace\Common Project\catchpalm\back-end)
+2023-07-25 22:00:27.616  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-25 22:00:27.653  INFO 12832 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-07-25 22:00:27.654  INFO 12832 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-07-25 22:00:28.745  INFO 12832 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-25 22:00:28.824  INFO 12832 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71 ms. Found 2 JPA repository interfaces.
+2023-07-25 22:00:29.154  INFO 12832 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@34751d90' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:00:29.157  INFO 12832 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:00:29.588  INFO 12832 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-25 22:00:29.600  INFO 12832 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-25 22:00:29.601  INFO 12832 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-25 22:00:29.704  INFO 12832 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-25 22:00:29.704  INFO 12832 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2050 ms
+2023-07-25 22:00:29.932 DEBUG 12832 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-25 22:00:29.933 DEBUG 12832 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2023-07-25 22:00:30.085  INFO 12832 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-25 22:00:30.142  INFO 12832 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2023-07-25 22:00:30.284  INFO 12832 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-07-25 22:00:30.388  INFO 12832 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-25 22:00:30.807  INFO 12832 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-25 22:00:30.828  INFO 12832 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-25 22:00:31.706  INFO 12832 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-25 22:00:31.715  INFO 12832 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:00:31.729  INFO 12832 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-25 22:00:32.329  WARN 12832 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-25 22:00:32.630 DEBUG 12832 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 16 mappings in 'requestMappingHandlerMapping'
+2023-07-25 22:00:32.697  INFO 12832 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-25 22:00:32.891  INFO 12832 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7d17fe75, org.springframework.security.web.context.SecurityContextPersistenceFilter@7f73d78f, org.springframework.security.web.header.HeaderWriterFilter@31d69bad, org.springframework.web.filter.CorsFilter@5ceacdd1, org.springframework.security.web.authentication.logout.LogoutFilter@2d606378, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@35ef5746, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2b581b69, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4836f0f3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@76867a51, org.springframework.security.web.session.SessionManagementFilter@602c61c8, org.springframework.security.web.access.ExceptionTranslationFilter@74b0d9a8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@31da6411]
+2023-07-25 22:00:32.965  INFO 12832 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:00:32.978 DEBUG 12832 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-25 22:00:33.010  INFO 12832 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-25 22:00:33.024 DEBUG 12832 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-25 22:00:33.035 DEBUG 12832 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-25 22:00:33.358 DEBUG 12832 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-25 22:00:33.366 DEBUG 12832 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-25 22:00:33.580  INFO 12832 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 22:00:33.809  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 6.563 seconds (JVM running for 7.054)
+2023-07-25 22:01:56.133  INFO 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 22:01:56.133  INFO 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-07-25 22:01:56.133 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2023-07-25 22:01:56.133 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2023-07-25 22:01:56.133 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2023-07-25 22:01:56.134 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@45596361
+2023-07-25 22:01:56.135 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@2940906a
+2023-07-25 22:01:56.135 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2023-07-25 22:01:56.135  INFO 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2023-07-25 22:01:56.165 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/users/, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"86", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:01:56.166 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/users/", parameters={}
+2023-07-25 22:01:56.169 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#register(UserRegisterPostReq)
+2023-07-25 22:01:56.216 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserRegisterPostReq@5eda0756]
+2023-07-25 22:02:19.916 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:02:19.917 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.common.model.response.BaseResponseBody@50e8e01c]
+2023-07-25 22:02:19.927 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:02:19.928 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/users/, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"86", Content-Type:"application/json;charset=UTF-8"], payload={
+	"userId": "hchyi259@naver.com",
+	"password": "ssafy",
+  "age": "28",
+  "sex": "0"
+}]
+2023-07-25 22:02:29.602 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"55", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:02:29.602 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-25 22:02:29.602 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-25 22:02:29.604 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@53f56c7]
+2023-07-25 22:02:29.611 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Failed to complete request: java.lang.RuntimeException: User not found
+2023-07-25 22:02:29.611 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"55", Content-Type:"application/json;charset=UTF-8"], payload={
+  "id": "hchyi259@naver.com",
+  "password": "ssafy"
+}]
+2023-07-25 22:02:29.617 ERROR 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: User not found] with root cause
+
+java.lang.RuntimeException: User not found
+	at com.ssafy.catchpalm.api.service.UserServiceImpl.getUserByUserId(UserServiceImpl.java:93) ~[main/:na]
+	at com.ssafy.catchpalm.api.controller.AuthController.login(AuthController.java:50) ~[main/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_211]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_211]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_211]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_211]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652) ~[tomcat-embed-core-9.0.45.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.45.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.AbstractRequestLoggingFilter.doFilterInternal(AbstractRequestLoggingFilter.java:289) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:113) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:105) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:59) ~[main/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:93) ~[spring-boot-actuator-2.4.5.jar:2.4.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_211]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_211]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_211]
+
+2023-07-25 22:02:29.622 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for POST "/error", parameters={}
+2023-07-25 22:02:29.623 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2023-07-25 22:02:29.627 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:02:29.627 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Tue Jul 25 22:02:29 KST 2023, status=500, error=Internal Server Error, trace=java.lang.Ru (truncated)...]
+2023-07-25 22:02:29.631 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2023-07-25 22:02:44.795 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:02:44.795 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-25 22:02:44.796 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-25 22:02:44.796 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@2b959413]
+2023-07-25 22:02:44.815 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:02:44.815 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@174694fd]
+2023-07-25 22:02:44.816 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 401 UNAUTHORIZED
+2023-07-25 22:02:44.816 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=UTF-8"], payload={
+  "userId": "hchyi259@naver.com",
+  "password": "ssafy"
+}]
+2023-07-25 22:02:52.559 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB/I2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf/WxZSuW4jb2xEwMm1L2dvZX1rkzaJXTjO41StNuzNN3K2tMZG7UNrCcS0GNqSUILvxJqzpWsN%2BpuGlnVFxLU81191ddB66eP7W8ovUP6W1377W6N/4/mbocZalni5o0AdNllhMjwi1y6CNBGZAimjqE2eVs/tIoe6C8wz2ueWq2NPAzOsApQt2nfYNInt41Y5FZSh7kZSXUgHgpoMxzV2KFbDR37j%2BSLDwXzlToW/qQlakuJAqKW%2Ba/sMicMY3/Q0kSxhx94U, client=127.0.0.1, headers=[host:"localhost:8080", connection:"keep-alive", sec-ch-ua:""Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"", sec-ch-ua-mobile:"?0", sec-ch-ua-platform:""Windows"", upgrade-insecure-requests:"1", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36", accept:"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", sec-fetch-site:"cross-site", sec-fetch-mode:"navigate", sec-fetch-user:"?1", sec-fetch-dest:"document", accept-encoding:"gzip, deflate, br", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"]]
+2023-07-25 22:02:52.559 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB/I2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf/WxZSuW4jb2xEwMm1L2dvZX1rkzaJXTjO41StNuzNN3K2tMZG7UNrCcS0GNqSUILvxJqzpWsN%2BpuGlnVFxLU81191ddB66eP7W8ovUP6W1377W6N/4/mbocZalni5o0AdNllhMjwi1y6CNBGZAimjqE2eVs/tIoe6C8wz2ueWq2NPAzOsApQt2nfYNInt41Y5FZSh7kZSXUgHgpoMxzV2KFbDR37j%2BSLDwXzlToW/qQlakuJAqKW%2Ba/sMicMY3/Q0kSxhx94U", parameters={masked}
+2023-07-25 22:02:52.560 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#verifyEmail(String)
+2023-07-25 22:02:52.583 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Failed to complete request: com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Jul 25 22:02:46 KST 2023.
+2023-07-25 22:02:52.583 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB/I2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf/WxZSuW4jb2xEwMm1L2dvZX1rkzaJXTjO41StNuzNN3K2tMZG7UNrCcS0GNqSUILvxJqzpWsN%2BpuGlnVFxLU81191ddB66eP7W8ovUP6W1377W6N/4/mbocZalni5o0AdNllhMjwi1y6CNBGZAimjqE2eVs/tIoe6C8wz2ueWq2NPAzOsApQt2nfYNInt41Y5FZSh7kZSXUgHgpoMxzV2KFbDR37j%2BSLDwXzlToW/qQlakuJAqKW%2Ba/sMicMY3/Q0kSxhx94U, client=127.0.0.1, headers=[host:"localhost:8080", connection:"keep-alive", sec-ch-ua:""Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"", sec-ch-ua-mobile:"?0", sec-ch-ua-platform:""Windows"", upgrade-insecure-requests:"1", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36", accept:"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", sec-fetch-site:"cross-site", sec-fetch-mode:"navigate", sec-fetch-user:"?1", sec-fetch-dest:"document", accept-encoding:"gzip, deflate, br", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"]]
+2023-07-25 22:02:52.585 ERROR 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Jul 25 22:02:46 KST 2023.] with root cause
+
+com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Jul 25 22:02:46 KST 2023.
+	at com.auth0.jwt.JWTVerifier.assertDateIsFuture(JWTVerifier.java:379) ~[java-jwt-3.10.3.jar:3.10.3]
+	at com.auth0.jwt.JWTVerifier.assertValidDateClaim(JWTVerifier.java:370) ~[java-jwt-3.10.3.jar:3.10.3]
+	at com.auth0.jwt.JWTVerifier.verifyClaims(JWTVerifier.java:295) ~[java-jwt-3.10.3.jar:3.10.3]
+	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:278) ~[java-jwt-3.10.3.jar:3.10.3]
+	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:261) ~[java-jwt-3.10.3.jar:3.10.3]
+	at com.ssafy.catchpalm.common.util.JwtTokenUtil.handleError(JwtTokenUtil.java:137) ~[main/:na]
+	at com.ssafy.catchpalm.common.util.JwtTokenUtil.decodedJWT(JwtTokenUtil.java:117) ~[main/:na]
+	at com.ssafy.catchpalm.api.service.UserServiceImpl.getUserByVerificationToken(UserServiceImpl.java:109) ~[main/:na]
+	at com.ssafy.catchpalm.api.controller.AuthController.verifyEmail(AuthController.java:74) ~[main/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_211]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_211]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_211]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_211]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:626) ~[tomcat-embed-core-9.0.45.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.6.jar:5.3.6]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.45.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.AbstractRequestLoggingFilter.doFilterInternal(AbstractRequestLoggingFilter.java:289) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:113) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:105) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:59) ~[main/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.4.6.jar:5.4.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:93) ~[spring-boot-actuator-2.4.5.jar:2.4.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.6.jar:5.3.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) ~[tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_211]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_211]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.45.jar:9.0.45]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_211]
+
+2023-07-25 22:02:52.588 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB/I2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf/WxZSuW4jb2xEwMm1L2dvZX1rkzaJXTjO41StNuzNN3K2tMZG7UNrCcS0GNqSUILvxJqzpWsN%2BpuGlnVFxLU81191ddB66eP7W8ovUP6W1377W6N/4/mbocZalni5o0AdNllhMjwi1y6CNBGZAimjqE2eVs/tIoe6C8wz2ueWq2NPAzOsApQt2nfYNInt41Y5FZSh7kZSXUgHgpoMxzV2KFbDR37j%2BSLDwXzlToW/qQlakuJAqKW%2Ba/sMicMY3/Q0kSxhx94U", parameters={masked}
+2023-07-25 22:02:52.589 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
+2023-07-25 22:02:52.603 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, text/html;q=0.8]
+2023-07-25 22:02:52.609 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2023-07-25 22:02:52.794 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/favicon.ico", parameters={}
+2023-07-25 22:02:52.795  WARN 12832 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.PageNotFound             : No mapping for GET /favicon.ico
+2023-07-25 22:02:52.796 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.ssafy.catchpalm.common.exception.handler.NotFoundHandler#renderDefaultPage(NoHandlerFoundException)
+2023-07-25 22:02:52.798 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:text/html' in response
+2023-07-25 22:02:52.798 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" conte (truncated)...]
+2023-07-25 22:02:52.809  WARN 12832 --- [http-nio-127.0.0.1-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /favicon.ico]
+2023-07-25 22:02:52.809 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:03.963 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/users/, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"86", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:03:03.963 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/users/", parameters={}
+2023-07-25 22:03:03.963 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#register(UserRegisterPostReq)
+2023-07-25 22:03:03.964 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserRegisterPostReq@7efe087b]
+2023-07-25 22:03:26.218 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:26.219 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.common.model.response.BaseResponseBody@553771ef]
+2023-07-25 22:03:26.219 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:26.220 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/users/, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"86", Content-Type:"application/json;charset=UTF-8"], payload={
+	"userId": "hchyi259@naver.com",
+	"password": "ssafy",
+  "age": "28",
+  "sex": "0"
+}]
+2023-07-25 22:03:31.113 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB/I2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf/WxZSuW4jb2xEwMm1L2dvZX1rkzaJXTjO41StNuzNN3K2tMZG7UNrCcS0GNqSUILvxJqzpWsNyJdpyLbpsxUeXGRDTovt5m0xHuhpVaqCGHmj/9TFG1lWIzyhnX7L7rRPWJzx1k8oHPtOpxzWoQsAj7Lug8ASoyiORtTtr91KfQtL7sNUVB%2BU9jhyD8%2BKwG4Ttdufye6BO50va4M1FVIajsPvbrd1EElu4s80E1CsOm7tiYelMvi%2Ba/sMicMY3/Q0kSxhx94U, client=127.0.0.1, headers=[host:"localhost:8080", connection:"keep-alive", sec-ch-ua:""Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"", sec-ch-ua-mobile:"?0", sec-ch-ua-platform:""Windows"", upgrade-insecure-requests:"1", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36", accept:"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", sec-fetch-site:"cross-site", sec-fetch-mode:"navigate", sec-fetch-user:"?1", sec-fetch-dest:"document", accept-encoding:"gzip, deflate, br", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"]]
+2023-07-25 22:03:31.114 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB/I2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf/WxZSuW4jb2xEwMm1L2dvZX1rkzaJXTjO41StNuzNN3K2tMZG7UNrCcS0GNqSUILvxJqzpWsNyJdpyLbpsxUeXGRDTovt5m0xHuhpVaqCGHmj/9TFG1lWIzyhnX7L7rRPWJzx1k8oHPtOpxzWoQsAj7Lug8ASoyiORtTtr91KfQtL7sNUVB%2BU9jhyD8%2BKwG4Ttdufye6BO50va4M1FVIajsPvbrd1EElu4s80E1CsOm7tiYelMvi%2Ba/sMicMY3/Q0kSxhx94U", parameters={masked}
+2023-07-25 22:03:31.115 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#verifyEmail(String)
+2023-07-25 22:03:31.126 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json;q=0.8', given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:31.126 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.common.model.response.BaseResponseBody@6383dad2]
+2023-07-25 22:03:31.128 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:31.128 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB/I2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf/WxZSuW4jb2xEwMm1L2dvZX1rkzaJXTjO41StNuzNN3K2tMZG7UNrCcS0GNqSUILvxJqzpWsNyJdpyLbpsxUeXGRDTovt5m0xHuhpVaqCGHmj/9TFG1lWIzyhnX7L7rRPWJzx1k8oHPtOpxzWoQsAj7Lug8ASoyiORtTtr91KfQtL7sNUVB%2BU9jhyD8%2BKwG4Ttdufye6BO50va4M1FVIajsPvbrd1EElu4s80E1CsOm7tiYelMvi%2Ba/sMicMY3/Q0kSxhx94U, client=127.0.0.1, headers=[host:"localhost:8080", connection:"keep-alive", sec-ch-ua:""Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"", sec-ch-ua-mobile:"?0", sec-ch-ua-platform:""Windows"", upgrade-insecure-requests:"1", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36", accept:"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", sec-fetch-site:"cross-site", sec-fetch-mode:"navigate", sec-fetch-user:"?1", sec-fetch-dest:"document", accept-encoding:"gzip, deflate, br", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"]]
+2023-07-25 22:03:31.189 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/favicon.ico", parameters={}
+2023-07-25 22:03:31.191  WARN 12832 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.PageNotFound             : No mapping for GET /favicon.ico
+2023-07-25 22:03:31.191 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.ssafy.catchpalm.common.exception.handler.NotFoundHandler#renderDefaultPage(NoHandlerFoundException)
+2023-07-25 22:03:31.192 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:text/html' in response
+2023-07-25 22:03:31.192 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" conte (truncated)...]
+2023-07-25 22:03:31.193  WARN 12832 --- [http-nio-127.0.0.1-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /favicon.ico]
+2023-07-25 22:03:31.196 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:34.728 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:03:34.729 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-25 22:03:34.729 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-25 22:03:34.730 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@2196f03f]
+2023-07-25 22:03:34.802 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:34.802 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@23b0a855]
+2023-07-25 22:03:34.803 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:34.803 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=UTF-8"], payload={
+  "userId": "hchyi259@naver.com",
+  "password": "ssafy"
+}]
+2023-07-25 22:03:45.252 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:03:45.252 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-25 22:03:45.252 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-25 22:03:45.259 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:45.259 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@321c5066]
+2023-07-25 22:03:45.260 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:45.260 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-25 22:03:46.574 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:03:46.575 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-25 22:03:46.575 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-25 22:03:46.578 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:46.578 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@1e53922c]
+2023-07-25 22:03:46.579 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:46.579 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-25 22:03:48.393 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:03:48.393 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-25 22:03:48.393 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-25 22:03:48.396 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:48.396 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@210150b9]
+2023-07-25 22:03:48.397 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:48.397 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-25 22:03:49.237 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:03:49.237 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-25 22:03:49.237 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-25 22:03:49.240 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:49.240 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@1911e89]
+2023-07-25 22:03:49.241 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:49.241 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-25 22:03:49.953 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:03:49.953 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-25 22:03:49.953 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-25 22:03:49.956 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:03:49.956 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@477175fe]
+2023-07-25 22:03:49.957 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:03:49.957 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDI2NCwiaWF0IjoxNjkwMjkwMjE0fQ.s4jIpqCzY4AVbjVuFzR2_jBTknnOVLOIxNVZSbGetoQmU2Nwok8sA2pKO2P6grg1Rd9Ww4p1qJn-1qAZZdjiEg", accept:"*/*", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-25 22:05:53.342 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDM4NiwiaWF0IjoxNjkwMjkwMzM2fQ.NdqR5LB8o04RYS2zBBdDjzB8I_E5u9nIDnxDvceXJi4VJxpE4g50QCstRbMWRenczkslH0GoaD1gENwkJw6W1w", accept:"*/*", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:05:53.343 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/users/me", parameters={}
+2023-07-25 22:05:53.343 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.UserController#getUserInfo(Authentication)
+2023-07-25 22:05:53.346 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:05:53.346 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserRes@77ccd029]
+2023-07-25 22:05:53.347 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:05:53.347 DEBUG 12832 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/users/me, client=127.0.0.1, user=hchyi259@naver.com, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoY2h5aTI1OUBuYXZlci5jb20iLCJpc3MiOiJzc2FmeS5jb20iLCJ0eXAiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5MDM4NiwiaWF0IjoxNjkwMjkwMzM2fQ.NdqR5LB8o04RYS2zBBdDjzB8I_E5u9nIDnxDvceXJi4VJxpE4g50QCstRbMWRenczkslH0GoaD1gENwkJw6W1w", accept:"*/*", Content-Type:"application/json;charset=UTF-8"]]
+2023-07-25 22:25:35.346  INFO 12832 --- [Thread-5] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:25:35.355  INFO 12832 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:25:35.374  INFO 12832 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-07-25 22:25:35.383  INFO 12832 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-07-25 22:25:35.567  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_211 on DESKTOP-8P8UEOI with PID 12832 (C:\SSAFY\workspace\Common Project\catchpalm\back-end\build\classes\java\main started by 檜熱團 in C:\SSAFY\workspace\Common Project\catchpalm\back-end)
+2023-07-25 22:25:35.568  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-25 22:25:36.033  INFO 12832 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-25 22:25:36.068  INFO 12832 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 0 JPA repository interfaces.
+2023-07-25 22:25:36.218  INFO 12832 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-25 22:25:36.219  INFO 12832 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-25 22:25:36.219  INFO 12832 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-25 22:25:36.238  INFO 12832 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-25 22:25:36.239  INFO 12832 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 668 ms
+2023-07-25 22:25:36.262 DEBUG 12832 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-25 22:25:36.305  INFO 12832 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-25 22:25:36.310  INFO 12832 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2023-07-25 22:25:36.322  INFO 12832 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2023-07-25 22:25:36.322  INFO 12832 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-25 22:25:36.485  INFO 12832 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-25 22:25:36.486  INFO 12832 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:25:36.491  INFO 12832 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-25 22:25:36.530  WARN 12832 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-25 22:25:36.544 DEBUG 12832 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 7 mappings in 'requestMappingHandlerMapping'
+2023-07-25 22:25:36.564  INFO 12832 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-25 22:25:36.612  INFO 12832 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:25:36.616 DEBUG 12832 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-25 22:25:36.618  INFO 12832 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-25 22:25:36.623 DEBUG 12832 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-25 22:25:36.636 DEBUG 12832 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-25 22:25:36.874 DEBUG 12832 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-25 22:25:36.878 DEBUG 12832 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-25 22:25:36.898  INFO 12832 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: daf2be2b-72d6-4ce0-a66f-09d397ade274
+
+2023-07-25 22:25:36.916  INFO 12832 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@39ac1ad8, org.springframework.security.web.context.SecurityContextPersistenceFilter@6712c9d7, org.springframework.security.web.header.HeaderWriterFilter@5c9a27e7, org.springframework.security.web.csrf.CsrfFilter@7bac439e, org.springframework.security.web.authentication.logout.LogoutFilter@1e4f6974, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@48bcd2f, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@247e548a, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@61e58879, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7bd5015e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@769e30f1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7b3684da, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3269aaea, org.springframework.security.web.session.SessionManagementFilter@45333f59, org.springframework.security.web.access.ExceptionTranslationFilter@51d808ac, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@43305231]
+2023-07-25 22:25:36.936  INFO 12832 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 22:25:36.992  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 1.471 seconds (JVM running for 1510.237)
+2023-07-25 22:25:36.996  INFO 12832 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration#jacksonObjectMapper matched:
+      - @ConditionalOnMissingBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ManagementWebSecurityAutoConfiguration matched:
+      - found 'session' scope (OnWebApplicationCondition)
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+      - @ConditionalOnBean (types: org.springframework.security.config.annotation.ObjectPostProcessor; SearchStrategy: all) found bean 'objectPostProcessor'; @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   UserDetailsServiceAutoConfiguration#inMemoryUserDetailsManager matched:
+      - @ConditionalOnMissingBean (types: org.springframework.security.oauth2.client.registration.ClientRegistrationRepository; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebSecurityEnablerConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2023-07-25 22:25:38.374  INFO 12832 --- [Thread-9] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:25:38.375  INFO 12832 --- [Thread-9] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:25:38.376  INFO 12832 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2023-07-25 22:25:38.381  INFO 12832 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2023-07-25 22:25:38.603  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_211 on DESKTOP-8P8UEOI with PID 12832 (C:\SSAFY\workspace\Common Project\catchpalm\back-end\build\classes\java\main started by 檜熱團 in C:\SSAFY\workspace\Common Project\catchpalm\back-end)
+2023-07-25 22:25:38.604  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-25 22:25:39.020  INFO 12832 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-25 22:25:39.047  INFO 12832 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 2 JPA repository interfaces.
+2023-07-25 22:25:39.092  INFO 12832 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3020b79' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:25:39.092  INFO 12832 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:25:39.122  INFO 12832 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-25 22:25:39.122  INFO 12832 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-25 22:25:39.122  INFO 12832 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-25 22:25:39.138  INFO 12832 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-25 22:25:39.138  INFO 12832 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 532 ms
+2023-07-25 22:25:39.166 DEBUG 12832 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-25 22:25:39.167 DEBUG 12832 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2023-07-25 22:25:39.194  INFO 12832 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-25 22:25:39.199  INFO 12832 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2023-07-25 22:25:39.207  INFO 12832 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2023-07-25 22:25:39.208  INFO 12832 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-25 22:25:39.364  INFO 12832 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-25 22:25:39.364  INFO 12832 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:25:39.370  INFO 12832 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-25 22:25:39.535  WARN 12832 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-25 22:25:39.638 DEBUG 12832 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 16 mappings in 'requestMappingHandlerMapping'
+2023-07-25 22:25:39.655  INFO 12832 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-25 22:25:39.678  INFO 12832 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7ff32f4c, org.springframework.security.web.context.SecurityContextPersistenceFilter@1801d4e8, org.springframework.security.web.header.HeaderWriterFilter@19697d75, org.springframework.web.filter.CorsFilter@6a1e1c32, org.springframework.security.web.authentication.logout.LogoutFilter@5554c39, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@77b83d79, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1500ad74, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@47d0f874, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@10f210df, org.springframework.security.web.session.SessionManagementFilter@2d8f2dca, org.springframework.security.web.access.ExceptionTranslationFilter@543b26ea, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@26c76f9f]
+2023-07-25 22:25:39.694  INFO 12832 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:25:39.696 DEBUG 12832 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-25 22:25:39.697  INFO 12832 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-25 22:25:39.701 DEBUG 12832 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-25 22:25:39.704 DEBUG 12832 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-25 22:25:39.848 DEBUG 12832 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-25 22:25:39.853 DEBUG 12832 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-25 22:25:39.885  INFO 12832 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 22:25:39.944  INFO 12832 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 1.366 seconds (JVM running for 1513.19)
+2023-07-25 22:25:39.947  INFO 12832 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration#jacksonObjectMapper:
+      Did not match:
+         - @ConditionalOnMissingBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) found beans of type 'com.fasterxml.jackson.databind.ObjectMapper' objectMapper (OnBeanCondition)
+
+   ManagementWebSecurityAutoConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter' securityConfig; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+      Matched:
+         - found 'session' scope (OnWebApplicationCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector; SearchStrategy: all) found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' ssafyUserDetailService and found beans of type 'org.springframework.security.authentication.AuthenticationProvider' authenticationProvider (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+
+   WebSecurityEnablerConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2023-07-25 22:25:47.844  INFO 12212 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_211 on DESKTOP-8P8UEOI with PID 12212 (C:\SSAFY\workspace\Common Project\catchpalm\back-end\build\classes\java\main started by 檜熱團 in C:\SSAFY\workspace\Common Project\catchpalm\back-end)
+2023-07-25 22:25:47.846  INFO 12212 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-25 22:25:47.883  INFO 12212 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-07-25 22:25:47.883  INFO 12212 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-07-25 22:25:48.865  INFO 12212 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-25 22:25:48.931  INFO 12212 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 2 JPA repository interfaces.
+2023-07-25 22:25:49.235  INFO 12212 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@64e77108' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:25:49.239  INFO 12212 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:25:49.635  INFO 12212 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-25 22:25:49.645  INFO 12212 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-25 22:25:49.645  INFO 12212 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-25 22:25:49.728  INFO 12212 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-25 22:25:49.729  INFO 12212 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1844 ms
+2023-07-25 22:25:49.924 DEBUG 12212 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-25 22:25:49.925 DEBUG 12212 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2023-07-25 22:25:50.061  INFO 12212 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-25 22:25:50.109  INFO 12212 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2023-07-25 22:25:50.231  INFO 12212 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-07-25 22:25:50.322  INFO 12212 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-25 22:25:50.714  INFO 12212 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-25 22:25:50.731  INFO 12212 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-25 22:25:51.552  INFO 12212 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-25 22:25:51.561  INFO 12212 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:25:51.574  WARN 12212 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2023-07-25 22:25:52.115  WARN 12212 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-25 22:25:52.407 DEBUG 12212 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 16 mappings in 'requestMappingHandlerMapping'
+2023-07-25 22:25:52.473  INFO 12212 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-25 22:25:52.651  INFO 12212 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@21c80aba, org.springframework.security.web.context.SecurityContextPersistenceFilter@292cd1d, org.springframework.security.web.header.HeaderWriterFilter@79186fe3, org.springframework.web.filter.CorsFilter@40f20432, org.springframework.security.web.authentication.logout.LogoutFilter@265b0b7d, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@406d4099, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6844b04d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c888419, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@57fae327, org.springframework.security.web.session.SessionManagementFilter@79204457, org.springframework.security.web.access.ExceptionTranslationFilter@359c1fe0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@cb7a43d]
+2023-07-25 22:25:52.711  INFO 12212 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:25:52.722 DEBUG 12212 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-25 22:25:52.751  INFO 12212 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-25 22:25:52.764 DEBUG 12212 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-25 22:25:52.775 DEBUG 12212 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-25 22:25:53.077 DEBUG 12212 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-25 22:25:53.085 DEBUG 12212 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-25 22:25:53.256  WARN 12212 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8080 is already in use
+2023-07-25 22:25:53.257  INFO 12212 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:25:53.263  INFO 12212 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:25:53.265  INFO 12212 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-07-25 22:25:53.267  INFO 12212 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-07-25 22:25:53.270  INFO 12212 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-07-25 22:25:53.281  INFO 12212 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-07-25 22:25:53.300 ERROR 12212 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2023-07-25 22:26:17.762  INFO 7936 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_211 on DESKTOP-8P8UEOI with PID 7936 (C:\SSAFY\workspace\Common Project\catchpalm\back-end\build\classes\java\main started by 檜熱團 in C:\SSAFY\workspace\Common Project\catchpalm\back-end)
+2023-07-25 22:26:17.764  INFO 7936 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-25 22:26:17.802  INFO 7936 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-07-25 22:26:17.802  INFO 7936 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-07-25 22:26:18.781  INFO 7936 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-25 22:26:18.847  INFO 7936 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 2 JPA repository interfaces.
+2023-07-25 22:26:19.143  INFO 7936 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@24475718' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:26:19.148  INFO 7936 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-25 22:26:19.535  INFO 7936 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-25 22:26:19.546  INFO 7936 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-25 22:26:19.547  INFO 7936 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-25 22:26:19.630  INFO 7936 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-25 22:26:19.631  INFO 7936 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1829 ms
+2023-07-25 22:26:19.823 DEBUG 7936 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-25 22:26:19.824 DEBUG 7936 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2023-07-25 22:26:19.956  INFO 7936 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-25 22:26:20.003  INFO 7936 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2023-07-25 22:26:20.125  INFO 7936 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-07-25 22:26:20.213  INFO 7936 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-25 22:26:20.584  INFO 7936 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-25 22:26:20.602  INFO 7936 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-25 22:26:21.391  INFO 7936 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-25 22:26:21.400  INFO 7936 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-25 22:26:21.413  INFO 7936 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-25 22:26:21.932  WARN 7936 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-25 22:26:22.233 DEBUG 7936 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 16 mappings in 'requestMappingHandlerMapping'
+2023-07-25 22:26:22.300  INFO 7936 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-25 22:26:22.474  INFO 7936 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b143957, org.springframework.security.web.context.SecurityContextPersistenceFilter@3138d19a, org.springframework.security.web.header.HeaderWriterFilter@5896fa59, org.springframework.web.filter.CorsFilter@1787b7b8, org.springframework.security.web.authentication.logout.LogoutFilter@28479dd7, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@d589957, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@42921080, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@402ef15, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5e3258c9, org.springframework.security.web.session.SessionManagementFilter@590b01c4, org.springframework.security.web.access.ExceptionTranslationFilter@19b3a701, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2311f9f]
+2023-07-25 22:26:22.536  INFO 7936 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-25 22:26:22.547 DEBUG 7936 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-25 22:26:22.574  INFO 7936 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-25 22:26:22.588 DEBUG 7936 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-25 22:26:22.597 DEBUG 7936 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-25 22:26:22.859 DEBUG 7936 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-25 22:26:22.868 DEBUG 7936 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-25 22:26:23.049  INFO 7936 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 22:26:23.260  INFO 7936 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 5.834 seconds (JVM running for 6.302)
+2023-07-25 22:26:33.007  INFO 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 22:26:33.007  INFO 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-07-25 22:26:33.007 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2023-07-25 22:26:33.008 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2023-07-25 22:26:33.008 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2023-07-25 22:26:33.009 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4f88a074
+2023-07-25 22:26:33.009 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@410a2156
+2023-07-25 22:26:33.010 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2023-07-25 22:26:33.010  INFO 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2023-07-25 22:26:33.038 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:26:33.040 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-25 22:26:33.042 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-25 22:26:33.086 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@7fcef82b]
+2023-07-25 22:26:33.374 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:26:33.374 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@7a27b6d3]
+2023-07-25 22:26:33.386 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:26:33.387 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=UTF-8"], payload={
+  "userId": "hchyi259@naver.com",
+  "password": "ssafy"
+}]
+2023-07-25 22:27:19.328 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/", parameters={}
+2023-07-25 22:27:19.330 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ParameterizableViewController [view="forward:/swagger-ui/index.html"]
+2023-07-25 22:27:19.335 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2023-07-25 22:27:19.335 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.servlet.view.InternalResourceView  : View name 'forward:', model {}
+2023-07-25 22:27:19.336 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.servlet.view.InternalResourceView  : Forwarding to [/swagger-ui/index.html]
+2023-07-25 22:27:19.338 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : "FORWARD" dispatch for GET "/swagger-ui/index.html", parameters={}
+2023-07-25 22:27:19.340 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/webjars/springfox-swagger-ui/]]
+2023-07-25 22:27:19.345 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Exiting from "FORWARD" dispatch, status 200
+2023-07-25 22:27:19.346 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.428 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/springfox.css?v=3.0.0", parameters={masked}
+2023-07-25 22:27:19.430 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/webjars/springfox-swagger-ui/]]
+2023-07-25 22:27:19.432 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.433 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui.css?v=3.0.0", parameters={masked}
+2023-07-25 22:27:19.434 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/webjars/springfox-swagger-ui/]]
+2023-07-25 22:27:19.440 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.441 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui-bundle.js?v=3.0.0", parameters={masked}
+2023-07-25 22:27:19.442 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/webjars/springfox-swagger-ui/]]
+2023-07-25 22:27:19.489 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.490 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui-standalone-preset.js?v=3.0.0", parameters={masked}
+2023-07-25 22:27:19.491 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/webjars/springfox-swagger-ui/]]
+2023-07-25 22:27:19.507 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.509 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/springfox.js?v=3.0.0", parameters={masked}
+2023-07-25 22:27:19.509 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/webjars/springfox-swagger-ui/]]
+2023-07-25 22:27:19.515 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.591 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/swagger-resources/configuration/ui", parameters={}
+2023-07-25 22:27:19.592 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to springfox.documentation.swagger.web.ApiResourceController#uiConfiguration()
+2023-07-25 22:27:19.593 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json] and supported [application/json]
+2023-07-25 22:27:19.600 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [springfox.documentation.swagger.web.UiConfiguration@4f282e20]
+2023-07-25 22:27:19.601 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.607 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/swagger-resources/configuration/security", parameters={}
+2023-07-25 22:27:19.607 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to springfox.documentation.swagger.web.ApiResourceController#securityConfiguration()
+2023-07-25 22:27:19.608 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json] and supported [application/json]
+2023-07-25 22:27:19.610 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [springfox.documentation.swagger.web.SecurityConfiguration@1602255a]
+2023-07-25 22:27:19.611 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.616 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/swagger-resources", parameters={}
+2023-07-25 22:27:19.616 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to springfox.documentation.swagger.web.ApiResourceController#swaggerResources()
+2023-07-25 22:27:19.617 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json] and supported [application/json]
+2023-07-25 22:27:19.618 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[springfox.documentation.swagger.web.SwaggerResource@3769c45d]]
+2023-07-25 22:27:19.621 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:27:19.647 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/v2/api-docs", parameters={}
+2023-07-25 22:27:19.647 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to springfox.documentation.swagger2.web.Swagger2ControllerWebMvc#getDocumentation(String, HttpServletRequest)
+2023-07-25 22:27:19.732 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, */*] and supported [application/json, application/hal+json]
+2023-07-25 22:27:19.734 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [springfox.documentation.spring.web.json.Json@113fa162]
+2023-07-25 22:27:19.735 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:29:08.104 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB%2FI2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf%2FWxZSuW4jh%2Bz%2BPJEtUmBYr4Wlb7PlwegTqyGJOlhqA7%2BF%2FyEAUCaH0hTR9R3hNFO28YfRTegCOFWeznrMmRTEy%2B2VKQGIl5BwzO9TdDPF9pZjjTngXe%2FJyGfPbkiIV%2BgwWhNmLNegd59v%2BAR055MCO1hdoouSTubxmwEh91WOSsrW2CS%2FUDYeKSAd%2FFigkFYSY%2Ba9k%2FD5v%2FB7m2waSB7cUSldbxzSV7xI6sCJvTjoVmRPF0HDzw4%3D, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*"]]
+2023-07-25 22:29:08.105 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB%2FI2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf%2FWxZSuW4jh%2Bz%2BPJEtUmBYr4Wlb7PlwegTqyGJOlhqA7%2BF%2FyEAUCaH0hTR9R3hNFO28YfRTegCOFWeznrMmRTEy%2B2VKQGIl5BwzO9TdDPF9pZjjTngXe%2FJyGfPbkiIV%2BgwWhNmLNegd59v%2BAR055MCO1hdoouSTubxmwEh91WOSsrW2CS%2FUDYeKSAd%2FFigkFYSY%2Ba9k%2FD5v%2FB7m2waSB7cUSldbxzSV7xI6sCJvTjoVmRPF0HDzw4%3D", parameters={masked}
+2023-07-25 22:29:08.105 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#verifyEmail(String)
+2023-07-25 22:29:08.125 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Failed to complete request: org.springframework.security.authentication.BadCredentialsException: Invalid token type: RefreshToken
+2023-07-25 22:29:08.125 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/auth/verifyEmail?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB%2FI2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf%2FWxZSuW4jh%2Bz%2BPJEtUmBYr4Wlb7PlwegTqyGJOlhqA7%2BF%2FyEAUCaH0hTR9R3hNFO28YfRTegCOFWeznrMmRTEy%2B2VKQGIl5BwzO9TdDPF9pZjjTngXe%2FJyGfPbkiIV%2BgwWhNmLNegd59v%2BAR055MCO1hdoouSTubxmwEh91WOSsrW2CS%2FUDYeKSAd%2FFigkFYSY%2Ba9k%2FD5v%2FB7m2waSB7cUSldbxzSV7xI6sCJvTjoVmRPF0HDzw4%3D, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*"]]
+2023-07-25 22:29:08.126 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error?token=BS3sHW1eHJ5pyUq7OO4wP7mYbCkazDamsNuhgB7Pd7CkMDB%2FI2cwvUAA14504b5QmLDXdAdscxoQJ5imv82rlrOYEECsBkYJtXLWc2iJ6f0MzXllCCGEADf%2FWxZSuW4jh%2Bz%2BPJEtUmBYr4Wlb7PlwegTqyGJOlhqA7%2BF%2FyEAUCaH0hTR9R3hNFO28YfRTegCOFWeznrMmRTEy%2B2VKQGIl5BwzO9TdDPF9pZjjTngXe%2FJyGfPbkiIV%2BgwWhNmLNegd59v%2BAR055MCO1hdoouSTubxmwEh91WOSsrW2CS%2FUDYeKSAd%2FFigkFYSY%2Ba9k%2FD5v%2FB7m2waSB7cUSldbxzSV7xI6sCJvTjoVmRPF0HDzw4%3D", parameters={masked}
+2023-07-25 22:29:08.127 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2023-07-25 22:29:08.130 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:29:08.130 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Tue Jul 25 22:29:08 KST 2023, status=403, error=Forbidden, trace=org.springframework.secu (truncated)...]
+2023-07-25 22:29:08.132 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 403
+2023-07-25 22:29:30.185 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.f.CommonsRequestLoggingFilter      : Before request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=ISO-8859-1"]]
+2023-07-25 22:29:30.185 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/login", parameters={}
+2023-07-25 22:29:30.186 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.ssafy.catchpalm.api.controller.AuthController#login(UserLoginPostReq)
+2023-07-25 22:29:30.186 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.ssafy.catchpalm.api.request.UserLoginPostReq@5300a9fe]
+2023-07-25 22:29:30.258 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json]
+2023-07-25 22:29:30.258 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.ssafy.catchpalm.api.response.UserLoginPostRes@63ecd18c]
+2023-07-25 22:29:30.259 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-07-25 22:29:30.259 DEBUG 7936 --- [http-nio-127.0.0.1-8080-exec-8] o.s.w.f.CommonsRequestLoggingFilter      : After request [POST /api/v1/auth/login, client=127.0.0.1, headers=[host:"localhost:8080", user-agent:"insomnia/2023.4.0", accept:"*/*", content-length:"59", Content-Type:"application/json;charset=UTF-8"], payload={
+  "userId": "hchyi259@naver.com",
+  "password": "ssafy"
+}]
