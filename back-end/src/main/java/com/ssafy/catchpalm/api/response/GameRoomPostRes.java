@@ -21,7 +21,7 @@ public class GameRoomPostRes {
     int roomNumber;
 
     @ApiModelProperty(name="GameRoom captainNickName")
-    String nickName;
+    String nickname;
 
     @ApiModelProperty(name="GameRoom Type")
     String typeName;
@@ -48,7 +48,7 @@ public class GameRoomPostRes {
         res.setPassword(gameRoom.getPassword());
         res.setStatus(gameRoom.getStatus());
         res.setCntUser(gameRoom.getUserInfos().size());
-        res.setNickName(gameRoom.getCaptain().getNickName());
+        res.setNickname(gameRoom.getCaptain().getNickname());
         res.setTitle(gameRoom.getTitle());
         res.setTypeName(gameRoom.getCategory().getName());
         return res;
