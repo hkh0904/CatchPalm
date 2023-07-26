@@ -4,6 +4,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.catchpalm.common.util.AESUtil;
 import com.ssafy.catchpalm.common.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -107,8 +108,11 @@ public class UserServiceImpl implements UserService {
 	public User getUserByVerificationToken(String emailVerificationToken) throws Exception{
 		emailVerificationToken = AESUtil.decrypt(emailVerificationToken);
 		DecodedJWT decodedJWT = JwtTokenUtil.decodedJWT(emailVerificationToken);
+		String typ = decodedJWT.getClaim("typ").asString();
+		if(!"EmailVerificationToken".equals(typ)){
+			throw new BadCredentialsException("Invalid token type: " + typ);
+		}
 		User user = getUserByUserId(decodedJWT.getSubject());
-
 		return user;
 	}
 
