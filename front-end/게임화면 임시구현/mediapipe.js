@@ -8,25 +8,6 @@ let runningMode = "IMAGE";
 let enableWebcamButton;
 let webcamRunning = false;
 
-// JSON 파일 경로
-const jsonFilePath = "./YOASOBI-IDOL.json";
-
-// Fetch를 이용하여 JSON 파일 가져오기
-let nodes; // 이 변수를 전역 변수로 바꿔줍니다.
-fetch(jsonFilePath)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  })
-  .then((jsonData) => {
-    // jsonData를 원하는 변수에 저장하면 됩니다.
-    nodes = jsonData;
-  })
-  .catch((error) => {
-    console.error("Error fetching JSON:", error);
-  });
 
 // HandLandmarker 클래스를 사용하기 전에 로딩이 완료되어야 합니다.
 // 머신 러닝 모델은 크기가 크고 실행에 필요한 모든 요소를 가져오는 데 시간이 걸릴 수 있습니다.
@@ -209,6 +190,14 @@ async function enableCam(event) {
     let handY = 0;
 
     if (results.gestures.length > 0) {
+      gestureOutput.style.display = "block";
+      gestureOutput.style.width = videoWidth;
+      const firstHand = results.gestures[0][0].categoryName;
+      const categoryScore = parseFloat(
+        results.gestures[0][0].score * 100
+      ).toFixed(2);
+      gestureOutput.innerText = `firstHand: ${firstHand}\n Confidence: ${categoryScore} %`;
+
       handX = results.landmarks[0][9].x;
       handY = results.landmarks[0][9].y;
       if (results.gestures[0][0].categoryName === "Closed_Fist") {
@@ -216,6 +205,12 @@ async function enableCam(event) {
       }
 
       if (results.gestures.length > 1) {
+        const secondHand = results.gestures[1][0].categoryName;
+        const secondCategoryScore = parseFloat(
+          results.gestures[1][0].score * 100
+        ).toFixed(2);
+        gestureOutput.innerText += `\n secondHand: ${secondHand}\n Confidence: ${secondCategoryScore} %`;
+
         handX = results.landmarks[1][9].x;
         handY = results.landmarks[1][9].y;
         if (results.gestures[1][0].categoryName === "Closed_Fist") {
