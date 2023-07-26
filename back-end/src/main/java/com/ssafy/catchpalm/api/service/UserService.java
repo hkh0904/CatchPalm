@@ -8,7 +8,21 @@ import com.ssafy.catchpalm.db.entity.User;
  */
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo) throws Exception;
+
+	void updateUser(User user) throws  Exception;
+
+	void reSendEmail(String userId) throws Exception;
+
 	User getUserByUserId(String userId);
+
+	void randomNickname(String userId) throws Exception;
+
 	void updateRefreshToken(String userId, String refreshToken) throws Exception;
 	String getRefreshTokenByUserId(String userId) throws Exception;
+
+    User getUserByVerificationToken(String token) throws Exception;
+
+	boolean isDuplicatedUserId(String userId) throws Exception;
+
+	boolean isDuplicatedNickname(String userNickname) throws Exception;
 }
