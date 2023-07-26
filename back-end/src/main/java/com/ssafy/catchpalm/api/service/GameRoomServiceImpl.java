@@ -38,7 +38,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 			gameRoom.setPassword(gameRoomRegisterPostReq.getPassword());
 		}
 
-		//게임모드이기에 카테고리넘버: 1 = 개인전 | 2 = 팀전
+		//게임모드이기에 카테고리넘버: 0 = 개인전 | 1 = 팀전
 		Category category = new Category();
 		gameRoom.setCategory(category);
 		category.setCategoryNumber(gameRoomRegisterPostReq.getCategoryNumber());

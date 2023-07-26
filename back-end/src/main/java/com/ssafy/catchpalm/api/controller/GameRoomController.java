@@ -45,10 +45,9 @@ public class GameRoomController {
 
 		GameRoom gameRoom = gameRoomService.createRoom(gameRoomInfo);
 		gameRoomService.addRoomUser(gameRoomInfo.getUserNumber(), gameRoom.getRoomNumber());
-		gameRoom.getCaptain().getUserNumber(); // 강제로 필드에 접근하여 초기화
-//		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom,1));
 		return ResponseEntity.status(200).body(gameRoom);
 	}
+//		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom,1));
 
 	@DeleteMapping("/delete/{roomNumber}")
 	@ApiOperation(value = "게임방 삭제", notes = "<strong>게임방 번호</strong>를 통해 방 삭제. ")
@@ -79,6 +78,5 @@ public class GameRoomController {
 		int roomNumber = map.get("roomNumber");
 		gameRoomService.addRoomUser(userNumber, roomNumber);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-
 	}
 }
