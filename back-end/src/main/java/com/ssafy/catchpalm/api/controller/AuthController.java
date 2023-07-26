@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -80,7 +81,7 @@ public class AuthController {
 			userService.updateUser(user);
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
 		} else {
-			return ResponseEntity.ok(UserLoginPostRes.of(404, "failed - User not found or token expired"));
+			return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "failed - User not found or token expired"));
 		}
 	}
 }

@@ -60,8 +60,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()
+                .antMatchers("/api/v1/users/modify").authenticated()
                 .antMatchers("/api/v1/users/me").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
     	        	    .anyRequest().permitAll()
+                .and()
+                .oauth2Login() // 이 부분 추가
+                .defaultSuccessUrl("/index.html") // 로그인 성공시 redirect 될 URL
+                .failureUrl("/index.html") // 로그인 실패시 redirect 될 URL
                 .and().cors();
     }
 }
