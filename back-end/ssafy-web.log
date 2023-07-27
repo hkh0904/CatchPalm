@@ -5569,3 +5569,41 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'go
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.6.jar:5.3.6]
 	... 23 common frames omitted
 
+2023-07-27 16:04:29.090  INFO 21608 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Starting CatchpalmApplication using Java 1.8.0_372 on DESKTOP-BLHP263 with PID 21608 (C:\ssafy\workspace\Common_Project_2\catchpalm\back-end\build\classes\java\main started by SSAFY in C:\ssafy\workspace\Common_Project_2\catchpalm\back-end)
+2023-07-27 16:04:29.093  INFO 21608 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : No active profile set, falling back to default profiles: default
+2023-07-27 16:04:29.152  INFO 21608 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-07-27 16:04:29.152  INFO 21608 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-07-27 16:04:30.678  INFO 21608 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-27 16:04:30.795  INFO 21608 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 3 JPA repository interfaces.
+2023-07-27 16:04:31.227  INFO 21608 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@4e7140a8' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-27 16:04:31.233  INFO 21608 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-27 16:04:31.961  INFO 21608 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-07-27 16:04:31.975  INFO 21608 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-27 16:04:31.976  INFO 21608 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2023-07-27 16:04:32.197  INFO 21608 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-07-27 16:04:32.197  INFO 21608 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3044 ms
+2023-07-27 16:04:32.393 DEBUG 21608 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2023-07-27 16:04:32.394 DEBUG 21608 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2023-07-27 16:04:32.621  INFO 21608 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-27 16:04:32.712  INFO 21608 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2023-07-27 16:04:32.902  INFO 21608 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-07-27 16:04:33.047  INFO 21608 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-27 16:04:33.404  INFO 21608 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-27 16:04:33.434  INFO 21608 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-07-27 16:04:34.755  INFO 21608 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-27 16:04:34.767  INFO 21608 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-27 16:04:34.784  INFO 21608 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-27 16:04:35.447  WARN 21608 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-27 16:04:35.904 DEBUG 21608 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 20 mappings in 'requestMappingHandlerMapping'
+2023-07-27 16:04:36.002  INFO 21608 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-07-27 16:04:36.306  INFO 21608 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@26c32f58, org.springframework.security.web.context.SecurityContextPersistenceFilter@5ca7c9d9, org.springframework.security.web.header.HeaderWriterFilter@365ca2d0, org.springframework.web.filter.CorsFilter@d9a6d42, org.springframework.security.web.authentication.logout.LogoutFilter@1763e45d, com.ssafy.catchpalm.common.auth.JwtAuthenticationFilter@1a6cc1d6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@45e6935d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6fbb9574, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5da3dbb4, org.springframework.security.web.session.SessionManagementFilter@6cd60847, org.springframework.security.web.access.ExceptionTranslationFilter@775f1dc8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@64c96334]
+2023-07-27 16:04:36.357 DEBUG 21608 --- [restartedMain] o.s.w.s.s.s.WebSocketHandlerMapping      : Patterns [/socket] in 'webSocketHandlerMapping'
+2023-07-27 16:04:36.436  INFO 21608 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-27 16:04:36.452 DEBUG 21608 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-07-27 16:04:36.502  INFO 21608 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2023-07-27 16:04:36.517 DEBUG 21608 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2023-07-27 16:04:36.536 DEBUG 21608 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2023-07-27 16:04:36.913 DEBUG 21608 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2023-07-27 16:04:36.926 DEBUG 21608 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-07-27 16:04:37.226  INFO 21608 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-27 16:04:37.585  INFO 21608 --- [restartedMain] c.ssafy.catchpalm.CatchpalmApplication   : Started CatchpalmApplication in 8.977 seconds (JVM running for 10.491)
