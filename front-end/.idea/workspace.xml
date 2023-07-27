@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="768345fe-03ce-4d2f-9ace-72c18da970a5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../back-end/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/generated/com/ssafy/catchpalm/db/entity/QBaseEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/generated/com/ssafy/catchpalm/db/entity/QUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/CatchpalmApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/CatchpalmApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/controller/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/controller/HelloController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/request/UserLoginPostReq.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/request/UserRegisterPostReq.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/response/UserLoginPostRes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/response/UserRes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/api/service/UserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/common/auth/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/common/auth/SsafyUserDetailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/common/auth/SsafyUserDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/common/exception/handler/NotFoundHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/common/model/response/BaseResponseBody.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/common/util/JwtTokenUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/common/util/ResponseBodyWriteUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/config/JpaConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/config/WebMvcConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/db/entity/BaseEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/db/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/db/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/java/com/ssafy/catchpalm/db/repository/UserRepositorySupport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/css/app.80f35f85.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/css/chunk-vendors.b8a9ac7a.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/fonts/SpoqaHanSansNeo-Bold.48d433af.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/fonts/SpoqaHanSansNeo-Medium.d92f35b6.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/fonts/SpoqaHanSansNeo-Regular.998877fd.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/fonts/element-icons.abe71f7d.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/fonts/element-icons.d9491be2.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/img/ssafy-logo.74eec4f3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/js/app.c36d8eb6.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/js/app.c36d8eb6.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/js/chunk-vendors.d26042b2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/main/resources/dist/js/chunk-vendors.d26042b2.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/src/test/java/com/ssafy/catchpalm/CatchpalmApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/src/test/java/com/ssafy/catchpalm/CatchpalmApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back-end/ssafy-web.log" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2SgkD1nqZlb1KMPCcKI4iefMaJh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/ssafy/workspace/Common_Project_2/catchpalm"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="768345fe-03ce-4d2f-9ace-72c18da970a5" name="Changes" comment="" />
+      <created>1689575487469</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1689575487469</updated>
+    </task>
+    <servers />
+  </component>
+</project>
