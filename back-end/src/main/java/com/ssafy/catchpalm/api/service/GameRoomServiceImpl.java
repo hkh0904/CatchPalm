@@ -1,17 +1,16 @@
 package com.ssafy.catchpalm.api.service;
 
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
-import com.ssafy.catchpalm.api.request.UserRegisterPostReq;
 import com.ssafy.catchpalm.db.entity.Category;
 import com.ssafy.catchpalm.db.entity.GameRoom;
+import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
 import com.ssafy.catchpalm.db.entity.User;
 import com.ssafy.catchpalm.db.repository.GameRoomRepository;
-import com.ssafy.catchpalm.db.repository.UserRepository;
-import com.ssafy.catchpalm.db.repository.UserRepositorySupport;
+import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,6 +20,9 @@ import java.util.Optional;
 public class GameRoomServiceImpl implements GameRoomService {
 	@Autowired
 	GameRoomRepository gameRoomRepository;
+
+	@Autowired
+	GameRoomUserInfoRepository gameRoomUserInfoRepository;
 
 	@Override
 	public GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq) {
@@ -36,7 +38,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 			gameRoom.setPassword(gameRoomRegisterPostReq.getPassword());
 		}
 
-		//게임모드이기에 카테고리넘버: 1 = 개인전 | 2 = 팀전
+		//게임모드이기에 카테고리넘버: 0 = 개인전 | 1 = 팀전
 		Category category = new Category();
 		gameRoom.setCategory(category);
 		category.setCategoryNumber(gameRoomRegisterPostReq.getCategoryNumber());
@@ -49,10 +51,30 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Override
 	public void deleteRoom(int roomNumber) {
-		Optional<GameRoom> optionalGameRoom = gameRoomRepository.findById(roomNumber);
-		if(optionalGameRoom.isPresent()){ // 입력받은 게임룸 번호가 존재하는지 확인.
-			//GameRoom gameRoom = optionalGameRoom.get(); // 해당 게임 룸 정보 받기.
-			gameRoomRepository.deleteById(roomNumber); // 존재한다면 해당 방 삭제.
+		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
+
+		if (gameRoom != null) {
+			// GameRoom과 연관된 GameRoomUserInfo들을 찾습니다.
+			List<GameRoomUserInfo> gameRoomUserInfos = gameRoom.getUserInfos();
+			// GameRoom과 연관된 GameRoomUserInfo들을 삭제합니다.
+			gameRoomUserInfoRepository.deleteAll(gameRoomUserInfos);
+			// GameRoom을 삭제합니다.
+			gameRoomRepository.delete(gameRoom);
 		}
+	}
+
+	@Override
+	public GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber) {
+		User user = new User();
+		GameRoom gameRoom = new GameRoom();
+		GameRoomUserInfo userInfo = new GameRoomUserInfo();
+
+		userInfo.setUser(user);
+		user.setUserNumber(userNumber);
+
+		userInfo.setGameRoom(gameRoom);
+		gameRoom.setRoomNumber(roomNumber);
+
+		return gameRoomUserInfoRepository.save(userInfo);
 	}
 }

@@ -2,6 +2,9 @@ package com.ssafy.catchpalm.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -50,6 +54,9 @@ public class AuthController {
 		User user = userService.getUserByUserId(userId);
 		userService.updateRefreshToken(userId, refreshToken);
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
+		if(user.getPassword() == null){
+			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Google or Naver account",null));
+		}
 		if(user.getEmailVerified()==0){
 			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Email is not verified",null));
 		}
@@ -80,7 +87,7 @@ public class AuthController {
 			userService.updateUser(user);
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
 		} else {
-			return ResponseEntity.ok(UserLoginPostRes.of(404, "failed - User not found or token expired"));
+			return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "failed - User not found or token expired"));
 		}
 	}
 }

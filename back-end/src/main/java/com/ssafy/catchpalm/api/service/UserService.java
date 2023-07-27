@@ -15,6 +15,8 @@ public interface UserService {
 
 	User getUserByUserId(String userId);
 
+	User createOauthUser(String userId) throws Exception;
+
 	void randomNickname(String userId) throws Exception;
 
 	void updateRefreshToken(String userId, String refreshToken) throws Exception;
