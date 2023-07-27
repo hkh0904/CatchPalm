@@ -1,6 +1,6 @@
 package com.ssafy.catchpalm.db.entity;
 
-import jdk.Exported;
+//import jdk.Exported;
 import lombok.Getter;
 import lombok.Setter;
 
