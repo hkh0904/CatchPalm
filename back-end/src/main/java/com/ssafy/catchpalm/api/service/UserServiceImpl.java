@@ -57,6 +57,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User createOauthUser(String userId) throws Exception {
+			// handle the case where no User was found
+		User user = new User();
+		user.setUserId(userId);
+		user.setEmailVerified(1);
+		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
+		String emailVerificationToken = JwtTokenUtil.getEmailToken(userId);
+		// email 인증토큰을 암호화하여 저장
+		user.setEmailVerificationToken(AESUtil.encrypt(emailVerificationToken));
+		return userRepository.save(user);
+	}
+
+	@Override
 	public void randomNickname(String userId) throws Exception{
 		User user = getUserByUserId(userId);
 		user.setNickname("catchpalm@"+user.getUserNumber());

@@ -20,10 +20,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -71,11 +68,12 @@ public class OAuthController {
 
             return "redirect:" + authorizationUrl;
         } catch (Exception e) {
-            throw new RuntimeException("구글 로그인 오류");
+            throw new RuntimeException("google login error");
         }
     }
 
     @GetMapping("/callback")
+    @ApiOperation(value = "구글 로그인 실행", notes = "구글계정으로 로그인 또는 회원가입을 실행한다.")
     public ResponseEntity<UserLoginPostRes> googleCallback(@RequestParam("code") String code) {
         try {
             TokenResponse tokenResponse =
@@ -85,21 +83,21 @@ public class OAuthController {
             GoogleIdToken idToken = googleTokenResponse.parseIdToken();
             GoogleIdToken.Payload payload = idToken.getPayload();
 
-            String email = payload.getEmail();
-            String name = (String) payload.get("name");
+            String userId = payload.getEmail();
+            String refreshToken = JwtTokenUtil.getRefreshToken(userId);
 
-            // 이제 email 및 name을 사용하여 로그인 또는 회원 가입을 처리할 수 있습니다.
-            if(userService.isDuplicatedUserId(email)){
-
-
+            // 이미 가입된 이메일일 경우에 refresh token을 생성하여 로그인 진행
+            if(userService.isDuplicatedUserId(userId)){
+                userService.updateRefreshToken(userId, refreshToken);
+            }else{ // 가입이 안된 이메일일 경우에 회원가입 후 로그인 진행
+                userService.createOauthUser(userId);
+                userService.updateRefreshToken(userId, refreshToken);
             }
-            System.out.println(email);
-            System.out.println(name);
 
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(email)));
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
 
         } catch (Exception e) {
-            throw new RuntimeException("구글 로그인 오류");
+            throw new RuntimeException("google login error");
         }
     }
 }
