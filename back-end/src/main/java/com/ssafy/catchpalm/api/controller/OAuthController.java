@@ -66,7 +66,7 @@ public class OAuthController {
             AuthorizationCodeRequestUrl authorizationUrl =
                     flow.newAuthorizationUrl().setRedirectUri(CALLBACK_URI);
 
-            return "redirect:" + authorizationUrl;
+            return "redirect:" + authorizationUrl+"&prompt=select_account";
         } catch (Exception e) {
             throw new RuntimeException("google login error");
         }
@@ -86,14 +86,16 @@ public class OAuthController {
             String userId = payload.getEmail();
             String refreshToken = JwtTokenUtil.getRefreshToken(userId);
 
-            // 이미 가입된 이메일일 경우에 refresh token을 생성하여 로그인 진행
-            if(userService.isDuplicatedUserId(userId)){
-                userService.updateRefreshToken(userId, refreshToken);
-            }else{ // 가입이 안된 이메일일 경우에 회원가입 후 로그인 진행
+            // 증복된 아이디가 없는 경우에
+            if(!userService.isDuplicatedUserId(userId)){
+                // 회원가입을 진행하고
                 userService.createOauthUser(userId);
-                userService.updateRefreshToken(userId, refreshToken);
+                userService.randomNickname(userId);
             }
+            // 로그인을 했으므로 refresh Token 발급
+            userService.updateRefreshToken(userId, refreshToken);
 
+            // accessToken을 body에 담아서 보내준다.
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
 
         } catch (Exception e) {

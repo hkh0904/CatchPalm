@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 			// handle the case where no User was found
 		User user = new User();
 		user.setUserId(userId);
-		user.setEmailVerified(1);
+		user.setEmailVerified(0);
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		String emailVerificationToken = JwtTokenUtil.getEmailToken(userId);
 		// email 인증토큰을 암호화하여 저장
@@ -84,6 +84,14 @@ public class UserServiceImpl implements UserService {
 		user.setRefreshToken(encryptedRefreshToken);
 		userRepository.save(user);
 	}
+
+	@Override
+	public void logoutUser(String userId) throws Exception{
+		User user = getUserByUserId(userId);
+		user.setRefreshToken(null);
+		userRepository.save(user);
+	}
+
 
 	@Override
 	public void updateUser(User user) throws  Exception{
