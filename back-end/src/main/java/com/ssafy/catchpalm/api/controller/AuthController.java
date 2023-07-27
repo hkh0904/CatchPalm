@@ -58,7 +58,7 @@ public class AuthController {
 			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Google or Naver account",null));
 		}
 		if(user.getEmailVerified()==0){
-			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Email is not verified",null));
+			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Email is not verified or Google or Naver account",null));
 		}
 		else if(passwordEncoder.matches(password, user.getPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)

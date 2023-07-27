@@ -9,11 +9,15 @@ import com.ssafy.catchpalm.db.entity.User;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo) throws Exception;
 
+	void logoutUser(String userId) throws Exception;
+
 	void updateUser(User user) throws  Exception;
 
 	void reSendEmail(String userId) throws Exception;
 
 	User getUserByUserId(String userId);
+
+	User createOauthUser(String userId) throws Exception;
 
 	void randomNickname(String userId) throws Exception;
 
