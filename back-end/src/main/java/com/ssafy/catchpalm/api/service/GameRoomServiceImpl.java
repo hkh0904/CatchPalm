@@ -1,15 +1,15 @@
 package com.ssafy.catchpalm.api.service;
 
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
-import com.ssafy.catchpalm.db.entity.Category;
-import com.ssafy.catchpalm.db.entity.GameRoom;
-import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
-import com.ssafy.catchpalm.db.entity.User;
+import com.ssafy.catchpalm.api.response.GameRoomPostRes;
+import com.ssafy.catchpalm.db.entity.*;
 import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +43,11 @@ public class GameRoomServiceImpl implements GameRoomService {
 		gameRoom.setCategory(category);
 		category.setCategoryNumber(gameRoomRegisterPostReq.getCategoryNumber());
 
+		//게임방 디폴트 음악정보 저장: music_number:1
+		Music music = new Music();
+		gameRoom.setMusic(music);
+		music.setMusicNumber(1);
+
 		//생성 직후 대기방 상태 저장. 0: 대기중, 1: 게임중
 		gameRoom.setStatus(0);
 
@@ -65,16 +70,58 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Override
 	public GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber) {
-		User user = new User();
-		GameRoom gameRoom = new GameRoom();
-		GameRoomUserInfo userInfo = new GameRoomUserInfo();
+		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
+		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
+		// 게임방이 존재한다면
+		if(gameRoom != null){
+			int cntUsers = gameRoom.getUserInfos().size();
+			if(cntUsers<gameRoom.getCapacity()){
+				User user = new User();
+				GameRoomUserInfo userInfo = new GameRoomUserInfo();
 
-		userInfo.setUser(user);
-		user.setUserNumber(userNumber);
+				userInfo.setUser(user);
+				user.setUserNumber(userNumber);
 
-		userInfo.setGameRoom(gameRoom);
-		gameRoom.setRoomNumber(roomNumber);
+				userInfo.setGameRoom(gameRoom);
+				// 들어갈 수 있으면
+				return gameRoomUserInfoRepository.save(userInfo);
+			}
+			//인원이 꽉 찼다면
+			else return null;
+		}
+		// 존재하지 않다면
+		else return null;
+	}
 
-		return gameRoomUserInfoRepository.save(userInfo);
+	@Override
+	@Transactional
+	public void outRoomUser(Long userNumber) {
+		gameRoomUserInfoRepository.deleteByUserUserNumber(userNumber);
+	}
+
+	@Override
+	public List<GameRoomPostRes> gameRoomList() {
+		// 모든 GameRoom 엔티티 조회
+		List<GameRoom> gameRooms = gameRoomRepository.findAll();
+		List<GameRoomPostRes> gameRoomPostRes = new ArrayList<>();
+
+		for(GameRoom gameRoom : gameRooms){
+			gameRoomPostRes.add(GameRoomPostRes.of(gameRoom));
+		}
+
+		return gameRoomPostRes;
+	}
+
+	@Override
+	public void startGame(int musicNumber, int gameRoomNumber) {
+		// 엔티티 조회: 게임방 정보 가져오기.( 유무도 확인)
+		Optional<GameRoom> optionalGameRoom = gameRoomRepository.findById(gameRoomNumber);
+		Music music = new Music();
+		if(optionalGameRoom.isPresent()){
+			GameRoom gameRoom = optionalGameRoom.get();
+			gameRoom.setStatus(1);
+			gameRoom.setMusic(music);
+			music.setMusicNumber(musicNumber);
+		}
 	}
 }
