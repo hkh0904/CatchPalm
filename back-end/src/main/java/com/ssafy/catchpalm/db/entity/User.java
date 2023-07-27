@@ -80,4 +80,15 @@ public class User{
         this.joinDate = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userNumber=" + userNumber +
+                ", userId='" + userId + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", age=" + age +
+                ", sex=" + sex +
+                ", joinDate=" + joinDate +
+                '}';
+    }
 }
