@@ -44,4 +44,8 @@ back-end/*.gz
 /.nb-gradle/
 
 ### VS Code ###
+<<<<<<< HEAD
 .vscode/
+=======
+.vscode/
+>>>>>>> fc19d4722ba07251724a2b791483de1675a6da86
