@@ -41,7 +41,7 @@ public class GameRoomPostRes {
     @ApiModelProperty(name="GameRoom status")
     int status; // 게임방 상태 : 0 = wait, 1 = gaming
 
-    public static GameRoomPostRes of(GameRoom gameRoom, int cntUser) {
+    public static GameRoomPostRes of(GameRoom gameRoom) {
         GameRoomPostRes res = new GameRoomPostRes();
         res.setRoomNumber(gameRoom.getRoomNumber());
         res.setCapacity(gameRoom.getCapacity());
