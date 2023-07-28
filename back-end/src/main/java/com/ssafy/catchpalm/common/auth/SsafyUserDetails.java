@@ -16,10 +16,10 @@ import com.ssafy.catchpalm.db.entity.User;
 public class SsafyUserDetails implements UserDetails {
 	@Autowired
 	User user;
-	boolean accountNonExpired;
-    boolean accountNonLocked;
-    boolean credentialNonExpired;
-    boolean enabled = false;
+	boolean accountNonExpired = true;
+    boolean accountNonLocked = true;
+    boolean credentialNonExpired = true;
+    boolean enabled = true;
     List<GrantedAuthority> roles = new ArrayList<>();
     
     public SsafyUserDetails(User user) {
