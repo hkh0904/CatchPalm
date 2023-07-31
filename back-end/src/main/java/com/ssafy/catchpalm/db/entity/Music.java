@@ -41,6 +41,6 @@ public class Music {
     @Column(name = "background_address")
     private String backgroundAddress; // 배경파일 저장위치
 
-    @OneToMany(mappedBy = "music")
+    @OneToMany(mappedBy = "music", fetch = FetchType.LAZY)
     private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
 }

@@ -43,14 +43,13 @@ public class GameRoomController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<GameRoom> createRoom(
+	public ResponseEntity<GameRoomPostRes> createRoom(
 			@RequestBody @ApiParam(value="방 정보", required = true) GameRoomRegisterPostReq gameRoomInfo) {
 
 		GameRoom gameRoom = gameRoomService.createRoom(gameRoomInfo);
 		gameRoomService.addRoomUser(gameRoomInfo.getUserNumber(), gameRoom.getRoomNumber());
-		return ResponseEntity.status(200).body(gameRoom);
+		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom));
 	}
-//		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom,1));
 
 	@DeleteMapping("/delete/{roomNumber}")
 	@ApiOperation(value = "게임방 삭제", notes = "<strong>게임방 번호</strong>를 통해 방 삭제. ")
@@ -127,5 +126,21 @@ public class GameRoomController {
 			@ApiParam(value="'musicNumber' : 번호, 'roomNumber' : 번호", required = true)@RequestBody GameStartReq gameStartReq) {
 		gameRoomService.startGame(gameStartReq.getMusicNumber(), gameStartReq.getGameRoomNumber());
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+	// 게임방 정보 가져오기: 입장 시
+	@GetMapping("/getGameRoomInfo/{roomNumber}")
+	@ApiOperation(value = "게임방 상세정보 가져오기", notes = "<strong>게임방 번호</strong> 입력받아 해당 데이터로 방정보 조회")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> getRoomInfo(
+			@ApiParam(value="방 정보", required = true)@PathVariable("roomNumber") int roomNumber) {
+		GameRoom resultRoom = gameRoomService.getRoomInfo(roomNumber);
+		return ResponseEntity.status(200).body(GameRoomPostRes.of(resultRoom));
+
 	}
 }
