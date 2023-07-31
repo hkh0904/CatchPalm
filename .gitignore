@@ -44,5 +44,4 @@ back-end/*.gz
 /nbdist/
 /.nb-gradle/
 
-front-end/package-lock.json
 .vscode/
