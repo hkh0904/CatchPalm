@@ -1,5 +1,6 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
 import React from 'react';
+import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
