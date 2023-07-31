@@ -23,12 +23,5 @@ public class GameRoomUserInfo {
 
     private int team;
 
-    @Override
-    public String toString() {
-        return "GameRoomUserInfo{" +
-                "userInfoNumber=" + userInfoNumber +
-                ", user=" + user +
-                ", team=" + team +
-                '}';
-    }
+
 }

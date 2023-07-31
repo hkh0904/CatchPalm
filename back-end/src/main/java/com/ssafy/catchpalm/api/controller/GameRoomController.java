@@ -137,10 +137,10 @@ public class GameRoomController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<GameRoom> getRoomInfo(
+	public ResponseEntity<?> getRoomInfo(
 			@ApiParam(value="방 정보", required = true)@PathVariable("roomNumber") int roomNumber) {
 		GameRoom resultRoom = gameRoomService.getRoomInfo(roomNumber);
-		return ResponseEntity.status(200).body(resultRoom);
+		return ResponseEntity.status(200).body(GameRoomPostRes.of(resultRoom));
 
 	}
 }

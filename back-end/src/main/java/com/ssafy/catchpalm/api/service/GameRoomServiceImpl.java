@@ -134,7 +134,6 @@ public class GameRoomServiceImpl implements GameRoomService {
 	public GameRoom getRoomInfo(int roomNumber) {
 		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
 		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
-
 		if (gameRoom != null) {
 			// GameRoom과 연관된 GameRoomUserInfo들을 찾습니다.
 			// 게임방 유저 정보 삽입
