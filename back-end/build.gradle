@@ -103,6 +103,10 @@ processResources {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation('com.google.api-client:google-api-client:1.31.5')
+	implementation('com.google.oauth-client:google-oauth-client:1.31.5')
+	implementation('com.google.apis:google-api-services-oauth2:v2-rev157-1.25.0')
+	implementation('com.google.http-client:google-http-client-jackson2:1.39.2')
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -162,6 +166,12 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok:1.18.20")
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+  
+	//이메일 관련 의존성
+	implementation('org.springframework.boot:spring-boot-starter-mail')
+
+	//WebSocket Import
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 test {
