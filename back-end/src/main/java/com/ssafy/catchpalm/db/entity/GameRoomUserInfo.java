@@ -14,12 +14,13 @@ public class GameRoomUserInfo {
     private int userInfoNumber; // 유저정보 넘버 : PK
 
     @ManyToOne// 단방향 매핑
-    @JoinColumn(name = "user_number", nullable = false)
+    @JoinColumn(name = "user_number", nullable = false, unique = true)
     private User user; // 게임방 유저 정보
 
     @ManyToOne// 단방향 매핑
     @JoinColumn(name = "room_number", nullable = false)
     private GameRoom gameRoom; // 게임방 정보
+
     private int team;
 
     @Override

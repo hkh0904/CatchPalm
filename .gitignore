@@ -36,6 +36,7 @@ back-end/*.properties
 back-end/*.log
 back-end/*.gz
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -43,5 +44,4 @@ back-end/*.gz
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
 .vscode/

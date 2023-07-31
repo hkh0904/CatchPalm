@@ -10,15 +10,17 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.ssafy.catchpalm.api.response.UserLoginPostRes;
+import com.ssafy.catchpalm.api.service.UserService;
+import com.ssafy.catchpalm.common.util.JwtTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -42,6 +44,9 @@ public class OAuthController {
 
     private GoogleAuthorizationCodeFlow flow;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/authorization/google")
     @ApiOperation(value = "구글 로그인 주소 반환", notes = "구글계정으로 로그인 버튼을 위한 url을 String으로 반환한다")
     public String googleLogin() {
@@ -61,14 +66,15 @@ public class OAuthController {
             AuthorizationCodeRequestUrl authorizationUrl =
                     flow.newAuthorizationUrl().setRedirectUri(CALLBACK_URI);
 
-            return "redirect:" + authorizationUrl;
+            return "redirect:" + authorizationUrl+"&prompt=select_account";
         } catch (Exception e) {
-            throw new RuntimeException("구글 로그인 오류");
+            throw new RuntimeException("google login error");
         }
     }
 
     @GetMapping("/callback")
-    public String googleCallback(@RequestParam("code") String code) {
+    @ApiOperation(value = "구글 로그인 실행", notes = "구글계정으로 로그인 또는 회원가입을 실행한다.")
+    public ResponseEntity<UserLoginPostRes> googleCallback(@RequestParam("code") String code) {
         try {
             TokenResponse tokenResponse =
                     flow.newTokenRequest(code).setRedirectUri(CALLBACK_URI).execute();
@@ -77,16 +83,23 @@ public class OAuthController {
             GoogleIdToken idToken = googleTokenResponse.parseIdToken();
             GoogleIdToken.Payload payload = idToken.getPayload();
 
-            String email = payload.getEmail();
-            String name = (String) payload.get("name");
+            String userId = "google:"+payload.getEmail();
+            String refreshToken = JwtTokenUtil.getRefreshToken(userId);
 
-            // 이제 email 및 name을 사용하여 로그인 또는 회원 가입을 처리할 수 있습니다.
-            System.out.println(email);
-            System.out.println(name);
+            // 증복된 아이디가 없는 경우에
+            if(!userService.isDuplicatedUserId(userId)){
+                // 회원가입을 진행하고
+                userService.createOauthGoogleUser(userId);
+                userService.randomNickname(userId);
+            }
+            // 로그인을 했으므로 refresh Token 발급
+            userService.updateRefreshToken(userId, refreshToken);
 
-        } catch (IOException e) {
-            throw new RuntimeException("구글 로그인 오류");
+            // accessToken을 body에 담아서 보내준다.
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
+
+        } catch (Exception e) {
+            throw new RuntimeException("google login error");
         }
-        return "Success";
     }
 }

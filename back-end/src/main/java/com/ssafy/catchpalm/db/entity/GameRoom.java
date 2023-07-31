@@ -1,6 +1,6 @@
 package com.ssafy.catchpalm.db.entity;
 
-import jdk.Exported;
+//import jdk.Exported;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,16 +17,20 @@ public class GameRoom {
     private int roomNumber;
 
     @OneToOne
-    @JoinColumn(name = "user_number")
+    @JoinColumn(name = "captain")
     private User captain;
 
     // 양방향 매핑 : 게임방 유저 리스트., 지연로딩, 영속성 관리를 통해 방 생성자 정보가 자동으로 게임방유저 테이블에 저장
     @OneToMany(mappedBy = "gameRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GameRoomUserInfo> userInfos = new ArrayList<>();
 
-    @ManyToOne // 단방향 매핑 : 카테고리 정보
+    @ManyToOne(fetch = FetchType.LAZY) // 단방향 매핑 : 카테고리 정보, 지연로딩
     @JoinColumn(name = "category_number", nullable = false)
     private Category category;
+
+    @ManyToOne // 단방향 매핑 : 게임방 플레이 뮤직 정보, 즉시로딩
+    @JoinColumn(name = "music_number")
+    private Music music;
 
     @Column(nullable = false)
     private int capacity; // 게임방 정원
@@ -41,5 +45,19 @@ public class GameRoom {
     public void addUser(GameRoomUserInfo userInfo){
         userInfos.add(userInfo);
         userInfo.setGameRoom(this);
+    }
+
+    @Override
+    public String toString() {
+        return "GameRoom{" +
+                "roomNumber=" + roomNumber +
+                ", captain=" + captain +
+                ", userInfos=" + userInfos +
+                ", category=" + category +
+                ", capacity=" + capacity +
+                ", password='" + password + '\'' +
+                ", title='" + title + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
