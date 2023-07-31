@@ -29,4 +29,6 @@ public interface UserService {
 	boolean isDuplicatedUserId(String userId) throws Exception;
 
 	boolean isDuplicatedNickname(String userNickname) throws Exception;
+
+    void deleteUser(String userId);
 }
