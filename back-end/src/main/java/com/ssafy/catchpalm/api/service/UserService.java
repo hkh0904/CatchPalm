@@ -17,7 +17,7 @@ public interface UserService {
 
 	User getUserByUserId(String userId);
 
-	User createOauthUser(String userId) throws Exception;
+	User createOauthGoogleUser(String userId) throws Exception;
 
 	void randomNickname(String userId) throws Exception;
 

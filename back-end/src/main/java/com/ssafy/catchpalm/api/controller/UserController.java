@@ -60,11 +60,15 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) throws Exception {
 		
-		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
+		// 실제 유저 Id로 이메일을 보내야 하기 때문에 따로 userId 저장
+		String userId = registerInfo.getUserId();
+		// 자체 회원가입이기 때문에 db에는 local을 붙여서 저장
+		registerInfo.setUserId("local:"+registerInfo.getUserId());
 		User user = userService.createUser(registerInfo);
 		userService.randomNickname(user.getUserId());
 
-		emailService.sendVerificationEmail(user.getUserId(),user.getEmailVerificationToken());
+		// 유저 인증을 위한 이메일을 보낸다.
+		emailService.sendVerificationEmail(userId,user.getEmailVerificationToken());
 		
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -82,8 +86,11 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
+		// Spring security를 거치기 위해서 userDetails로 접근
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		// userId를 얻어서
 		String userId = userDetails.getUsername();
+		// 로그아웃을 진행한다.
 		userService.logoutUser(userId);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -102,6 +109,7 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
+		// 위의 logout 과정과 동일
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
@@ -125,21 +133,26 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		if(userModifyInfo.getNickname() != ""){
-			if(userService.isDuplicatedNickname(userModifyInfo.getNickname())){
+		if(userModifyInfo.getNickname() != ""){ // 값이 있으면
+			if(userService.isDuplicatedNickname(userModifyInfo.getNickname())){ // 중복인지 조사한 다음에
 				return ResponseEntity.status(403).body(BaseResponseBody.of(403, "Nickname is duplicated"));
 			}
+			// 중복이 아니라면 닉네임 수정
 			user.setNickname(userModifyInfo.getNickname());
 		}
-		if (userModifyInfo.getAge() != "") {
+		if (userModifyInfo.getAge() != "") { // age에 값이 있다면
+			// age 수정
 			user.setAge(Integer.parseInt(userModifyInfo.getAge()));
 		}
-		if (userModifyInfo.getPassword() != "") {
+		if (userModifyInfo.getPassword() != "") { // password에 값이 있다면
+			// password 수정
 			user.setPassword(passwordEncoder.encode(userModifyInfo.getPassword()));
 		}
-		if (userModifyInfo.getSex() != "") {
+		if (userModifyInfo.getSex() != "") { //sex에 값이 있다면
+			// sex 수정
 			user.setSex(Integer.parseInt(userModifyInfo.getSex()));
 		}
+		// 위의 정보를 종합해서 user의 정보를 수정한다.
 		userService.updateUser(user);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -148,7 +161,7 @@ public class UserController {
 
 
 	@PutMapping("/resendemail")
-	@ApiOperation(value = "메일 재전송", notes = "<strong>메일</strong>을 재전송 한다..")
+	@ApiOperation(value = "메일 재전송", notes = "<strong>메일</strong>을 재전송 한다.. ex) catchpalm@gmail.com")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -159,9 +172,9 @@ public class UserController {
 			@RequestBody @ApiParam(value="유저 Id 정보", required = true) UserUserIdPostReq userIdInfo) throws Exception {
 
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-		User user = userService.getUserByUserId(userIdInfo.getUserId());
-		userService.reSendEmail(userIdInfo.getUserId());
-		emailService.sendVerificationEmail(user.getUserId(),user.getEmailVerificationToken());
+		User user = userService.getUserByUserId("local:"+userIdInfo.getUserId());
+		userService.reSendEmail("local:"+userIdInfo.getUserId());
+		emailService.sendVerificationEmail(userIdInfo.getUserId(),user.getEmailVerificationToken());
 		if(user.getEmailVerified() == 1){
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "already verified email so must use authentication"));
 		}
@@ -170,7 +183,7 @@ public class UserController {
 	}
 
 	@PostMapping("/duplicated/userId")
-	@ApiOperation(value = "아이디 중복검사", notes = "<strong>아이디</strong>를 통해서 중복검사를 한다.")
+	@ApiOperation(value = "아이디 중복검사", notes = "<strong>아이디</strong>를 통해서 중복검사를 한다. \n 자체 회원가입을 하는 local:계정에서만 가능하다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공", response = UserDuplicatedPostRes.class),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -178,11 +191,11 @@ public class UserController {
 			@ApiResponse(code = 500, message = "서버,토큰 오류 - 인증만료 등")
 	})
 	public ResponseEntity<? extends BaseResponseBody> isDuplicatedUserId(@RequestBody @ApiParam(value="유저 Id 정보", required = true) UserUserIdPostReq userIdInfo) throws Exception {
-		String userId = userIdInfo.getUserId();
+		String userId = "local:"+userIdInfo.getUserId();
 		if(userId == null){
 			return ResponseEntity.status(401).body(UserDuplicatedPostRes.of(401, "failed - userId is required"));
 		}
-		boolean isDuplicated = userService.isDuplicatedUserId(userIdInfo.getUserId());
+		boolean isDuplicated = userService.isDuplicatedUserId(userId);
 		return ResponseEntity.ok(UserDuplicatedPostRes.of(200, "Success",isDuplicated));
 	}
 

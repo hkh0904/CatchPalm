@@ -83,13 +83,13 @@ public class OAuthController {
             GoogleIdToken idToken = googleTokenResponse.parseIdToken();
             GoogleIdToken.Payload payload = idToken.getPayload();
 
-            String userId = payload.getEmail();
+            String userId = "google:"+payload.getEmail();
             String refreshToken = JwtTokenUtil.getRefreshToken(userId);
 
             // 증복된 아이디가 없는 경우에
             if(!userService.isDuplicatedUserId(userId)){
                 // 회원가입을 진행하고
-                userService.createOauthUser(userId);
+                userService.createOauthGoogleUser(userId);
                 userService.randomNickname(userId);
             }
             // 로그인을 했으므로 refresh Token 발급
