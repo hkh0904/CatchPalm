@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ApiModel("UserLoginPostRequest")
+@ApiModel("AddGameRoomUserPostRequest")
 public class AddGameRoomUserReq {
 	@ApiModelProperty(name="유저 번호", example="1")
 	Long userNumber;
