@@ -28,7 +28,7 @@ public class GameRoom {
     @JoinColumn(name = "category_number", nullable = false)
     private Category category;
 
-    @ManyToOne // 단방향 매핑 : 게임방 플레이 뮤직 정보, 즉시로딩
+    @ManyToOne(fetch = FetchType.LAZY) // 단방향 매핑 : 게임방 플레이 뮤직 정보, 즉시로딩
     @JoinColumn(name = "music_number")
     private Music music;
 
