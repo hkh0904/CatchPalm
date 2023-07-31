@@ -183,7 +183,7 @@ public class UserController {
 	}
 
 	@PostMapping("/duplicated/userId")
-	@ApiOperation(value = "아이디 중복검사", notes = "<strong>아이디</strong>를 통해서 중복검사를 한다.")
+	@ApiOperation(value = "아이디 중복검사", notes = "<strong>아이디</strong>를 통해서 중복검사를 한다. \n 자체 회원가입을 하는 local:계정에서만 가능하다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공", response = UserDuplicatedPostRes.class),
 			@ApiResponse(code = 401, message = "인증 실패"),
