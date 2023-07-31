@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/favicon.ico">
+    <title>ssafy-vue</title>
+<!--    <link href="/css/app.80f35f85.css" rel="preload" as="style">-->
+<!--    <link href="/css/chunk-vendors.b8a9ac7a.css" rel="preload" as="style">-->
+<!--    <link href="/js/app.c36d8eb6.js" rel="preload" as="script">-->
+<!--    <link href="/js/chunk-vendors.d26042b2.js" rel="preload" as="script">-->
+<!--    <link href="/css/chunk-vendors.b8a9ac7a.css" rel="stylesheet">-->
+<!--    <link href="/css/app.80f35f85.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<!--<noscript><strong>We're sorry but ssafy-vue doesn't work properly without JavaScript enabled. Please enable it to-->
+<!--    continue.</strong></noscript>-->
+<!--<div id="app"></div>-->
+<!--<script src="/js/chunk-vendors.d26042b2.js"></script>-->
+<!--<script src="/js/app.c36d8eb6.js"></script>-->
+
+<div id="username-page">
+    <div class="username-page-container">
+        <h1 class="title">니이름 입력행</h1>
+        <form id="usernameForm" name="usernameForm">
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="accent username-submit">Start Chatting</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="chat-page" class="hidden">
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Spring WebSocket Chat Demo - By 민우짱</h2>
+        </div>
+        <div class="connecting">
+            Connecting...
+        </div>
+        <ul id="messageArea">
+
+        </ul>
+        <form id="messageForm" name="messageForm">
+            <div class="form-group">
+                <div class="input-group clearfix">
+                    <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+                    <button type="submit" class="primary">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
