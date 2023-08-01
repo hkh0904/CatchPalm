@@ -7,11 +7,12 @@ var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
+var myHeading = document.querySelector('#roomN');
 
 var stompClient = null;
 var username = null;
 var userNumber = null;
-var roomNumber = 'test1'
+var roomNumber = null;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -21,12 +22,14 @@ var colors = [
 function connect(event) {
     username = document.querySelector('#name').value.trim();
     userNumber = document.querySelector('#userNumber').value.trim();
+    roomNumber = document.querySelector('#roomNumber').value.trim();
 
-    if(username) {
+    if (username && roomNumber) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
+        myHeading.innerHTML = roomNumber + '번 채팅방';
 
-        var socket = new SockJS('/ws/'+ roomNumber);
+        var socket = new SockJS('/ws/'+roomNumber);
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
@@ -37,12 +40,12 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
 
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
-        JSON.stringify({sender: username, type: 'JOIN', userNum: userNumber})
+        JSON.stringify({sender: username, type: 'JOIN', userNum: userNumber, roomNumber: roomNumber})
     )
 
     connectingElement.classList.add('hidden');
@@ -62,7 +65,8 @@ function sendMessage(event) {
             sender: username,
             content: messageInput.value,
             userNum: userNumber,
-            type: 'CHAT'
+            type: 'CHAT',
+            roomNumber: roomNumber
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
