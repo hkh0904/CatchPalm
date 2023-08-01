@@ -1,0 +1,28 @@
+video {
+	position: absolute;
+  transform: scaleX(-1);
+	filter: brightness(40%);
+}
+
+canvas {
+  position: absolute;
+  transform: scaleX(-1);
+}
+
+#countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.circle {
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    background-color: skyblue;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+  }
