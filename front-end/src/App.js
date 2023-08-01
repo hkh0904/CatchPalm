@@ -10,7 +10,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import SignOut from './pages/SignOut';
 
-
+import './index.css'; // CSS 파일 import
 
 
 // ...
@@ -89,19 +89,14 @@ function App() {
 
   return (
     <Router>
-      <div>
-        
-        <Link to="/">메인 페이지</Link>
-        <br/>
-        {isLoggedIn ? null : (
+      <div className="navbar"> 
+        <Link className="navbar-item" to="/">메인 페이지</Link> 
+        {!isLoggedIn && (
           <>
-            <Link to="/login">로그인</Link>
-            <br />
-            <Link to="/signup">회원가입</Link>
-            <br />
+            <Link className="navbar-item" to="/login">로그인</Link>
+            <Link className="navbar-item" to="/signup">회원가입</Link>
           </>
         )}
-      
       </div>
       <Routes>
         <Route path="/login" element={<Login />} />

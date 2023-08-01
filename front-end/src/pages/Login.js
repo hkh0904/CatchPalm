@@ -33,11 +33,11 @@ const Login = () => {
         navigate('/');  // Redirect to App.js (assuming it's routed at '/')
         window.location.reload(); // 페이지 갱신
       } else {
-        setErrorMessage('Please check your ID or password');
+        setErrorMessage('아이디 패스워드를 다시 확인해주세요');
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage('Please check your ID or password');
+      setErrorMessage('아이디 패스워드를 다시 확인해주세요');
     }
   };
 
