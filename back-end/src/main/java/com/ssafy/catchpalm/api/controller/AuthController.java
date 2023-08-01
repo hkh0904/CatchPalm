@@ -78,7 +78,7 @@ public class  AuthController {
 		User user = userService.getUserByVerificationToken(decodedToken);
 		if (user != null) {
 			if(user.getEmailVerified() == 1){
-				return ResponseEntity.ok(UserLoginPostRes.of(200, "Aleady verified email"));
+				return ResponseEntity.ok(UserLoginPostRes.of(200, "Aleady verified email so find password",JwtTokenUtil.getToken(user.getUserId())));
 			}
 			user.setEmailVerified(1);
 			userService.updateUser(user);
