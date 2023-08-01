@@ -15,11 +15,11 @@ public class Records {
     @Column(name = "records_number")
     private Long recordsNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "music_number")
     private Music music;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User user;
 

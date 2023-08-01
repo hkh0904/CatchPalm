@@ -13,5 +13,6 @@ public class ChatMessage {
     private String content;
     private String sender;
     private int roomNumber;
-
+    private Long userNumber;
+    private String nickname;
 }

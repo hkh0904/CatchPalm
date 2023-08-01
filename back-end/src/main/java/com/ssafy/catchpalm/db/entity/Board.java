@@ -17,11 +17,11 @@ public class Board {
     @Column(name = "board_number")
     private int boardNumber; // 게시글 고유번호 : PK
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_number")
     private Category category; //게시글 카테고리
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User user; // 게시글 작성자 정보: 단방향 매핑.
 

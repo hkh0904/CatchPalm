@@ -18,7 +18,7 @@ public class Rank {
     @JoinColumn(name = "user_number")
     private User rankUser; // 랭거 정보 : 단방향 매핑
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "music_number")
     private Music music; // 랭킹등록된 해당 음악 정보 : 단방향 매핑
 
