@@ -24,6 +24,8 @@ const Login = () => {
         password
       });
       if (response.status === 200) {
+        console.log(response.data.accessToken)
+        console.log(response.data.token)
         const token = response.data.token;
         localStorage.setItem('token', token);
         navigate('/');  // Redirect to App.js (assuming it's routed at '/')
