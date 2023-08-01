@@ -1,15 +1,12 @@
-
 import React, {   } from 'react';
+import './PlayingPage.css'
 import Grid from '@mui/material/Grid';
-import CanvasDemo from '../components/PlayingComponents/CanvasDemo';
 import HandModel from '../components/PlayingComponents/HandModel';
 function App() {
-  // const [testLabel, setTestLabel] = useState('None') ;
   return (
     <React.Fragment>
       <Grid className="mainGrid"  container spacing={2}>
-        <Grid item>
-            <CanvasDemo></CanvasDemo>
+        <Grid item style={{padding : 0}}>
             <HandModel ></HandModel>
         </Grid>
       </Grid>

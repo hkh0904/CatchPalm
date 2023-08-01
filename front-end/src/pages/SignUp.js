@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 
+
+
+
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +55,7 @@ class SignUp extends React.Component {
           <input type="text" name="age" onChange={this.handleChange} />
         </label>
         <label>
-          Sex:
+          Gender:
           <input type="text" name="sex" onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />

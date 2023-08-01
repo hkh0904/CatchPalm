@@ -21,14 +21,14 @@ public class GameRoom {
     private User captain;
 
     // 양방향 매핑 : 게임방 유저 리스트., 지연로딩, 영속성 관리를 통해 방 생성자 정보가 자동으로 게임방유저 테이블에 저장
-    @OneToMany(mappedBy = "gameRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gameRoom", fetch = FetchType.LAZY)
     private List<GameRoomUserInfo> userInfos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY) // 단방향 매핑 : 카테고리 정보, 지연로딩
     @JoinColumn(name = "category_number", nullable = false)
     private Category category;
 
-    @ManyToOne // 단방향 매핑 : 게임방 플레이 뮤직 정보, 즉시로딩
+    @ManyToOne(fetch = FetchType.LAZY) // 단방향 매핑 : 게임방 플레이 뮤직 정보, 즉시로딩
     @JoinColumn(name = "music_number")
     private Music music;
 
@@ -47,17 +47,5 @@ public class GameRoom {
         userInfo.setGameRoom(this);
     }
 
-    @Override
-    public String toString() {
-        return "GameRoom{" +
-                "roomNumber=" + roomNumber +
-                ", captain=" + captain +
-                ", userInfos=" + userInfos +
-                ", category=" + category +
-                ", capacity=" + capacity +
-                ", password='" + password + '\'' +
-                ", title='" + title + '\'' +
-                ", status=" + status +
-                '}';
-    }
+
 }

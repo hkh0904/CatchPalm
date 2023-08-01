@@ -4,27 +4,27 @@
     "MOTION_NUM": 1,
     "X-COORDINATE": 0.2,
     "Y-COORDINATE": 0.3,
-    "APPEAR_TIME": 5
+    "APPEAR_TIME": 8
   },
   {
     "MusicNum": 1,
     "MOTION_NUM": 1,
     "X-COORDINATE": 0.4,
     "Y-COORDINATE": 0.6,
-    "APPEAR_TIME": 9
+    "APPEAR_TIME": 10
   },
   {
     "MusicNum": 1,
     "MOTION_NUM": 1,
     "X-COORDINATE": 0.5,
     "Y-COORDINATE": 0.8,
-    "APPEAR_TIME": 10
+    "APPEAR_TIME": 11
   },
   {
     "MusicNum": 1,
     "MOTION_NUM": 2,
     "X-COORDINATE": 0.8,
     "Y-COORDINATE": 0.3,
-    "APPEAR_TIME": 14
+    "APPEAR_TIME": 13
   }
 ]
