@@ -45,3 +45,6 @@ back-end/*.gz
 /.nb-gradle/
 
 .vscode/
+
+### keystore ###
+*.p12
