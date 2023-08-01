@@ -20,4 +20,6 @@ public interface GameRoomService {
     List<GameRoomPostRes> gameRoomList();
 
     void startGame(int musicNumber, int gameRoomNumber);
+
+    GameRoom getRoomInfo(int roomNumber);
 }

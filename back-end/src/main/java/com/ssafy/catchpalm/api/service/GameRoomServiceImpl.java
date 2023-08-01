@@ -51,7 +51,10 @@ public class GameRoomServiceImpl implements GameRoomService {
 		//생성 직후 대기방 상태 저장. 0: 대기중, 1: 게임중
 		gameRoom.setStatus(0);
 
-		return gameRoomRepository.save(gameRoom);
+		// 게임룸 저장
+		GameRoom resultGameRoom = gameRoomRepository.save(gameRoom);
+
+		return resultGameRoom;
 	}
 
 	@Override
@@ -124,7 +127,19 @@ public class GameRoomServiceImpl implements GameRoomService {
 			music.setMusicNumber(musicNumber);
 
 			gameRoomRepository.save(gameRoom);
-
 		}
+	}
+
+	@Override
+	public GameRoom getRoomInfo(int roomNumber) {
+		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
+		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
+		if (gameRoom != null) {
+			// GameRoom과 연관된 GameRoomUserInfo들을 찾습니다.
+			// 게임방 유저 정보 삽입
+
+			return gameRoom;
+		}
+		return null;
 	}
 }
