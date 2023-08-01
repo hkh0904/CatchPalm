@@ -29,6 +29,7 @@ public class ChatController {
         // Add username in web socket session
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         headerAccessor.getSessionAttributes().put("gameRoom", chatMessage.getRoomNumber());
+        headerAccessor.getSessionAttributes().put("userNumber", chatMessage.getUserNumber());
 
         String roomNumber = String.valueOf(chatMessage.getRoomNumber());
         // 해당 방으로 메시지 브로드캐스팅

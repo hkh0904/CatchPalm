@@ -22,7 +22,6 @@ public class WebSocketEventListener {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String username = (String) headerAccessor.getSessionAttributes().get("username");
         int roomNumber = (int) headerAccessor.getSessionAttributes().get("gameRoom");
-        System.out.println("is hear???:::" + roomNumber);
         if (username != null) {
             log.info("user disconnected: {}", username);
             ChatMessage chatMessage = ChatMessage.builder()
