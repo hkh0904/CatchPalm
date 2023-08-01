@@ -13,22 +13,32 @@ import SignUp from './pages/SignUp';
 function MainPage() {
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
-  // const isLoggedIn = 1
 
+  console.log('token')
   const handleButtonClick = () => {
     navigate('/Playing');
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // 토큰 삭제
+    window.location.reload(); // 페이지 갱신
+  };
   return (
     <React.Fragment>
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
           {isLoggedIn ? (  // 로그인 상태일 때만 버튼을 보여줍니다.
-            <Button variant="contained" onClick={handleButtonClick}>
-              Go to Sample Page
-            </Button>
+            
+            <React.Fragment>
+              <h1>로그인 된 메인페이지</h1>
+              <Button variant="contained" onClick={handleButtonClick}>
+                Go to Sample Page
+              </Button>
+              <Button variant="contained" onClick={handleLogout}>
+                Logout
+              </Button>
+            </React.Fragment>
           ) : ( // 로그인이 안되어 있을 때는 메시지를 보여줍니다.
-            <p>로그인 안되있는 메인페이지</p>
+            <h1>로그인 안되있는 메인페이지</h1>
           )}
         </Grid>
       </Grid>
