@@ -31,6 +31,7 @@ import java.util.Collections;
  * OAuth2 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "Oauth2 API", tags = {"OAuth."})
+@SuppressWarnings("deprecation")
 @RestController
 @RequestMapping("/api/v1/oauth2")
 public class OAuthController {

@@ -45,7 +45,7 @@ function onConnected() {
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
-        JSON.stringify({sender: username, type: 'JOIN', userNum: userNumber, roomNumber: roomNumber})
+        JSON.stringify({sender: username, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber})
     )
 
     connectingElement.classList.add('hidden');

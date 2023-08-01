@@ -11,7 +11,6 @@ const MainPage = () => {
       <Link to="/playingPage">플레이 페이지로 이동</Link>
       <br />
       <Link to="/chatRoomList">채팅방리스트</Link>
-      
     </div>
   );
 };
@@ -23,6 +22,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/playingPage" element={<PlayingPage />} />
+
         <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
       </Routes>
     </Router>
