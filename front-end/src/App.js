@@ -11,6 +11,8 @@ import SignUp from './pages/SignUp';
 import SignOut from './pages/SignOut';
 
 
+
+
 // ...
 
 function MainPage() {
@@ -69,7 +71,7 @@ const handleDeleteAccount = () => {
                 Logout
               </Button>
               <Button variant="contained" onClick={handleDeleteAccount}>
-                Delete Account
+                회원 탈퇴
               </Button>
             </React.Fragment>
           ) : ( // 로그인이 안되어 있을 때는 메시지를 보여줍니다.

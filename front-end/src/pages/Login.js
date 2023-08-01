@@ -24,9 +24,14 @@ const Login = () => {
         password
       });
       if (response.status === 200) {
-        const token = response.data.token;
+        const token = response.data.accessToken;
+
+      
+
         localStorage.setItem('token', token);
+        
         navigate('/');  // Redirect to App.js (assuming it's routed at '/')
+        window.location.reload(); // 페이지 갱신
       } else {
         setErrorMessage('Please check your ID or password');
       }
