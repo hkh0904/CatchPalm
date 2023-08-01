@@ -114,11 +114,13 @@ public class GameRoomServiceImpl implements GameRoomService {
 		GameRoom gameRoom = getRoomInfo(gameRoomNumber); // 게임방 정보 불러오는 메서드 실행.
 		if(userNumber == gameRoom.getCaptain().getUserNumber()){ // 만약 삭제될 유저번호가 현재 게임방 방장 유저번호와 같다면.: 방장 양도 조건.
 			List<GameRoomUserInfo> userInfos = gameRoom.getUserInfos(); // 해당 방의 모든 유저 정보를 불러온다.
-			System.out.println(userInfos.size());
+
 			for(GameRoomUserInfo userInfo : userInfos){ // 반복문을 돌려서 게임방 내의 모든 유저정보 조회.
 				Long newCaptainNum = userInfo.getUser().getUserNumber(); // 새로이 방장이 될 유저의 번호
+
 				if(newCaptainNum != userNumber){ // 만약 현재 나가려는 방장 유저번호와 새로이 방장이 될 유저의 번호가 다르다면
 					User newCaptain = userRepository.findById(newCaptainNum).orElse(null); // 업데이트할 정보 정의.
+
 					if (newCaptain != null) { // 실제 존재하는 유저이다면
 						gameRoom.setCaptain(newCaptain);  // 새로운 방장 정보에 업데이트.
 						gameRoomRepository.save(gameRoom); // 업데이트 실행.
