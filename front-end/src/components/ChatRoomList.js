@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import ChatRoomItem from './ChatRoomItem';
+import { useNavigate } from 'react-router-dom';
 
 const ChatRoomList = ({ onSelectChatRoom }) => {
   const [chatRooms, setChatRooms] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState(null);
-  const [showChatRoomItem, setShowChatRoomItem] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChatRooms = async () => {
@@ -14,7 +12,7 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
         const response = await axios.get('http://localhost:8080/api/v1/gameRooms/listRooms');
         const data = response.data;
         setChatRooms(data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching chat rooms:', error);
       }
@@ -34,13 +32,16 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
       const response = await axios.post('/api/v1/gameRooms/create', newRoomData);
       const createdRoom = response.data;
       console.log('Created chat room:', createdRoom);
-      
 
-      
       setChatRooms((prevChatRooms) => [...prevChatRooms, createdRoom]);
     } catch (error) {
       console.error('Error creating chat room:', error);
     }
+  };
+
+  const handleEnterChatRoom = (roomNumber) => {
+    // 여기서 버튼을 누르면 다른 경로로 이동하도록 합니다.
+    navigate(`/chat-rooms/${roomNumber}`);
   };
 
   const handleInputChange = (event) => {
@@ -49,11 +50,6 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
       ...newRoomData,
       [name]: value,
     });
-  };
-
-  const handleRoomClick = (room) => {
-    setSelectedRoom(room);
-    setShowChatRoomItem(true);
   };
 
   return (
@@ -70,21 +66,15 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
       {chatRooms.map((room) => (
         <div key={room.id}>
           {/* 여기에 onClick 이벤트를 추가합니다. */}
-          <Link to={`/chat-rooms/${room.id}`} style={{ textDecoration: 'none' }}>
-            <p onClick={() => handleRoomClick(room)} style={{ cursor: 'pointer' }}>
-              방제목: {room.title}
-            </p>
-          </Link>
+          <button onClick={() => handleEnterChatRoom(room.roomNumber)} style={{ cursor: 'pointer' }}>
+            입장하기
+          </button>
+          <p>방제목: {room.title}</p>
           <p>방장: {room.nickname}</p>
           <p>현재원/정원 {room.cntUser}/{room.capacity}</p>
           <hr />
         </div>
       ))}
-
-      {/* 선택된 방이 있고, showChatRoomItem이 true인 경우에만 ChatRoomItem을 렌더링합니다 */}
-      {showChatRoomItem && selectedRoom && (
-        <ChatRoomItem room={selectedRoom} onSelectChatRoom={onSelectChatRoom} />
-      )}
     </div>
   );
 };
