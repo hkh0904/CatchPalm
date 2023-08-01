@@ -40,9 +40,8 @@ public class User{
     @Column(name = "profile_img", columnDefinition = "BLOB")
     private Blob profileImg;
 
-    @Lob
-    @Column(name = "profile_music", columnDefinition = "BLOB")
-    private Blob profileMusic;
+    @Column(name = "profile_music")
+    private String  profileMusic;
 
     private int point = 0;
 

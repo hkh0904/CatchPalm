@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import ChatRoomItem from './ChatRoomItem';
 
 const ChatRoomList = ({ onSelectChatRoom }) => {
   const [chatRooms, setChatRooms] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [showChatRoomItem, setShowChatRoomItem] = useState(false);
 
   useEffect(() => {
     const fetchChatRooms = async () => {
@@ -48,6 +51,11 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
     });
   };
 
+  const handleRoomClick = (room) => {
+    setSelectedRoom(room);
+    setShowChatRoomItem(true);
+  };
+
   return (
     <div>
       <div>
@@ -61,15 +69,22 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
       {/* 채팅방 리스트 */}
       {chatRooms.map((room) => (
         <div key={room.id}>
-          <p>방제목: {room.title}</p>
+          {/* 여기에 onClick 이벤트를 추가합니다. */}
+          <Link to={`/chat-rooms/${room.id}`} style={{ textDecoration: 'none' }}>
+            <p onClick={() => handleRoomClick(room)} style={{ cursor: 'pointer' }}>
+              방제목: {room.title}
+            </p>
+          </Link>
           <p>방장: {room.nickname}</p>
           <p>현재원/정원 {room.cntUser}/{room.capacity}</p>
-          
-          {/* 여기에 추가적인 방 정보들을 표시할 수 있습니다. */}
-          {/* <p>Participants: {room.participants.join(', ')}</p> */}
           <hr />
         </div>
       ))}
+
+      {/* 선택된 방이 있고, showChatRoomItem이 true인 경우에만 ChatRoomItem을 렌더링합니다 */}
+      {showChatRoomItem && selectedRoom && (
+        <ChatRoomItem room={selectedRoom} onSelectChatRoom={onSelectChatRoom} />
+      )}
     </div>
   );
 };
