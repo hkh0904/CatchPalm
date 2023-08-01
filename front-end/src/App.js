@@ -8,26 +8,58 @@ import { useNavigate } from 'react-router-dom';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import SignOut from './pages/SignOut';
 
+
+// ...
 
 function MainPage() {
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
 
-  console.log('token')
   const handleButtonClick = () => {
     navigate('/Playing');
   };
+
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
     window.location.reload(); // 페이지 갱신
   };
+
+const handleDeleteAccount = () => {
+  const token = localStorage.getItem('token');
+  
+  fetch('http://localhost:8080/api/v1/users/delete', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}` // or however your server expects the token
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Error during account deletion');
+    }
+  })
+  .then(data => {
+    // Handle successful deletion here, such as by logging out the user
+    localStorage.removeItem('token');
+    window.location.reload();
+  })
+  .catch(error => {
+    // Handle any errors here
+    console.error('Error:', error);
+  });
+};
+
+
   return (
     <React.Fragment>
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
           {isLoggedIn ? (  // 로그인 상태일 때만 버튼을 보여줍니다.
-            
             <React.Fragment>
               <h1>로그인 된 메인페이지</h1>
               <Button variant="contained" onClick={handleButtonClick}>
@@ -36,9 +68,13 @@ function MainPage() {
               <Button variant="contained" onClick={handleLogout}>
                 Logout
               </Button>
+              <Button variant="contained" onClick={handleDeleteAccount}>
+                Delete Account
+              </Button>
             </React.Fragment>
           ) : ( // 로그인이 안되어 있을 때는 메시지를 보여줍니다.
             <h1>로그인 안되있는 메인페이지</h1>
+            
           )}
         </Grid>
       </Grid>
@@ -46,22 +82,31 @@ function MainPage() {
   );
 }
 
-
 function App() {
+  const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
+
   return (
     <Router>
       <div>
+        
         <Link to="/">메인 페이지</Link>
         <br/>
-        <Link to="/login">로그인</Link>
-        <br />
-        <Link to="/signup">회원가입</Link>
+        {isLoggedIn ? null : (
+          <>
+            <Link to="/login">로그인</Link>
+            <br />
+            <Link to="/signup">회원가입</Link>
+            <br />
+          </>
+        )}
+      
       </div>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/Playing" element={<PlayingPage />} />
         <Route path="/" element={<MainPage />} />
+        <Route path="/signout" component={SignOut} />
       </Routes>
     </Router>
   );
