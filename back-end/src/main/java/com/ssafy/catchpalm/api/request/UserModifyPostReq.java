@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Blob;
+
 /**
  * 유저 정보 수정 API ([POST] /api/v1/users) 요청에 필요한 리퀘스트 바디 정의.
  */
@@ -20,4 +22,10 @@ public class UserModifyPostReq {
 	String age;
 	@ApiModelProperty(name="유저 sex", example="your_sex")
 	String sex;
+	@ApiModelProperty(name="유저 프로필 이미지", example="your_img")
+	String profileImg;
+	@ApiModelProperty(name="유저 프로필 음악", example="your_music")
+	String profileMusic;
+	@ApiModelProperty(name="유저 synk", example="your_synk")
+	String synk;
 }
