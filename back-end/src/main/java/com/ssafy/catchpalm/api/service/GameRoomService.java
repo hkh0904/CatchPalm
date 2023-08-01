@@ -15,9 +15,11 @@ public interface GameRoomService {
 	void deleteRoom(int roomNumber);
 	GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
 
-    void outRoomUser(Long userNumber);
+    void outRoomUser(Long userNumber, int gameRoomNumber);
 
     List<GameRoomPostRes> gameRoomList();
 
     void startGame(int musicNumber, int gameRoomNumber);
+
+    GameRoom getRoomInfo(int roomNumber);
 }
