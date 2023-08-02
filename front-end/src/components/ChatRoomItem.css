@@ -27,9 +27,9 @@ body {
     clear: both;
 }
 
-.hidden {
+/* .hidden {
     display: none;
-}
+} */
 
 .form-control {
     width: 100%;
