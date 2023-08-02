@@ -37,6 +37,16 @@ const ChatRoomItem = () => {
 
   const handleSendMessage = (event) => {
     event.preventDefault();
+
+    const message = {
+      sender: name,
+      content: messageText,
+      type: 'CHAT',
+      roomNumber: roomNumber
+    }
+
+    stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(message));
+    setMessageText('')
     // Implement the logic to send a message using WebSocket
     // You may need to add the WebSocket logic here to send messages.
   };
@@ -67,7 +77,7 @@ const ChatRoomItem = () => {
   // 연결 됬다면 구독 매핑 및 연결 유저 정보 전송
   const onConnected = () => {
     stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
-    alert("성공 시발");
+    // alert("성공 시발");
     stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber})
@@ -77,7 +87,7 @@ const ChatRoomItem = () => {
   // 연결이 안된경우
   const onError = (err) => {
     console.log(err);
-    alert("실패시발 "+userNumber+" "+roomNumber + " "+name);
+    // alert("실패시발 "+userNumber+" "+roomNumber + " "+name);
   }
 
   // 서버에서 메세지 수신
@@ -134,7 +144,6 @@ const ChatRoomItem = () => {
   return (
     <div>
       <h1>채팅 애플리케이션</h1>
-      <WebSocket/>
       <div>
         <h3>{roomInfo.title}</h3>
         <p>방장: {roomInfo.nickname}</p>
