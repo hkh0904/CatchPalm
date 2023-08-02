@@ -8,15 +8,15 @@
   },
   {
     "MusicNum": 1,
-    "MOTION_NUM": 1,
+    "MOTION_NUM": 2,
     "X-COORDINATE": 0.4,
     "Y-COORDINATE": 0.6,
     "APPEAR_TIME": 10
   },
   {
     "MusicNum": 1,
-    "MOTION_NUM": 1,
-    "X-COORDINATE": 0.5,
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.35,
     "Y-COORDINATE": 0.8,
     "APPEAR_TIME": 11
   },
@@ -26,5 +26,19 @@
     "X-COORDINATE": 0.8,
     "Y-COORDINATE": 0.3,
     "APPEAR_TIME": 13
+  },
+  {
+    "MusicNum": 1,
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.1,
+    "Y-COORDINATE": 0.2,
+    "APPEAR_TIME": 14
+  },
+  {
+    "MusicNum": 1,
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.9,
+    "Y-COORDINATE": 0.3,
+    "APPEAR_TIME": 15
   }
 ]
