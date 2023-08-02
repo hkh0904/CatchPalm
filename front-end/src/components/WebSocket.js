@@ -43,6 +43,7 @@
 //     // 처음 마운트될 때 WebSocket 연결 시작
 //     connect();
 
+<<<<<<< HEAD
 //     // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
 //     return () => {
 //       const client = clientRef.current;
@@ -75,3 +76,6 @@
 // };
 
 // export default WebSocket;
+=======
+export default WebSocket;
+>>>>>>> 5ce437b2e1b73985814c748fb7a2f2c16d419ee1
