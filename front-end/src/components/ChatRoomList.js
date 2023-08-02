@@ -9,7 +9,7 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
   useEffect(() => {
     const fetchChatRooms = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/v1/gameRooms/listRooms');
+        const response = await axios.get('https://localhost:8443/api/v1/gameRooms/listRooms');
         const data = response.data;
         setChatRooms(data);
         console.log(response.data);
