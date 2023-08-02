@@ -77,7 +77,6 @@ const ChatRoomItem = () => {
   // 연결이 안된경우
   const onError = (err) => {
     console.log(err);
-    alert("실패시발 "+userNumber+" "+roomNumber + " "+name);
   }
 
   // 서버에서 메세지 수신
