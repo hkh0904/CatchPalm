@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const Login = () => {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const handleBackButtonClick = () => {
+    navigate('/');
+  };
 
   const handleChangeUserId = (event) => {
     setUserId(event.target.value);
@@ -19,14 +23,14 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/auth/login', {
+      const response = await axios.post('https://localhost:8443/api/v1/auth/login', {
         userId,
         password
       });
       if (response.status === 200) {
-        const token = response.data.accessToken;
 
-      
+
+        const token = response.data.accessToken;
 
         localStorage.setItem('token', token);
         
@@ -43,6 +47,9 @@ const Login = () => {
 
   return (
     <div>
+      <Button variant="contained" onClick={handleBackButtonClick}>
+        메인페이지로 이동
+      </Button>
       <form onSubmit={handleSubmit}>
         <label>
           UserID:
