@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
 
+@SuppressWarnings("unchecked")
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     @Bean

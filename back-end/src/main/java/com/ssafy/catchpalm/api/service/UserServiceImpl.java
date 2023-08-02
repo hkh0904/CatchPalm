@@ -12,6 +12,7 @@ import com.ssafy.catchpalm.api.request.UserRegisterPostReq;
 import com.ssafy.catchpalm.db.entity.User;
 import com.ssafy.catchpalm.db.repository.UserRepository;
 import com.ssafy.catchpalm.db.repository.UserRepositorySupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -31,7 +32,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) throws Exception {
-		Optional<User> optionalUser =userRepository.findByUserId(userRegisterInfo.getUserId());
+		// db에 저장될  user_id ex) local:catchpalm@gmail.com
+		String userId = userRegisterInfo.getUserId();
+		// 이메일을 보낼 user_id ex) catchpalm@gmail.com
+		Optional<User> optionalUser =userRepository.findByUserId(userId);
 		User user = null;
 
 		if(optionalUser.isPresent()){
@@ -43,14 +47,27 @@ public class UserServiceImpl implements UserService {
 		} else {
 			// handle the case where no User was found
 			user = new User();
-			user.setUserId(userRegisterInfo.getUserId());
+			user.setUserId(userId);
 		}
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
 		// email 인증토큰 생성
 		user.setAge(Integer.parseInt(userRegisterInfo.getAge()));
 		user.setSex(Integer.parseInt(userRegisterInfo.getSex()));
-		String emailVerificationToken = JwtTokenUtil.getEmailToken(userRegisterInfo.getUserId());
+		String emailVerificationToken = JwtTokenUtil.getEmailToken(userId);
+		// email 인증토큰을 암호화하여 저장
+		user.setEmailVerificationToken(AESUtil.encrypt(emailVerificationToken));
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User createOauthGoogleUser(String userId) throws Exception {
+			// handle the case where no User was found
+		User user = new User();
+		user.setUserId(userId);
+		user.setEmailVerified(1);
+		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
+		String emailVerificationToken = JwtTokenUtil.getEmailToken(userId);
 		// email 인증토큰을 암호화하여 저장
 		user.setEmailVerificationToken(AESUtil.encrypt(emailVerificationToken));
 		return userRepository.save(user);
@@ -71,6 +88,14 @@ public class UserServiceImpl implements UserService {
 		user.setRefreshToken(encryptedRefreshToken);
 		userRepository.save(user);
 	}
+
+	@Override
+	public void logoutUser(String userId) throws Exception{
+		User user = getUserByUserId(userId);
+		user.setRefreshToken(null);
+		userRepository.save(user);
+	}
+
 
 	@Override
 	public void updateUser(User user) throws  Exception{
@@ -104,6 +129,7 @@ public class UserServiceImpl implements UserService {
 		return decryptRefreshToken;
 	}
 
+
 	@Override
 	public User getUserByVerificationToken(String emailVerificationToken) throws Exception{
 		emailVerificationToken = AESUtil.decrypt(emailVerificationToken);
@@ -125,6 +151,15 @@ public class UserServiceImpl implements UserService {
 	public boolean isDuplicatedNickname(String userNickname) throws Exception{
 		return userRepository.existsByNickname(userNickname);
 	}
+
+
+	@Override
+	@Transactional
+	public void deleteUser(String userId){
+		userRepository.deleteByUserId(userId);
+	}
+
+
 
 
 
