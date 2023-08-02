@@ -1,12 +1,17 @@
+# Base image
 FROM openjdk:17-alpine
 
-# 애플리케이션 빌드된 JAR 파일 복사
-COPY /build/libs/app.jar /app.jar
+# Set the JAR file path in the build context
+ARG JAR_FILE=/build/libs/*.jar
 
-# 프로파일에 맞는 설정 파일 복사
-COPY application-aws.properties /app/application-aws.properties
-COPY application.properties /app/application.properties
+# Copy the JAR file from the build context to the container
+COPY ${JAR_FILE} /app.jar
 
+# Copy the modified application-aws.properties file to the container
+COPY application-aws.properties /app/application.properties
+
+# Expose port 8080 (if your application listens on this port)
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=aws", "/app.jar"]
+# Set the entry point for the container to run the Spring Boot application
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=aws", "/app.jar"]
