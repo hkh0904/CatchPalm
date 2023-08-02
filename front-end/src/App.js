@@ -70,7 +70,6 @@ function MainPage() {
   const handleButtonClick4 = () => {
     navigate('/signup');
   };
-  
   ////////////// 로그인 로그아웃 끝////////////////  
 
 
