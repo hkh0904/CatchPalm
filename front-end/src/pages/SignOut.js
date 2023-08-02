@@ -15,7 +15,7 @@ const SignOut = () => {
     const deleteUser = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.delete('http://localhost:8080/api/v1/users/delete', {
+        const response = await axios.delete('https://localhost:8443/api/v1/users/delete', {
           headers: {
             'Authorization': `Bearer ${token}`
           }

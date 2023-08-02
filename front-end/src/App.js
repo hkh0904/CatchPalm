@@ -9,8 +9,50 @@ import ChatRoomList from "./components/ChatRoomList"; // chat 리스트방으로
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import SignOut from './pages/SignOut';
+
+
 function MainPage() {
   const navigate = useNavigate();
+
+
+  ////////로그인 로그아웃////////////////
+  const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // 토큰 삭제
+    window.location.reload(); // 페이지 갱신
+  };
+  const handleDeleteAccount = () => {
+    const token = localStorage.getItem('token');
+  
+    fetch('http://localhost:8080/api/v1/users/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // or however your server expects the token
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Error during account deletion');
+      }
+    })
+    .then(data => {
+      // Handle successful deletion here, such as by logging out the user
+      localStorage.removeItem('token');
+      window.location.reload();
+    })
+    .catch(error => {
+      // Handle any errors here
+      console.error('Error:', error);
+    });
+  };
+  
+
 
   const handleButtonClick = () => {
     navigate('/Playing');
@@ -19,19 +61,49 @@ function MainPage() {
   const handleButtonClick2 = () => {
     navigate('/ChatRoomList');
   };
+  ////////////// 로그인 로그아웃////////////////  
+  const handleButtonClick3 = () => {
+    navigate('/login');
+  };
+
+  const handleButtonClick4 = () => {
+    navigate('/signup');
+  };
 
   return (
     <React.Fragment>
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
-          <Button variant="contained" onClick={handleButtonClick}>
-            Go to Sample Page
-          </Button>
-          <br />
-          <br />
-          <Button variant="contained" onClick={handleButtonClick2}>
-            채팅방리스트로 가기
-          </Button>
+        {isLoggedIn ? (  // 로그인 상태일 때만 버튼을 보여줍니다.
+            <React.Fragment>
+              <h1>로그인 된 메인페이지</h1>
+              <Button variant="contained" onClick={handleButtonClick}>
+                Go to Sample Page
+              </Button>
+              <br />
+              <br />
+              <Button variant="contained" onClick={handleButtonClick2}>
+                채팅방리스트로 가기
+              </Button>
+              <Button variant="contained" onClick={handleLogout}>
+                로그아웃
+              </Button>
+              <Button variant="contained" onClick={handleDeleteAccount}>
+                회원 탈퇴
+              </Button>
+            </React.Fragment>
+          ) : ( // 로그인이 안되어 있을 때는 메시지를 보여줍니다.
+            <React.Fragment>
+              <Button variant="contained" onClick={handleButtonClick3}>
+                로그인
+              </Button> 
+              <Button variant="contained" onClick={handleButtonClick4}>
+                회원가입
+              </Button>       
+              <h1>로그인 안되있는 메인페이지</h1>
+
+            </React.Fragment>
+          )}
         </Grid>
       </Grid>
     </React.Fragment>
@@ -41,7 +113,12 @@ function MainPage() {
 function App() {
   return (
     <Router>
+
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signout" component={SignOut} />
+        
         <Route path="/Playing" element={<PlayingPage />} />
         <Route path="/" element={<MainPage />} />
         <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
