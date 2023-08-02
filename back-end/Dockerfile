@@ -14,4 +14,4 @@ COPY src/main/resources/application-aws.properties /app/application.properties
 EXPOSE 8080
 
 # Set the entry point for the container to run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=aws", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
