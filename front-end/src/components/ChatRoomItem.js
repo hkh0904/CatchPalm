@@ -19,9 +19,9 @@ const ChatRoomItem = () => {
 
   const [name, setName] = useState('');
   const [userNumber, setUserNumber] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [messageText, setMessageText] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
+  const [messages, setMessages] = useState(''); // 보내는 메세지
+  // const [messageText, setMessageText] = useState(''); // 받는 메세지
+  const [isVisible, setIsVisible] = useState(false); 
 
   const handleToggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -35,21 +35,10 @@ const ChatRoomItem = () => {
     setUserNumber(event.target.value);
   };
 
-  const handleSendMessage = (event) => {
-    event.preventDefault();
-
-    const message = {
-      sender: name,
-      content: messageText,
-      type: 'CHAT',
-      roomNumber: roomNumber
-    }
-
-    stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(message));
-    setMessageText('')
-    // Implement the logic to send a message using WebSocket
-    // You may need to add the WebSocket logic here to send messages.
+  const handleMessageChange = (event) => {
+    setMessages(event.target.value);
   };
+
   useEffect(() => {
     const fetchRoomInfo = async () => {
       try {
@@ -63,12 +52,14 @@ const ChatRoomItem = () => {
     };
     fetchRoomInfo();
   }, [roomNumber]);
-
-  if (!roomInfo) {
-    return <div>Loading...</div>;
-  }
   
   // 소켓연결---------------------------------
+  // 소켓연결 끊길때: 컴포넌트 변경돨 때 수행 소스 -> 웹소켓 연결 끈기.
+  useEffect(() => {
+    return () => {
+      stompClient.disconnect();
+    };
+  },[]);
   const connect =()=>{
     let Sock = new SockJS('https://localhost:8443/ws');
     stompClient = over(Sock);
@@ -77,7 +68,6 @@ const ChatRoomItem = () => {
   // 연결 됬다면 구독 매핑 및 연결 유저 정보 전송
   const onConnected = () => {
     stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
-    // alert("성공 시발");
     stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber})
@@ -87,10 +77,6 @@ const ChatRoomItem = () => {
   // 연결이 안된경우
   const onError = (err) => {
     console.log(err);
-<<<<<<< HEAD
-    // alert("실패시발 "+userNumber+" "+roomNumber + " "+name);
-=======
->>>>>>> 5ce437b2e1b73985814c748fb7a2f2c16d419ee1
   }
 
   // 서버에서 메세지 수신
@@ -141,12 +127,39 @@ const ChatRoomItem = () => {
     return colors[index];
   };
 
+  const handleSendMessage = (event) => {
+    event.preventDefault();
+    // Implement the logic to send a message using WebSocket
+    // You may need to add the WebSocket logic here to send messages.
+    if(messages && stompClient) {
+      var chatMessage = {
+          sender: name,
+          content: messages,
+          userNum: userNumber,
+          type: 'CHAT',
+          roomNumber: roomNumber
+      };
+      stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+      setMessages('');
+  }
+  event.preventDefault();
+  };
   const handleStartChatting=()=>{
     connect();
   }
+  if (!roomInfo) {
+    return <div>Loading...</div>;
+  }
+  
+  
   return (
     <div>
       <h1>채팅 애플리케이션</h1>
+      {/* <WebSocket
+        roomNumber={roomNumber}
+        username="john_doe" // 적절한 사용자 이름으로 설정해주세요.
+        userNumber={456} // 적절한 사용자 번호로 설정해주세요.
+      /> */}
       <div>
         <h3>{roomInfo.title}</h3>
         <p>방장: {roomInfo.nickname}</p>
@@ -195,7 +208,6 @@ const ChatRoomItem = () => {
           <div className="chat-header">
             <h2 id="roomN">Spring WebSocket Chat Demo - By 민우짱</h2>
           </div>
-          <div className="connecting">Connecting...</div>
           <ul ref={messageAreaRef}></ul>
           <form id="messageForm" name="messageForm" onSubmit={handleSendMessage}>
             <div className="form-group">
@@ -206,8 +218,8 @@ const ChatRoomItem = () => {
                   placeholder="Type a message..."
                   autoComplete="off"
                   className="form-control"
-                  value={messageText}
-                  onChange={(event) => setMessageText(event.target.value)}
+                  value={messages}
+                  onChange={handleMessageChange}
                 />
                 <button type="submit" className="primary">
                   Send
