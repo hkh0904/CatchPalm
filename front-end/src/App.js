@@ -1,5 +1,5 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 
-
+import axios from 'axios';
 
 function MainPage() {
   const navigate = useNavigate();
@@ -20,6 +20,8 @@ function MainPage() {
 
   ////////로그인 로그아웃 시작////////////////
   const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
+ 
+
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
     window.location.reload(); // 페이지 갱신
@@ -31,6 +33,7 @@ function MainPage() {
     }
     
     const token = localStorage.getItem('token');
+    
     
     fetch('https://localhost:8443/api/v1/users/delete', {
       method: 'DELETE',
@@ -69,6 +72,34 @@ function MainPage() {
   };
   
   ////////////// 로그인 로그아웃 끝////////////////  
+
+
+  //////// 회원정보 받아오기 시작/////////
+  const [userId, setUserId] = useState(null);
+  const token = localStorage.getItem('token');
+
+
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: 'https://localhost:8443/api/v1/users/me',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // your access token here
+      }
+    })
+      .then(response => {
+        const rawUserId = response.data.userId;
+        const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+        setUserId(cleanedUserId);
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
+  }, []); // useEffect will run once when the component mounts
+  
+
+///////회원정보 받아오기 끝////////////  
   const handleButtonClick = () => {
     navigate('/Playing');
   };
@@ -100,9 +131,11 @@ function MainPage() {
                   회원 탈퇴
                 </Button>
               <h1>로그인 된 메인페이지</h1>
+              <p>아이디: {userId}</p>
+              
             </React.Fragment>
           ) : ( // 로그인이 안되어 있을 때는 메시지를 보여줍니다.
-            <React.Fragment>
+          <React.Fragment>
               <Button variant="contained" onClick={handleButtonClick3}>
                 로그인
               </Button> 
@@ -110,12 +143,13 @@ function MainPage() {
                 회원가입
               </Button>       
               <h1>로그인 X 메인페이지</h1>
-
+              
             </React.Fragment>
           )}
         </Grid>
       </Grid>
     </React.Fragment>
+
   );
 }
 
