@@ -67,9 +67,9 @@ sourceCompatibility = '1.8'
 //	args = ['run','build']
 //}
 //
-//tasks.withType(JavaCompile) {
-//	options.encoding = 'UTF-8'
-//}
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
 
 // processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
 //processResources.dependsOn 'webpack'
