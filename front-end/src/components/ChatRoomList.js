@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ChatRoomList = ({ onSelectChatRoom }) => {
+const ChatRoomList = ({ }) => {
   const [chatRooms, setChatRooms] = useState([]);
   const navigate = useNavigate();
 
@@ -20,48 +20,15 @@ const ChatRoomList = ({ onSelectChatRoom }) => {
     fetchChatRooms();
   }, []);
 
-  const [newRoomData, setNewRoomData] = useState({
-    capacity: '',
-    categoryNumber: '',
-    password: '',
-    userNumber: '',
-  });
-
-  const handleCreateChatRoom = async () => {
-    try {
-      const response = await axios.post('/api/v1/gameRooms/create', newRoomData);
-      const createdRoom = response.data;
-      console.log('Created chat room:', createdRoom);
-
-      setChatRooms((prevChatRooms) => [...prevChatRooms, createdRoom]);
-    } catch (error) {
-      console.error('Error creating chat room:', error);
-    }
-  };
 
   const handleEnterChatRoom = (roomNumber) => {
     // 여기서 버튼을 누르면 다른 경로로 이동하도록 합니다.
     navigate(`/chat-rooms/${roomNumber}`);
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewRoomData({
-      ...newRoomData,
-      [name]: value,
-    });
-  };
 
   return (
     <div>
-      <div>
-        {/* 방 만들기 폼 */}
-        <label>
-          채팅방 이름:
-          <input type="text" name="title" value={newRoomData.title} onChange={handleInputChange} />
-        </label>
-        <button onClick={handleCreateChatRoom}>방 만들기</button>
-      </div>
       {/* 채팅방 리스트 */}
       {chatRooms.map((room) => (
         <div key={room.id}>
