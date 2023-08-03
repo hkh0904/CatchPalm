@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
@@ -36,17 +37,18 @@ import java.util.Collections;
 @RequestMapping("/api/v1/oauth2")
 public class OAuthController {
 
-    @Value("${server.address}")
-    String serverAddress;
-
-    @Value("${google.client.id}")
+    private String serverAddress;
     private String clientId;
-
-    @Value("${google.client.secret}")
     private String clientSecret;
 
     private GoogleAuthorizationCodeFlow flow;
 
+    @PostConstruct
+    public void init() {
+        this.serverAddress = System.getenv("server.address");
+        this.clientId = System.getenv("google.client.id");
+        this.clientSecret = System.getenv("google.client.secret");
+    }
     @Autowired
     UserService userService;
 
