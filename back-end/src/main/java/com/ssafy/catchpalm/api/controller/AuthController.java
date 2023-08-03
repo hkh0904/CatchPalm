@@ -1,6 +1,7 @@
 package com.ssafy.catchpalm.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,8 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class  AuthController {
+	@Value("${server.address}")
+	String serverAddress;
 	@Autowired
 	UserService userService;
 	
@@ -53,6 +56,7 @@ public class  AuthController {
 		String userId = "local:"+loginInfo.getUserId();
 		String password = loginInfo.getPassword();
 		String refreshToken = JwtTokenUtil.getRefreshToken(userId);
+		System.out.println(serverAddress);
 		
 		User user = userService.getUserByUserId(userId);
 		userService.updateRefreshToken(userId, refreshToken);
@@ -79,7 +83,8 @@ public class  AuthController {
 	public ResponseEntity verifyEmail(@RequestParam("token") @ApiParam(value="이메일 토큰", required = true) String emailVerificationToken) throws Exception {
 		String decodedToken = emailVerificationToken.replace("%2B", "+");
 		User user = userService.getUserByVerificationToken(decodedToken);
-		URI redirectUrl = new URI("http://localhost:3000"); // Your redirect URL here
+		String address = "https://"+serverAddress+":3030";
+		URI redirectUrl = new URI(address); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(redirectUrl);
 
