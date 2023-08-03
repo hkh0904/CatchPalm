@@ -8,6 +8,7 @@ import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.UserRepository;
+import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -180,5 +181,34 @@ public class GameRoomServiceImpl implements GameRoomService {
 			return resultGameRoom;
 		}
 		return null;
+	}
+
+	@Override
+	public List<UserInfo> getRoomUsers(int roomNumber) {
+		List<GameRoomUserInfo> userInfos = gameRoomUserInfoRepository.findByGameRoomRoomNumber(roomNumber);
+
+		List<UserInfo> resultUserInfos = new ArrayList<>();
+
+		for(GameRoomUserInfo userInfo : userInfos){
+			UserInfo resultUserInfo = new UserInfo();
+			resultUserInfo.setNickname(userInfo.getUser().getNickname());
+			resultUserInfo.setProfileImg(userInfo.getUser().getProfileImg());
+			resultUserInfo.setUserNumber(userInfo.getUser().getUserNumber());
+
+			resultUserInfos.add(resultUserInfo);
+		}
+		return resultUserInfos;
+//		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
+//		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
+//
+//		// 존재하는 게임방일 때.
+//		if (gameRoom != null) {
+//			List<GameRoomUserInfo> gameRoomUserInfos = gameRoom.getUserInfos();
+//
+//			for(GameRoomUserInfo userInfo : gameRoomUserInfos){
+//				System.out.println(userInfo.getUserInfoNumber());
+//			}
+//			System.out.println("ishear");
+//		}
 	}
 }

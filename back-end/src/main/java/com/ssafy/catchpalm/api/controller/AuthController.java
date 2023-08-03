@@ -1,6 +1,7 @@
 package com.ssafy.catchpalm.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,13 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class  AuthController {
+	@Value("${server.address}")
+	String serverAddress;
 	@Autowired
 	UserService userService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
 	@ApiResponses({
@@ -63,7 +65,6 @@ public class  AuthController {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
 		}
-
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
 	}
@@ -79,7 +80,10 @@ public class  AuthController {
 	public ResponseEntity verifyEmail(@RequestParam("token") @ApiParam(value="이메일 토큰", required = true) String emailVerificationToken) throws Exception {
 		String decodedToken = emailVerificationToken.replace("%2B", "+");
 		User user = userService.getUserByVerificationToken(decodedToken);
-		URI redirectUrl = new URI("http://localhost:3000"); // Your redirect URL here
+
+		// 프론트 https로 변경되면 변경해야함
+		String address = "http://"+serverAddress+":3000";
+		URI redirectUrl = new URI(address); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(redirectUrl);
 
