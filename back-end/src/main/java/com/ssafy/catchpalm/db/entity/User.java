@@ -73,6 +73,8 @@ public class User{
     private Rank rank;
     @OneToOne(mappedBy = "captain")
     private GameRoom gameRoom;
+    @OneToOne(mappedBy = "user")
+    private GameRoomUserInfo userInfo;
 
     public User() {
         this.joinDate = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정

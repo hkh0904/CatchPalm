@@ -4,6 +4,7 @@ import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.db.entity.GameRoom;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
+import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface GameRoomService {
     void startGame(int musicNumber, int gameRoomNumber);
 
     GameRoomPostRes getRoomInfo(int roomNumber);
+
+    List<UserInfo> getRoomUsers(int roomNumber);
 }
