@@ -1,6 +1,8 @@
 package com.ssafy.catchpalm.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +25,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -39,7 +42,7 @@ public class  AuthController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	@PostMapping("/login")
+	@PostMapping(value="/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
@@ -76,13 +79,18 @@ public class  AuthController {
 	public ResponseEntity verifyEmail(@RequestParam("token") @ApiParam(value="이메일 토큰", required = true) String emailVerificationToken) throws Exception {
 		String decodedToken = emailVerificationToken.replace("%2B", "+");
 		User user = userService.getUserByVerificationToken(decodedToken);
+		URI redirectUrl = new URI("http://localhost:3000"); // Your redirect URL here
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(redirectUrl);
+
 		if (user != null) {
 			if(user.getEmailVerified() == 1){
-				return ResponseEntity.ok(UserLoginPostRes.of(200, "Aleady verified email"));
+				return new ResponseEntity<>(UserLoginPostRes.of(200, "Aleady verified email so find password"),httpHeaders, HttpStatus.SEE_OTHER);
 			}
 			user.setEmailVerified(1);
 			userService.updateUser(user);
-			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
+
+			return new ResponseEntity<>(UserLoginPostRes.of(200, "Success"), httpHeaders, HttpStatus.SEE_OTHER);
 		} else {
 			return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "failed - User not found or token expired"));
 		}

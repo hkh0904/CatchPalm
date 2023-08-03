@@ -1,14 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "mediapipe-test",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@emotion/css": "^11.11.2",
-    "@mediapipe/camera_utils": "^0.3.1675466862",
-    "@mediapipe/drawing_utils": "^0.3.1675466124",
-    "@mediapipe/hands": "^0.4.1675469240",
-=======
   "name": "sapp",
   "version": "0.1.0",
   "private": true,
@@ -19,33 +9,25 @@
     "@mediapipe/hands": "^0.4.1675469240",
     "@mediapipe/tasks-vision": "^0.1.0-alpha-12",
     "@mui/material": "^5.12.1",
->>>>>>> c389749884e790e55e6a034db472c6a7537466b5
+    "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.37",
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
-<<<<<<< HEAD
+    "axios": "^1.4.0",
+    "net": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
-    "react-webcam": "^7.1.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
-=======
-
-    "axios": "^1.4.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2",
-    "react-scripts": "5.0.1"
->>>>>>> c389749884e790e55e6a034db472c6a7537466b5
+    "socket.io": "^4.7.1",
+    "socket.io-client": "^4.7.1",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
+    "websocket": "^1.0.34"
   },
+  "proxy": "http://localhost:8080",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -67,8 +49,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

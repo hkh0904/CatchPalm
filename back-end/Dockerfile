@@ -8,10 +8,11 @@ ARG JAR_FILE=/build/libs/*.jar
 COPY ${JAR_FILE} /app.jar
 
 # Copy the modified application-aws.properties file to the container
-COPY application-aws.properties /app/application.properties
+
+COPY src/main/resources/application-aws.properties /app/application.properties
 
 # Expose port 8080 (if your application listens on this port)
-EXPOSE 8081
+EXPOSE 8080
 
 # Set the entry point for the container to run the Spring Boot application
 ENTRYPOINT ["java", "-jar", "/app.jar"]

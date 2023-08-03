@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GestureRecognizer, FilesetResolver } from "@mediapipe/tasks-vision";
+import {GestureRecognizer, FilesetResolver,} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0";
 import { HAND_CONNECTIONS } from "@mediapipe/hands";
 import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
@@ -7,26 +7,39 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
 let category2Name = undefined;
 let category1Score = undefined;
 let category2Score = undefined;
-let vision = undefined;
+let score = 0;
+
+// mediaPipe 모션네임
+const motionNames = {
+  1: "Closed_Fist",
+  2: "Open_Palm",
+  3: "Pointing_Up",
+  4: "Victory",
+  5: "Thumb_Up",
+  6: "Thumb_Down",
+  7: "ILoveYou",
+};
 
 // Gesture Recognizer를 생성하는 비동기 함수
 const createGestureRecognizer = async () => {
-  vision = await FilesetResolver.forVisionTasks(
+  const vision = await FilesetResolver.forVisionTasks(
     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
   );
   gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
     baseOptions: {
       modelAssetPath:
         "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task",
+      delegate: "GPU",
     },
     runningMode: "VIDEO",
-    numHands: 2,
+    numHands: 2
   });
 };
 
@@ -35,12 +48,11 @@ export default function HandModel() {
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
   const [category1, setCategory1] = useState("category1Name");
   const [category2, setCategory2] = useState("category2Name");
-  const [doPredictionsBtn, setBtn] = useState("Start");
-  const [nodes, setNodes] = useState([]);
   const [showBackground, setShowBackground] = useState(false);
   const [videoHidden, setVideoHidden] = useState(false);
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 }); // 비디오의 크기를 저장하는 상태
   const [countdown, setCountdown] = useState(3);
+  const navigate = useNavigate();
 
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
@@ -68,17 +80,12 @@ export default function HandModel() {
   // 웹캠 스트림을 시작하는 비동기 함수
   const handleStartStreaming = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-      });
-      const track = stream.getVideoTracks()[0];
-      const settings = track.getSettings();
-
-      // 비디오의 비율을 계산하고 크기를 설정
-      const aspectRatio =
-        settings.aspectRatio || settings.width / settings.height;
       const height = windowSize.height;
-      const width = height * aspectRatio;
+      const width = (height * 15) / 9;
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: { ideal: width }, height: { ideal: height } },
+      });
 
       videoRef.current.srcObject = stream;
       videoRef.current.width = width;
@@ -90,54 +97,104 @@ export default function HandModel() {
     }
   };
 
+  // fetchData 함수를 수정하여 데이터를 가져와서 nodes에 저장하고 웹캠 위에 원 그리기
   const fetchData = async () => {
     try {
       const response = await axios.get("/music/YOASOBI-IDOL.json");
-      setNodes(response.data);
-
-      const canvasElement = document.getElementById("video_out");
-      const canvasCtx = canvasElement.getContext("2d");
-
-      // 데이터를 APPEAR_TIME에 따라 출력
-      response.data.forEach((node) => {
+      const data = response.data; // 가져온 데이터
+      data.forEach((node) => {
         setTimeout(() => {
-          // 원을 그립니다.
-          const centerX = canvasElement.width / 2;
-          const centerY = canvasElement.height / 2;
 
-          canvasCtx.beginPath();
-          canvasCtx.arc(centerX, centerY, 40, 0, Math.PI * 2, true);
-          canvasCtx.fillStyle = "green";
-          canvasCtx.fill();
+          // circle 클래스를 가진 div를 생성합니다.
+          const circleDiv = document.createElement("div");
+          circleDiv.className = "circle";
 
-          // 로그를 출력합니다.
-          console.log(`Drawn a circle at (${centerX}, ${centerY})`);
-        }, node.APPEAR_TIME * 1000);
+          // MOTION_NUM을 확인하여 'motion' + MOTION_NUM 클래스를 추가합니다.
+          circleDiv.classList.add('motion' + node.MOTION_NUM);
+          
+          // webcam의 위치와 크기를 얻습니다.
+          const webcamWrapper = document.getElementById("webcamWrapper");
+          const webcamRect = webcamWrapper.getBoundingClientRect();
+          
+          // console.log(circleDiv)
+          // div의 위치를 설정합니다. X-COORDINATE와 Y-COORDINATE 값은 0~1 범위라고 가정합니다.
+          circleDiv.style.left = `calc(${webcamRect.width -
+            (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)}px - 50px)`; // 40px is half of the circle's width
+          circleDiv.style.top = `calc(${
+            webcamRect.top + node["Y-COORDINATE"] * webcamRect.height}px - 50px)`; // 40px is half of the circle's height
+
+          // div를 웹캠의 컨테이너인 webcamWrapper에 추가합니다.
+          webcamWrapper.appendChild(circleDiv);
+
+          // 3초 후에 생성된 div를 삭제합니다.
+          setTimeout(() => {
+            webcamWrapper.removeChild(circleDiv);
+          }, 3000);
+        }, node.APPEAR_TIME * 1000); // APPEAR_TIME은 초 단위로 가정합니다.
       });
     } catch (error) {
       console.error("Error fetching the JSON data:", error);
     }
   };
 
-  // 컴포넌트가 마운트될 때 카운트다운을 시작
-  useEffect(() => {
-    if (countdown > 0) {
-      const timer = setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else {
-      // 카운트다운이 끝나면 원하는 작업 수행
-      predictWebcam();
-      fetchData(); // 카운트다운이 끝난 후에 데이터를 가져옴
-    }
-  }, [countdown]);
+// 컴포넌트가 마운트될 때 카운트다운을 시작
+useEffect(() => {
+  const fetchDataAndPredict = async () => {
+    fetchData();
+    await createGestureRecognizer();
+    await handleStartStreaming();
+    await predictWebcam();
+  };
 
-  // 컴포넌트가 마운트 될 때 실행되는 useEffect
-  useEffect(() => {
-    createGestureRecognizer();
-    handleStartStreaming();
-  }, []);
+  fetchDataAndPredict().then(() => {
+    // 배경 음악 재생
+    const audio = new Audio("/music/YOASOBI-IDOL.mp3");
+    const finish = new Audio("/assets/Finish.mp3");
+    audio.volume = 0.3; // 볼륨 30%로 설정
+    audio.loop = false;
+    finish.loop = false;
+    
+    const timer = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown > 1) {
+          return prevCountdown - 1;
+        } else {
+          clearInterval(timer);
+          audio.play();
+
+          // Audio 재생 시간을 모니터링합니다.
+          audio.ontimeupdate = () => {
+            // 78초가 지나면 오디오와 비디오를 멈춥니다.
+            if (audio.currentTime >= 78) {
+              audio.pause();
+              audio.currentTime = 0;
+              
+              // 'finish' 오디오 재생
+              setTimeout(() => {
+                finish.play();
+              }, 1000);
+            
+            // 'finish' 오디오가 끝나면 비디오를 멈추고 메인 페이지로 이동
+            finish.onended = () => {
+              if (videoRef.current && videoRef.current.srcObject) {
+                const tracks = videoRef.current.srcObject.getTracks();
+                tracks.forEach((track) => {
+                  track.stop();
+                });
+                videoRef.current.srcObject = null;
+                // 페이지 이동
+                navigate('/');
+              }
+              }
+            }
+          };
+          return 0;
+        }
+      });
+    }, 500);
+  });
+}, []);
+
 
   // 웹캠에서 예측을 수행하는 비동기 함수
   async function predictWebcam() {
@@ -148,39 +205,43 @@ export default function HandModel() {
     );
 
     // 캔버스에 그리기 위한 설정
-    const canvasElement = document.getElementById("video_out");
+    const canvasElement = document.getElementById("canvas");
     const canvasCtx = canvasElement.getContext("2d");
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
     // 결과가 있다면 캔버스에 그림
     if (results.landmarks) {
       for (let landmarks of results.landmarks) {
         drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
           color: "#00FF00",
-          lineWidth: 2,
+          lineWidth: 5,
         });
-        drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 1 });
+        drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
       }
     }
     canvasCtx.restore();
 
+    let handX = 0;
+    let handY = 0;
+
     // 예측 결과를 처리
     if (results.gestures.length > 0) {
-      // console.log(results.landmarks[0][9].x, results.landmarks[0][9].y);
+      // console.log(`x: ${results.landmarks[0][9].x.toFixed(5)}, y: ${results.landmarks[0][9].y.toFixed(5)}`);
       category1Name = results.gestures[0][0].categoryName;
-      category1Score = parseFloat(results.gestures[0][0].score * 100).toFixed(
-        2
-      );
+      category1Score = parseFloat(results.gestures[0][0].score * 100).toFixed(2);
       setCategory1(category1Name);
+      handX = results.landmarks[0][9].x;
+      handY = results.landmarks[0][9].y;
+      hideCircle(handX, handY, category1Name);
 
       // 두 번째 예측 결과가 있다면 처리
       if (results.gestures.length > 1) {
         category2Name = results.gestures[1][0].categoryName;
-        category2Score = parseFloat(results.gestures[1][0].score * 100).toFixed(
-          2
-        );
+        category2Score = parseFloat(results.gestures[1][0].score * 100).toFixed(2);
         setCategory2(category2Name);
+        handX = results.landmarks[1][9].x;
+        handY = results.landmarks[1][9].y;
+        hideCircle(handX, handY, category2Name);
       }
     }
 
@@ -188,48 +249,68 @@ export default function HandModel() {
     window.requestAnimationFrame(predictWebcam);
   }
 
+  function hideCircle(handX, handY, categoryName) {
+    const circleElements = document.querySelectorAll(".circle");
+    circleElements.forEach((circleElement) => {
+        // 원형 div의 위치를 얻습니다. (0~1 범위로 변환)
+        const circleX =
+            1 -
+            parseFloat((parseFloat(circleElement.style.left.replace(/[^\d.]/g, ''))) + 50) /
+            document.getElementById("webcamWrapper").offsetWidth;
+        const circleY =
+            parseFloat((parseFloat(circleElement.style.top.replace(/[^\d.]/g, ''))) + 50) /
+            document.getElementById("webcamWrapper").offsetHeight;
+
+        const motionNum = circleElement.className.split(" ")[1].replace("motion", "");
+
+        if (motionNames[motionNum] === categoryName) { 
+            // 손의 위치와 원형 div의 위치 사이의 거리를 계산합니다.
+            const distance = Math.sqrt(
+            Math.pow(handX - circleX, 2) + Math.pow(handY - circleY, 2)
+            );
+        
+            // 거리가 특정 임계값 이하이면 원형 div를 삭제합니다.
+            const threshold = 0.05; // 필요에 따라 이 값을 조정할 수 있습니다.
+            if (distance <= threshold && circleElement.style.display !== "none") {
+                circleElement.style.display = "none";
+                score += 300;
+            }
+        }
+    });
+}
+
+
   // 컴포넌트의 반환 값 (렌더링 결과)
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div
+        id="webcamWrapper"
         style={{
           position: "relative",
           width: videoSize.width,
           height: videoSize.height,
-        }}
-      >
+          backgroundImage: showBackground
+          ? "url('/music/YOASOBI-IDOL.jpg')"
+          : "none",
+        backgroundSize: "cover",
+        }}>
+        <div id="score">
+          <h1>Score : {score}</h1>
+        </div>
         <video
           hidden={videoHidden}
           ref={videoRef}
-          id="video_in"
+          id="webcam"
           autoPlay
-          style={{ position: "absolute", transform: "scaleX(-1)" }}
-        />
+          style={{ position: "absolute", transform: "scaleX(-1)", filter: "brightness(40%)"}}/>
         <canvas
-          id="video_out"
+          id="canvas"
           width={videoSize.width}
-          height={videoSize.height}
-          style={{
-            position: "absolute",
-            transform: "scaleX(-1)",
-            backgroundImage: showBackground
-              ? "url('/music/YOASOBI-IDOL.jpg')"
-              : "none",
-            backgroundSize: "cover",
-          }}
-        />
+          height={videoSize.height}/>
         {/* 카운트다운 표시 */}
         {countdown > 0 && (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              fontSize: "100px",
-              color: "white",
-            }}
-          >
+          <div id="countdown"
+              style={{ fontSize: "100px" }}>
             {countdown}
           </div>
         )}
@@ -240,33 +321,14 @@ export default function HandModel() {
             <Button
               variant="contained"
               sx={{ display: "inline-flex" }}
-              onClick={toggleBackground}
-            >
+              onClick={toggleBackground}>
               {showBackground ? "Webcam ON" : "Webcam OFF"}
             </Button>
-            <div>
-              Thats : {category1} : {category1Score}%
-            </div>
-            <div>
-              Thats : {category2} : {category2Score}%
-            </div>
+            <div>Thats : {category1} : {category1Score}%</div>
+            <div>Thats : {category2} : {category2Score}%</div>
           </CardContent>
         </Card>
       </Box>
     </div>
   );
 }
-
-// 해당 코드는 대부분 비동기 처리와 React 훅을 잘 사용하여 작성된 것으로 보입니다. 따라서, 일반적인 성능 최적화에 집중하는 것보다는 코드의 구조와 목적에 따라 최적화하는 것이 더 효과적일 수 있습니다.
-
-// 아래는 몇 가지 가능한 최적화 방법입니다:
-
-// 1. **비동기 처리 개선:** 코드에서 볼 수 있듯이, `fetchData`, `createGestureRecognizer`, `handleStartStreaming` 등의 함수들은 비동기적으로 동작합니다. 이들 함수의 처리 시간이 길어질 경우 앱의 전체적인 반응성에 영향을 미칠 수 있습니다. 따라서 이러한 함수들이 렌더링 로직과 밀접하게 연관되지 않도록 하거나, 필요한 경우 Web Worker를 사용하여 별도의 스레드에서 실행되도록 하는 것이 좋습니다.
-
-// 2. **불필요한 렌더링 방지:** 현재 `useEffect` 훅 내에서 여러 상태를 변경하고 있습니다. 이로 인해 컴포넌트가 불필요하게 여러 번 렌더링될 수 있습니다. `useEffect` 내에서 상태를 한 번에 변경하거나, 상태 변경 로직을 `useReducer` 훅을 사용하는 등의 방식으로 리팩토링하는 것이 좋습니다.
-
-// 3. **함수 메모이제이션:** `useCallback` 또는 `useMemo` 훅을 사용하여 함수를 메모이제이션하면 성능을 향상시킬 수 있습니다. 예를 들어, `handleStartStreaming`, `handleDoPredictions` 등의 함수는 컴포넌트가 리렌더링될 때마다 새로 생성되는데, 이런 경우 해당 함수를 `useCallback`으로 감싸서 메모이제이션하면 성능을 향상시킬 수 있습니다.
-
-// 4. **반복적인 DOM 접근 최소화:** `predictWebcam` 함수에서 `document.getElementById("video_out")`를 통해 동일한 DOM 요소에 반복적으로 접근하고 있습니다. 이는 성능에 부정적인 영향을 미칠 수 있습니다. 따라서 `useRef` 훅을 사용하여 한 번만 참조를 가져온 후 재사용하는 것이 좋습니다.
-
-// 다시 한번 강조하지만, 이러한 최적화 방법은 일반적인 것들이며, 실제 성능 향상을 위해서는 개발자 도구를 활용하여 성능 병목을 식별하고 그에 따라 최적화를 진행하는 것이 중요합니다.
