@@ -109,13 +109,13 @@ dependencies {
 	implementation('com.google.http-client:google-http-client-jackson2:1.39.2')
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	//implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE")
 	testImplementation("org.springframework.security:spring-security-test")
-	annotationProcessor("org.springframework.boot:spring-boot-starter-data-jpa")
-	runtimeOnly("mysql:mysql-connector-java")
-	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
+	//annotationProcessor("org.springframework.boot:spring-boot-starter-data-jpa")
+	//runtimeOnly("mysql:mysql-connector-java")
+	//implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
