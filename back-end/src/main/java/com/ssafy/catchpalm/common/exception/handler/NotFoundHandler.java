@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.annotation.PostConstruct;
+
 /*
  * 
  * SPA처리를 위한 ControllerAdvice.
@@ -27,9 +29,13 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
 public class NotFoundHandler {
-	@Value("${spa.default-file}")
 	String defaultFile;
-	 
+
+	@PostConstruct
+	public void init() {
+		this.defaultFile = System.getenv("spa.default-file");
+	}
+
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<String> renderDefaultPage(NoHandlerFoundException ex) {
 		String url = ex.getRequestURL();
