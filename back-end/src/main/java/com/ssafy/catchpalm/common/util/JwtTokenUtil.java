@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -30,9 +31,10 @@ public class JwtTokenUtil {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
-    
+
     @Autowired
-	public JwtTokenUtil() {
+    @PostConstruct
+    public void JwtTokenUtil() {
 		this.secretKey = System.getenv("jwt.secret");
 		this.expirationTime = Integer.valueOf(System.getenv("jwt.expiration"));
         this.refreshExpirationTime = Integer.valueOf(System.getenv("jwt.refresh.expiration"));

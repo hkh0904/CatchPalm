@@ -20,7 +20,8 @@ public class AESUtil {
 
 
     @Autowired
-    public AESUtil() {
+    @PostConstruct
+    public void AESUtil() {
         this.secretKey = System.getenv("refresh.secret");
     }
 
