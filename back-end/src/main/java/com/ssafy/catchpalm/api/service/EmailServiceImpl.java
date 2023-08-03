@@ -19,7 +19,8 @@ public class EmailServiceImpl implements EmailService {
 
     @Value("${server.address}")
     private String serverAddress;
-    
+
+    @Autowired
     private final JavaMailSender emailSender;
     private static String adminEmail;
 
