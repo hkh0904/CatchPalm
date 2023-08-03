@@ -67,9 +67,9 @@ sourceCompatibility = '1.8'
 //	args = ['run','build']
 //}
 //
-//tasks.withType(JavaCompile) {
-//	options.encoding = 'UTF-8'
-//}
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
 
 // processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
 //processResources.dependsOn 'webpack'
@@ -103,6 +103,7 @@ processResources {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation('io.openvidu:openvidu-java-client:2.28.0')
 	implementation('com.google.api-client:google-api-client:1.31.5')
 	implementation('com.google.oauth-client:google-oauth-client:1.31.5')
 	implementation('com.google.apis:google-api-services-oauth2:v2-rev157-1.25.0')
