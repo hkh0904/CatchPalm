@@ -7,24 +7,25 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
 let category2Name = undefined;
 let category1Score = undefined;
 let category2Score = undefined;
-let vision = undefined;
+let score = 0;
 
 // mediaPipe 모션네임
-// const motionNames = {
-//   1: "Closed_Fist",
-//   2: "Open_Palm",
-//   3: "Pointing_Up",
-//   4: "Victory",
-//   5: "Thumb_Up",
-//   6: "Thumb_Down",
-//   7: "ILoveYou",
-// };
+const motionNames = {
+  1: "Closed_Fist",
+  2: "Open_Palm",
+  3: "Pointing_Up",
+  4: "Victory",
+  5: "Thumb_Up",
+  6: "Thumb_Down",
+  7: "ILoveYou",
+};
 
 // Gesture Recognizer를 생성하는 비동기 함수
 const createGestureRecognizer = async () => {
@@ -51,6 +52,7 @@ export default function HandModel() {
   const [videoHidden, setVideoHidden] = useState(false);
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 }); // 비디오의 크기를 저장하는 상태
   const [countdown, setCountdown] = useState(3);
+  const navigate = useNavigate();
 
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
@@ -100,13 +102,15 @@ export default function HandModel() {
     try {
       const response = await axios.get("/music/YOASOBI-IDOL.json");
       const data = response.data; // 가져온 데이터
-
       data.forEach((node) => {
         setTimeout(() => {
 
           // circle 클래스를 가진 div를 생성합니다.
           const circleDiv = document.createElement("div");
           circleDiv.className = "circle";
+
+          // MOTION_NUM을 확인하여 'motion' + MOTION_NUM 클래스를 추가합니다.
+          circleDiv.classList.add('motion' + node.MOTION_NUM);
           
           // webcam의 위치와 크기를 얻습니다.
           const webcamWrapper = document.getElementById("webcamWrapper");
@@ -133,29 +137,64 @@ export default function HandModel() {
     }
   };
 
-  // 컴포넌트가 마운트될 때 카운트다운을 시작
-  useEffect(() => {
-    const fetchDataAndPredict = async () => {
-      fetchData();
-      await createGestureRecognizer();
-      await handleStartStreaming();
-      await predictWebcam();
-    };
-  
-    fetchDataAndPredict().then(() => {
-      const timer = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          if (prevCountdown > 1) {
-            return prevCountdown - 1;
-          } else {
-            clearInterval(timer);
-            return 0;
-          }
-        });
-      }, 500);
-    });
-  }, []);
-  
+// 컴포넌트가 마운트될 때 카운트다운을 시작
+useEffect(() => {
+  const fetchDataAndPredict = async () => {
+    fetchData();
+    await createGestureRecognizer();
+    await handleStartStreaming();
+    await predictWebcam();
+  };
+
+  fetchDataAndPredict().then(() => {
+    // 배경 음악 재생
+    const audio = new Audio("/music/YOASOBI-IDOL.mp3");
+    const finish = new Audio("/assets/Finish.mp3");
+    audio.volume = 0.3; // 볼륨 30%로 설정
+    audio.loop = false;
+    finish.loop = false;
+    
+    const timer = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown > 1) {
+          return prevCountdown - 1;
+        } else {
+          clearInterval(timer);
+          audio.play();
+
+          // Audio 재생 시간을 모니터링합니다.
+          audio.ontimeupdate = () => {
+            // 78초가 지나면 오디오와 비디오를 멈춥니다.
+            if (audio.currentTime >= 78) {
+              audio.pause();
+              audio.currentTime = 0;
+              
+              // 'finish' 오디오 재생
+              setTimeout(() => {
+                finish.play();
+              }, 1000);
+            
+            // 'finish' 오디오가 끝나면 비디오를 멈추고 메인 페이지로 이동
+            finish.onended = () => {
+              if (videoRef.current && videoRef.current.srcObject) {
+                const tracks = videoRef.current.srcObject.getTracks();
+                tracks.forEach((track) => {
+                  track.stop();
+                });
+                videoRef.current.srcObject = null;
+                // 페이지 이동
+                navigate('/');
+              }
+              }
+            }
+          };
+          return 0;
+        }
+      });
+    }, 500);
+  });
+}, []);
+
 
   // 웹캠에서 예측을 수행하는 비동기 함수
   async function predictWebcam() {
@@ -166,7 +205,7 @@ export default function HandModel() {
     );
 
     // 캔버스에 그리기 위한 설정
-    const canvasElement = document.getElementById("video_out");
+    const canvasElement = document.getElementById("canvas");
     const canvasCtx = canvasElement.getContext("2d");
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
@@ -180,30 +219,66 @@ export default function HandModel() {
         drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
       }
     }
+    canvasCtx.restore();
+
+    let handX = 0;
+    let handY = 0;
 
     // 예측 결과를 처리
     if (results.gestures.length > 0) {
       // console.log(`x: ${results.landmarks[0][9].x.toFixed(5)}, y: ${results.landmarks[0][9].y.toFixed(5)}`);
       category1Name = results.gestures[0][0].categoryName;
-      category1Score = parseFloat(results.gestures[0][0].score * 100).toFixed(
-        2
-      );
+      category1Score = parseFloat(results.gestures[0][0].score * 100).toFixed(2);
       setCategory1(category1Name);
+      handX = results.landmarks[0][9].x;
+      handY = results.landmarks[0][9].y;
+      hideCircle(handX, handY, category1Name);
 
       // 두 번째 예측 결과가 있다면 처리
       if (results.gestures.length > 1) {
         category2Name = results.gestures[1][0].categoryName;
-        category2Score = parseFloat(results.gestures[1][0].score * 100).toFixed(
-          2
-        );
+        category2Score = parseFloat(results.gestures[1][0].score * 100).toFixed(2);
         setCategory2(category2Name);
+        handX = results.landmarks[1][9].x;
+        handY = results.landmarks[1][9].y;
+        hideCircle(handX, handY, category2Name);
       }
     }
-    canvasCtx.restore();
 
     // 다음 프레임을 요청하여 계속해서 예측을 수행
     window.requestAnimationFrame(predictWebcam);
   }
+
+  function hideCircle(handX, handY, categoryName) {
+    const circleElements = document.querySelectorAll(".circle");
+    circleElements.forEach((circleElement) => {
+        // 원형 div의 위치를 얻습니다. (0~1 범위로 변환)
+        const circleX =
+            1 -
+            parseFloat((parseFloat(circleElement.style.left.replace(/[^\d.]/g, ''))) + 50) /
+            document.getElementById("webcamWrapper").offsetWidth;
+        const circleY =
+            parseFloat((parseFloat(circleElement.style.top.replace(/[^\d.]/g, ''))) + 50) /
+            document.getElementById("webcamWrapper").offsetHeight;
+
+        const motionNum = circleElement.className.split(" ")[1].replace("motion", "");
+
+        if (motionNames[motionNum] === categoryName) { 
+            // 손의 위치와 원형 div의 위치 사이의 거리를 계산합니다.
+            const distance = Math.sqrt(
+            Math.pow(handX - circleX, 2) + Math.pow(handY - circleY, 2)
+            );
+        
+            // 거리가 특정 임계값 이하이면 원형 div를 삭제합니다.
+            const threshold = 0.05; // 필요에 따라 이 값을 조정할 수 있습니다.
+            if (distance <= threshold && circleElement.style.display !== "none") {
+                circleElement.style.display = "none";
+                score += 300;
+            }
+        }
+    });
+}
+
 
   // 컴포넌트의 반환 값 (렌더링 결과)
   return (
@@ -219,14 +294,17 @@ export default function HandModel() {
           : "none",
         backgroundSize: "cover",
         }}>
+        <div id="score">
+          <h1>Score : {score}</h1>
+        </div>
         <video
           hidden={videoHidden}
           ref={videoRef}
-          id="video_in"
+          id="webcam"
           autoPlay
           style={{ position: "absolute", transform: "scaleX(-1)", filter: "brightness(40%)"}}/>
         <canvas
-          id="video_out"
+          id="canvas"
           width={videoSize.width}
           height={videoSize.height}/>
         {/* 카운트다운 표시 */}
