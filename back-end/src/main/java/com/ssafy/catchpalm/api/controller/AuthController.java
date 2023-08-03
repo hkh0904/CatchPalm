@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -37,14 +38,19 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class  AuthController {
-	@Value("${server.address}")
-	String serverAddress;
+
 	@Autowired
 	UserService userService;
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
+	private String serverAddress;
+	@PostConstruct
+	public void init() {
+		this.serverAddress = System.getenv("server.address");
+	}
+
 	@PostMapping(value="/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.") 
     @ApiResponses({
