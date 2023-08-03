@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
@@ -42,6 +43,7 @@ public class OAuthController {
 
     private GoogleAuthorizationCodeFlow flow;
 
+    @PostConstruct
     public void init() {
         this.serverAddress = System.getenv("server.address");
         this.clientId = System.getenv("google.client.id");
