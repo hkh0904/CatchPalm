@@ -10,7 +10,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication
 public class CatchpalmApplication {
 	public static void main(String[] args) {
         SpringApplication.run(CatchpalmApplication.class, args);
