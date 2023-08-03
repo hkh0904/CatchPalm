@@ -17,12 +17,11 @@ import java.nio.charset.StandardCharsets;
 @Service("emailService")
 public class EmailServiceImpl implements EmailService {
 
-    @Value("${server.address}")
-    private String serverAddress;
 
     @Autowired
     private final JavaMailSender emailSender;
     private static String adminEmail;
+    private String serverAddress;
 
     @Autowired
     public EmailServiceImpl(JavaMailSender emailSender) {
@@ -32,6 +31,7 @@ public class EmailServiceImpl implements EmailService {
     @PostConstruct
     public void init() {
         this.adminEmail = System.getenv("spring.mail.username");
+        this.serverAddress = System.getenv("server.address");
     }
 
     @Override
