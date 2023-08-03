@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     public EmailServiceImpl(String adminEmail,JavaMailSender emailSender) {
         this.emailSender = emailSender;
-        this.adminEmail = adminEmail;
+        EmailServiceImpl.adminEmail = adminEmail;
     }
 
 
