@@ -32,11 +32,10 @@ public class JwtTokenUtil {
     public static final String ISSUER = "ssafy.com";
     
     @Autowired
-	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime,
-        @Value("${jwt.refresh.expiration}") Integer refreshExpirationTime) {
-		this.secretKey = secretKey;
-		this.expirationTime = expirationTime;
-        this.refreshExpirationTime = refreshExpirationTime;
+	public JwtTokenUtil() {
+		this.secretKey = System.getenv("jwt.secret");
+		this.expirationTime = Integer.valueOf(System.getenv("jwt.expiration"));
+        this.refreshExpirationTime = Integer.valueOf(System.getenv("jwt.refresh.expiration"));
 	}
     
 	public void setExpirationTime() {
