@@ -17,10 +17,10 @@ import java.nio.charset.StandardCharsets;
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
-    private static String adminEmail;
+    private static String adminEmail = "catchpalm@gmail.com";
 
     @Autowired
-    public EmailServiceImpl(@Value("catchpalm@gmail.com") String adminEmail,JavaMailSender emailSender) {
+    public EmailServiceImpl(String adminEmail,JavaMailSender emailSender) {
         this.emailSender = emailSender;
         this.adminEmail = adminEmail;
     }
