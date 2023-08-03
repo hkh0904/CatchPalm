@@ -1,6 +1,8 @@
 package com.ssafy.catchpalm.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +25,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -50,20 +53,16 @@ public class  AuthController {
 		String userId = "local:"+loginInfo.getUserId();
 		String password = loginInfo.getPassword();
 		String refreshToken = JwtTokenUtil.getRefreshToken(userId);
-		System.out.println("hear1");
 		User user = userService.getUserByUserId(userId);
 		userService.updateRefreshToken(userId, refreshToken);
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if(user.getEmailVerified()==0){
-			System.out.println("hear2");
 			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Email is not verified or Google or Naver account",null));
 		}
 		else if(passwordEncoder.matches(password, user.getPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
-			System.out.println("hear3");
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
 		}
-		System.out.println("hear4");
 
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
@@ -80,13 +79,18 @@ public class  AuthController {
 	public ResponseEntity verifyEmail(@RequestParam("token") @ApiParam(value="이메일 토큰", required = true) String emailVerificationToken) throws Exception {
 		String decodedToken = emailVerificationToken.replace("%2B", "+");
 		User user = userService.getUserByVerificationToken(decodedToken);
+		URI redirectUrl = new URI("http://localhost:3000"); // Your redirect URL here
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(redirectUrl);
+
 		if (user != null) {
 			if(user.getEmailVerified() == 1){
-				return ResponseEntity.ok(UserLoginPostRes.of(200, "Aleady verified email so find password",JwtTokenUtil.getToken(user.getUserId())));
+				return new ResponseEntity<>(UserLoginPostRes.of(200, "Aleady verified email so find password"),httpHeaders, HttpStatus.SEE_OTHER);
 			}
 			user.setEmailVerified(1);
 			userService.updateUser(user);
-			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
+
+			return new ResponseEntity<>(UserLoginPostRes.of(200, "Success"), httpHeaders, HttpStatus.SEE_OTHER);
 		} else {
 			return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "failed - User not found or token expired"));
 		}

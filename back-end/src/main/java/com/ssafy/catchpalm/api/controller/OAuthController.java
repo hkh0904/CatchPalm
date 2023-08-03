@@ -35,7 +35,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/v1/oauth2")
 public class OAuthController {
-    private static final String CALLBACK_URI = "http://localhost:8080/api/v1/oauth2/callback";
+    private static final String CALLBACK_URI = "https://localhost:8443/api/v1/oauth2/callback";
 
     @Value("${google.client.id}")
     private String clientId;
