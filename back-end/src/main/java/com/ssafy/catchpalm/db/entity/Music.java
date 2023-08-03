@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class Music {
     private String singer; // 가수
 
     private String composer; // 작곡가
+
+    private String thumbnail;
 
     @Column(name = "release_date")
     private LocalDate releaseDate; //발매일

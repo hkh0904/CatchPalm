@@ -159,8 +159,4 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteByUserId(userId);
 	}
 
-
-
-
-
 }
