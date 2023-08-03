@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @ApiModel("UserLoginPostResponse")
-public class MusicPostRes extends BaseResponseBody{
+public class MusicPostRes{
 	@ApiModelProperty(name="music_number", example="1")
 	private int musicNumber; // 음악 고유번호(개인키)
 
@@ -37,6 +37,9 @@ public class MusicPostRes extends BaseResponseBody{
 	@ApiModelProperty(name="play_cnt", example="10")
 	private int playCnt; // 난이도
 
+	@ApiModelProperty(name="music_thumbnail", example="이미지주소")
+	private String thumbnail; // 난이도
+
 	public static MusicPostRes of(Music music) {
 		MusicPostRes res = new MusicPostRes();
 		res.setMusicNumber(music.getMusicNumber());
@@ -46,6 +49,7 @@ public class MusicPostRes extends BaseResponseBody{
 		res.setPlayCnt(music.getPlayCnt());
 		res.setRunningTime(music.getRunningTime());
 		res.setLevel(music.getLevel());
+		res.setThumbnail(music.getThumbnail());
 		return res;
 	}
 

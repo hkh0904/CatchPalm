@@ -17,7 +17,7 @@ public class GameRoom {
     private int roomNumber;
 
     @OneToOne
-    @JoinColumn(name = "captain")
+    @JoinColumn(name = "captain", unique = true)
     private User captain;
 
     // 양방향 매핑 : 게임방 유저 리스트., 지연로딩, 영속성 관리를 통해 방 생성자 정보가 자동으로 게임방유저 테이블에 저장

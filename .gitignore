@@ -48,3 +48,4 @@ back-end/*.gz
 
 ### keystore ###
 *.p12
+*.cer
