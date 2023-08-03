@@ -103,6 +103,7 @@ processResources {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation('io.openvidu:openvidu-java-client:2.28.0')
 	implementation('com.google.api-client:google-api-client:1.31.5')
 	implementation('com.google.oauth-client:google-oauth-client:1.31.5')
 	implementation('com.google.apis:google-api-services-oauth2:v2-rev157-1.25.0')
@@ -114,7 +115,9 @@ dependencies {
 	implementation("org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE")
 	testImplementation("org.springframework.security:spring-security-test")
 	annotationProcessor("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly 'com.h2database:h2'
 	runtimeOnly("mysql:mysql-connector-java")
+	implementation 'mysql:mysql-connector-java'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -167,7 +170,7 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok:1.18.20")
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
-  
+
 	//이메일 관련 의존성
 	implementation('org.springframework.boot:spring-boot-starter-mail')
 
