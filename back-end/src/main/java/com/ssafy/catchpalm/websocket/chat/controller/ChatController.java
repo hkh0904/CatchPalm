@@ -40,7 +40,7 @@ public class ChatController {
         headerAccessor.getSessionAttributes().put("userNumber", chatMessage.getUserNumber());
 
         // 들어온 유저 db에 반영 : 게임방 입장이 인원수 파악
-        gameRoomService.addRoomUser(chatMessage.getUserNumber(), chatMessage.getRoomNumber());
+//        gameRoomService.addRoomUser(chatMessage.getUserNumber(), chatMessage.getRoomNumber());
 
         String roomNumber = String.valueOf(chatMessage.getRoomNumber());
         // 해당 방으로 메시지 브로드캐스팅
