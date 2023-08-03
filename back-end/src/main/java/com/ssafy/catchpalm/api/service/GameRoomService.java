@@ -21,5 +21,5 @@ public interface GameRoomService {
 
     void startGame(int musicNumber, int gameRoomNumber);
 
-    GameRoom getRoomInfo(int roomNumber);
+    GameRoomPostRes getRoomInfo(int roomNumber);
 }
