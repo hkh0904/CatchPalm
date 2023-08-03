@@ -1,6 +1,8 @@
 package com.ssafy.catchpalm.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +25,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -35,22 +38,22 @@ import java.nio.charset.StandardCharsets;
 public class  AuthController {
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
-	@PostMapping(value="/login",produces = "text/plain;charset=UTF-8")
-	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.") 
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-        @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-        @ApiResponse(code = 500, message = "사용자 없음", response = BaseResponseBody.class)
-    })
+
+	@PostMapping(value="/login")
+	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
+			@ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+			@ApiResponse(code = 500, message = "사용자 없음", response = BaseResponseBody.class)
+	})
 	public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) throws Exception {
 		String userId = "local:"+loginInfo.getUserId();
 		String password = loginInfo.getPassword();
 		String refreshToken = JwtTokenUtil.getRefreshToken(userId);
-		
+
 		User user = userService.getUserByUserId(userId);
 		userService.updateRefreshToken(userId, refreshToken);
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
@@ -76,13 +79,18 @@ public class  AuthController {
 	public ResponseEntity verifyEmail(@RequestParam("token") @ApiParam(value="이메일 토큰", required = true) String emailVerificationToken) throws Exception {
 		String decodedToken = emailVerificationToken.replace("%2B", "+");
 		User user = userService.getUserByVerificationToken(decodedToken);
+		URI redirectUrl = new URI("http://localhost:3000"); // Your redirect URL here
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(redirectUrl);
+
 		if (user != null) {
 			if(user.getEmailVerified() == 1){
-				return ResponseEntity.ok(UserLoginPostRes.of(200, "Aleady verified email so find password",JwtTokenUtil.getToken(user.getUserId())));
+				return new ResponseEntity<>(UserLoginPostRes.of(200, "Aleady verified email so find password"),httpHeaders, HttpStatus.SEE_OTHER);
 			}
 			user.setEmailVerified(1);
 			userService.updateUser(user);
-			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
+
+			return new ResponseEntity<>(UserLoginPostRes.of(200, "Success"), httpHeaders, HttpStatus.SEE_OTHER);
 		} else {
 			return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "failed - User not found or token expired"));
 		}

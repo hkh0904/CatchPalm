@@ -19,8 +19,8 @@ function MainPage() {
 
 
   ////////로그인 로그아웃 시작////////////////
-  const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
- 
+  const isLoggedIn = 1;  // 로그인 토큰 확인
+
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
