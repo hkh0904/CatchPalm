@@ -20,7 +20,7 @@ public class EmailServiceImpl implements EmailService {
     private static String adminEmail;
 
     @Autowired
-    public EmailServiceImpl(@Value("${spring.mail.username}") String adminEmail,JavaMailSender emailSender) {
+    public EmailServiceImpl(@Value("catchpalm@gmail.com") String adminEmail,JavaMailSender emailSender) {
         this.emailSender = emailSender;
         this.adminEmail = adminEmail;
     }
