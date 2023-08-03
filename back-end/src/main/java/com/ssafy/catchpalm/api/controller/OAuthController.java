@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,16 +36,19 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/v1/oauth2")
 public class OAuthController {
-    private static final String CALLBACK_URI = "http://localhost:8080/api/v1/oauth2/callback";
 
-    @Value("${google.client.id}")
+    private String serverAddress;
     private String clientId;
-
-    @Value("${google.client.secret}")
     private String clientSecret;
 
     private GoogleAuthorizationCodeFlow flow;
 
+    @PostConstruct
+    public void init() {
+        this.serverAddress = System.getenv("server.address");
+        this.clientId = System.getenv("google.client.id");
+        this.clientSecret = System.getenv("google.client.secret");
+    }
     @Autowired
     UserService userService;
 
@@ -65,7 +69,7 @@ public class OAuthController {
             ).build();
 
             AuthorizationCodeRequestUrl authorizationUrl =
-                    flow.newAuthorizationUrl().setRedirectUri(CALLBACK_URI);
+                    flow.newAuthorizationUrl().setRedirectUri("https://"+serverAddress+":8443/api/v1/oauth2/callback");
 
             return "redirect:" + authorizationUrl+"&prompt=select_account";
         } catch (Exception e) {
@@ -78,7 +82,7 @@ public class OAuthController {
     public ResponseEntity<UserLoginPostRes> googleCallback(@RequestParam("code") String code) {
         try {
             TokenResponse tokenResponse =
-                    flow.newTokenRequest(code).setRedirectUri(CALLBACK_URI).execute();
+                    flow.newTokenRequest(code).setRedirectUri("https://"+serverAddress+":8443/api/v1/oauth2/callback").execute();
 
             GoogleTokenResponse googleTokenResponse = (GoogleTokenResponse) tokenResponse;
             GoogleIdToken idToken = googleTokenResponse.parseIdToken();

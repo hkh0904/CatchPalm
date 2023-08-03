@@ -6,10 +6,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -30,13 +29,16 @@ public class JwtTokenUtil {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
-    
-    @Autowired
-	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime,
-        @Value("${jwt.refresh.expiration}") Integer refreshExpirationTime) {
-		this.secretKey = secretKey;
-		this.expirationTime = expirationTime;
-        this.refreshExpirationTime = refreshExpirationTime;
+
+    @PostConstruct
+    public void JwtTokenUtil() {
+        if(secretKey == null || expirationTime == null || refreshExpirationTime == null){
+            // if get null Value, Pass this method
+        } else {
+            this.secretKey = System.getenv("jwt.secret");
+            this.expirationTime = Integer.valueOf(System.getenv("jwt.expiration"));
+            this.refreshExpirationTime = Integer.valueOf(System.getenv("jwt.refresh.expiration"));
+        }
 	}
     
 	public void setExpirationTime() {

@@ -7,6 +7,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
@@ -51,6 +52,7 @@ export default function HandModel() {
   const [videoHidden, setVideoHidden] = useState(false);
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 }); // 비디오의 크기를 저장하는 상태
   const [countdown, setCountdown] = useState(3);
+  const navigate = useNavigate();
 
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
@@ -147,7 +149,10 @@ useEffect(() => {
   fetchDataAndPredict().then(() => {
     // 배경 음악 재생
     const audio = new Audio("/music/YOASOBI-IDOL.mp3");
-    audio.volume = 0.3; // 볼륨 50%로 설정
+    const finish = new Audio("/assets/Finish.mp3");
+    audio.volume = 0.3; // 볼륨 30%로 설정
+    audio.loop = false;
+    finish.loop = false;
     
     const timer = setInterval(() => {
       setCountdown((prevCountdown) => {
@@ -156,6 +161,33 @@ useEffect(() => {
         } else {
           clearInterval(timer);
           audio.play();
+
+          // Audio 재생 시간을 모니터링합니다.
+          audio.ontimeupdate = () => {
+            // 78초가 지나면 오디오와 비디오를 멈춥니다.
+            if (audio.currentTime >= 78) {
+              audio.pause();
+              audio.currentTime = 0;
+              
+              // 'finish' 오디오 재생
+              setTimeout(() => {
+                finish.play();
+              }, 1000);
+            
+            // 'finish' 오디오가 끝나면 비디오를 멈추고 메인 페이지로 이동
+            finish.onended = () => {
+              if (videoRef.current && videoRef.current.srcObject) {
+                const tracks = videoRef.current.srcObject.getTracks();
+                tracks.forEach((track) => {
+                  track.stop();
+                });
+                videoRef.current.srcObject = null;
+                // 페이지 이동
+                navigate('/');
+              }
+              }
+            }
+          };
           return 0;
         }
       });
