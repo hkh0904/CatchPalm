@@ -47,7 +47,6 @@ public class GameRoomController {
 			@RequestBody @ApiParam(value="방 정보", required = true) GameRoomRegisterPostReq gameRoomInfo) {
 
 		GameRoom gameRoom = gameRoomService.createRoom(gameRoomInfo);
-		gameRoomService.addRoomUser(gameRoomInfo.getUserNumber(), gameRoom.getRoomNumber());
 		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom, null));
 	}
 
