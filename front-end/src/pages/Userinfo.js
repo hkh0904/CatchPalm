@@ -11,6 +11,7 @@ const Userinfo = () => {
                 
                 const response = await axios.get('https://localhost:8443/api/v1/users/me', {
                     headers: {
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     }
                 });
@@ -35,9 +36,17 @@ const Userinfo = () => {
                 const token = localStorage.getItem('token');
                 console.log(token)
                 const response = await axios.patch('https://localhost:8443/api/v1/users/modify', {
-                    nickname: newNickname
+                age: '',    
+                nickname: newNickname,
+                password: '',
+                profileImg: '',
+                profileMusic: '',
+                sex: '',
+                synk: ''
+
                 }, {
                     headers: {
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     }
                 });
