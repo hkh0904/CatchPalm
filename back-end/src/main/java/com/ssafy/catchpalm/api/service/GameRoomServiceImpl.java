@@ -2,9 +2,11 @@ package com.ssafy.catchpalm.api.service;
 
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
+import com.ssafy.catchpalm.api.response.MusicPostRes;
 import com.ssafy.catchpalm.db.entity.*;
 import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
+import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	MusicRepository musicRepository;
 
 	@Override
 	public GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq) {
@@ -108,10 +113,9 @@ public class GameRoomServiceImpl implements GameRoomService {
 		if(cnt == 0){ // 아무도 없는 방이 된다면 방 삭제.
 			deleteRoom(gameRoomNumber);
 		}
-		System.out.println("hear~~");
 		// 만약 방장이 게임방을 나갔고, 게임방 내에 유저가 남아 있을 때.
 		// 나간 사람이 방장인지 확인.
-		GameRoom gameRoom = getRoomInfo(gameRoomNumber); // 게임방 정보 불러오는 메서드 실행.
+		GameRoom gameRoom = gameRoomRepository.findById(gameRoomNumber).orElse(null);// 게임방 정보 불러오는 메서드 실행.
 		if(userNumber == gameRoom.getCaptain().getUserNumber()){ // 만약 삭제될 유저번호가 현재 게임방 방장 유저번호와 같다면.: 방장 양도 조건.
 			List<GameRoomUserInfo> userInfos = gameRoom.getUserInfos(); // 해당 방의 모든 유저 정보를 불러온다.
 
@@ -139,7 +143,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 		List<GameRoomPostRes> gameRoomPostRes = new ArrayList<>();
 
 		for(GameRoom gameRoom : gameRooms){
-			gameRoomPostRes.add(GameRoomPostRes.of(gameRoom));
+			gameRoomPostRes.add(GameRoomPostRes.of(gameRoom,null));
 		}
 
 		return gameRoomPostRes;
@@ -161,12 +165,19 @@ public class GameRoomServiceImpl implements GameRoomService {
 	}
 
 	@Override
-	public GameRoom getRoomInfo(int roomNumber) {
+	public GameRoomPostRes getRoomInfo(int roomNumber) {
 		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
 		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
+		// 존재하는 게임방일 때.
 		if (gameRoom != null) {
-			// 존재하는 게임방일 때.
-			return gameRoom;
+			// 모든 GameRoom 엔티티 조회
+			List<Music> musics = musicRepository.findAll();
+			List<MusicPostRes> resMusics = new ArrayList<>();
+			for(Music music : musics){
+				resMusics.add(MusicPostRes.of(music));
+			}
+			GameRoomPostRes resultGameRoom = GameRoomPostRes.of(gameRoom, resMusics);
+			return resultGameRoom;
 		}
 		return null;
 	}
