@@ -32,7 +32,6 @@ public class JwtTokenUtil {
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
 
-    @Autowired
     @PostConstruct
     public void JwtTokenUtil() {
 		this.secretKey = System.getenv("jwt.secret");

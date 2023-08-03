@@ -19,7 +19,6 @@ public class AESUtil {
     private static String secretKey;  // 16 characters
 
 
-    @Autowired
     @PostConstruct
     public void AESUtil() {
         this.secretKey = System.getenv("refresh.secret");
