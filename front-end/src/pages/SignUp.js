@@ -20,18 +20,23 @@ function SignUp() {
   };
 
   const handleCheckUserId = async () => {
-    try {
-      const response = await axios.post(`https://localhost:8443/api/v1/users/duplicated/userId`, { userId: state.userId });
-      if (response.data.duplicated) {
-        alert('이미 사용중인 아이디입니다.');
-      } else {
-        alert('사용 가능한 아이디입니다.');
+    if (state.userId.trim() === '') {
+      alert('아이디를 입력해주세요.');
+    } else {
+      try {
+        const response = await axios.post(`https://localhost:8443/api/v1/users/duplicated/userId`, { userId: state.userId });
+        if (response.data.duplicated) {
+          alert('이미 사용중인 아이디입니다.');
+        } else {
+          alert('사용 가능한 아이디입니다.');
+        }
+      } catch (error) {
+        alert('아이디 확인에 실패하였습니다.');
+        console.error(error);
       }
-    } catch (error) {
-      alert('아이디 확인에 실패하였습니다.');
-      console.error(error);
     }
   };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();

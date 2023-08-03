@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Userinfo from './pages/Userinfo';
+import Modifyinfo from './pages/Modifyinfo';
 
 import axios from 'axios';
 
@@ -24,6 +26,7 @@ function MainPage() {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
+    
     window.location.reload(); // 페이지 갱신
   };
   const handleDeleteAccount = () => {
@@ -106,6 +109,19 @@ function MainPage() {
   const handleButtonClick2 = () => {
     navigate('/ChatRoomList');
   };
+// 회원정보 조회 시작 //
+  const handleButtonClick6 = () => {
+    navigate('/userinfo');
+  };
+
+// 회원정보 조회 끝 //
+
+
+// 회원정보 수정 시작 ////
+  const handleButtonClick5 = () => {
+    navigate('/modifyinfo');
+  };
+// 회원정보 수정 ////
   
   return (
     <React.Fragment>
@@ -121,6 +137,12 @@ function MainPage() {
               
                 <Button variant="contained" onClick={handleButtonClick2}>
                   채팅방리스트로 가기
+                </Button>
+                <Button variant="contained" onClick={handleButtonClick6}>
+                  회원정보조회
+                </Button>
+                <Button variant="contained" onClick={handleButtonClick5}>
+                  회원정보수정
                 </Button>
               
                 <Button variant="contained" onClick={handleLogout}>
@@ -159,7 +181,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        
+        <Route path="userinfo" element={<Userinfo />} />
+        <Route path="/modifyinfo" element={<Modifyinfo />} />
         
         <Route path="/Playing" element={<PlayingPage />} />
         <Route path="/" element={<MainPage />} />
