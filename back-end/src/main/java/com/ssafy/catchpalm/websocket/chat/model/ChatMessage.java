@@ -2,6 +2,8 @@ package com.ssafy.catchpalm.websocket.chat.model;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,4 +17,6 @@ public class ChatMessage {
     private int roomNumber;
     private Long userNumber;
     private String nickname;
+    private Long captain;
+    private List<UserInfo> userInfo;
 }

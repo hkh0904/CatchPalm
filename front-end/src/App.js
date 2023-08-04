@@ -1,5 +1,5 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext  } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
@@ -8,17 +8,16 @@ import ChatRoomItem from "./components/ChatRoomComponents/ChatRoomItem";
 import ChatRoomList from "./components/ChatRoomComponents/ChatRoomList"; // chat 리스트방으로
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import Userinfo from './pages/Userinfo';
-
-
 import axios from 'axios';
+import GlobalStateContext from './GlobalStateContext';
+import GlobalStateProvider from './GlobalStateProvider'; // 추가
 
 function MainPage() {
+  
   const navigate = useNavigate();
-
+  const { responseData, setResponseData } = useContext(GlobalStateContext);
 
   ////////로그인 로그아웃 시작////////////////
   const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
@@ -27,7 +26,6 @@ function MainPage() {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
-    
     window.location.reload(); // 페이지 갱신
   };
   const handleDeleteAccount = () => {
@@ -95,6 +93,8 @@ function MainPage() {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
         setUserId(cleanedUserId);
+        setResponseData(response.data);
+        console.log(response.data.userId)
       })
       .catch(error => {
         console.error('There was an error!', error);
@@ -110,15 +110,6 @@ function MainPage() {
   const handleButtonClick2 = () => {
     navigate('/ChatRoomList');
   };
-// 회원정보 조회 시작 //
-  const handleButtonClick6 = () => {
-    navigate('/userinfo');
-  };
-
-// 회원정보 조회 끝 //
-
-
-
   
   return (
     <React.Fragment>
@@ -135,10 +126,6 @@ function MainPage() {
                 <Button variant="contained" onClick={handleButtonClick2}>
                   채팅방리스트로 가기
                 </Button>
-                <Button variant="contained" onClick={handleButtonClick6}>
-                  회원정보조회
-                </Button>
-
               
                 <Button variant="contained" onClick={handleLogout}>
                   로그아웃
@@ -173,20 +160,21 @@ function MainPage() {
 }
 
 function App() {
+  
   return (
     <Router>
-
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="userinfo" element={<Userinfo />} />
-
-        
-        <Route path="/Playing" element={<PlayingPage />} />
-        <Route path="/" element={<MainPage />} />
-        <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
-        <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
-      </Routes>
+      <GlobalStateProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          
+          
+          <Route path="/Playing" element={<PlayingPage />} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
+          <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
+        </Routes>
+      </GlobalStateProvider>
     </Router>
   );
 }
