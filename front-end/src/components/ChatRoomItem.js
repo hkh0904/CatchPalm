@@ -7,7 +7,7 @@ import SockJS from 'sockjs-client';
 import { allResolved } from 'q';
 
 let name = '';
-let userNumber = '';
+let userNumber = ''; // userNumber 전역변수로 
 
 var stompClient =null;
 var colors = [
@@ -88,8 +88,10 @@ const ChatRoomItem = () => {
 
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
-
     var messageElement = document.createElement('li');
+
+    const usersInfo = message.userInfo;
+    console.log("유저정보들",usersInfo);
 
     if (message.type === 'JOIN') {
       messageElement.classList.add('event-message');
@@ -201,7 +203,6 @@ const ChatRoomItem = () => {
       </div> 
     </div>
 
-    
   );
 };
 
