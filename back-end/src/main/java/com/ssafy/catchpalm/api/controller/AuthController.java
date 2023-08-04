@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -37,20 +38,24 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class  AuthController {
+
 	@Value("${server.address}")
 	String serverAddress;
+
 	@Autowired
 	UserService userService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	@PostMapping("/login")
-	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-			@ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-			@ApiResponse(code = 500, message = "사용자 없음", response = BaseResponseBody.class)
-	})
+
+
+	@PostMapping(value="/login")
+	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.") 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
+        @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+        @ApiResponse(code = 500, message = "사용자 없음", response = BaseResponseBody.class)
+    })
 	public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) throws Exception {
 		String userId = "local:"+loginInfo.getUserId();
 		String password = loginInfo.getPassword();
@@ -83,6 +88,7 @@ public class  AuthController {
 
 		// 프론트 https로 변경되면 변경해야함
 		String address = "http://"+serverAddress+":3000";
+
 		URI redirectUrl = new URI(address); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(redirectUrl);

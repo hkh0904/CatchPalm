@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Userinfo from './pages/Userinfo';
+
 
 import axios from 'axios';
 
@@ -24,6 +26,7 @@ function MainPage() {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
+    
     window.location.reload(); // 페이지 갱신
   };
   const handleDeleteAccount = () => {
@@ -106,6 +109,15 @@ function MainPage() {
   const handleButtonClick2 = () => {
     navigate('/ChatRoomList');
   };
+// 회원정보 조회 시작 //
+  const handleButtonClick6 = () => {
+    navigate('/userinfo');
+  };
+
+// 회원정보 조회 끝 //
+
+
+
   
   return (
     <React.Fragment>
@@ -122,6 +134,10 @@ function MainPage() {
                 <Button variant="contained" onClick={handleButtonClick2}>
                   채팅방리스트로 가기
                 </Button>
+                <Button variant="contained" onClick={handleButtonClick6}>
+                  회원정보조회
+                </Button>
+
               
                 <Button variant="contained" onClick={handleLogout}>
                   로그아웃
@@ -159,7 +175,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        
+        <Route path="userinfo" element={<Userinfo />} />
+
         
         <Route path="/Playing" element={<PlayingPage />} />
         <Route path="/" element={<MainPage />} />
