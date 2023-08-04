@@ -10,6 +10,7 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Userinfo from './pages/Userinfo';
 import axios from 'axios';
 import GlobalStateContext from './GlobalStateContext';
 import GlobalStateProvider from './GlobalStateProvider'; // 추가
@@ -73,7 +74,9 @@ function MainPage() {
     navigate('/signup');
   };
   ////////////// 로그인 로그아웃 끝////////////////  
-
+  const handleButtonClick5 = () => {
+    navigate('/userinfo');
+  };
 
   //////// 회원정보 받아오기 시작/////////
   const [userId, setUserId] = useState(null);
@@ -127,7 +130,9 @@ function MainPage() {
                 <Button variant="contained" onClick={handleButtonClick2}>
                   채팅방리스트로 가기
                 </Button>
-              
+                <Button variant="contained" onClick={handleButtonClick5}>
+                  회원정보조회
+                </Button>
                 <Button variant="contained" onClick={handleLogout}>
                   로그아웃
                 </Button>
@@ -169,7 +174,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           
-          
+          <Route path="/userinfo" element={<Userinfo />} />
           <Route path="/Playing" element={<PlayingPage />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
