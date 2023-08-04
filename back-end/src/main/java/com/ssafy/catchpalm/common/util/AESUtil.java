@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -18,12 +17,10 @@ public class AESUtil {
     private static final String TRANSFORMATION = "AES";
     private static String secretKey;  // 16 characters
 
-
-    @PostConstruct
-    public void AESUtil() {
-        this.secretKey = System.getenv("refresh.secret");
+    @Autowired
+    public AESUtil(@Value("${refresh.secret}") String secretKey) {
+        this.secretKey = secretKey;
     }
-
 
     public static String encrypt(String value) throws Exception {
         byte[] decodedKey = Base64.getDecoder().decode(secretKey);

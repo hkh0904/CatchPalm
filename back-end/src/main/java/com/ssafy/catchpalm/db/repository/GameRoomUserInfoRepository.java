@@ -19,4 +19,5 @@ public interface GameRoomUserInfoRepository extends JpaRepository<GameRoomUserIn
     // userNumber 값으로 GameRoomUserInfo 엔티티 삭제
     void deleteByUserUserNumber(Long userNumber);
     int countByGameRoomRoomNumber(int roomNumber);
+    List<GameRoomUserInfo> findByGameRoomRoomNumber(int roomNumber);
 }

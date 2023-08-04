@@ -1,5 +1,6 @@
 package com.ssafy.catchpalm.api.service;
 
+import com.ssafy.catchpalm.api.request.AuthenticationRoomReq;
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.api.response.MusicPostRes;
@@ -8,6 +9,8 @@ import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.UserRepository;
+import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +84,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 	}
 
 	@Override
+	@Transactional
 	public GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber) {
 		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
 		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
@@ -107,11 +111,12 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Override
 	@Transactional
-	public void outRoomUser(Long userNumber, int gameRoomNumber) {
+	public Long outRoomUser(Long userNumber, int gameRoomNumber) {
 		gameRoomUserInfoRepository.deleteByUserUserNumber(userNumber);// 게임방 유저 나감 처리.
 		int cnt = gameRoomUserInfoRepository.countByGameRoomRoomNumber(gameRoomNumber); // 나간 후 인원체크
 		if(cnt == 0){ // 아무도 없는 방이 된다면 방 삭제.
 			deleteRoom(gameRoomNumber);
+			return null;
 		}
 		// 만약 방장이 게임방을 나갔고, 게임방 내에 유저가 남아 있을 때.
 		// 나간 사람이 방장인지 확인.
@@ -128,12 +133,13 @@ public class GameRoomServiceImpl implements GameRoomService {
 					if (newCaptain != null) { // 실제 존재하는 유저이다면
 						gameRoom.setCaptain(newCaptain);  // 새로운 방장 정보에 업데이트.
 						gameRoomRepository.save(gameRoom); // 업데이트 실행.
-						break;
+						return gameRoom.getCaptain().getUserNumber(); // 방장이 변경되면 해당 방장 유저넘버만 리턴.
 					}
 
 				}
 			}
 		}
+		return null;
 	}
 
 	@Override
@@ -178,6 +184,36 @@ public class GameRoomServiceImpl implements GameRoomService {
 			}
 			GameRoomPostRes resultGameRoom = GameRoomPostRes.of(gameRoom, resMusics);
 			return resultGameRoom;
+		}
+		return null;
+	}
+
+	// 게임룸에 있는 유저 정보 조회.
+	@Override
+	public List<UserInfo> getRoomUsers(int roomNumber) {
+		List<GameRoomUserInfo> userInfos = gameRoomUserInfoRepository.findByGameRoomRoomNumber(roomNumber);
+
+		List<UserInfo> resultUserInfos = new ArrayList<>();
+
+		for(GameRoomUserInfo userInfo : userInfos){
+			UserInfo resultUserInfo = new UserInfo();
+			resultUserInfo.setNickname(userInfo.getUser().getNickname());
+			resultUserInfo.setProfileImg(userInfo.getUser().getProfileImg());
+			resultUserInfo.setUserNumber(userInfo.getUser().getUserNumber());
+
+			resultUserInfos.add(resultUserInfo);
+		}
+		return resultUserInfos;
+	}
+
+	@Override
+	@Transactional
+	public Boolean check(AuthenticationRoomReq gameStartReq) {
+		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
+		GameRoom gameRoom = gameRoomRepository.findById(gameStartReq.getRoomNumber()).orElse(null);
+		// 게임방이 존재한다면
+		if(gameRoom != null) {
+			int cntUsers = gameRoom.getUserInfos().size();
 		}
 		return null;
 	}
