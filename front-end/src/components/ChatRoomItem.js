@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './ChatRoomItem.css'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { allResolved } from 'q';
-import GlobalStateContext from '../GlobalStateContext';
 
 var stompClient =null;
 var colors = [
@@ -14,13 +13,12 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
-  const { responseData } = useContext(GlobalStateContext);
   const messageAreaRef = useRef(null);
   const { roomNumber } = useParams();
   const [roomInfo, setRoomInfo] = useState(null);
 
-  const [name, setName] = useState(responseData.userNickname);
-  const [userNumber, setUserNumber] = useState(responseData.userNumber);
+  const [name, setName] = useState('');
+  const [userNumber, setUserNumber] = useState('');
   const [messages, setMessages] = useState(''); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   const [isVisible, setIsVisible] = useState(false); 
@@ -29,12 +27,19 @@ const ChatRoomItem = () => {
     setIsVisible(!isVisible);
   };
 
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleUserNumberChange = (event) => {
+    setUserNumber(event.target.value);
+  };
+
   const handleMessageChange = (event) => {
     setMessages(event.target.value);
   };
 
   useEffect(() => {
-    handleStartChatting()
     const fetchRoomInfo = async () => {
       try {
         const response = await axios.get(`https://localhost:8443/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`);
@@ -163,6 +168,41 @@ const ChatRoomItem = () => {
         <p>{roomNumber}</p>
         {/* 기타 방 정보 표시 */}
       </div>
+      {!isVisible &&
+      <div id="username-page">
+        <div className="username-page-container">
+          <h1 className="title">니이름 입력행</h1>
+          <form id="usernameForm" name="usernameForm">
+            <div className="form-group">
+              <input
+                type="text"
+                id="name"
+                placeholder="Username"
+                autoComplete="off"
+                className="form-control"
+                value={name}
+                onChange={handleNameChange}
+              />
+              <input
+                type="text"
+                id="userNumber"
+                placeholder="UserNumber"
+                autoComplete="off"
+                className="form-control"
+                value={userNumber}
+                onChange={handleUserNumberChange}
+              />
+              
+            </div>
+            <div className="form-group">
+              <button type="button" className="accent username-submit" onClick={handleStartChatting}>
+                Start Chatting
+              </button>
+            </div>
+          </form>
+        </div>
+      </div> }
+      {isVisible &&
       <div id="chat-page" className="hidden">
         <div className="chat-container">
           <div className="chat-header">
@@ -188,7 +228,7 @@ const ChatRoomItem = () => {
             </div>
           </form>
         </div>
-      </div> 
+      </div> }
     </div>
 
     
