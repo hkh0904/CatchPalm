@@ -94,6 +94,7 @@ function MainPage() {
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
         setUserId(cleanedUserId);
         setResponseData(response.data);
+        localStorage.setItem('userData', JSON.stringify(response.data));
         console.log(response.data.userId)
       })
       .catch(error => {
