@@ -15,11 +15,11 @@ public class BoardComment {
     @Column(name = "comment_number")
     private int commentNumber; // 댓글 고유번호 : PK
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_number")
     private Board board; // 해당 게시글 정보 : 단방향 매핑
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User user; // 댓글 작성자 정보 : 단방향 매핑
 

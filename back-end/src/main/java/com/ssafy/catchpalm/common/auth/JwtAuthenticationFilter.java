@@ -74,8 +74,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
             DecodedJWT decodedJWT = JWT.decode(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
             String userId = decodedJWT.getSubject();
-            String refreshToken = null; // Get refreshToken from database
+            String refreshToken = null;
             try {
+                // Get refreshToken from database
                 refreshToken = userService.getRefreshTokenByUserId(userId);
             } catch (Exception e) {
                 throw new RuntimeException(e);
