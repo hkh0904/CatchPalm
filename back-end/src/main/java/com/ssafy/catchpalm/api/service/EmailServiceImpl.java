@@ -18,12 +18,15 @@ import java.nio.charset.StandardCharsets;
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
-    @Value("${spring.mail.username}")
     private String adminEmail;
 
+//    @Value("${spring.mail.username}")
+//    private String adminEmail;
+
     @Autowired
-    public EmailServiceImpl(JavaMailSender emailSender) {
+    public EmailServiceImpl(JavaMailSender emailSender, @Value("${spring.mail.username}") String adminEmail) {
         this.emailSender = emailSender;
+        this.adminEmail = adminEmail;
     }
 
     @Override
