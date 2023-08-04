@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-@Service("emailService")
+@Service("EmailService")
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;

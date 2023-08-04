@@ -8,6 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UserReady {
-   private Long userNumber;
-   private int isReady; // 0: 레디x | 1: 레디o
+   int roomNumber;
+   Long userNumber;
+   int isReady; // 0: 레디x | 1: 레디o
+   private MessageType type;
 }
