@@ -52,6 +52,7 @@ const Userinfo = () => {
                     }
                 });
                 
+                
                 if (response.status === 200) {
                     setUserInfo(prevState => ({ ...prevState, userNickname: newNickname }));
                     alert('닉네임이 변경되었습니다!');
