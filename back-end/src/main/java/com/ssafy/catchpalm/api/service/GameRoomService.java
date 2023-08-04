@@ -1,5 +1,6 @@
 package com.ssafy.catchpalm.api.service;
 
+import com.ssafy.catchpalm.api.request.AuthenticationRoomReq;
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.db.entity.GameRoom;
@@ -16,7 +17,7 @@ public interface GameRoomService {
 	void deleteRoom(int roomNumber);
 	GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
 
-    void outRoomUser(Long userNumber, int gameRoomNumber);
+    Long outRoomUser(Long userNumber, int gameRoomNumber);
 
     List<GameRoomPostRes> gameRoomList();
 
@@ -25,4 +26,5 @@ public interface GameRoomService {
     GameRoomPostRes getRoomInfo(int roomNumber);
 
     List<UserInfo> getRoomUsers(int roomNumber);
+    Boolean check(AuthenticationRoomReq gameStartReq);
 }
