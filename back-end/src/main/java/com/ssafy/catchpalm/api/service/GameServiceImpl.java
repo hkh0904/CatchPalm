@@ -7,7 +7,9 @@ import com.ssafy.catchpalm.db.entity.User;
 import com.ssafy.catchpalm.db.repository.RankRepository;
 import com.ssafy.catchpalm.db.repository.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("gameService")
 public class GameServiceImpl implements GameService {
 
     @Autowired
