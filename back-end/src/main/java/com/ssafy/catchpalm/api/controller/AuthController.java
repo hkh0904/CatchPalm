@@ -47,7 +47,6 @@ public class  AuthController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-
 	@PostMapping(value="/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
 	@ApiResponses({
