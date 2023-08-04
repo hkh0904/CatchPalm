@@ -6,6 +6,9 @@ import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { allResolved } from 'q';
 
+let name = '';
+let userNumber = ''; // userNumber 전역변수로 
+
 var stompClient =null;
 var colors = [
   '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -13,12 +16,21 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
+  useEffect(() => {
+    // localStorage에서 데이터 가져오기
+    const storedData = localStorage.getItem('userData');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      name = parsedData.userNickname;
+      userNumber = parsedData.userNumber;
+    }
+  }, []);
+
   const messageAreaRef = useRef(null);
   const { roomNumber } = useParams();
   const [roomInfo, setRoomInfo] = useState(null);
 
-  const [name, setName] = useState('');
-  const [userNumber, setUserNumber] = useState('');
+  
   const [messages, setMessages] = useState(''); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   const [isVisible, setIsVisible] = useState(false); 
@@ -27,24 +39,17 @@ const ChatRoomItem = () => {
     setIsVisible(!isVisible);
   };
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleUserNumberChange = (event) => {
-    setUserNumber(event.target.value);
-  };
-
   const handleMessageChange = (event) => {
     setMessages(event.target.value);
   };
 
   useEffect(() => {
+    handleStartChatting()
     const fetchRoomInfo = async () => {
       try {
         const response = await axios.get(`https://localhost:8443/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`);
-        console.log(response.data);
         const data = response.data;
+        console.log("뭘까요",response);
         setRoomInfo(data);
       } catch (error) {
         console.error('Error fetching room info:', error);
@@ -79,7 +84,7 @@ const ChatRoomItem = () => {
     console.log(err);
   }
 
-  // 서버에서 메세지 수신
+  // 서버에서 메세지 수신R
 
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
@@ -168,41 +173,6 @@ const ChatRoomItem = () => {
         <p>{roomNumber}</p>
         {/* 기타 방 정보 표시 */}
       </div>
-      {!isVisible &&
-      <div id="username-page">
-        <div className="username-page-container">
-          <h1 className="title">니이름 입력행</h1>
-          <form id="usernameForm" name="usernameForm">
-            <div className="form-group">
-              <input
-                type="text"
-                id="name"
-                placeholder="Username"
-                autoComplete="off"
-                className="form-control"
-                value={name}
-                onChange={handleNameChange}
-              />
-              <input
-                type="text"
-                id="userNumber"
-                placeholder="UserNumber"
-                autoComplete="off"
-                className="form-control"
-                value={userNumber}
-                onChange={handleUserNumberChange}
-              />
-              
-            </div>
-            <div className="form-group">
-              <button type="button" className="accent username-submit" onClick={handleStartChatting}>
-                Start Chatting
-              </button>
-            </div>
-          </form>
-        </div>
-      </div> }
-      {isVisible &&
       <div id="chat-page" className="hidden">
         <div className="chat-container">
           <div className="chat-header">
@@ -228,7 +198,7 @@ const ChatRoomItem = () => {
             </div>
           </form>
         </div>
-      </div> }
+      </div> 
     </div>
 
     

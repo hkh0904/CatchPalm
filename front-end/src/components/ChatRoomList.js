@@ -1,23 +1,41 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import GlobalStateContext from '../GlobalStateContext';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
-  const { responseData } = useContext(GlobalStateContext);
-  console.log(responseData);
+  const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
+  useEffect(() => {
+    // localStorage에서 데이터 가져오기
+    const storedData = localStorage.getItem('userData');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setUserNumber(parsedData.userNumber);
+    }
+  }, []);
+
+  
   const [roomData, setRoomData] = useState({
     capacity: '',
     categoryNumber: '',
     password: '',
     title: '',
-    userNumber: responseData.userNumber,
+    userNumber: '',
     roomNumber: ''
   });
+
+  const updateRoomData = (newData) => {
+    setRoomData((prevData) => ({
+      ...prevData,
+      ...newData,
+      userNumber: userNumber // localStorage에서 가져온 userNumber로 설정
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    updateRoomData({ [name]: value });
     setRoomData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -67,6 +85,7 @@ const ChatRoomList = ({}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get('https://localhost:8443/api/v1/gameRooms/listRooms');
