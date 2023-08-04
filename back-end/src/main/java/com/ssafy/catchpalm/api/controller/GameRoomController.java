@@ -48,7 +48,7 @@ public class GameRoomController {
 
 		GameRoom gameRoom = gameRoomService.createRoom(gameRoomInfo);
 		gameRoomService.addRoomUser(gameRoomInfo.getUserNumber(), gameRoom.getRoomNumber());
-		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom));
+		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom, null));
 	}
 
 	@DeleteMapping("/delete/{roomNumber}")
@@ -128,7 +128,7 @@ public class GameRoomController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	// 게임방 정보 가져오기: 입장 시
+	// 게임방 정보 가져오기: 입장 시 + 음악정보들 같이 가져오기.
 	@GetMapping("/getGameRoomInfo/{roomNumber}")
 	@ApiOperation(value = "게임방 상세정보 가져오기", notes = "<strong>게임방 번호</strong> 입력받아 해당 데이터로 방정보 조회")
 	@ApiResponses({
@@ -139,8 +139,8 @@ public class GameRoomController {
 	})
 	public ResponseEntity<?> getRoomInfo(
 			@ApiParam(value="방 정보", required = true)@PathVariable("roomNumber") int roomNumber) {
-		GameRoom resultRoom = gameRoomService.getRoomInfo(roomNumber);
-		return ResponseEntity.status(200).body(GameRoomPostRes.of(resultRoom));
+		GameRoomPostRes resultRoom = gameRoomService.getRoomInfo(roomNumber);
+		return ResponseEntity.status(200).body(resultRoom);
 
 	}
 }
