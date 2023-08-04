@@ -1,5 +1,6 @@
 package com.ssafy.catchpalm.api.service;
 
+import com.ssafy.catchpalm.api.request.AuthenticationRoomReq;
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.api.response.MusicPostRes;
@@ -203,5 +204,24 @@ public class GameRoomServiceImpl implements GameRoomService {
 			resultUserInfos.add(resultUserInfo);
 		}
 		return resultUserInfos;
+	}
+
+	@Override
+	@Transactional
+	public Boolean check(AuthenticationRoomReq gameStartReq) {
+		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
+		GameRoom gameRoom = gameRoomRepository.findById(gameStartReq.getRoomNumber()).orElse(null);
+		// 게임방이 존재한다면
+		if(gameRoom != null) {
+			int cntUsers = gameRoom.getUserInfos().size();
+			if(cntUsers<gameRoom.getCapacity()){
+				if(gameStartReq.getPassword().equals(gameRoom.getPassword())){
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+		return false;
 	}
 }

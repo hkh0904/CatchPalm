@@ -1,9 +1,6 @@
 package com.ssafy.catchpalm.api.controller;
 
-import com.ssafy.catchpalm.api.request.AddGameRoomUserReq;
-import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
-import com.ssafy.catchpalm.api.request.GameStartReq;
-import com.ssafy.catchpalm.api.request.UserRegisterPostReq;
+import com.ssafy.catchpalm.api.request.*;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.api.response.UserRes;
 import com.ssafy.catchpalm.api.service.GameRoomService;
@@ -141,5 +138,20 @@ public class GameRoomController {
 		GameRoomPostRes resultRoom = gameRoomService.getRoomInfo(roomNumber);
 		return ResponseEntity.status(200).body(resultRoom);
 
+	}
+
+	// 게임방 입장 조건 검증
+	@PostMapping("/authentication")
+	@ApiOperation(value = "게임방 입장 조건 검증", notes = "<strong>게임방 번호, 비밀번호</strong> 입력받아 해당 데이터로 입장 검증")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<Boolean> authentication(
+			@ApiParam(value="'roomNumber' : 방번호, '' : 번호", required = true)@RequestBody AuthenticationRoomReq gameStartReq) {
+		Boolean check = gameRoomService.check(gameStartReq);
+		return ResponseEntity.status(200).body(check);
 	}
 }
