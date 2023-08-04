@@ -6,6 +6,8 @@
 3. 백엔드 서버를 구동한 후
 4. npm install 후에 npm start
 
+안될시에 디스코드의 https 버전으로 application.properties를 변경하고 ssafy.p12를 설명대로 추가
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
