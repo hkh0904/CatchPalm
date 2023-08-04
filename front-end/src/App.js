@@ -98,10 +98,28 @@ function MainPage() {
         setUserId(cleanedUserId);
         setResponseData(response.data);
         localStorage.setItem('userData', JSON.stringify(response.data));
-        console.log(response.data.userId)
+        console.log(response.data)
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        console.error("error");
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios({
+          method: 'get',
+          url: 'https://localhost:8443/api/v1/users/me',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // your access token here
+          }
+        })
+          .then(response => {
+            const rawUserId = response.data.userId;
+            const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            setUserId(cleanedUserId);
+            setResponseData(response.data);
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            console.log(response.data)
+          })
       });
   }, []); // useEffect will run once when the component mounts
   
