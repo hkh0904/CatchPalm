@@ -8,6 +8,7 @@
     "@mediapipe/drawing_utils": "^0.3.1675466124",
     "@mediapipe/hands": "^0.4.1675469240",
     "@mediapipe/tasks-vision": "^0.1.0-alpha-12",
+    "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.12.1",
     "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.16.5",
