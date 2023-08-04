@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './ChatRoomItem.css'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { allResolved } from 'q';
-import GlobalStateContext from '../GlobalStateContext';
+
+let name = '';
+let userNumber = ''; // userNumber 전역변수로 
 
 var stompClient =null;
 var colors = [
@@ -14,13 +16,21 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
-  const { responseData } = useContext(GlobalStateContext);
+  useEffect(() => {
+    // localStorage에서 데이터 가져오기
+    const storedData = localStorage.getItem('userData');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      name = parsedData.userNickname;
+      userNumber = parsedData.userNumber;
+    }
+  }, []);
+
   const messageAreaRef = useRef(null);
   const { roomNumber } = useParams();
   const [roomInfo, setRoomInfo] = useState(null);
 
-  const [name, setName] = useState(responseData.userNickname);
-  const [userNumber, setUserNumber] = useState(responseData.userNumber);
+  
   const [messages, setMessages] = useState(''); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   const [isVisible, setIsVisible] = useState(false); 
@@ -38,8 +48,8 @@ const ChatRoomItem = () => {
     const fetchRoomInfo = async () => {
       try {
         const response = await axios.get(`https://localhost:8443/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`);
-        console.log(response.data);
         const data = response.data;
+        console.log("뭘까요",response);
         setRoomInfo(data);
       } catch (error) {
         console.error('Error fetching room info:', error);
@@ -74,7 +84,7 @@ const ChatRoomItem = () => {
     console.log(err);
   }
 
-  // 서버에서 메세지 수신
+  // 서버에서 메세지 수신R
 
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);

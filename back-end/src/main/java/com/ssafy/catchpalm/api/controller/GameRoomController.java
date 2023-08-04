@@ -141,7 +141,7 @@ public class GameRoomController {
 	}
 
 	// 게임방 입장 조건 검증
-	@GetMapping("/authentication")
+	@PostMapping("/authentication")
 	@ApiOperation(value = "게임방 입장 조건 검증", notes = "<strong>게임방 번호, 비밀번호</strong> 입력받아 해당 데이터로 입장 검증")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -152,6 +152,6 @@ public class GameRoomController {
 	public ResponseEntity<Boolean> authentication(
 			@ApiParam(value="'roomNumber' : 방번호, '' : 번호", required = true)@RequestBody AuthenticationRoomReq gameStartReq) {
 		Boolean check = gameRoomService.check(gameStartReq);
-		return ResponseEntity.status(200).body(false);
+		return ResponseEntity.status(200).body(check);
 	}
 }

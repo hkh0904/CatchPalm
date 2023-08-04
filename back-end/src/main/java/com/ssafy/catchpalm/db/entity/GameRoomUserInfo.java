@@ -25,5 +25,6 @@ public class GameRoomUserInfo {
 
     private int team; // 팀 정보
 
+    private int ready; // 레디정보.
 
 }

@@ -3,6 +3,7 @@ package com.ssafy.catchpalm.websocket.chat.controller;
 import com.ssafy.catchpalm.api.service.GameRoomService;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
 import com.ssafy.catchpalm.websocket.chat.model.ChatMessage;
+import com.ssafy.catchpalm.websocket.chat.model.ReadyInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -58,5 +59,12 @@ public class ChatController {
         String roomNumber = String.valueOf(chatMessage.getRoomNumber());
         // 해당 방으로 메시지 브로드캐스팅
         template.convertAndSend("/topic/chat/" + roomNumber, chatMessage);
+    }
+
+    @MessageMapping("/ready.click")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void clickMessage(@Payload ReadyInfo readyInfo) {
+
+        // TODO -- 유저번호 레디 신호 받아서 DB에 반영 후 최종 정보 반환
     }
 }
