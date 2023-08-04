@@ -30,6 +30,7 @@ const ChatRoomItem = () => {
   const { roomNumber } = useParams();
   const [roomInfo, setRoomInfo] = useState(null);
 
+  const [userInfo, setUserInfo] = useState([]); // 유저정보들
   
   const [messages, setMessages] = useState(''); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
@@ -91,6 +92,7 @@ const ChatRoomItem = () => {
     var messageElement = document.createElement('li');
 
     const usersInfo = message.userInfo;
+    setUserInfo(usersInfo);
     console.log("유저정보들",usersInfo);
 
     if (message.type === 'JOIN') {
@@ -178,7 +180,7 @@ const ChatRoomItem = () => {
       <div id="chat-page" className="hidden">
         <div className="chat-container">
           <div className="chat-header">
-            <h2 id="roomN">Spring WebSocket Chat Demo - By 민우짱</h2>
+            <h2 id="roomN">유저정보들: {JSON.stringify(userInfo)}</h2>
           </div>
           <ul ref={messageAreaRef}></ul>
           <form id="messageForm" name="messageForm" onSubmit={handleSendMessage}>
