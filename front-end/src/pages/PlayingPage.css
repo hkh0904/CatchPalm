@@ -19,6 +19,8 @@ canvas {
 }
 
 #score {
+  font-size: 50px;
+  font-weight: bold;
   position: absolute;
   left: 10px;
   color: white;
@@ -26,18 +28,28 @@ canvas {
   margin-left: 10px;
 }
 
+
 .circle {
     margin: 0 auto;
     width: 100px;
     height: 100px;
-
-
     background-color: skyblue;
     border: 10px solid royalblue;
-
     border-radius: 50%;
     position: absolute;
     display: block;
+    opacity:0.6;
+  }
+
+.circle-out {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    border: 10px solid royalblue;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    opacity:0.6;
   }
 
   .motion1 {

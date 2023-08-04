@@ -37,14 +37,18 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class  AuthController {
+
 	@Value("${server.address}")
 	String serverAddress;
+
 	@Autowired
 	UserService userService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	@PostMapping("/login")
+
+
+	@PostMapping(value="/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
@@ -83,6 +87,7 @@ public class  AuthController {
 
 		// 프론트 https로 변경되면 변경해야함
 		String address = "http://"+serverAddress+":3000";
+
 		URI redirectUrl = new URI(address); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(redirectUrl);
