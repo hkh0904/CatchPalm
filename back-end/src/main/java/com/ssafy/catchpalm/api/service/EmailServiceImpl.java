@@ -7,24 +7,24 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-@Service("emailService")
+@Service("EmailService")
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
-    private static String adminEmail;
+    @Value("${spring.mail.username}")
+    private String adminEmail;
 
     @Autowired
-    public EmailServiceImpl(@Value("${spring.mail.username}") String adminEmail,JavaMailSender emailSender) {
+    public EmailServiceImpl(JavaMailSender emailSender) {
         this.emailSender = emailSender;
-        this.adminEmail = adminEmail;
     }
-
 
     @Override
     public void sendVerificationEmail(String userEmail, String emailVerificationToken) throws MessagingException {

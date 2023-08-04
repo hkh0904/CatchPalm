@@ -1,9 +1,6 @@
 package com.ssafy.catchpalm.api.controller;
 
-import com.ssafy.catchpalm.api.request.AddGameRoomUserReq;
-import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
-import com.ssafy.catchpalm.api.request.GameStartReq;
-import com.ssafy.catchpalm.api.request.UserRegisterPostReq;
+import com.ssafy.catchpalm.api.request.*;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.api.response.UserRes;
 import com.ssafy.catchpalm.api.service.GameRoomService;
@@ -47,8 +44,7 @@ public class GameRoomController {
 			@RequestBody @ApiParam(value="방 정보", required = true) GameRoomRegisterPostReq gameRoomInfo) {
 
 		GameRoom gameRoom = gameRoomService.createRoom(gameRoomInfo);
-		gameRoomService.addRoomUser(gameRoomInfo.getUserNumber(), gameRoom.getRoomNumber());
-		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom));
+		return ResponseEntity.status(200).body(GameRoomPostRes.of(gameRoom, null));
 	}
 
 	@DeleteMapping("/delete/{roomNumber}")
@@ -94,7 +90,9 @@ public class GameRoomController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> outUser(
-			@ApiParam(value="'userNumber' : 번호, 'roomNumber' : 번호", required = true)@RequestBody AddGameRoomUserReq addGameRoomUserReq) {
+			@ApiParam(value="'userNumber' : 번호, 'roomNumber' : 번호", required = true)
+
+			@RequestBody AddGameRoomUserReq addGameRoomUserReq) {
 		gameRoomService.outRoomUser(addGameRoomUserReq.getUserNumber(), addGameRoomUserReq.getGameRoomNumber());
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -128,7 +126,7 @@ public class GameRoomController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	// 게임방 정보 가져오기: 입장 시
+	// 게임방 정보 가져오기: 입장 시 + 음악정보들 같이 가져오기.
 	@GetMapping("/getGameRoomInfo/{roomNumber}")
 	@ApiOperation(value = "게임방 상세정보 가져오기", notes = "<strong>게임방 번호</strong> 입력받아 해당 데이터로 방정보 조회")
 	@ApiResponses({
@@ -139,8 +137,23 @@ public class GameRoomController {
 	})
 	public ResponseEntity<?> getRoomInfo(
 			@ApiParam(value="방 정보", required = true)@PathVariable("roomNumber") int roomNumber) {
-		GameRoom resultRoom = gameRoomService.getRoomInfo(roomNumber);
-		return ResponseEntity.status(200).body(GameRoomPostRes.of(resultRoom));
+		GameRoomPostRes resultRoom = gameRoomService.getRoomInfo(roomNumber);
+		return ResponseEntity.status(200).body(resultRoom);
 
+	}
+
+	// 게임방 입장 조건 검증
+	@GetMapping("/authentication")
+	@ApiOperation(value = "게임방 입장 조건 검증", notes = "<strong>게임방 번호, 비밀번호</strong> 입력받아 해당 데이터로 입장 검증")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<Boolean> authentication(
+			@ApiParam(value="'roomNumber' : 방번호, '' : 번호", required = true)@RequestBody AuthenticationRoomReq gameStartReq) {
+		Boolean check = gameRoomService.check(gameStartReq);
+		return ResponseEntity.status(200).body(false);
 	}
 }
