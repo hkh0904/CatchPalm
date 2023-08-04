@@ -47,14 +47,13 @@ public class  AuthController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-
 	@PostMapping(value="/login")
-	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.") 
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-        @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-        @ApiResponse(code = 500, message = "사용자 없음", response = BaseResponseBody.class)
-    })
+	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
+			@ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+			@ApiResponse(code = 500, message = "사용자 없음", response = BaseResponseBody.class)
+	})
 	public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) throws Exception {
 		String userId = "local:"+loginInfo.getUserId();
 		String password = loginInfo.getPassword();
