@@ -34,8 +34,9 @@ public class GameRoom {
 
     @Column(nullable = false)
     private int capacity; // 게임방 정원
-    @Column(nullable = false)
+
     private String password; // 게임방 비밀번호
+
     @Column(nullable = false)
     private String title; // 게임방 제목
     @Column(nullable = false)
