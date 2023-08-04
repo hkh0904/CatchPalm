@@ -58,19 +58,26 @@ export default function HandModel() {
   const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const scoreRef = useRef(score);
-  const [numHands, setNumHands] = useState(0);
-  const numHandsRef = useRef(numHands);
-  
+
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
     setVideoHidden(!videoHidden);
   };
+  
+  // window의 크기를 저장하는 상태
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  
+  // window의 크기가 변경될 때 windowSize 상태를 업데이트하는 함수
+  const updateWindowDimensions = () => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  };
 
   useEffect(() => {
     scoreRef.current = score;  // score 값이 변경될 때마다 ref를 업데이트합니다.
-    numHandsRef.current = numHands
-    console.log(numHands)
-  }, [score, numHands]);
+  }, [score]);
 
   
     const props = useSpring({
@@ -84,22 +91,68 @@ export default function HandModel() {
       setScore((prevScore) => prevScore + amount);
     };
 
-  // window의 크기를 저장하는 상태
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  // window의 크기가 변경될 때 windowSize 상태를 업데이트하는 함수
-  const updateWindowDimensions = () => {
-    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-  };
-
   // window의 크기가 변경될 때마다 updateWindowDimensions 함수를 실행하도록 이벤트 리스너를 등록하는 useEffect
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
+
+  // 컴포넌트가 마운트될 때 카운트다운을 시작
+  useEffect(() => {
+    const fetchDataAndPredict = async () => {
+        const data = await fetchData();  // fetchData가 데이터를 반환하도록 수정
+        await createGestureRecognizer();
+        await handleStartStreaming();
+        await predictWebcam();
+        return data;  // 데이터 반환
+    };
+    
+    fetchDataAndPredict().then((data) => {
+      const audio = new Audio("/music/YOASOBI-IDOL.mp3");
+      const finish = new Audio("/assets/Finish.mp3");
+      audio.volume = 0.2; // 볼륨 30%로 설정
+      finish.volume = 0.4; //
+      audio.loop = false;
+      finish.loop = false;
+      
+      const timer = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          if (prevCountdown > 1) {
+            return prevCountdown - 1;
+          } else {
+            clearInterval(timer);
+            audio.play();
+
+            if (videoSrcRef.current) {
+              videoSrcRef.current.play();
+            }
+            createCircles(data);
+            // Audio가 끝날 때 'finish' 재생
+            audio.onended = () => {
+              finish.play();
+
+              // 'finish'가 끝나면 비디오를 멈추고 메인 페이지로 이동
+              finish.onended = () => {
+                if (videoRef.current && videoRef.current.srcObject) {
+                  const tracks = videoRef.current.srcObject.getTracks();
+                  tracks.forEach((track) => {
+                    track.stop();
+                  });
+                  videoRef.current.srcObject = null;
+                  // displayedScore = 0;
+                  // 페이지 이동
+                  console.log(scoreRef.current);  // 최신 score 값 출력
+                  navigate('/');
+                }
+              }
+            };
+            return 0;
+          }
+        });
+      }, 500);
+    });
+  }, []);
+
 
   // 웹캠 스트림을 시작하는 비동기 함수
   const handleStartStreaming = async () => {
@@ -121,139 +174,68 @@ export default function HandModel() {
     }
   };
 
-  // fetchData 함수를 수정하여 데이터를 가져와서 nodes에 저장하고 웹캠 위에 원 그리기
-  const fetchData = async () => {
-    try {
-        const response = await axios.get("/music/YOASOBI-IDOL-HARD.json");
-        const data = response.data; // 가져온 데이터
-        data.forEach((node) => {
-            setTimeout(() => {
-
-                // circle 클래스를 가진 div를 생성합니다.
-                const circleDiv = document.createElement("div");
-                circleDiv.className = "circle";
-                // circle Node의 테두리 div
-                const circleOut = document.createElement("div");
-                circleOut.className = "circle-out";
-
-                // MOTION_NUM을 확인하여 'motion' + MOTION_NUM 클래스를 추가합니다.
-                circleDiv.classList.add('motion' + node.MOTION_NUM);
-
-                // webcam의 위치와 크기를 얻습니다.
-                const webcamWrapper = document.getElementById("webcamWrapper");
-                const webcamRect = webcamWrapper.getBoundingClientRect();
-
-                // div의 위치를 설정합니다. X-COORDINATE와 Y-COORDINATE 값은 0~1 범위라고 가정합니다.
-                circleDiv.style.left = `calc(${webcamRect.width -
-                    (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)}px - 50px)`;
-                circleDiv.style.top = `calc(${
-                    webcamRect.top + node["Y-COORDINATE"] * webcamRect.height}px - 50px)`;
-                circleOut.style.left = `calc(${webcamRect.width -
-                    (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)}px - 100px)`;
-                circleOut.style.top = `calc(${
-                    webcamRect.top + node["Y-COORDINATE"] * webcamRect.height}px - 100px)`;
-
-                // div를 웹캠의 컨테이너인 webcamWrapper에 추가합니다.
-                webcamWrapper.appendChild(circleDiv);
-                webcamWrapper.appendChild(circleOut);
-
-                // 애니메이션 시작
-                let scale = 1;
-                let scaleStep;
-
-                if (numHands === 0) {
-                  scaleStep = 0.013;
-                  console.log(scaleStep)
-                } else if (numHands === 1) {
-                  scaleStep = 0.02;
-                  console.log(scaleStep)
-                } else if (numHands === 2) {
-                  scaleStep = 0.03;
-                  console.log(scaleStep)
-                }
-                
-
-
-                function animate() {
-                  scale -= scaleStep;
-                  circleOut.style.transform = `scale(${scale})`;
-
-                  if(scale > 0.3) {  // 원의 크기가 0.5가 될 때까지만 애니메이션을 계속합니다.
-                    requestAnimationFrame(animate);
-                  }
-                }
-                animate();
-
-
-                // 3초 후에 생성된 div를 삭제합니다.
-                setTimeout(() => {
-                    webcamWrapper.removeChild(circleDiv);
-                    webcamWrapper.removeChild(circleOut);
-                }, 2000);
-            }, node.APPEAR_TIME * 1000); // APPEAR_TIME은 초 단위로 가정합니다.
-        });
-    } catch (error) {
-        console.error("Error fetching the JSON data:", error);
-    }
+// fetchData 함수를 수정하여 데이터를 가져와서 반환
+const fetchData = async () => {
+  try {
+      const response = await axios.get("/music/YOASOBI-IDOL-HARD.json");
+      const data = response.data; // 가져온 데이터
+      return data;  // 데이터 반환
+  } catch (error) {
+      console.error("Error fetching the JSON data:", error);
+  }
 };
 
+  // fetchData 함수를 수정하여 데이터를 가져와서 nodes에 저장하고 웹캠 위에 원 그리기
+  const createCircles = async (data) => {
+    data.forEach((node) => {
+      setTimeout(() => {
+        // circle 클래스를 가진 div를 생성합니다.
+        const circleDiv = document.createElement("div");
+        circleDiv.className = "circle";
+        // circle Node의 테두리 div
+        const circleOut = document.createElement("div");
+        circleOut.className = "circle-out";
 
-// 컴포넌트가 마운트될 때 카운트다운을 시작
-useEffect(() => {
-  const fetchDataAndPredict = async () => {
-    fetchData();
-    await createGestureRecognizer();
-    await handleStartStreaming();
-    await predictWebcam();
-  };
+        // MOTION_NUM을 확인하여 'motion' + MOTION_NUM 클래스를 추가합니다.
+        circleDiv.classList.add('motion' + node.MOTION_NUM);
 
-  fetchDataAndPredict().then(() => {
-    const audio = new Audio("/music/YOASOBI-IDOL.mp3");
-    const finish = new Audio("/assets/Finish.mp3");
-    audio.volume = 0.2; // 볼륨 30%로 설정
-    finish.volume = 0.4; //
-    audio.loop = false;
-    finish.loop = false;
-    
-    const timer = setInterval(() => {
-      setCountdown((prevCountdown) => {
-        if (prevCountdown > 1) {
-          return prevCountdown - 1;
-        } else {
-          clearInterval(timer);
-          audio.play();
+        // webcam의 위치와 크기를 얻습니다.
+        const webcamWrapper = document.getElementById("webcamWrapper");
+        const webcamRect = webcamWrapper.getBoundingClientRect();
 
-          if (videoSrcRef.current) {
-            videoSrcRef.current.play();
+        // div의 위치를 설정합니다. X-COORDINATE와 Y-COORDINATE 값은 0~1 범위라고 가정합니다.
+        circleDiv.style.left = `calc(${webcamRect.width -
+            (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)}px - 50px)`;
+        circleDiv.style.top = `calc(${
+            webcamRect.top + node["Y-COORDINATE"] * webcamRect.height}px - 50px)`;
+        circleOut.style.left = `calc(${webcamRect.width -
+            (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)}px - 100px)`;
+        circleOut.style.top = `calc(${
+            webcamRect.top + node["Y-COORDINATE"] * webcamRect.height}px - 100px)`;
+
+        // div를 웹캠의 컨테이너인 webcamWrapper에 추가합니다.
+        webcamWrapper.appendChild(circleDiv);
+        webcamWrapper.appendChild(circleOut);
+
+        // 애니메이션 시작
+        let scale = 1;
+        let scaleStep = 0.018;
+
+        function animate() {
+          scale -= scaleStep;
+          circleOut.style.transform = `scale(${scale})`;
+      
+          if(scale > 0.2) {  // 원의 크기가 0.3가 될 때까지만 애니메이션을 계속합니다.
+              requestAnimationFrame(animate);
+          } else {  // scale이 0.2 이하가 되면 div를 삭제합니다.
+              webcamWrapper.removeChild(circleDiv);
+              webcamWrapper.removeChild(circleOut);
           }
-
-          // Audio가 끝날 때 'finish' 재생
-          audio.onended = () => {
-            finish.play();
-
-            // 'finish'가 끝나면 비디오를 멈추고 메인 페이지로 이동
-            finish.onended = () => {
-              if (videoRef.current && videoRef.current.srcObject) {
-                const tracks = videoRef.current.srcObject.getTracks();
-                tracks.forEach((track) => {
-                  track.stop();
-                });
-                videoRef.current.srcObject = null;
-                // displayedScore = 0;
-                // 페이지 이동
-                console.log(scoreRef.current);  // 최신 score 값 출력
-                navigate('/');
-              }
-            }
-          };
-          return 0;
         }
-      });
-    }, 500);
-  });
-}, []);
-
-
+        animate();
+      }, node.APPEAR_TIME * 1000); // APPEAR_TIME은 초 단위로 가정합니다.
+    });
+  } 
 
   // 웹캠에서 예측을 수행하는 비동기 함수
   async function predictWebcam() {
@@ -286,7 +268,6 @@ canvasCtx.restore();
 
     let handX = 0;
     let handY = 0;
-    setNumHands(results.gestures.length);
 
     // 예측 결과를 처리
     if (results.gestures.length > 0) {
@@ -337,7 +318,7 @@ canvasCtx.restore();
             const threshold = 0.05; // 필요에 따라 이 값을 조정할 수 있습니다.
             if (distance <= threshold && circleElement.style.display !== "none") {
                 circleElement.style.display = "none";
-                increaseScore(300);
+                
                 
                 // circleElement와 동일한 위치에 있는 .circle-out 요소를 찾습니다.
                 const circleOutElement = Array.from(document.querySelectorAll(".circle-out")).find((element) => {
@@ -353,9 +334,34 @@ canvasCtx.restore();
                 });
 
                 if (circleOutElement) {
-                    hitSound.play()
-                    circleOutElement.style.display = "none";
-                }
+                  // Parse the scale value from the transform style
+                  let scaleValue = parseFloat(circleOutElement.style.transform.replace("scale(", "").replace(")", ""));
+              
+                  if (scaleValue >= 0.65) {
+                      circleOutElement.style.display = "none";
+                      hitSound.play()
+                      console.log("Miss", scaleValue)
+                  }
+                  else if (scaleValue < 0.65 && scaleValue > 0.58) {
+                      circleOutElement.style.display = "none";
+                      hitSound.play()
+                      increaseScore(200);
+                      console.log("Great", scaleValue)
+                  }
+                  else if (scaleValue <= 0.58 && scaleValue >= 0.42) {
+                      circleOutElement.style.display = "none";
+                      hitSound.play()
+                      increaseScore(300);
+                      console.log("Perfect", scaleValue)
+                  }
+                  else {
+                      circleOutElement.style.display = "none";
+                      hitSound.play()
+                      increaseScore(200);
+                      console.log("Under Great", scaleValue)
+                  }
+              }
+              
             }
         }
     });
