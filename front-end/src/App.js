@@ -147,6 +147,7 @@ function MainPage() {
                   회원 탈퇴
                 </Button>
               <h1>로그인 된 메인페이지</h1>
+              
               <p>아이디: {userId}</p>
               
             </React.Fragment>
@@ -159,6 +160,8 @@ function MainPage() {
                 회원가입
               </Button>       
               <h1>로그인 X 메인페이지</h1>
+              
+
               
             </React.Fragment>
           )}
