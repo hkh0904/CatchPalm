@@ -6,16 +6,16 @@ import GlobalStateContext from '../GlobalStateContext';
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
+  const { responseData } = useContext(GlobalStateContext);
+  console.log(responseData);
   const [roomData, setRoomData] = useState({
     capacity: '',
     categoryNumber: '',
     password: '',
     title: '',
-    userNumber: '',
+    userNumber: responseData.userNumber,
     roomNumber: ''
   });
-  const { responseData } = useContext(GlobalStateContext);
-  console.log(responseData, "됐냐?")
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRoomData((prevData) => ({
@@ -54,10 +54,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
           <label>capacity</label>
           <input type="number" name="capacity" value={roomData.capacity} onChange={handleChange} />
         </div>
-        <div>
-          <label>userNumber</label>
-          <input type="number" name="userNumber" value={roomData.userNumber} onChange={handleChange} />
-        </div>
         <button onClick={() => { handleCreateRoom();}}>확인</button>
         <button onClick={onClose}>닫기</button>
       </div>
@@ -76,7 +72,6 @@ const ChatRoomList = ({}) => {
         const response = await axios.get('https://localhost:8443/api/v1/gameRooms/listRooms');
         const data = response.data;
         setChatRooms(data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching chat rooms:', error);
       }
@@ -99,9 +94,7 @@ const ChatRoomList = ({}) => {
   const handleCreateRoom = async (roomData) => {
     try {
       const response = await axios.post('https://localhost:8443/api/v1/gameRooms/create', roomData);
-      console.log('방 만들기 확인:', response.data.roomNumber);
       CreatedroomNumber = response.data.roomNumber;
-      console.log(CreatedroomNumber, "여기선 받아지나?")
       handleEnterChatRoom(CreatedroomNumber);
     } catch (error) {
       console.error('Error craating a new room:', error);
