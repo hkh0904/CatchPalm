@@ -1,28 +1,86 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import GlobalStateContext from '../GlobalStateContext';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
-  const { responseData } = useContext(GlobalStateContext);
-  console.log(responseData);
+  const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
+  const token = localStorage.getItem('token');
+  useEffect(() => {
+    // localStorage에서 데이터 가져오기
+    const token = localStorage.getItem('token');
+    axios({
+      method: 'get',
+      url: 'https://localhost:8443/api/v1/users/me',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // your access token here
+      }
+    })
+      .then(response => {
+        const userNumber = response.data.userNumber;
+        setUserNumber(userNumber);
+        console.log(userNumber);
+      })
+      .catch(error => {
+        console.error("error");
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios({
+          method: 'get',
+          url: 'https://localhost:8443/api/v1/users/me',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // your access token here
+          }
+        })
+          .then(response => {
+            const userNumber = response.data.userNumber;
+            setUserNumber(userNumber);
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      });
+  }, [token]);
+
+  
   const [roomData, setRoomData] = useState({
     capacity: '',
     categoryNumber: '',
     password: '',
     title: '',
-    userNumber: responseData.userNumber,
+    userNumber: userNumber,
     roomNumber: ''
   });
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRoomData((prevData) => ({
       ...prevData,
       [name]: value,
+      userNumber: userNumber // 기존 데이터에서 userNumber를 그대로 사용
     }));
   };
+
+  // const updateRoomData = (newData) => {
+  //   setRoomData((prevData) => ({
+  //     ...prevData,
+  //     ...newData,
+  //     userNumber: userNumber 
+  //   }));
+  // };
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   updateRoomData({ [name]: value });
+  //   setRoomData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
 
   const handleCreateRoom = () => {
     onCreateRoom(roomData);
@@ -67,6 +125,7 @@ const ChatRoomList = ({}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get('https://localhost:8443/api/v1/gameRooms/listRooms');
@@ -92,8 +151,10 @@ const ChatRoomList = ({}) => {
   };
 
   const handleCreateRoom = async (roomData) => {
+    console.log("룸데이터 넘어간다잉",roomData)
     try {
       const response = await axios.post('https://localhost:8443/api/v1/gameRooms/create', roomData);
+      console.log(roomData)
       CreatedroomNumber = response.data.roomNumber;
       handleEnterChatRoom(CreatedroomNumber);
     } catch (error) {

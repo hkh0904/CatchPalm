@@ -1,5 +1,5 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
-import React, { useEffect, useState, useContext  } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
@@ -11,16 +11,13 @@ import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import axios from 'axios';
-import GlobalStateContext from './GlobalStateContext';
-import GlobalStateProvider from './GlobalStateProvider'; // 추가
 
 function MainPage() {
   
   const navigate = useNavigate();
-  const { responseData, setResponseData } = useContext(GlobalStateContext);
 
   ////////로그인 로그아웃 시작////////////////
-  const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
+  const isLoggedIn = 1;  // 로그인 토큰 확인
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
 
@@ -93,13 +90,33 @@ function MainPage() {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
         setUserId(cleanedUserId);
-        setResponseData(response.data);
-        console.log(response.data.userId)
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        console.log(response.data)
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        console.error("error");
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios({
+          method: 'get',
+          url: 'https://localhost:8443/api/v1/users/me',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // your access token here
+          }
+        })
+          .then(response => {
+            const rawUserId = response.data.userId;
+            const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            setUserId(cleanedUserId);
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error);
+          })
       });
-  }, []); // useEffect will run once when the component mounts
+  }, [token]); // useEffect will run once when the component mounts
   
 
 ///////회원정보 받아오기 끝////////////  
@@ -160,7 +177,6 @@ function App() {
   
   return (
     <Router>
-      <GlobalStateProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
@@ -171,7 +187,6 @@ function App() {
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
           <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
         </Routes>
-      </GlobalStateProvider>
     </Router>
   );
 }
