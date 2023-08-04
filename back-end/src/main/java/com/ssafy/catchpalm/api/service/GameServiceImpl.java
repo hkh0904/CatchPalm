@@ -26,7 +26,7 @@ public class GameServiceImpl implements GameService {
         user.setUserNumber(gameInfo.getUserNumber());
         records.setUser(user);
         records.setScore(gameInfo.getScore());
-
+        recordsRepository.save(records);
     }
 
 }

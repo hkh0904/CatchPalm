@@ -4,6 +4,7 @@ import com.ssafy.catchpalm.api.request.*;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.api.response.UserRes;
 import com.ssafy.catchpalm.api.service.GameRoomService;
+import com.ssafy.catchpalm.api.service.GameService;
 import com.ssafy.catchpalm.api.service.UserService;
 import com.ssafy.catchpalm.common.auth.SsafyUserDetails;
 import com.ssafy.catchpalm.common.model.response.BaseResponseBody;
@@ -30,7 +31,7 @@ import java.util.Map;
 public class GameController {
 
     @Autowired
-    GameRoomService gameRoomService;
+    GameService gameService;
 
     @PostMapping("/log")
     @ApiOperation(value = "로그 기록", notes = "<strong>게임 기록을 넘겨주면</strong>로그를 기록한다.")
@@ -44,7 +45,7 @@ public class GameController {
             @RequestBody @ApiParam(value="방 정보", required = true) GameLogPostReq gameInfo) {
 
         // 로그 기록
-        GameRoom gameRoom = gameRoomService.createRoom(gameInfo);
+        gameService.createLog(gameInfo);
         // 랭킹 업데이트
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
