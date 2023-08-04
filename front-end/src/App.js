@@ -4,8 +4,8 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
-import ChatRoomItem from "./components/ChatRoomItem";
-import ChatRoomList from "./components/ChatRoomList"; // chat 리스트방으로
+import ChatRoomItem from "./components/ChatRoomComponents/ChatRoomItem";
+import ChatRoomList from "./components/ChatRoomComponents/ChatRoomList"; // chat 리스트방으로
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
@@ -17,8 +17,9 @@ function MainPage() {
   const navigate = useNavigate();
 
   ////////로그인 로그아웃 시작////////////////
-  const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
- 
+  const isLoggedIn = 1;  // 로그인 토큰 확인
+  // const isLoggedIn = 1;  // 로그인 토큰 확인
+
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
