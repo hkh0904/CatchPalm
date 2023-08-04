@@ -9,6 +9,7 @@ import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.UserRepository;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,6 +83,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 	}
 
 	@Override
+	@Transactional
 	public GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber) {
 		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
 		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
@@ -108,7 +110,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Override
 	@Transactional
-	public void outRoomUser(Long userNumber, int gameRoomNumber) {
+	public Long outRoomUser(Long userNumber, int gameRoomNumber) {
 		gameRoomUserInfoRepository.deleteByUserUserNumber(userNumber);// 게임방 유저 나감 처리.
 		int cnt = gameRoomUserInfoRepository.countByGameRoomRoomNumber(gameRoomNumber); // 나간 후 인원체크
 		if(cnt == 0){ // 아무도 없는 방이 된다면 방 삭제.
@@ -129,12 +131,13 @@ public class GameRoomServiceImpl implements GameRoomService {
 					if (newCaptain != null) { // 실제 존재하는 유저이다면
 						gameRoom.setCaptain(newCaptain);  // 새로운 방장 정보에 업데이트.
 						gameRoomRepository.save(gameRoom); // 업데이트 실행.
-						break;
+						return gameRoom.getCaptain().getUserNumber(); // 방장이 변경되면 해당 방장 유저넘버만 리턴.
 					}
 
 				}
 			}
 		}
+		return null;
 	}
 
 	@Override
@@ -183,6 +186,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 		return null;
 	}
 
+	// 게임룸에 있는 유저 정보 조회.
 	@Override
 	public List<UserInfo> getRoomUsers(int roomNumber) {
 		List<GameRoomUserInfo> userInfos = gameRoomUserInfoRepository.findByGameRoomRoomNumber(roomNumber);
@@ -198,17 +202,5 @@ public class GameRoomServiceImpl implements GameRoomService {
 			resultUserInfos.add(resultUserInfo);
 		}
 		return resultUserInfos;
-//		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
-//		GameRoom gameRoom = gameRoomRepository.findById(roomNumber).orElse(null);
-//
-//		// 존재하는 게임방일 때.
-//		if (gameRoom != null) {
-//			List<GameRoomUserInfo> gameRoomUserInfos = gameRoom.getUserInfos();
-//
-//			for(GameRoomUserInfo userInfo : gameRoomUserInfos){
-//				System.out.println(userInfo.getUserInfoNumber());
-//			}
-//			System.out.println("ishear");
-//		}
 	}
 }

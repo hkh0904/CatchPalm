@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import GlobalStateContext from '../GlobalStateContext';
+
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
@@ -12,7 +14,8 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
     userNumber: '',
     roomNumber: ''
   });
-
+  const { responseData } = useContext(GlobalStateContext);
+  console.log(responseData, "됐냐?")
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRoomData((prevData) => ({
@@ -21,11 +24,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
     }));
   };
 
-  const navigate = useNavigate();
-  const handleEnterChatRoom = (CreatedroomNumber) => {
-    console.log("여기로 올까", {CreatedroomNumber})
-    navigate(`/chat-rooms/${CreatedroomNumber}`);
-  };
   const handleCreateRoom = () => {
     onCreateRoom(roomData);
     onClose();
