@@ -1,3 +1,11 @@
+# local 환경에서 openvidu (react)와 spring 연결
+## 테스트방법
+
+1. docker desktop을 다운받는다. (WSL2 설치까지 진행해야함)
+2. cmd 창에 docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-dev:2.28.0를 입력한다.
+3. 백엔드 서버를 구동한 후
+4. npm install 후에 npm start
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
