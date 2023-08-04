@@ -35,7 +35,9 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/v1/oauth2")
 public class OAuthController {
-    private static final String CALLBACK_URI = "https://localhost:8443/api/v1/oauth2/callback";
+
+    @Value("${server.address}")
+    String serverAddress;
 
     @Value("${google.client.id}")
     private String clientId;
@@ -65,7 +67,7 @@ public class OAuthController {
             ).build();
 
             AuthorizationCodeRequestUrl authorizationUrl =
-                    flow.newAuthorizationUrl().setRedirectUri(CALLBACK_URI);
+                    flow.newAuthorizationUrl().setRedirectUri("https://"+serverAddress+":8443/api/v1/oauth2/callback");
 
             return "redirect:" + authorizationUrl+"&prompt=select_account";
         } catch (Exception e) {
@@ -78,7 +80,7 @@ public class OAuthController {
     public ResponseEntity<UserLoginPostRes> googleCallback(@RequestParam("code") String code) {
         try {
             TokenResponse tokenResponse =
-                    flow.newTokenRequest(code).setRedirectUri(CALLBACK_URI).execute();
+                    flow.newTokenRequest(code).setRedirectUri("https://"+serverAddress+":8443/api/v1/oauth2/callback").execute();
 
             GoogleTokenResponse googleTokenResponse = (GoogleTokenResponse) tokenResponse;
             GoogleIdToken idToken = googleTokenResponse.parseIdToken();

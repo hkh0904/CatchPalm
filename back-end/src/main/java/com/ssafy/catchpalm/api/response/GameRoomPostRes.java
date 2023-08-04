@@ -1,9 +1,6 @@
 package com.ssafy.catchpalm.api.response;
 
-import com.ssafy.catchpalm.db.entity.Category;
-import com.ssafy.catchpalm.db.entity.GameRoom;
-import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
-import com.ssafy.catchpalm.db.entity.User;
+import com.ssafy.catchpalm.db.entity.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -41,7 +38,10 @@ public class GameRoomPostRes {
     @ApiModelProperty(name="GameRoom status")
     int status; // 게임방 상태 : 0 = wait, 1 = gaming
 
-    public static GameRoomPostRes of(GameRoom gameRoom) {
+    @ApiModelProperty(name="Music list")
+    List<MusicPostRes> musics; // 음악리스트
+
+    public static GameRoomPostRes of(GameRoom gameRoom, List<MusicPostRes> musicList) {
         GameRoomPostRes res = new GameRoomPostRes();
         res.setRoomNumber(gameRoom.getRoomNumber());
         res.setCapacity(gameRoom.getCapacity());
@@ -51,6 +51,9 @@ public class GameRoomPostRes {
         res.setNickname(gameRoom.getCaptain().getNickname());
         res.setTitle(gameRoom.getTitle());
         res.setTypeName(gameRoom.getCategory().getName());
+        if (musicList != null){
+            res.setMusics(musicList);
+        }
         return res;
     }
 }
