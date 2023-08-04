@@ -111,15 +111,10 @@ public class GameRoomServiceImpl implements GameRoomService {
 	@Override
 	@Transactional
 	public Long outRoomUser(Long userNumber, int gameRoomNumber) {
-		System.out.println("userout: hear1");
 		gameRoomUserInfoRepository.deleteByUserUserNumber(userNumber);// 게임방 유저 나감 처리.
-		System.out.println("userout: hear2");
 		int cnt = gameRoomUserInfoRepository.countByGameRoomRoomNumber(gameRoomNumber); // 나간 후 인원체크
-		System.out.println("userout: hear3");
 		if(cnt == 0){ // 아무도 없는 방이 된다면 방 삭제.
-			System.out.println("userout: hear4");
 			deleteRoom(gameRoomNumber);
-			System.out.println("userout: hear5");
 			return null;
 		}
 		// 만약 방장이 게임방을 나갔고, 게임방 내에 유저가 남아 있을 때.

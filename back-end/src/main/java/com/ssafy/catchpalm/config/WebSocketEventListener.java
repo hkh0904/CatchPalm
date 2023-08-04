@@ -45,18 +45,15 @@ public class WebSocketEventListener {
                 if (captain != null) chatMessage.setCaptain(captain); // 반환값이 있었다면 방장 변경.
                 System.out.println("leave: hear1");
             }catch (Exception e){
-//                e.getMessage();
-//                System.out.println(e);
-                System.out.println("error;;;;;");
+                e.getMessage();
+                System.out.println(e);
             }
 
             //  방에 있는 사람들의 정보 가져오기
             List<UserInfo> userInfos = gameRoomService.getRoomUsers(roomNumber);
-            System.out.println("leave: hear2");
 
             // 해당 정보 반환 객체에 넣기
             chatMessage.setUserInfo(userInfos);
-            System.out.println("leave: hear3");
             messagingTemplate.convertAndSend("/topic/chat/"+roomNumber, chatMessage);
         }
     }
