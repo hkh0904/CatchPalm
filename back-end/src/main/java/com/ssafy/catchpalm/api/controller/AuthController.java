@@ -26,7 +26,6 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +37,9 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class  AuthController {
+
+	@Value("${server.address}")
+	String serverAddress;
 
 	@Autowired
 	UserService userService;
@@ -82,7 +84,10 @@ public class  AuthController {
 	public ResponseEntity verifyEmail(@RequestParam("token") @ApiParam(value="이메일 토큰", required = true) String emailVerificationToken) throws Exception {
 		String decodedToken = emailVerificationToken.replace("%2B", "+");
 		User user = userService.getUserByVerificationToken(decodedToken);
-		String address = "https://"+serverAddress+":3030";
+
+		// 프론트 https로 변경되면 변경해야함
+		String address = "http://"+serverAddress+":3000";
+
 		URI redirectUrl = new URI(address); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(redirectUrl);

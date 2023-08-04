@@ -1,9 +1,11 @@
 package com.ssafy.catchpalm.api.service;
 
+import com.ssafy.catchpalm.api.request.AuthenticationRoomReq;
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.db.entity.GameRoom;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
+import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 
 import java.util.List;
 
@@ -15,11 +17,14 @@ public interface GameRoomService {
 	void deleteRoom(int roomNumber);
 	GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
 
-    void outRoomUser(Long userNumber, int gameRoomNumber);
+    Long outRoomUser(Long userNumber, int gameRoomNumber);
 
     List<GameRoomPostRes> gameRoomList();
 
     void startGame(int musicNumber, int gameRoomNumber);
 
-    GameRoom getRoomInfo(int roomNumber);
+    GameRoomPostRes getRoomInfo(int roomNumber);
+
+    List<UserInfo> getRoomUsers(int roomNumber);
+    Boolean check(AuthenticationRoomReq gameStartReq);
 }
