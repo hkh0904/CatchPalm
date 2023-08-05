@@ -17,7 +17,7 @@ function MainPage() {
   const navigate = useNavigate();
 
   ////////로그인 로그아웃 시작////////////////
-  const isLoggedIn = 1;  // 로그인 토큰 확인
+  const isLoggedIn = !!localStorage.getItem('token'); 
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
 
