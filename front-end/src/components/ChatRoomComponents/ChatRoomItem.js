@@ -96,7 +96,6 @@ const ChatRoomItem = () => {
   // 연결 됬다면 구독 매핑 및 연결 유저 정보 전송
   const onConnected = () => {
     stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
-    console.log("잘왔을까?..",userNumber)
     stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber})
@@ -115,15 +114,15 @@ const ChatRoomItem = () => {
     var messageElement = document.createElement('li');
 
     const usersInfo = message.userInfo;
-    setUserInfo(usersInfo);
-    console.log("유저정보들",usersInfo);
-
+    
     if (message.type === 'JOIN') {
       messageElement.classList.add('event-message');
       message.content = message.sender + ' joined!';
+      setUserInfo(usersInfo);
     } else if (message.type === 'LEAVE') {
       messageElement.classList.add('event-message');
       message.content = message.sender + ' left!';
+      setUserInfo(usersInfo);
     } else {
       messageElement.classList.add('chat-message');
 
@@ -204,7 +203,15 @@ const ChatRoomItem = () => {
       <div id="chat-page" className="hidden">
         <div className="chat-container">
           <div className="chat-header">
-            <h2 id="roomN">유저정보들: {JSON.stringify(userInfo)}</h2>
+            <h2 id="roomN">유저정보들:
+            {userInfo && userInfo.map((user, index) => (
+              <div key={index}>
+                <img src={user.profileImg} alt="프로필 이미지" />
+                <br></br>
+                <span>{user.nickname}</span>
+              </div>
+            ))}
+            </h2>
           </div>
           <ul ref={messageAreaRef}></ul>
           <form id="messageForm" name="messageForm" onSubmit={handleSendMessage}>
