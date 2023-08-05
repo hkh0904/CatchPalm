@@ -214,22 +214,28 @@ public class GameRoomServiceImpl implements GameRoomService {
 		GameRoom gameRoom = gameRoomRepository.findById(gameStartReq.getRoomNumber()).orElse(null);
 		// 게임방이 존재한다면
 		if(gameRoom != null) {
-			int cntUsers = gameRoom.getUserInfos().size(); // 해당 게임방에 참여중인 유저 수.
-			// 게임방 유저 수가 정원보다 작다면.
-			if(cntUsers<gameRoom.getCapacity()){
-				// 위의 조건을 만족하며 만약 비밀번호가 없는 방이라면 방 입장 성공.
-				if(gameStartReq.getPassword().equals("")){
-					return "입장성공";
+			// 게임방의 상태가 대기중인 방일 때.
+			if (gameRoom.getStatus() == 0) {
+
+				int cntUsers = gameRoom.getUserInfos().size(); // 해당 게임방에 참여중인 유저 수.
+				// 게임방 유저 수가 정원보다 작다면.
+				if (cntUsers < gameRoom.getCapacity()) {
+					// 위의 조건을 만족하며 만약 비밀번호가 없는 방이라면 방 입장 성공.
+					if (gameStartReq.getPassword().equals("")) {
+						return "입장성공";
+					}
+					// 비밀번호가 걸려 있으며 입력한 비밀번호가 일치한다면 방 입장 성공.
+					else if (gameStartReq.getPassword().equals(gameRoom.getPassword())) {
+						return "입장성공";
+					}
+					// 비밀번호가 틀림.
+					return "비밀번호가 틀렸습니다.";
 				}
-				// 비밀번호가 걸려 있으며 입력한 비밀번호가 일치한다면 방 입장 성공.
-				else if(gameStartReq.getPassword().equals(gameRoom.getPassword())){
-					return "입장성공";
-				}
-				// 비밀번호가 틀림.
-				return "비밀번호가 틀렸습니다.";
+				// 게임방 자리가 꽉찼다.
+				return "인원이 꽉 찬 방입니다.";
 			}
-			// 게임방 자리가 꽉찼다.
-			return "인원이 꽉 찬 방입니다.";
+			// 이미 시작한 게임방 -> 입장하려는 직전에 시작한 게임방일 경우.
+			return "이미 게임중인 방입니다.";
 		}
 		//존재하지 않는 게임방. -> 입장하려는 직전에 삭제된 게임방일 경우.
 		return "이미 사라진 방입니다.";

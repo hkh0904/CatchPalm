@@ -7,7 +7,6 @@ import SockJS from 'sockjs-client';
 import { allResolved } from 'q';
 
 let name = '';
-let userNumber = ''; // userNumber 전역변수로 
 
 var stompClient =null;
 var colors = [
@@ -16,16 +15,8 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
-  useEffect(() => {
-    // localStorage에서 데이터 가져오기
-    const storedData = localStorage.getItem('userData');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      name = parsedData.userNickname;
-      userNumber = parsedData.userNumber;
-    }
-  }, []);
-
+  const token = localStorage.getItem('token');
+  const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const messageAreaRef = useRef(null);
   const { roomNumber } = useParams();
   const [roomInfo, setRoomInfo] = useState(null);
@@ -34,30 +25,60 @@ const ChatRoomItem = () => {
   
   const [messages, setMessages] = useState(''); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
-  const [isVisible, setIsVisible] = useState(false); 
-
-  const handleToggleVisibility = () => {
-    setIsVisible(!isVisible);
-  };
 
   const handleMessageChange = (event) => {
     setMessages(event.target.value);
   };
 
   useEffect(() => {
-    handleStartChatting()
+    if (userNumber !== '') { // 처음에 채팅 바로 시작안되고 userNumber 받아왔을때 채팅 실행
+      handleStartChatting()
+    }
+    axios({
+      method: 'get',
+      url: 'https://localhost:8443/api/v1/users/me',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // your access token here
+      }
+    })
+      .then(response => {
+        const userNumber = response.data.userNumber;
+        setUserNumber(userNumber);
+        name = response.data.userNickname
+      })
+      .catch(error => {
+        console.error("error");
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios({
+          method: 'get',
+          url: 'https://localhost:8443/api/v1/users/me',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // your access token here
+          }
+        })
+          .then(response => {
+            const userNumber = response.data.userNumber;
+            setUserNumber(userNumber);
+            name = response.data.userNickname
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      });
     const fetchRoomInfo = async () => {
       try {
         const response = await axios.get(`https://localhost:8443/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`);
         const data = response.data;
-        console.log("뭘까요",response);
         setRoomInfo(data);
       } catch (error) {
         console.error('Error fetching room info:', error);
       }
     };
     fetchRoomInfo();
-  }, [roomNumber]);
+  }, [userNumber]);
   
   // 소켓연결---------------------------------
   // 소켓연결 끊길때: 컴포넌트 변경돨 때 수행 소스 -> 웹소켓 연결 끈기.
@@ -66,6 +87,7 @@ const ChatRoomItem = () => {
       stompClient.disconnect();
     };
   },[]);
+
   const connect =()=>{
     let Sock = new SockJS('https://localhost:8443/ws');
     stompClient = over(Sock);
@@ -74,11 +96,12 @@ const ChatRoomItem = () => {
   // 연결 됬다면 구독 매핑 및 연결 유저 정보 전송
   const onConnected = () => {
     stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
+    console.log("잘왔을까?..",userNumber)
     stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber})
+        
     )
-    handleToggleVisibility();
   }
   // 연결이 안된경우
   const onError = (err) => {
@@ -154,7 +177,8 @@ const ChatRoomItem = () => {
   event.preventDefault();
   };
   const handleStartChatting=()=>{
-    connect();
+    // localStorage에서 데이터 가져오기    
+    connect()
   }
   if (!roomInfo) {
     return <div>Loading...</div>;

@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class FileDownloadController {
+public class GameController {
 
     @Autowired
     private final StorageService storageService;
 
-    public FileDownloadController(LocalStorageServiceImpl storageService) {
+    public GameController(LocalStorageServiceImpl storageService) {
         this.storageService = storageService;
     }
 

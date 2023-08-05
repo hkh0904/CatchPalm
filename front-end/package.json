@@ -24,6 +24,8 @@
     "react-spring": "^9.7.2",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
+
+
     "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1",
     "sockjs-client": "^1.6.1",
@@ -31,6 +33,7 @@
     "websocket": "^1.0.34"
   },
   "proxy": "https://localhost:8443",
+
   "scripts": {
     "start": "set HTTPS=true && react-scripts start",
     "build": "react-scripts build",
