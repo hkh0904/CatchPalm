@@ -4,7 +4,8 @@ import axios from 'axios';
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
     // 기본이미지
-    const defaultProfileImg = "https://grayround.com/common/img/default_profile.png";
+    const defaultProfileImg = "/assets/basicprofile.jpg";
+
 
     useEffect(() => {
         const fetchData = async () => {
