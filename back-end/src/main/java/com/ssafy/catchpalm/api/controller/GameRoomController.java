@@ -10,6 +10,7 @@ import com.ssafy.catchpalm.common.model.response.BaseResponseBody;
 import com.ssafy.catchpalm.db.entity.GameRoom;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
 import com.ssafy.catchpalm.db.entity.User;
+import com.ssafy.catchpalm.websocket.chat.model.UserReady;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -151,9 +152,23 @@ public class GameRoomController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Boolean> authentication(
+	public ResponseEntity<BaseResponseBody> authentication(
 			@ApiParam(value="'roomNumber' : 방번호, '' : 번호", required = true)@RequestBody AuthenticationRoomReq gameStartReq) {
-		Boolean check = gameRoomService.check(gameStartReq);
-		return ResponseEntity.status(200).body(check);
+		String result = gameRoomService.check(gameStartReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, result));
+	}
+
+	// 레디 전환 테스트.
+	@PostMapping("/ready")
+	@ApiOperation(value = "게임방 레디 상태 변환", notes = "<strong>게임방 번호, 유저번호, 현재레디상태</strong> 입력받아 해당 데이터로 레디상태 변화")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> changeReady(
+			@ApiParam(value="'roomNumber' : 방번호, 'userNumber' : 유저번호, 'isReady' : 0", required = true)@RequestBody UserReady userReady) {
+		return ResponseEntity.status(200).body(gameRoomService.readyStatus(userReady));
 	}
 }

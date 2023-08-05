@@ -54,6 +54,22 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/v1/oauth2/callback');
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.accessToken);
+        navigate('/');
+        window.location.reload();
+      } else {
+        setErrorMessage('Google 로그인 실패');
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('Google 로그인 실패');
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -113,6 +129,14 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ mt: 2, mb: 2 }}
+                onClick={handleGoogleLogin}
+              >
+                Sign In with Google
               </Button>
               <Grid container>
                 <Grid item xs>
