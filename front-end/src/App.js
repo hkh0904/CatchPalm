@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
 import ChatRoomItem from "./components/ChatRoomComponents/ChatRoomItem";
 import ChatRoomList from "./components/ChatRoomComponents/ChatRoomList"; // chat 리스트방으로
-import { Button } from '@mui/material';
+import { Button, Drawer } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
@@ -34,7 +34,9 @@ function MainPage() {
     
     const token = localStorage.getItem('token');
     
-    
+
+
+
     fetch('https://localhost:8443/api/v1/users/delete', {
       method: 'DELETE',
       headers: {
@@ -60,7 +62,14 @@ function MainPage() {
     });
   };
   
-  
+    //// 내 정보보기 시작
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const handleDrawerOpen = () => {
+      setDrawerOpen(!drawerOpen);
+    };
+
+    /// 내정보 보기 끝
 
 
   const handleButtonClick3 = () => {
@@ -71,9 +80,7 @@ function MainPage() {
     navigate('/signup');
   };
   ////////////// 로그인 로그아웃 끝////////////////  
-  const handleButtonClick5 = () => {
-    navigate('/userinfo');
-  };
+
 
   //////// 회원정보 받아오기 시작/////////
   const [userId, setUserId] = useState(null);
@@ -135,7 +142,7 @@ function MainPage() {
     <React.Fragment>
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
-        {isLoggedIn ? (  // 로그인 상태일 때만 버튼을 보여줍니다.
+          {isLoggedIn ? (
             <React.Fragment>
               <Button variant="contained" onClick={handleButtonClick}>
                 Go to Sample Page
@@ -143,41 +150,41 @@ function MainPage() {
               <br />
               <br />
               
-                <Button variant="contained" onClick={handleButtonClick2}>
-                  채팅방리스트로 가기
-                </Button>
-                <Button variant="contained" onClick={handleButtonClick5}>
-                  회원정보조회
-                </Button>
-                <Button variant="contained" onClick={handleLogout}>
-                  로그아웃
-                </Button>
-                <Button variant="contained" onClick={handleDeleteAccount}>
-                  회원 탈퇴
-                </Button>
+              <Button variant="contained" onClick={handleButtonClick2}>
+                채팅방리스트로 가기
+              </Button>
+              <Button variant="contained" onClick={handleDrawerOpen}>
+                내 정보 보기
+              </Button>
+              <Button variant="contained" onClick={handleLogout}>
+                로그아웃
+              </Button>
+              <Button variant="contained" onClick={handleDeleteAccount}>
+                회원 탈퇴
+              </Button>
               <h1>로그인 된 메인페이지</h1>
               
               <p>아이디: {userId}</p>
-              
-            </React.Fragment>
-          ) : ( // 로그인이 안되어 있을 때는 메시지를 보여줍니다.
-          <React.Fragment>
-              <Button variant="contained" onClick={handleButtonClick3}>
-                로그인
-              </Button> 
-              <Button variant="contained" onClick={handleButtonClick4}>
-                회원가입
-              </Button>       
-              <h1>로그인 X 메인페이지</h1>
-              
 
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+                <Userinfo />
+              </Drawer>
               
             </React.Fragment>
+          ) : (
+          <React.Fragment>
+            <Button variant="contained" onClick={handleButtonClick3}>
+              로그인
+            </Button> 
+            <Button variant="contained" onClick={handleButtonClick4}>
+              회원가입
+            </Button>       
+            <h1>로그인 X 메인페이지</h1>
+          </React.Fragment>
           )}
         </Grid>
       </Grid>
     </React.Fragment>
-
   );
 }
 
