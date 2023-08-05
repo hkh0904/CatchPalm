@@ -9,8 +9,9 @@ import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.UserRepository;
+import com.ssafy.catchpalm.websocket.chat.model.ReadyInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
-import org.hibernate.Hibernate;
+import com.ssafy.catchpalm.websocket.chat.model.UserReady;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -208,20 +209,55 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Override
 	@Transactional
-	public Boolean check(AuthenticationRoomReq gameStartReq) {
+	public String check(AuthenticationRoomReq gameStartReq) {
 		// 해당 게임룸에 대한 정보 조회: 정원 확인 및 게임방 존재 유무 확인
 		GameRoom gameRoom = gameRoomRepository.findById(gameStartReq.getRoomNumber()).orElse(null);
 		// 게임방이 존재한다면
 		if(gameRoom != null) {
-			int cntUsers = gameRoom.getUserInfos().size();
-			if(cntUsers<gameRoom.getCapacity()){
-				if(gameStartReq.getPassword().equals(gameRoom.getPassword())){
-					return true;
+			// 게임방의 상태가 대기중인 방일 때.
+			if (gameRoom.getStatus() == 0) {
+
+				int cntUsers = gameRoom.getUserInfos().size(); // 해당 게임방에 참여중인 유저 수.
+				// 게임방 유저 수가 정원보다 작다면.
+				if (cntUsers < gameRoom.getCapacity()) {
+					// 위의 조건을 만족하며 만약 비밀번호가 없는 방이라면 방 입장 성공.
+					if (gameStartReq.getPassword().equals("")) {
+						return "입장성공";
+					}
+					// 비밀번호가 걸려 있으며 입력한 비밀번호가 일치한다면 방 입장 성공.
+					else if (gameStartReq.getPassword().equals(gameRoom.getPassword())) {
+						return "입장성공";
+					}
+					// 비밀번호가 틀림.
+					return "비밀번호가 틀렸습니다.";
 				}
-				return false;
+				// 게임방 자리가 꽉찼다.
+				return "인원이 꽉 찬 방입니다.";
 			}
-			return false;
+			// 이미 시작한 게임방 -> 입장하려는 직전에 시작한 게임방일 경우.
+			return "이미 게임중인 방입니다.";
 		}
-		return false;
+		//존재하지 않는 게임방. -> 입장하려는 직전에 삭제된 게임방일 경우.
+		return "이미 사라진 방입니다.";
+	}
+
+	// 게임룸에 있는 유저 레디 상태 변화 반영 -> 현재 게임방 내의 유저들 레디상태 리턴.
+	@Override
+	public UserReady readyStatus(UserReady userReady) {
+		// 게임방 번호
+		int roomNumber = userReady.getRoomNumber();
+		// 입력받은 유저 번호와 일치하는 게임방 유저정보 조회.
+		GameRoomUserInfo resultUserInfo = gameRoomUserInfoRepository.findByUserUserNumber(userReady.getUserNumber());
+		// 레디상태 변환: 0이면 1, 1이면 0 | 0:레디x, 1:레디o
+		resultUserInfo.setReady(resultUserInfo.getReady() == 0 ? 1:0);
+		// 레디상태가 변환 게임방 유저정보 수정.
+		resultUserInfo = gameRoomUserInfoRepository.save(resultUserInfo);
+
+		UserReady resultUserReady = new UserReady();
+		resultUserReady.setIsReady(resultUserInfo.getReady());
+		resultUserReady.setRoomNumber(resultUserInfo.getGameRoom().getRoomNumber());
+		resultUserReady.setUserNumber(resultUserInfo.getUser().getUserNumber());
+
+		return resultUserReady;
 	}
 }
