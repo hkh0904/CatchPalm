@@ -189,6 +189,9 @@ const ChatRoomList = ({}) => {
   const [chatRooms, setChatRooms] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+  // 비밀번호 관련
+  const [inputPassword, setInputPassword] = useState('');
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
 
   useEffect(() => {
     
@@ -206,6 +209,29 @@ const ChatRoomList = ({}) => {
 
   const handleEnterChatRoom = (roomNumber) => {
     navigate(`/chat-rooms/${roomNumber}`);
+  };
+
+  const checkEnterChatRoom = async (roomNumber, password) => {
+    var reqPassword = "";
+    if (password) {
+      reqPassword = inputPassword;
+    }
+    const enterData = { "roomNumber": roomNumber, "password": reqPassword };
+
+    try {
+      const response = await axios.post('https://localhost:8443/api/v1/gameRooms/authentication', enterData);
+  
+      const resultMessage = response.data.message;
+  
+      if (response.data.message == "입장성공") {
+        handleEnterChatRoom(roomNumber);
+      }
+      else {
+        alert(resultMessage);
+      }
+    } catch (error) {
+      console.error('Error authentication', error);
+    }
   };
 
   const handleOpenModal = () => {
@@ -227,6 +253,17 @@ const ChatRoomList = ({}) => {
     }
   };
 
+  // 비밀번호 입력창 보이기/숨기기 함수
+  const togglePasswordInput = () => {
+    setShowPasswordInput(!showPasswordInput);
+  };
+  
+  // 비밀번호가 입력되면 실행되는 함수
+  const handlePasswordInput = (event) => {
+    setInputPassword(event.target.value);
+  };
+  
+  
   return (
     <div>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} onCreateRoom={handleCreateRoom} />
@@ -236,10 +273,30 @@ const ChatRoomList = ({}) => {
       </div>
       {chatRooms.map((room) => (
         <div key={room.id}>
-          <button onClick={() => handleEnterChatRoom(room.roomNumber)} style={{ cursor: 'pointer' }}>
-            입장하기
-          </button>
+          {/* 비밀번호 있을때 버튼 */}
+          {room.password  && (
+            <button onClick={togglePasswordInput}>비밀번호 입력</button>
+          )}
+          {/* 비밀번호 입력창 */}
+          {showPasswordInput && (
+            <div>
+              <label>비밀번호 입력:</label>
+              <input
+                type="password"
+                value={inputPassword}
+                onChange={handlePasswordInput}
+              />
+              <button onClick={() => checkEnterChatRoom(room.roomNumber, room.password)} style={{ cursor: 'pointer' }}>입장하기</button>
+            </div>
+          )}
+          {/* 비밀번호 없을때 버튼 */}
+          {!room.password  && (
+            <button onClick={() => checkEnterChatRoom(room.roomNumber, room.password)} style={{ cursor: 'pointer' }}>입장하기</button>
+          )}
+          
+        {/* <InputPassword isOpen={passwordModalOpen} onClose={closePasswordModal} /> */}
           <p>방제목: {room.title}</p>
+          <p>{room.typeName}</p>
           <p>방장: {room.nickname}</p>
           <p>현재원/정원 {room.cntUser}/{room.capacity}</p>
           <hr />
