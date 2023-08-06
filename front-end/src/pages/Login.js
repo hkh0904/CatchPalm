@@ -29,7 +29,6 @@ const Login = () => {
       });
       if (response.status === 200) {
 
-
         const token = response.data.accessToken;
 
         localStorage.setItem('token', token);

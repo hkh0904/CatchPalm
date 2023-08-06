@@ -214,7 +214,14 @@ public class GameRoomServiceImpl implements GameRoomService {
 		// 게임방이 존재한다면
 		if(gameRoom != null) {
 			int cntUsers = gameRoom.getUserInfos().size();
+			if(cntUsers<gameRoom.getCapacity()){
+				if(gameStartReq.getPassword().equals(gameRoom.getPassword())){
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
-		return null;
+		return false;
 	}
 }

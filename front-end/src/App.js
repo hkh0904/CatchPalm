@@ -10,6 +10,7 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Userinfo from './pages/Userinfo';
 import axios from 'axios';
 import GlobalStateContext from './GlobalStateContext';
 import GlobalStateProvider from './GlobalStateProvider'; // 추가
@@ -73,7 +74,9 @@ function MainPage() {
     navigate('/signup');
   };
   ////////////// 로그인 로그아웃 끝////////////////  
-
+  const handleButtonClick5 = () => {
+    navigate('/userinfo');
+  };
 
   //////// 회원정보 받아오기 시작/////////
   const [userId, setUserId] = useState(null);
@@ -94,10 +97,29 @@ function MainPage() {
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
         setUserId(cleanedUserId);
         setResponseData(response.data);
-        console.log(response.data.userId)
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        console.log(response.data)
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        console.error("error");
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios({
+          method: 'get',
+          url: 'https://localhost:8443/api/v1/users/me',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // your access token here
+          }
+        })
+          .then(response => {
+            const rawUserId = response.data.userId;
+            const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            setUserId(cleanedUserId);
+            setResponseData(response.data);
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            console.log(response.data)
+          })
       });
   }, []); // useEffect will run once when the component mounts
   
@@ -126,7 +148,9 @@ function MainPage() {
                 <Button variant="contained" onClick={handleButtonClick2}>
                   채팅방리스트로 가기
                 </Button>
-              
+                <Button variant="contained" onClick={handleButtonClick5}>
+                  회원정보조회
+                </Button>
                 <Button variant="contained" onClick={handleLogout}>
                   로그아웃
                 </Button>
@@ -134,6 +158,7 @@ function MainPage() {
                   회원 탈퇴
                 </Button>
               <h1>로그인 된 메인페이지</h1>
+              
               <p>아이디: {userId}</p>
               
             </React.Fragment>
@@ -146,6 +171,8 @@ function MainPage() {
                 회원가입
               </Button>       
               <h1>로그인 X 메인페이지</h1>
+              
+
               
             </React.Fragment>
           )}
@@ -165,7 +192,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           
-          
+          <Route path="/userinfo" element={<Userinfo />} />
           <Route path="/Playing" element={<PlayingPage />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
