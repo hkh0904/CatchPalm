@@ -23,6 +23,8 @@ function SignUp() {
     sex: '',
   });
 
+  const [userIdMessage, setUserIdMessage] = useState({text: "", color: "inherit"});
+
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -30,18 +32,20 @@ function SignUp() {
       ...state,
       [event.target.name]: event.target.value,
     });
+    if (event.target.name === 'userId') {
+      handleCheckUserId(event.target.value);
+    }
   };
 
-  const handleCheckUserId = async () => {
+  const handleCheckUserId = async (userId) => {
     try {
-      const response = await axios.post(`https://localhost:8443/api/v1/users/duplicated/userId`, { userId: state.userId });
+      const response = await axios.post(`https://localhost:8443/api/v1/users/duplicated/userId`, { userId });
       if (response.data.duplicated) {
-        alert('이미 사용중인 아이디입니다.');
+        setUserIdMessage({text: '이미 사용중인 아이디입니다.', color: "error"});
       } else {
-        alert('사용 가능한 아이디입니다.');
+        setUserIdMessage({text: '사용 가능한 아이디입니다.', color: "success"});
       }
     } catch (error) {
-      alert('아이디 확인에 실패하였습니다.');
       console.error(error);
     }
   };
@@ -123,9 +127,7 @@ function SignUp() {
                   label="UserID"
                   onChange={handleChange}
                 />
-                <Button fullWidth onClick={handleCheckUserId} sx={{ mt: 1, mb: 2 }}>
-                  Check UserID
-                </Button>
+                <Typography variant="body2" color={userIdMessage.color}>{userIdMessage.text}</Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField

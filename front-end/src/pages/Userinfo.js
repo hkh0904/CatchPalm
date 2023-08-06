@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
+    // 기본이미지
+    const defaultProfileImg = "/assets/basicprofile.jpg";
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,6 +74,7 @@ const Userinfo = () => {
     return (
         <div>
             <h1>유저 정보</h1>
+            <img src={userInfo.profileImg || defaultProfileImg} alt="Profile" />  
             <p>User Number: {userInfo.userNumber}</p>
             <p>User ID: {userInfo.userId}</p>
             <p>
