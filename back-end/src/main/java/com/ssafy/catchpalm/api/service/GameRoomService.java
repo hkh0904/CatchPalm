@@ -19,7 +19,7 @@ public interface GameRoomService {
 	void deleteRoom(int roomNumber);
 	GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
 
-    Long outRoomUser(Long userNumber, int gameRoomNumber);
+    String outRoomUser(Long userNumber, int gameRoomNumber);
 
     List<GameRoomPostRes> gameRoomList();
 

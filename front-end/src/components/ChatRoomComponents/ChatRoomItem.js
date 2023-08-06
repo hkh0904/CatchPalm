@@ -27,7 +27,7 @@ const ChatRoomItem = () => {
   const [roomInfo, setRoomInfo] = useState(null);
 
   const [userInfo, setUserInfo] = useState([]); // 유저정보들
-
+  const [captain, setCaptain] = useState(); // 방장 정보
   const [messages, setMessages] = useState(""); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
@@ -57,7 +57,7 @@ const ChatRoomItem = () => {
     }
   };
 
-
+//  채팅관련
   const handleMessageChange = (event) => {
     setMessages(event.target.value);
   };
@@ -108,6 +108,7 @@ const ChatRoomItem = () => {
         );
         const data = response.data;
         setRoomInfo(data);
+        setCaptain(data.nickname);
       } catch (error) {
         console.error("Error fetching room info:", error);
       }
@@ -148,15 +149,26 @@ const ChatRoomItem = () => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
 
-    
-    if (message.type === 'JOIN') {
+    // 만약 레디신호면
+    if (message.type === 'READY') {
+      setUserInfo((prevUserInfo) =>
+        prevUserInfo.map((user) =>
+          user.userNumber === message.userNumber ? { ...user, ready: !user.ready } : user
+        )
+      );
+      return;
+    }
+    else if (message.type === 'JOIN') {
       messageElement.classList.add('event-message');
       message.content = message.sender + ' joined!';
-      setUserInfo(usersInfo);
+      setUserInfo(message.userInfo);
     } else if (message.type === 'LEAVE') {
       messageElement.classList.add('event-message');
       message.content = message.sender + ' left!';
-      setUserInfo(usersInfo);
+      setUserInfo(message.userInfo);
+      if (message.captain != undefined) { // 방장 정보가 들어왔다면 : 방장이 나감.
+        setCaptain(message.captain);
+      }
     } else {
       messageElement.classList.add("chat-message");
 
@@ -191,11 +203,30 @@ const ChatRoomItem = () => {
     var index = Math.abs(hash % colors.length);
     return colors[index];
   };
-
+  
+  // 레디 정보 전송
+  const clickReady = (event) => {
+    event.preventDefault();
+    alert("레디클릭");
+    if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+      var readyFlag = { // 레디신호 데이터
+        roomNumber: roomNumber, // 방 번호
+        userNumber: userNumber  // 유저 번호
+      };
+      stompClient.send("/app/ready.click", {}, JSON.stringify(readyFlag));
+    }
+    else {
+      console.log("READY신호 전달 실패.");
+    }
+    event.preventDefault();
+  }
+  
+  // 채팅 보내기.
   const handleSendMessage = (event) => {
     event.preventDefault();
     // Implement the logic to send a message using WebSocket
     // You may need to add the WebSocket logic here to send messages.
+    alert("유저넘버: "+ userNumber+" | 방번호: "+roomNumber);
     if (messages && stompClient) {
       var chatMessage = {
         sender: name,
@@ -438,8 +469,13 @@ const ChatRoomItem = () => {
 
         {/* 유저 리스트 민우짱 */}
         <div className='user-info'>
+          <div className="user-item">
+            <div className="nickname">참가자 : {userInfo.length} / {roomInfo.capacity}</div>
+          </div>
           {userInfo && userInfo.map((user, index) => (
-            <UserItem key={index} thumbnail={user.profileImg} nickname={user.nickname} />
+            <UserItem key={index} thumbnail={user.profileImg} nickname={user.nickname} captain={captain}
+            onButtonClick={clickReady} ready = {userInfo[index].ready}
+            />
           ))}
         </div>
       </div>
@@ -447,11 +483,19 @@ const ChatRoomItem = () => {
   );
 };
 
-const UserItem = ({ thumbnail, nickname }) => {
+const UserItem = ({ thumbnail, nickname, captain, onButtonClick, ready}) => {
+  const backgroundColor = ready === 0 ? 'white' : '#8aeec6';
+
   return (
-    <div className="user-item">
-      <img src={thumbnail} alt="User Thumbnail" />
+    <div className="user-item" style={{ backgroundColor }}>
+      <img src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg" alt="User Thumbnail" />
       <div className="nickname">{nickname}</div>
+      {captain === nickname && 
+        <img src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
+      }
+      {captain != nickname && name == nickname &&
+        <button class="button" onClick={onButtonClick}>ready</button>
+      }
     </div>
   );
 };
