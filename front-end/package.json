@@ -24,8 +24,6 @@
     "react-spring": "^9.7.2",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
-
-
     "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1",
     "sockjs-client": "^1.6.1",
@@ -57,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   }
 }
