@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import { allResolved } from "q";
-import Carousel from "react-bootstrap/Carousel";
 let name = "";
 
 var stompClient = null;
@@ -32,10 +31,24 @@ const ChatRoomItem = () => {
   const [messages, setMessages] = useState(""); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
-  const [index1, setIndex] = useState(0);
   const [currdeg, setCurrdeg] = useState(0);
-  const [musicList, setMusicList] = useState([]);
-  
+  const [showTooltip, setShowTooltip] = useState([false,false,false]);
+  const handleMouseEnter = (index) => {
+    setShowTooltip((prevState) => {
+      const newState = [...prevState];
+      newState[index] = true;
+      return newState;
+    });
+  };
+
+  const handleMouseLeave = (index) => {
+    setShowTooltip((prevState) => {
+      const newState = [...prevState];
+      newState[index] = false;
+      return newState;
+    });
+  };
+
   const rotate = (direction) => {
     if (direction === 'next') {
       setCurrdeg(currdeg - 60);
@@ -44,9 +57,6 @@ const ChatRoomItem = () => {
     }
   };
 
-  const handleSelect = (selectedIndex) => {
-    setIndex(selectedIndex);
-  };
 
   const handleMessageChange = (event) => {
     setMessages(event.target.value);
@@ -225,25 +235,150 @@ const ChatRoomItem = () => {
             backgroundImage: `url(${roomInfo.musics[0].thumbnail})`,
             width: '250px',
             backgroundSize: 'cover',
-            // 기타 스타일 속성들
-          }}></div>
+            }}
+            onMouseEnter={() => handleMouseEnter(0)}
+            onMouseLeave={() => handleMouseLeave(0)}
+          >
+            {showTooltip[0] && (
+              <div
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  overflow: 'hidden',
+                  fontSize: '10px',
+                  width: '250px',
+                  height: '200px'
+                }}
+              >
+                <div className="info-container">
+                  <div className="music-name">{roomInfo.musics[0].musicName}</div>
+                  <div className="music-details">
+                    <div className="detail-item">Running Time: {roomInfo.musics[0].runningTime}</div>
+                    <div className="detail-item">Singer: {roomInfo.musics[0].singer}</div>
+                    <div className="detail-item">Level: {roomInfo.musics[0].level}</div>
+                    <div className="detail-item">Play Count: {roomInfo.musics[0].playCnt}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <div className="item b"
           style={{
             backgroundImage: `url(${roomInfo.musics[1].thumbnail})`,
             width: '250px',
             backgroundSize: 'cover',
-            // 기타 스타일 속성들
-          }}></div>
+            }}
+            onMouseEnter={() => handleMouseEnter(1)}
+            onMouseLeave={() => handleMouseLeave(1)}
+          >
+            {showTooltip[1] && (
+              <div
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  overflow: 'hidden',
+                  fontSize: '10px',
+                  width: '250px',
+                  height: '200px'
+                }}
+              >
+                <div className="info-container">
+                  <div className="music-name">{roomInfo.musics[1].musicName}</div>
+                  <div className="music-details">
+                    <div className="detail-item">Running Time: {roomInfo.musics[1].runningTime}</div>
+                    <div className="detail-item">Singer: {roomInfo.musics[1].singer}</div>
+                    <div className="detail-item">Level: {roomInfo.musics[1].level}</div>
+                    <div className="detail-item">Play Count: {roomInfo.musics[1].playCnt}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <div className="item c"
           style={{
             backgroundImage: `url(${roomInfo.musics[2].thumbnail})`,
             width: '250px',
             backgroundSize: 'cover',
-            // 기타 스타일 속성들
-          }}></div>
-          <div className="item d">D</div>
-          <div className="item e">E</div>
-          <div className="item f">F</div>
+            }}
+            onMouseEnter={() => handleMouseEnter(2)}
+            onMouseLeave={() => handleMouseLeave(2)}
+          >
+            {showTooltip[2] && (
+              <div
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  overflow: 'hidden',
+                  fontSize: '10px',
+                  width: '250px',
+                  height: '200px'
+                }}
+              >
+                <div className="info-container">
+                  <div className="music-name">{roomInfo.musics[2].musicName}</div>
+                  <div className="music-details">
+                    <div className="detail-item">Running Time: {roomInfo.musics[2].runningTime}</div>
+                    <div className="detail-item">Singer: {roomInfo.musics[2].singer}</div>
+                    <div className="detail-item">Level: {roomInfo.musics[2].level}</div>
+                    <div className="detail-item">Play Count: {roomInfo.musics[2].playCnt}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          {/* 가데이터 */}
+          <div className="item d"
+          style={{
+            backgroundImage: `url("https://lh3.googleusercontent.com/AjWNrfzz6BqjRL5diZ-bPxFqGOsNk20xS6jcqoQWpNGWdch404mDWKVBkl4s9n74aLjXJWgldqm3Dc8=w544-h544-l90-rj")`,
+            width: '250px',
+            backgroundSize: 'cover',
+            }}>
+            <div style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              color: '#fff',
+              borderRadius: '5px',
+              overflow: 'hidden',
+              height: '200px',
+              display: 'list-item',
+            }}>
+              <div className="music-name">COMMING SOON</div>
+            </div>
+          </div>
+          <div className="item e"style={{
+            backgroundImage: `url("https://i1.sndcdn.com/artworks-IaaTwyICGFYMLY7A-lZhVQQ-t500x500.jpg")`,
+            width: '250px',
+            backgroundSize: 'cover',
+          }}>
+            <div style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              color: '#fff',
+              borderRadius: '5px',
+              overflow: 'hidden',
+              height: '200px',
+              display: 'list-item',
+            }}>
+              <div className="music-name">COMMING SOON</div>
+            </div>
+          </div>
+          <div className="item f" style={{
+            backgroundImage: `url("https://lh3.googleusercontent.com/FzLKj6zFEJna0gRNDeZRH4nuQwEyN-YbCaC-bIGLoia6EhirHUachdvdEdR3VdB7pArgFCW8mtpLPL0=w544-h544-l90-rj")`,
+            width: '250px',
+            backgroundSize: 'cover',
+          }}>
+            <div style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              color: '#fff',
+              borderRadius: '5px',
+              overflow: 'hidden',
+              height: '200px',
+              display: 'list-item',
+            }}>
+              <div className="music-name">COMMING SOON</div>
+            </div>
+          </div>
           
         </div>
       </div>

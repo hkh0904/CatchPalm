@@ -267,7 +267,6 @@ body {
     background: #000;
     width: 250px;
     height: 200px;
-    line-height: 200px;
     font-size: 5em;
     text-align: center;
     color: #FFF;
@@ -286,17 +285,34 @@ body {
   }
   .d {
     transform: rotateY(180deg) translateZ(250px);
-    background: #f26522;
   }
   .e {
     transform: rotateY(240deg) translateZ(250px);
-    background: #630460;
   } 
   .f {
     transform: rotateY(300deg) translateZ(250px);
-    background: #8c6239;
   }
   
+  .info-container {
+    padding: 10px;
+  }
+  
+  .music-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  
+  .music-details {
+    font-size: 14px;
+    color: #eae6e6;
+  }
+  
+  .detail-item {
+    margin-bottom: 5px;
+  }
+
   .next, .prev {
     color: #444;
     position: absolute;
