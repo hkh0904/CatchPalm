@@ -148,7 +148,6 @@ const ChatRoomItem = () => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
 
-    const usersInfo = message.userInfo;
     
     if (message.type === 'JOIN') {
       messageElement.classList.add('event-message');
@@ -220,6 +219,8 @@ const ChatRoomItem = () => {
   
   return (
     <div>
+      {/* 음악 리스트 민우짱 */}
+      <div>
       <div className="container">
         <div
           className="carousel"
@@ -380,10 +381,12 @@ const ChatRoomItem = () => {
             </div>
           </div>
           
+          </div>
         </div>
       </div>
         <div className="next" onClick={() => rotate('next')}>Next</div>
-        <div className="prev" onClick={() => rotate('prev')}>Prev</div>
+      <div className="prev" onClick={() => rotate('prev')}>Prev</div>
+      {/* 채팅 폼 민우짱 */}
       {/* <WebSocket
         roomNumber={roomNumber}
         username="john_doe" // 적절한 사용자 이름으로 설정해주세요.
@@ -432,7 +435,23 @@ const ChatRoomItem = () => {
             </div>
           </form>
         </div>
+
+        {/* 유저 리스트 민우짱 */}
+        <div className='user-info'>
+          {userInfo && userInfo.map((user, index) => (
+            <UserItem key={index} thumbnail={user.profileImg} nickname={user.nickname} />
+          ))}
+        </div>
       </div>
+    </div>
+  );
+};
+
+const UserItem = ({ thumbnail, nickname }) => {
+  return (
+    <div className="user-item">
+      <img src={thumbnail} alt="User Thumbnail" />
+      <div className="nickname">{nickname}</div>
     </div>
   );
 };

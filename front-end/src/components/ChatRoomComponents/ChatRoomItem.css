@@ -133,6 +133,8 @@ button.accent {
     position: relative;
     height: 400px;
     max-height: 400px;
+    display: inline-block;
+    width: 40%;
 }
 
 #chat-page ul {
@@ -366,4 +368,38 @@ body {
     .chat-header h2 {
         font-size: 1.1em;
     }
+
 }
+/* 유저 리스트 */
+.user-info {
+    background-color: #6db33f;
+    max-width: 40%;
+    box-shadow: rgba(0, 0, 0, 0.27) 0px 1px 11px;
+    position: relative;
+    height: 400px;
+    max-height: 400px;
+    display: inline-block;
+    width: 30%;
+    vertical-align: bottom;
+}
+
+.user-item {
+    width: 48%;
+    height: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .user-item img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  .nickname {
+    font-size: 14px;
+  }
