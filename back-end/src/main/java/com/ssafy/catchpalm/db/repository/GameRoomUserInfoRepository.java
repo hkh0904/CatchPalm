@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface GameRoomUserInfoRepository extends JpaRepository<GameRoomUserInfo, Integer> {
     // 사용자 고유 넘버를 기준(유니크값)으로 게임룸 유저정보 테이블에서 조회.
-//    List<GameRoomUserInfo> findByUserNumber(Long userNumber);
+    GameRoomUserInfo findByUserUserNumber(Long userNumber);
     // userNumber 값으로 GameRoomUserInfo 엔티티 삭제
     void deleteByUserUserNumber(Long userNumber);
     int countByGameRoomRoomNumber(int roomNumber);
