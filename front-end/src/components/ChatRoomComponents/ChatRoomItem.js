@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import { allResolved } from "q";
-import Carousel from "react-bootstrap/Carousel";
 let name = "";
 
 var stompClient = null;
