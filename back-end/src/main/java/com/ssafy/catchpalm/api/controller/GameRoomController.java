@@ -91,7 +91,9 @@ public class GameRoomController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> outUser(
-			@ApiParam(value="'userNumber' : 번호, 'roomNumber' : 번호", required = true)@RequestBody AddGameRoomUserReq addGameRoomUserReq) {
+			@ApiParam(value="'userNumber' : 번호, 'roomNumber' : 번호", required = true)
+
+			@RequestBody AddGameRoomUserReq addGameRoomUserReq) {
 		gameRoomService.outRoomUser(addGameRoomUserReq.getUserNumber(), addGameRoomUserReq.getGameRoomNumber());
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
