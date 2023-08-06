@@ -5,7 +5,6 @@
 }
 
 html,body {
-    height: 100%;
     /* overflow: hidden; */
 }
 
@@ -124,21 +123,16 @@ button.accent {
 
 #chat-page {
     position: relative;
-    height: 100%;
+    bottom: -80px;
+    padding: 0px 10px;
 }
 
 .chat-container {
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #fff;
+    max-width: 40%;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
-    margin-top: -220px;
-    /* height: calc(100% - 60px); */
-    max-height: 600px;
     position: relative;
-    /* height: 30rem; */
-    height: 600px;
+    height: 400px;
+    max-height: 400px;
 }
 
 #chat-page ul {
@@ -151,9 +145,6 @@ button.accent {
     height: calc(100% - 150px);
 }
 
-#chat-page #messageForm {
-    padding: 20px;
-}
 
 #chat-page ul li {
     line-height: 1.5rem;
@@ -222,8 +213,7 @@ button.accent {
 }
 
 .chat-header {
-    text-align: center;
-    padding: 15px;
+    padding: 10px;
     border-bottom: 1px solid #ececec;
 }
 
