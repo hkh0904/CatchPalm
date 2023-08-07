@@ -1,6 +1,7 @@
 package com.ssafy.catchpalm.api.service;
 
 import com.ssafy.catchpalm.api.request.GameLogPostReq;
+import com.ssafy.catchpalm.db.dto.RankDTO;
 import com.ssafy.catchpalm.db.entity.Music;
 import com.ssafy.catchpalm.db.entity.Rank;
 import com.ssafy.catchpalm.db.entity.Records;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("gameService")
 public class GameServiceImpl implements GameService {
@@ -60,22 +62,25 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Rank> getRanksByMusicNumber(int musicNumber) {
+    public List<RankDTO> getRanksByMusicNumber(int musicNumber) {
         // 랭크 리스트가 비어 있을 경우, 이 코드는 빈 Rank 리스트를 반환합니다.
-        return rankRepository.findByMusicMusicNumber(musicNumber);
+        List<Rank> ranks = rankRepository.findByMusicMusicNumberOrderByScoreDesc(musicNumber);
+
+        return ranks.stream()
+                .map(RankDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
 
 
     @Override
-    public Rank getRankByUserNumberAndMusicNumber(long userNumber, int musicNumber){
+    public RankDTO getRankByUserNumberAndMusicNumber(long userNumber, int musicNumber){
         Optional<Rank> optionalRank = rankRepository.findByRankUserUserNumberAndMusicMusicNumber(userNumber, musicNumber);
         if(!optionalRank.isPresent()){
             return null;
         }
         Rank rank = optionalRank.get();
-        return rank;
-
+        return RankDTO.fromEntity(rank);
     }
 
 

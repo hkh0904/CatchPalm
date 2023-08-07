@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface RankRepository extends JpaRepository<Rank, Integer> {
 
     Optional<Rank> findByRankUserUserNumberAndMusicMusicNumber(long userNumber, int musicNumber);
-    List<Rank> findByMusicMusicNumber(int musicNumber);
+    List<Rank> findByMusicMusicNumberOrderByScoreDesc(int musicNumber);
 
 }

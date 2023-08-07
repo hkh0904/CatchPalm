@@ -1,6 +1,7 @@
 package com.ssafy.catchpalm.api.service;
 
 import com.ssafy.catchpalm.api.request.GameLogPostReq;
+import com.ssafy.catchpalm.db.dto.RankDTO;
 import com.ssafy.catchpalm.db.entity.Rank;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface GameService {
 
     void createRank(GameLogPostReq gameinfo);
 
-    List<Rank> getRanksByMusicNumber(int musicNumber);
+    List<RankDTO> getRanksByMusicNumber(int musicNumber);
 
-    Rank getRankByUserNumberAndMusicNumber(long userNumber, int musicNumber);
+    RankDTO getRankByUserNumberAndMusicNumber(long userNumber, int musicNumber);
 }
