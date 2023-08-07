@@ -17,6 +17,6 @@ public class ChatMessage {
     private int roomNumber;
     private Long userNumber;
     private String nickname;
-    private Long captain;
+    private String captain;
     private List<UserInfo> userInfo;
 }

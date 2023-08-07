@@ -9,7 +9,6 @@ import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.UserRepository;
-import com.ssafy.catchpalm.websocket.chat.model.ReadyInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserReady;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +111,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Override
 	@Transactional
-	public Long outRoomUser(Long userNumber, int gameRoomNumber) {
+	public String outRoomUser(Long userNumber, int gameRoomNumber) {
 		gameRoomUserInfoRepository.deleteByUserUserNumber(userNumber);// 게임방 유저 나감 처리.
 		int cnt = gameRoomUserInfoRepository.countByGameRoomRoomNumber(gameRoomNumber); // 나간 후 인원체크
 		if(cnt == 0){ // 아무도 없는 방이 된다면 방 삭제.
@@ -134,7 +133,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 					if (newCaptain != null) { // 실제 존재하는 유저이다면
 						gameRoom.setCaptain(newCaptain);  // 새로운 방장 정보에 업데이트.
 						gameRoomRepository.save(gameRoom); // 업데이트 실행.
-						return gameRoom.getCaptain().getUserNumber(); // 방장이 변경되면 해당 방장 유저넘버만 리턴.
+						return gameRoom.getCaptain().getNickname(); // 방장이 변경되면 해당 방장 닉네임만 리턴.
 					}
 
 				}
@@ -201,6 +200,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 			resultUserInfo.setNickname(userInfo.getUser().getNickname());
 			resultUserInfo.setProfileImg(userInfo.getUser().getProfileImg());
 			resultUserInfo.setUserNumber(userInfo.getUser().getUserNumber());
+			resultUserInfo.setReady(userInfo.getReady());
 
 			resultUserInfos.add(resultUserInfo);
 		}
@@ -259,5 +259,19 @@ public class GameRoomServiceImpl implements GameRoomService {
 		resultUserReady.setUserNumber(resultUserInfo.getUser().getUserNumber());
 
 		return resultUserReady;
+	}
+	// 음악 변경 업데이트.
+	@Override
+	public void musicChange(int gameRoomNumber, int musicNumber) {
+		// 엔티티 조회: 게임방 정보 가져오기.( 유무도 확인)
+		Optional<GameRoom> optionalGameRoom = gameRoomRepository.findById(gameRoomNumber);
+		Music music = new Music();
+		if(optionalGameRoom.isPresent()){
+			GameRoom gameRoom = optionalGameRoom.get();
+			gameRoom.setMusic(music);
+			music.setMusicNumber(musicNumber);
+
+			gameRoomRepository.save(gameRoom);
+		}
 	}
 }

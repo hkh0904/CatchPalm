@@ -9,6 +9,7 @@ import com.ssafy.catchpalm.api.service.GameService;
 import com.ssafy.catchpalm.api.service.UserService;
 import com.ssafy.catchpalm.common.auth.SsafyUserDetails;
 import com.ssafy.catchpalm.common.model.response.BaseResponseBody;
+import com.ssafy.catchpalm.db.dto.RankDTO;
 import com.ssafy.catchpalm.db.entity.GameRoom;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
 import com.ssafy.catchpalm.db.entity.Rank;
@@ -65,15 +66,23 @@ public class GameController {
     })
     public ResponseEntity<RankListPostRes> getRank(@RequestParam("musicNumber") int musicNumber
             , @RequestParam(value = "userNumber", required = false) Long userNumber) {
-        List<Rank> ranks = new ArrayList<>();
+        int ranking = 0;
+        List<RankDTO> ranks = new ArrayList<>();
         if(userNumber==null){
             ranks = gameService.getRanksByMusicNumber(musicNumber);
-        }else{
-            if(gameService.getRankByUserNumberAndMusicNumber(userNumber,musicNumber)!=null) {
-                ranks.add(gameService.getRankByUserNumberAndMusicNumber(userNumber, musicNumber));
+        }
+        if(userNumber!=null){
+            RankDTO rank = gameService.getRankByUserNumberAndMusicNumber(userNumber, musicNumber);
+            if(rank!=null) {
+                List<RankDTO> allRanks = gameService.getRanksByMusicNumber(musicNumber);
+                ranks.add(rank);
+                for(int a=0;a<allRanks.size();a++){
+                    if(allRanks.get(a).getRankNumber()==rank.getRankNumber()){
+                        ranking=a+1;
+                    }
+                }
             }
         }
-
-        return ResponseEntity.status(200).body(RankListPostRes.of(200, "Success",ranks));
+        return ResponseEntity.status(200).body(RankListPostRes.of(200, "Success",ranks,ranking));
     }
 }
