@@ -5,8 +5,7 @@
 }
 
 html,body {
-    height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 body {
@@ -124,21 +123,18 @@ button.accent {
 
 #chat-page {
     position: relative;
-    height: 100%;
+    bottom: -80px;
+    padding: 0px 10px;
 }
 
 .chat-container {
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #fff;
+    max-width: 40%;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
-    margin-top: -220px;
-    /* height: calc(100% - 60px); */
-    max-height: 600px;
     position: relative;
-    /* height: 30rem; */
-    height: 600px;
+    height: 400px;
+    max-height: 400px;
+    display: inline-block;
+    width: 40%;
 }
 
 #chat-page ul {
@@ -151,9 +147,6 @@ button.accent {
     height: calc(100% - 150px);
 }
 
-#chat-page #messageForm {
-    padding: 20px;
-}
 
 #chat-page ul li {
     line-height: 1.5rem;
@@ -222,8 +215,7 @@ button.accent {
 }
 
 .chat-header {
-    text-align: center;
-    padding: 15px;
+    padding: 10px;
     border-bottom: 1px solid #ececec;
 }
 
@@ -241,7 +233,97 @@ button.accent {
     width: 100%;
 }
 
+body {
+    padding: 70px 0;
+}
 
+.container {
+    margin: 0 auto;
+    width: 250px;
+    height: 200px;
+    position: relative;
+    perspective: 1000px;
+}
+
+.carousel {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+}
+  
+  .item {
+    display: block;
+    position: absolute;
+    background: #000;
+    width: 250px;
+    height: 200px;
+    font-size: 5em;
+    text-align: center;
+    color: #FFF;
+    opacity: 0.95;
+    border-radius: 10px;
+  }
+  
+  .a {
+    transform: rotateY(0deg) translateZ(250px);
+  }
+  .b {
+    transform: rotateY(60deg) translateZ(250px);
+  }
+  .c {
+    transform: rotateY(120deg) translateZ(250px);
+  }
+  .d {
+    transform: rotateY(180deg) translateZ(250px);
+  }
+  .e {
+    transform: rotateY(240deg) translateZ(250px);
+  } 
+  .f {
+    transform: rotateY(300deg) translateZ(250px);
+  }
+  
+  .info-container {
+    padding: 10px;
+  }
+  
+  .music-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  
+  .music-details {
+    font-size: 14px;
+    color: #eae6e6;
+  }
+  
+  .detail-item {
+    margin-bottom: 5px;
+  }
+
+  .next, .prev {
+    color: #444;
+    position: absolute;
+    top: 100px;
+    padding: 1em 2em;
+    cursor: pointer;
+    background: #CCC;
+    border-radius: 5px;
+    border-top: 1px solid #FFF;
+    box-shadow: 0 5px 0 #999;
+    transition: box-shadow 0.1s, top 0.1s;
+  }
+  .next:hover, .prev:hover { color: #000; }
+  .next:active, .prev:active {
+    top: 104px;
+    box-shadow: 0 1px 0 #999;
+  }
+  .next { right: 5em; }
+  .prev { left: 5em; }
 @media screen and (max-width: 730px) {
 
     .chat-container {
@@ -286,4 +368,38 @@ button.accent {
     .chat-header h2 {
         font-size: 1.1em;
     }
+
 }
+/* 유저 리스트 */
+.user-info {
+    background-color: #6db33f;
+    max-width: 40%;
+    box-shadow: rgba(0, 0, 0, 0.27) 0px 1px 11px;
+    position: relative;
+    height: 400px;
+    max-height: 400px;
+    display: inline-block;
+    width: 30%;
+    vertical-align: bottom;
+}
+
+.user-item {
+    width: 48%;
+    height: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .user-item img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  .nickname {
+    font-size: 14px;
+  }
