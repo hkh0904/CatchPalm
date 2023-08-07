@@ -38,6 +38,12 @@ public class GameRoomPostRes {
     @ApiModelProperty(name="GameRoom status")
     int status; // 게임방 상태 : 0 = wait, 1 = gaming
 
+    @ApiModelProperty(name="GameRoom status")
+    int musicNumber; // 선정 곡 넘버
+
+    @ApiModelProperty(name="GameRoom status")
+    String musicName; // 선정 곡 이름
+
     @ApiModelProperty(name="Music list")
     List<MusicPostRes> musics; // 음악리스트
 
@@ -51,6 +57,8 @@ public class GameRoomPostRes {
         res.setNickname(gameRoom.getCaptain().getNickname());
         res.setTitle(gameRoom.getTitle());
         res.setTypeName(gameRoom.getCategory().getName());
+        res.setMusicNumber(gameRoom.getMusic().getMusicNumber());
+        res.setMusicName(gameRoom.getMusic().getMusicName());
         if (musicList != null){
             res.setMusics(musicList);
         }

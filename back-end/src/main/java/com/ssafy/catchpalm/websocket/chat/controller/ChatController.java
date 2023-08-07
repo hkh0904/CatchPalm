@@ -77,6 +77,9 @@ public class ChatController {
     public void clickMessage(@Payload MusicInfo musicInfo) {
 
         // TODO -- 반장에 의해 변경된 음악정보 소켓전달.
+        // db에 변경사항 종속: 게임방 리스트에서 음악보고 들어올 수 있다.
+        gameRoomService.musicChange(musicInfo.getRoomNumber(), musicInfo.getMusicNumber());
+
         // 메세지 타입 정의.
         musicInfo.setType(MessageType.MUSIC);
         // 룸번호 타입 변경

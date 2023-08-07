@@ -32,4 +32,7 @@ public interface GameRoomService {
 
     // 게임룸에 있는 유저 레디 상태 변화 반영 -> 현재 게임방 내의 유저들 레디상태 리턴.
     UserReady readyStatus(UserReady userReady);
+
+    // 음악 변경 업데이트.
+    void musicChange(int gameRoomNumber, int musicNumber);
 }
