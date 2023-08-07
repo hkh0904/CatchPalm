@@ -56,7 +56,7 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/v1/oauth2/callback');
+      const response = await axios.get('https://localhost:8443/api/v1/oauth2/authorization/google');
       if (response.status === 200) {
         localStorage.setItem('token', response.data.accessToken);
         navigate('/');
