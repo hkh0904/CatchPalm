@@ -32,6 +32,7 @@ const ChatRoomItem = () => {
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
   const [pickedMusic, setPickedMusic] = useState();
+  const [musicName, setMusicName] = useState();
   const [currdeg, setCurrdeg] = useState(0);
   const [showTooltip, setShowTooltip] = useState([false,false,false]);
   const handleMouseEnter = (index) => {
@@ -57,6 +58,17 @@ const ChatRoomItem = () => {
       setCurrdeg(currdeg + 60);
     }
   };
+
+  const chageMusicBtn = (musicNumber, musicName1) => {
+    setPickedMusic(musicNumber);
+    setMusicName(musicName1);
+  }
+
+  useEffect(() => {
+    if (pickedMusic !== null && musicName !== null) {
+      musicChange();
+    }
+  }, [pickedMusic, musicName]);
 
 //  채팅관련
   const handleMessageChange = (event) => {
@@ -111,6 +123,7 @@ const ChatRoomItem = () => {
         setRoomInfo(data);
         setCaptain(data.nickname);
         setPickedMusic(data.musics[0].musicNumber);
+        setMusicName(data.musics[0].musicName)
       } catch (error) {
         console.error("Error fetching room info:", error);
       }
@@ -150,9 +163,17 @@ const ChatRoomItem = () => {
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
+    alert("여기는오냐");
+    // 만약 음악 변경 신호면
+    if(message.type === 'MUSIC'){
+      setPickedMusic(message.musicNumber);
+      setMusicName(message.musicName);
+      alert("전송받음");
+      return;
+    }
 
     // 만약 레디신호면
-    if (message.type === 'READY') {
+    else if (message.type === 'READY') {
       setUserInfo((prevUserInfo) =>
         prevUserInfo.map((user) =>
           user.userNumber === message.userNumber ? { ...user, ready: message.isReady } : user
@@ -172,7 +193,7 @@ const ChatRoomItem = () => {
         setCaptain(message.captain);
         setUserInfo((prevUserInfo) =>
         prevUserInfo.map((user) =>
-          user.userNumber === message.userNumber ? { ...user, ready: 1} : user
+          user.userNumber === message.captain ? { ...user, ready: 1} : user
         )
       );
       }
@@ -211,6 +232,23 @@ const ChatRoomItem = () => {
     return colors[index];
   };
   
+  // 음악 변경 정보 전송
+
+  const musicChange = () => {
+    if (pickedMusic && musicName && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+      var changedMusic = { // 변경된 음악정보
+        roomNumber: roomInfo.roomNumber,
+        musicNumber: pickedMusic, // 음악 번호
+        musicName: musicName  // 음악 이름
+      };
+      stompClient.send("/app/music.change", {}, JSON.stringify(changedMusic));
+      alert("음악변경요청보냄");
+    }
+    else {
+      console.log("변경된 음악 정보 전달 실패.");
+    }
+  }
+
   // 레디 정보 전송
   const clickReady = (event) => {
     event.preventDefault();
@@ -231,11 +269,8 @@ const ChatRoomItem = () => {
     event.preventDefault();
 
     const readyCount = userInfo.filter(user => user.ready === 1).length;
-    alert(readyCount);
     if (readyCount === userInfo.length-1) {
-      alert("게임시작 가능");
     } else {
-      alert("게임시작 불가능");
     }
   }
 
@@ -288,9 +323,13 @@ const ChatRoomItem = () => {
             onMouseEnter={() => handleMouseEnter(0)}
             onMouseLeave={() => handleMouseLeave(0)}
           >
-            {/* 선택된 곡표시 */}
+            {/* 선택된 곡이면 표시 */}
             {pickedMusic === roomInfo.musics[0].musicNumber &&
               <img className="pickedMusic" src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png" alt="User Thumbnail" />
+            }
+            {/* 방장만 표시: 곡 선택 버튼 */}
+            {captain === name && 
+              <button className="pickbtn" onClick={() => chageMusicBtn(roomInfo.musics[0].musicNumber, roomInfo.musics[0].musicName)}>PLAY</button>
             }
             {showTooltip[0] && (
               <div
@@ -325,6 +364,14 @@ const ChatRoomItem = () => {
             onMouseEnter={() => handleMouseEnter(1)}
             onMouseLeave={() => handleMouseLeave(1)}
           >
+            {/* 선택된 곡이면 표시 */}
+            {pickedMusic === roomInfo.musics[1].musicNumber &&
+              <img className="pickedMusic" src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png" alt="User Thumbnail" />
+            }
+            {/* 방장만 표시: 곡 선택 버튼 */}
+            {captain === name && 
+              <button className="pickbtn" onClick={() => chageMusicBtn(roomInfo.musics[1].musicNumber, roomInfo.musics[1].musicName)}>PLAY</button>
+            }
             {showTooltip[1] && (
               <div
                 style={{
@@ -358,6 +405,14 @@ const ChatRoomItem = () => {
             onMouseEnter={() => handleMouseEnter(2)}
             onMouseLeave={() => handleMouseLeave(2)}
           >
+            {/* 선택된 곡이면 표시 */}
+            {pickedMusic === roomInfo.musics[2].musicNumber &&
+              <img className="pickedMusic" src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png" alt="User Thumbnail" />
+            }
+            {/* 방장만 표시: 곡 선택 버튼 */}
+            {captain === name && 
+              <button className="pickbtn" onClick={() => chageMusicBtn(roomInfo.musics[2].musicNumber, roomInfo.musics[2].musicName)}>PLAY</button>
+            }
             {showTooltip[2] && (
               <div
                 style={{
@@ -438,22 +493,12 @@ const ChatRoomItem = () => {
       </div>
         <div className="next" onClick={() => rotate('next')}>Next</div>
       <div className="prev" onClick={() => rotate('prev')}>Prev</div>
-      {/* 채팅 폼 민우짱 */}
-      {/* <WebSocket
-        roomNumber={roomNumber}
-        username="john_doe" // 적절한 사용자 이름으로 설정해주세요.
-        userNumber={456} // 적절한 사용자 번호로 설정해주세요.
-      /> */}
-      {/* <div>
-        <h3>{roomInfo.title}</h3>
-        <p>방장: {roomInfo.nickname}</p>
-        <p>
-          현재원/정원: {roomInfo.cntUser}/{roomInfo.capacity}
-        </p>
-        <p>개인전/팀전: {roomInfo.typeName}</p>
-        <p>{roomNumber}</p>
-        {/* 기타 방 정보 표시 */}
-      {/*</div> */}
+
+      <div>
+        {pickedMusic}
+        {musicName}
+      </div>
+
       <div id="chat-page" className="hidden">
         <div className="chat-container">
           <div className="chat-header">
