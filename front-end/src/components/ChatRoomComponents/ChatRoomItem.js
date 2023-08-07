@@ -31,6 +31,7 @@ const ChatRoomItem = () => {
   const [messages, setMessages] = useState(""); // 보내는 메세지
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
+  const [pickedMusic, setPickedMusic] = useState();
   const [currdeg, setCurrdeg] = useState(0);
   const [showTooltip, setShowTooltip] = useState([false,false,false]);
   const handleMouseEnter = (index) => {
@@ -109,6 +110,7 @@ const ChatRoomItem = () => {
         const data = response.data;
         setRoomInfo(data);
         setCaptain(data.nickname);
+        setPickedMusic(data.musics[0].musicNumber);
       } catch (error) {
         console.error("Error fetching room info:", error);
       }
@@ -153,7 +155,7 @@ const ChatRoomItem = () => {
     if (message.type === 'READY') {
       setUserInfo((prevUserInfo) =>
         prevUserInfo.map((user) =>
-          user.userNumber === message.userNumber ? { ...user, ready: !user.ready } : user
+          user.userNumber === message.userNumber ? { ...user, ready: message.isReady } : user
         )
       );
       return;
@@ -166,8 +168,13 @@ const ChatRoomItem = () => {
       messageElement.classList.add('event-message');
       message.content = message.sender + ' left!';
       setUserInfo(message.userInfo);
-      if (message.captain != undefined) { // 방장 정보가 들어왔다면 : 방장이 나감.
+      if (message.captain !== null) { // 방장 정보가 들어왔다면 : 방장이 나감.
         setCaptain(message.captain);
+        setUserInfo((prevUserInfo) =>
+        prevUserInfo.map((user) =>
+          user.userNumber === message.userNumber ? { ...user, ready: 1} : user
+        )
+      );
       }
     } else {
       messageElement.classList.add("chat-message");
@@ -207,7 +214,6 @@ const ChatRoomItem = () => {
   // 레디 정보 전송
   const clickReady = (event) => {
     event.preventDefault();
-    alert("레디클릭");
     if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
       var readyFlag = { // 레디신호 데이터
         roomNumber: roomNumber, // 방 번호
@@ -220,13 +226,24 @@ const ChatRoomItem = () => {
     }
     event.preventDefault();
   }
-  
+  // 게임 스타트 정보 전송
+  const clickStart = (event) => {
+    event.preventDefault();
+
+    const readyCount = userInfo.filter(user => user.ready === 1).length;
+    alert(readyCount);
+    if (readyCount === userInfo.length-1) {
+      alert("게임시작 가능");
+    } else {
+      alert("게임시작 불가능");
+    }
+  }
+
   // 채팅 보내기.
   const handleSendMessage = (event) => {
     event.preventDefault();
     // Implement the logic to send a message using WebSocket
     // You may need to add the WebSocket logic here to send messages.
-    alert("유저넘버: "+ userNumber+" | 방번호: "+roomNumber);
     if (messages && stompClient) {
       var chatMessage = {
         sender: name,
@@ -271,6 +288,10 @@ const ChatRoomItem = () => {
             onMouseEnter={() => handleMouseEnter(0)}
             onMouseLeave={() => handleMouseLeave(0)}
           >
+            {/* 선택된 곡표시 */}
+            {pickedMusic === roomInfo.musics[0].musicNumber &&
+              <img className="pickedMusic" src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png" alt="User Thumbnail" />
+            }
             {showTooltip[0] && (
               <div
                 style={{
@@ -279,8 +300,8 @@ const ChatRoomItem = () => {
                   borderRadius: '5px',
                   overflow: 'hidden',
                   fontSize: '10px',
-                  width: '250px',
-                  height: '200px'
+                  width: '230px',
+                  height: '180px'
                 }}
               >
                 <div className="info-container">
@@ -312,8 +333,8 @@ const ChatRoomItem = () => {
                   borderRadius: '5px',
                   overflow: 'hidden',
                   fontSize: '10px',
-                  width: '250px',
-                  height: '200px'
+                  width: '230px',
+                  height: '180px'
                 }}
               >
                 <div className="info-container">
@@ -345,8 +366,8 @@ const ChatRoomItem = () => {
                   borderRadius: '5px',
                   overflow: 'hidden',
                   fontSize: '10px',
-                  width: '250px',
-                  height: '200px'
+                  width: '230px',
+                  height: '180px'
                 }}
               >
                 <div className="info-container">
@@ -373,7 +394,7 @@ const ChatRoomItem = () => {
               color: '#fff',
               borderRadius: '5px',
               overflow: 'hidden',
-              height: '200px',
+              height: '180px',
               display: 'list-item',
             }}>
               <div className="music-name">COMMING SOON</div>
@@ -389,7 +410,7 @@ const ChatRoomItem = () => {
               color: '#fff',
               borderRadius: '5px',
               overflow: 'hidden',
-              height: '200px',
+              height: '180px',
               display: 'list-item',
             }}>
               <div className="music-name">COMMING SOON</div>
@@ -405,7 +426,7 @@ const ChatRoomItem = () => {
               color: '#fff',
               borderRadius: '5px',
               overflow: 'hidden',
-              height: '200px',
+              height: '180px',
               display: 'list-item',
             }}>
               <div className="music-name">COMMING SOON</div>
@@ -473,29 +494,25 @@ const ChatRoomItem = () => {
             <div className="nickname">참가자 : {userInfo.length} / {roomInfo.capacity}</div>
           </div>
           {userInfo && userInfo.map((user, index) => (
-            <UserItem key={index} thumbnail={user.profileImg} nickname={user.nickname} captain={captain}
-            onButtonClick={clickReady} ready = {userInfo[index].ready}
-            />
+            <div className="user-item" style={{ 
+                backgroundColor : user.nickname === captain ? '#f367d5' : userInfo[index].ready === 0 ? 'white' : '#8aeec6'
+              }}>
+              <img className="userImg" src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg" alt="User Thumbnail" />
+              <div className="nickname">{user.nickname}</div>
+              {captain === user.nickname && 
+                <img className="captainlogo" src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
+              }
+              {captain !== user.nickname && name === user.nickname &&
+                <button class="button" onClick={clickReady}>ready</button>
+              }
+              {captain === user.nickname && name === user.nickname &&
+                <button class="startbutton" onClick={clickStart}>start</button>
+              }
+            </div>
+
           ))}
         </div>
       </div>
-    </div>
-  );
-};
-
-const UserItem = ({ thumbnail, nickname, captain, onButtonClick, ready}) => {
-  const backgroundColor = ready === 0 ? 'white' : '#8aeec6';
-
-  return (
-    <div className="user-item" style={{ backgroundColor }}>
-      <img src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg" alt="User Thumbnail" />
-      <div className="nickname">{nickname}</div>
-      {captain === nickname && 
-        <img src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
-      }
-      {captain != nickname && name == nickname &&
-        <button class="button" onClick={onButtonClick}>ready</button>
-      }
     </div>
   );
 };
