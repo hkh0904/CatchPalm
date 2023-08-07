@@ -152,11 +152,11 @@ const ChatRoomItem = () => {
     if (message.type === 'JOIN') {
       messageElement.classList.add('event-message');
       message.content = message.sender + ' joined!';
-      setUserInfo(usersInfo);
+      setUserInfo(userInfo);
     } else if (message.type === 'LEAVE') {
       messageElement.classList.add('event-message');
       message.content = message.sender + ' left!';
-      setUserInfo(usersInfo);
+      setUserInfo(userInfo);
     } else {
       messageElement.classList.add("chat-message");
 
