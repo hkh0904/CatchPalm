@@ -4,17 +4,12 @@ import {GestureRecognizer, FilesetResolver,} from "https://cdn.jsdelivr.net/npm/
 import { HAND_CONNECTIONS } from "@mediapipe/hands";
 import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
 let category2Name = undefined;
-let category1Score = undefined;
-let category2Score = undefined;
 let hitSound = new Audio("/assets/Hit.mp3");
 console.log(hitSound)
 
@@ -47,10 +42,9 @@ const createGestureRecognizer = async () => {
 
 export default function HandModel() {
   // 컴포넌트 상태 및 ref를 선언
+  const token = localStorage.getItem("token");
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
   const videoSrcRef = useRef(null); 
-  const [category1, setCategory1] = useState("category1Name");
-  const [category2, setCategory2] = useState("category2Name");
   const showBackground = useState(false);
   const [videoHidden, setVideoHidden] = useState(true);
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 }); // 비디오의 크기를 저장하는 상태
@@ -58,6 +52,8 @@ export default function HandModel() {
   const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const scoreRef = useRef(score);
+  const [userNum, setUserNum] = useState(null);
+  const [musicNum, setMusicNum] = useState(null);
 
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
@@ -70,6 +66,56 @@ export default function HandModel() {
     height: window.innerHeight,
   });
   
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "https://localhost:8443/api/v1/users/me",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // your access token here
+      },
+    })
+    .then((response) => {
+      setUserNum(response.data.userNumber)
+    })
+    .catch((error) => {
+      console.error("error");
+      const token = error.response.headers.authorization.slice(7);
+      localStorage.setItem("token", token);
+      axios({
+        method: "get",
+        url: "https://localhost:8443/api/v1/users/me",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // your access token here
+        },
+      })
+        .then((response) => {
+          setUserNum(response.data.userNumber)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+  }, [userNum]);
+
+  const sendData = async () => {
+    // 객체 생성
+    const data = {
+        musicNumber: musicNum,
+        score: scoreRef.current, // useRef의 경우 current 속성 사용
+        userNumber: userNum
+    };
+
+    try {
+        // POST 요청을 통해 데이터 전송
+        const response = await axios.post('https://localhost:8443/api/v1/game/log', data);
+        console.log("Response:", response.data);
+    } catch (error) {
+        console.error("Error sending the data:", error);
+    }
+}
+
   // window의 크기가 변경될 때 windowSize 상태를 업데이트하는 함수
   const updateWindowDimensions = () => {
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });
@@ -79,7 +125,6 @@ export default function HandModel() {
     scoreRef.current = score;  // score 값이 변경될 때마다 ref를 업데이트합니다.
   }, [score]);
 
-  
     const props = useSpring({
       from: { val: 0 },
       to: { val: score },
@@ -110,8 +155,8 @@ export default function HandModel() {
     fetchDataAndPredict().then((data) => {
       const audio = new Audio("/music/YOASOBI-IDOL.mp3");
       const finish = new Audio("/assets/Finish.mp3");
-      audio.volume = 0.2; // 볼륨 30%로 설정
-      finish.volume = 0.4; //
+      audio.volume = 0.3; // 볼륨 30%로 설정
+      finish.volume = 0.3; //
       audio.loop = false;
       finish.loop = false;
       
@@ -139,9 +184,9 @@ export default function HandModel() {
                     track.stop();
                   });
                   videoRef.current.srcObject = null;
-                  // displayedScore = 0;
                   // 페이지 이동
-                  console.log(scoreRef.current);  // 최신 score 값 출력
+                  sendData()
+                
                   navigate('/');
                 }
               }
@@ -177,7 +222,10 @@ export default function HandModel() {
 // fetchData 함수를 수정하여 데이터를 가져와서 반환
 const fetchData = async () => {
   try {
-      const response = await axios.get("/music/YOASOBI-IDOL-HARD.json");
+      const url = "/music/1.YOASOBI-IDOL-HARD.json";
+      const number = url.split('.')[0].split('/').pop(); // "1"
+      setMusicNum(number);
+      const response = await axios.get(url);
       const data = response.data; // 가져온 데이터
       return data;  // 데이터 반환
   } catch (error) {
@@ -273,8 +321,6 @@ canvasCtx.restore();
     if (results.gestures.length > 0) {
       // console.log(`x: ${results.landmarks[0][9].x.toFixed(5)}, y: ${results.landmarks[0][9].y.toFixed(5)}`);
       category1Name = results.gestures[0][0].categoryName;
-      category1Score = parseFloat(results.gestures[0][0].score * 100).toFixed(2);
-      setCategory1(category1Name);
       handX = results.landmarks[0][9].x;
       handY = results.landmarks[0][9].y;
       hideCircle(handX, handY, category1Name);
@@ -282,8 +328,6 @@ canvasCtx.restore();
       // 두 번째 예측 결과가 있다면 처리
       if (results.gestures.length > 1) {
         category2Name = results.gestures[1][0].categoryName;
-        category2Score = parseFloat(results.gestures[1][0].score * 100).toFixed(2);
-        setCategory2(category2Name);
         handX = results.landmarks[1][9].x;
         handY = results.landmarks[1][9].y;
         hideCircle(handX, handY, category2Name);
@@ -367,7 +411,6 @@ canvasCtx.restore();
     });
 }
 
-
   // 컴포넌트의 반환 값 (렌더링 결과)
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -394,41 +437,29 @@ canvasCtx.restore();
           height: "100%",
           objectFit: "cover",
           transform: "scaleX(1)",
-        }}
-      />
+        }}/>
       <video
         hidden={videoHidden}
         ref={videoRef}
         id="webcam"
         autoPlay
-        style={{ position: "absolute", transform: "scaleX(-1)", filter: "brightness(40%)"}}
-      />
+        style={{ position: "absolute", transform: "scaleX(-1)", filter: "brightness(40%)"}}/>
       <canvas
         id="canvas"
         width={videoSize.width}
-        height={videoSize.height}
-      />
+        height={videoSize.height}/>
+            <Button
+              id = "toggleWebcam"
+              variant="contained"
+              onClick={toggleBackground}>
+              {showBackground ? "Webcam ON" : "Webcam OFF"}
+            </Button>
       {countdown > 0 && (
         <div id="countdown" style={{ fontSize: "100px" }}>
           {countdown}
         </div>
         )}
       </div>
-      
-      <Box width={250}>
-        <Card>
-          <CardContent>
-            <Button
-              variant="contained"
-              sx={{ display: "inline-flex" }}
-              onClick={toggleBackground}>
-              {showBackground ? "Webcam ON" : "Webcam OFF"}
-            </Button>
-            <div>Thats : {category1} : {category1Score}%</div>
-            <div>Thats : {category2} : {category2Score}%</div>
-          </CardContent>
-        </Card>
-      </Box>
     </div>
   );
 }
