@@ -62,6 +62,10 @@ function SignUp() {
       console.log(response.data);
 
       // If the request is successful, navigate to the login page
+      if (response.status === 200) {
+        alert("가입하신 이메일을 확인해주세요!");
+      }
+      
       navigate('/login');
     } catch (error) {
       console.error(error);
@@ -69,6 +73,7 @@ function SignUp() {
   };
 
   return (
+    <div style={{ backgroundColor: 'white' }}>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -79,7 +84,7 @@ function SignUp() {
             flexDirection: 'column',
             alignItems: 'center',
           }}
-        >
+          >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -97,7 +102,7 @@ function SignUp() {
                   label="Age"
                   type="number"
                   onChange={handleChange}
-                />
+                  />
               </Grid>
               <Box sx={{ height: 16 }} />  {/* Add a line break */}
               <Grid item xs={12} sm={6}>
@@ -111,7 +116,7 @@ function SignUp() {
                     native: true,
                   }}
                   onChange={handleChange}
-                >
+                  >
                   <option value=""></option>
                   <option value="0">남성</option>
                   <option value="1">여성</option>
@@ -126,7 +131,7 @@ function SignUp() {
                   fullWidth
                   label="UserID"
                   onChange={handleChange}
-                />
+                  />
                 <Typography variant="body2" color={userIdMessage.color}>{userIdMessage.text}</Typography>
               </Grid>
               <Grid item xs={12}>
@@ -137,7 +142,7 @@ function SignUp() {
                   label="Password"
                   type="password"
                   onChange={handleChange}
-                />
+                  />
               </Grid>
               <Grid item xs={12}>
                 <Button
@@ -146,7 +151,7 @@ function SignUp() {
                   variant="contained"
                   color="primary"
                   sx={{ mt: 3, mb: 2 }}
-                >
+                  >
                   Sign Up
                 </Button>
               </Grid>
@@ -156,12 +161,18 @@ function SignUp() {
                 <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
+                <br/>
+                <br/>
+                <Link href ="/" variant="body2">
+                  메인 화면으로 돌아가기
+                </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
+  </div>
   );
 }
 
