@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import GlobalStateContext from '../GlobalStateContext';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
-  const { responseData } = useContext(GlobalStateContext);
   console.log(responseData);
   const [roomData, setRoomData] = useState({
     capacity: '',
