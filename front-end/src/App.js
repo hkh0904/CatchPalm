@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Userinfo from './pages/Userinfo';
+import RankingPage from './pages/RankingPage';
 import axios from 'axios';
 
 function MainPage() {
@@ -201,6 +202,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
           <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
+          <Route path="/ranking" element={<RankingPage />} />
         </Routes>
     </Router>
   );

@@ -123,7 +123,7 @@ button.accent {
 
 #chat-page {
     position: relative;
-    bottom: -80px;
+    bottom: 0px;
     padding: 0px 10px;
 }
 
@@ -239,7 +239,7 @@ body {
 
 .container {
     margin: 0 auto;
-    width: 250px;
+    width: 270px;
     height: 200px;
     position: relative;
     perspective: 1000px;
@@ -264,8 +264,27 @@ body {
     color: #FFF;
     opacity: 0.95;
     border-radius: 10px;
+    border: 10px solid transparent;
+    border-image-source: linear-gradient(45deg, #f06, #0cf, #f06, #0cf);
+    border-image-slice: 1;
+    animation: border-animation 3s infinite linear;
   }
-  
+
+  @keyframes border-animation {
+    0%, 100% {
+      border-image-source: linear-gradient(45deg, #f06, #0cf, #f06, #0cf);
+    }
+    25% {
+      border-image-source: linear-gradient(45deg, #0cf, #f06, #0cf, #f06);
+    }
+    50% {
+      border-image-source: linear-gradient(45deg, #f06, #0cf, #f06, #0cf);
+    }
+    75% {
+      border-image-source: linear-gradient(45deg, #0cf, #f06, #0cf, #f06);
+    }
+  }
+  /* 음악리스트 */
   .a {
     transform: rotateY(0deg) translateZ(250px);
   }
@@ -292,8 +311,8 @@ body {
   .music-name {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 7px;
+    margin-top: 7px;
   }
   
   .music-details {
@@ -324,6 +343,53 @@ body {
   }
   .next { right: 5em; }
   .prev { left: 5em; }
+
+  .pickedMusic{
+    display: list-item;
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50px;
+  }
+  .pickbtn{
+    display: inline-flex;
+    position: absolute;
+    border-radius: 10px;
+    right: 0px;
+    bottom: 0px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    height: 30px;
+    min-height: fit-content;
+    width: fit-content;
+  }
+  .pickbtn:hover {
+    background-color: #8b7bd4;
+    box-shadow: 0px 15px 20px rgba(163, 200, 185, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+  .showMusicName{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid;
+    padding-bottom: 1%;
+  }
+
 @media screen and (max-width: 730px) {
 
     .chat-container {
@@ -395,13 +461,18 @@ body {
     border-radius: 5px;
   }
 
-.user-item img {
+.userImg {
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
     margin-left: 5%;
   }
-  
+.captainlogo{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-left: 2%;
+}
   .nickname {
     font-size: 1.5rem;
     font-weight: bold;
@@ -410,7 +481,7 @@ body {
 
   /* 레디 버튼 관련 */
   .button {
-        width: 100px;
+    width: 100px;
     height: 45px;
     font-size: 0.7rem;
     text-transform: uppercase;
@@ -426,9 +497,32 @@ body {
     outline: none;
     margin-left: 5%;
     }
-  
+  .startbutton{
+    width: 100px;
+    height: 45px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #f5f2f2;
+    background-color: #ea4c4c;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(221, 116, 116, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    margin-left: 5%;
+    }
   .button:hover {
     background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+  .startbutton:hover {
+    background-color: #e277a0;
     box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
     color: #fff;
     transform: translateY(-7px);

@@ -24,11 +24,8 @@
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
     "react-spring": "^9.7.2",
-<<<<<<< HEAD
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
-=======
->>>>>>> 4e3576cb560d8df01c6596b9ef462094d85d7067
     "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1",
     "sockjs-client": "^1.6.1",

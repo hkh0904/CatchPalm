@@ -71,4 +71,20 @@ public class ChatController {
         // 해당 방으로 메시지 브로드캐스팅
         template.convertAndSend("/topic/chat/" + roomNumber, userReady);
     }
+
+    @MessageMapping("/music.change")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void clickMessage(@Payload MusicInfo musicInfo) {
+
+        // TODO -- 반장에 의해 변경된 음악정보 소켓전달.
+        // db에 변경사항 종속: 게임방 리스트에서 음악보고 들어올 수 있다.
+        gameRoomService.musicChange(musicInfo.getRoomNumber(), musicInfo.getMusicNumber());
+
+        // 메세지 타입 정의.
+        musicInfo.setType(MessageType.MUSIC);
+        // 룸번호 타입 변경
+        String roomNumber = String.valueOf(musicInfo.getRoomNumber());
+        // 해당 방으로 메시지 브로드캐스팅
+        template.convertAndSend("/topic/chat/" + roomNumber, musicInfo);
+    }
 }
