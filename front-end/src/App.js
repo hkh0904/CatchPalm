@@ -1,26 +1,24 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
-import React, { useEffect, useState, useContext  } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
 import ChatRoomItem from "./components/ChatRoomComponents/ChatRoomItem";
 import ChatRoomList from "./components/ChatRoomComponents/ChatRoomList"; // chat 리스트방으로
-import { Button } from '@mui/material';
+import { Button, Drawer } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Userinfo from './pages/Userinfo';
 import axios from 'axios';
-import GlobalStateContext from './GlobalStateContext';
-import GlobalStateProvider from './GlobalStateProvider'; // 추가
 
 function MainPage() {
   
   const navigate = useNavigate();
-  const { responseData, setResponseData } = useContext(GlobalStateContext);
 
   ////////로그인 로그아웃 시작////////////////
-  const isLoggedIn = !!localStorage.getItem('token');  // 로그인 토큰 확인
+  const isLoggedIn = !!localStorage.getItem('token'); 
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
 
@@ -36,7 +34,9 @@ function MainPage() {
     
     const token = localStorage.getItem('token');
     
-    
+
+
+
     fetch('https://localhost:8443/api/v1/users/delete', {
       method: 'DELETE',
       headers: {
@@ -62,7 +62,14 @@ function MainPage() {
     });
   };
   
-  
+    //// 내 정보보기 시작
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const handleDrawerOpen = () => {
+      setDrawerOpen(!drawerOpen);
+    };
+
+    /// 내정보 보기 끝
 
 
   const handleButtonClick3 = () => {
@@ -93,13 +100,33 @@ function MainPage() {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
         setUserId(cleanedUserId);
-        setResponseData(response.data);
-        console.log(response.data.userId)
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        console.log(response.data)
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        console.error("error");
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios({
+          method: 'get',
+          url: 'https://localhost:8443/api/v1/users/me',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // your access token here
+          }
+        })
+          .then(response => {
+            const rawUserId = response.data.userId;
+            const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            setUserId(cleanedUserId);
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error);
+          })
       });
-  }, []); // useEffect will run once when the component mounts
+  }, [token]); // useEffect will run once when the component mounts
   
 
 ///////회원정보 받아오기 끝////////////  
@@ -115,7 +142,7 @@ function MainPage() {
     <React.Fragment>
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
-        {isLoggedIn ? (  // 로그인 상태일 때만 버튼을 보여줍니다.
+          {isLoggedIn ? (
             <React.Fragment>
               <Button variant="contained" onClick={handleButtonClick}>
                 Go to Sample Page
@@ -123,36 +150,41 @@ function MainPage() {
               <br />
               <br />
               
-                <Button variant="contained" onClick={handleButtonClick2}>
-                  채팅방리스트로 가기
-                </Button>
-              
-                <Button variant="contained" onClick={handleLogout}>
-                  로그아웃
-                </Button>
-                <Button variant="contained" onClick={handleDeleteAccount}>
-                  회원 탈퇴
-                </Button>
+              <Button variant="contained" onClick={handleButtonClick2}>
+                채팅방리스트로 가기
+              </Button>
+              <Button variant="contained" onClick={handleDrawerOpen}>
+                내 정보 보기
+              </Button>
+              <Button variant="contained" onClick={handleLogout}>
+                로그아웃
+              </Button>
+              <Button variant="contained" onClick={handleDeleteAccount}>
+                회원 탈퇴
+              </Button>
               <h1>로그인 된 메인페이지</h1>
+              
               <p>아이디: {userId}</p>
+
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+                <Userinfo />
+              </Drawer>
               
             </React.Fragment>
-          ) : ( // 로그인이 안되어 있을 때는 메시지를 보여줍니다.
+          ) : (
           <React.Fragment>
-              <Button variant="contained" onClick={handleButtonClick3}>
-                로그인
-              </Button> 
-              <Button variant="contained" onClick={handleButtonClick4}>
-                회원가입
-              </Button>       
-              <h1>로그인 X 메인페이지</h1>
-              
-            </React.Fragment>
+            <Button variant="contained" onClick={handleButtonClick3}>
+              로그인
+            </Button> 
+            <Button variant="contained" onClick={handleButtonClick4}>
+              회원가입
+            </Button>       
+            <h1>로그인 X 메인페이지</h1>
+          </React.Fragment>
           )}
         </Grid>
       </Grid>
     </React.Fragment>
-
   );
 }
 
@@ -160,18 +192,16 @@ function App() {
   
   return (
     <Router>
-      <GlobalStateProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           
-          
+          <Route path="/userinfo" element={<Userinfo />} />
           <Route path="/Playing" element={<PlayingPage />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
           <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
         </Routes>
-      </GlobalStateProvider>
     </Router>
   );
 }

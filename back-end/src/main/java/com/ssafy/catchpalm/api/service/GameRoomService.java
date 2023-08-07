@@ -5,7 +5,9 @@ import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.db.entity.GameRoom;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
+import com.ssafy.catchpalm.websocket.chat.model.ReadyInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
+import com.ssafy.catchpalm.websocket.chat.model.UserReady;
 
 import java.util.List;
 
@@ -26,5 +28,8 @@ public interface GameRoomService {
     GameRoomPostRes getRoomInfo(int roomNumber);
 
     List<UserInfo> getRoomUsers(int roomNumber);
-    Boolean check(AuthenticationRoomReq gameStartReq);
+    String check(AuthenticationRoomReq gameStartReq);
+
+    // 게임룸에 있는 유저 레디 상태 변화 반영 -> 현재 게임방 내의 유저들 레디상태 리턴.
+    UserReady readyStatus(UserReady userReady);
 }
