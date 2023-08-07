@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: skyblue;
+  background-color: white;
   
 }
 
@@ -47,14 +47,3 @@ header .header-1{
   border-radius: 10px ;
 };
 
-.background-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  /* background-image: url("../public/assets/background.jpg"); */
-  background-size: cover;
-  z-index: -1;
-  opacity: 0.5;
-}
