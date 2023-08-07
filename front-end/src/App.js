@@ -13,7 +13,14 @@ import SignUp from './pages/SignUp';
 import Userinfo from './pages/Userinfo';
 import axios from 'axios';
 
+
+
+
+
+
+
 function MainPage() {
+    
   
   const navigate = useNavigate();
 
@@ -140,6 +147,11 @@ function MainPage() {
   
   return (
     <React.Fragment>
+      
+      <video autoPlay muted loop className="background-video">
+        <source src="assets/background.mp4" type="video/mp4" />
+      </video>
+
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
           {isLoggedIn ? (
@@ -162,9 +174,20 @@ function MainPage() {
               <Button variant="contained" onClick={handleDeleteAccount}>
                 회원 탈퇴
               </Button>
-              <h1>로그인 된 메인페이지</h1>
+              <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <Button variant="contained" style={{ fontSize: '24px', padding: '20px 40px' }} onClick={() => navigate('/ChatRoomList')}>
+                      Game Start
+                  </Button>
+              </div>
               
-              <p>아이디: {userId}</p>
+    <h1>로그인 된 메인페이지</h1>
+
+    
+              
+          <div className="white-text">
+            <p>아이디: {userId}</p>
+          </div>
+
 
               <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
                 <Userinfo />
@@ -179,7 +202,9 @@ function MainPage() {
             <Button variant="contained" onClick={handleButtonClick4}>
               회원가입
             </Button>       
-            <h1>로그인 X 메인페이지</h1>
+            
+    <h1>로그인 X 메인페이지</h1>
+    
           </React.Fragment>
           )}
         </Grid>
