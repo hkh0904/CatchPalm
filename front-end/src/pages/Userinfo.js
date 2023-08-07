@@ -142,7 +142,7 @@ const Userinfo = () => {
     return (
         <div>
             <h1>유저 정보</h1>
-            <img src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
+            <img height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
             <button onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>
