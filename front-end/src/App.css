@@ -4,11 +4,32 @@
 body {
   overflow: hidden;
   background-color: aqua;
-  
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  cursor: url('../public/assets/cursor.png'), auto;
 }
 
 
 h1 {
   color: blue;
+}
+
+
+.white-text p {
+  color: white;
+}
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover;
+  filter: brightness(1.3);  /* 밝기를 150%로 설정 */
 }
 
