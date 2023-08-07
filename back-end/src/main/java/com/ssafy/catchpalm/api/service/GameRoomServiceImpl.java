@@ -9,7 +9,6 @@ import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
 import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.UserRepository;
-import com.ssafy.catchpalm.websocket.chat.model.ReadyInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserReady;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,5 +259,19 @@ public class GameRoomServiceImpl implements GameRoomService {
 		resultUserReady.setUserNumber(resultUserInfo.getUser().getUserNumber());
 
 		return resultUserReady;
+	}
+	// 음악 변경 업데이트.
+	@Override
+	public void musicChange(int gameRoomNumber, int musicNumber) {
+		// 엔티티 조회: 게임방 정보 가져오기.( 유무도 확인)
+		Optional<GameRoom> optionalGameRoom = gameRoomRepository.findById(gameRoomNumber);
+		Music music = new Music();
+		if(optionalGameRoom.isPresent()){
+			GameRoom gameRoom = optionalGameRoom.get();
+			gameRoom.setMusic(music);
+			music.setMusicNumber(musicNumber);
+
+			gameRoomRepository.save(gameRoom);
+		}
 	}
 }

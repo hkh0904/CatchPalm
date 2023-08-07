@@ -6,8 +6,10 @@ import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import { allResolved } from "q";
 let name = "";
-
+let Sock = null;
 var stompClient = null;
+let audio = null;
+
 var colors = [
   "#2196F3",
   "#32c787",
@@ -65,8 +67,15 @@ const ChatRoomItem = () => {
   }
 
   useEffect(() => {
-    if (pickedMusic !== null && musicName !== null) {
+    if (pickedMusic !== null && musicName !== null && stompClient !== null) {
       musicChange();
+      if (audio) {
+        audio.pause(); // Pause the previously playing audio
+        audio.currentTime = 0; // Reset playback to the beginning
+      }
+      audio = new Audio(`/music/${pickedMusic}.mp3`);
+      audio.volume = 0.1; // 볼륨 30%로 설정
+      audio.play();
     }
   }, [pickedMusic, musicName]);
 
@@ -122,8 +131,8 @@ const ChatRoomItem = () => {
         const data = response.data;
         setRoomInfo(data);
         setCaptain(data.nickname);
-        setPickedMusic(data.musics[0].musicNumber);
-        setMusicName(data.musics[0].musicName)
+        setPickedMusic(data.musicNumber);
+        setMusicName(data.musicName)
       } catch (error) {
         console.error("Error fetching room info:", error);
       }
@@ -140,7 +149,7 @@ const ChatRoomItem = () => {
   }, []);
 
   const connect = () => {
-    let Sock = new SockJS("https://localhost:8443/ws");
+    Sock = new SockJS("https://localhost:8443/ws");
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };
@@ -148,10 +157,9 @@ const ChatRoomItem = () => {
   const onConnected = () => {
     stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
     stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber})
-        
-    )
+      {},
+      JSON.stringify({ sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber })
+      )
   }
   // 연결이 안된경우
   const onError = (err) => {
@@ -163,12 +171,10 @@ const ChatRoomItem = () => {
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
-    alert("여기는오냐");
     // 만약 음악 변경 신호면
     if(message.type === 'MUSIC'){
       setPickedMusic(message.musicNumber);
       setMusicName(message.musicName);
-      alert("전송받음");
       return;
     }
 
@@ -235,14 +241,13 @@ const ChatRoomItem = () => {
   // 음악 변경 정보 전송
 
   const musicChange = () => {
-    if (pickedMusic && musicName && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+    if (Sock.readyState === SockJS.OPEN &&  pickedMusic && musicName) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
       var changedMusic = { // 변경된 음악정보
         roomNumber: roomInfo.roomNumber,
         musicNumber: pickedMusic, // 음악 번호
         musicName: musicName  // 음악 이름
       };
       stompClient.send("/app/music.change", {}, JSON.stringify(changedMusic));
-      alert("음악변경요청보냄");
     }
     else {
       console.log("변경된 음악 정보 전달 실패.");
@@ -494,8 +499,7 @@ const ChatRoomItem = () => {
         <div className="next" onClick={() => rotate('next')}>Next</div>
       <div className="prev" onClick={() => rotate('prev')}>Prev</div>
 
-      <div>
-        {pickedMusic}
+      <div className='showMusicName'>
         {musicName}
       </div>
 
