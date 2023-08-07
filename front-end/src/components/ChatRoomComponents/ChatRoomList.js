@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import "./ChatRoomList.css";
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
 
   const [showCapacityOptions, setShowCapacityOptions] = useState(false); // 방 정원 부분
+
+  const handleTogglePasswordInput = () => {
+    setShowPasswordInput(!showPasswordInput);
+  };
+
   const handleCapacityOptionClick = (option) => {
     setRoomData((prevData) => ({
       ...prevData,
@@ -87,23 +94,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
     }));
   };
 
-  // const updateRoomData = (newData) => {
-  //   setRoomData((prevData) => ({
-  //     ...prevData,
-  //     ...newData,
-  //     userNumber: userNumber 
-  //   }));
-  // };
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   updateRoomData({ [name]: value });
-  //   setRoomData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
-
   const handleCreateRoom = () => {
     onCreateRoom(roomData);
     onClose();
@@ -122,7 +112,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   
 
   return (
-    
     <div className="modal">
       <div className="modal-content">
         <h2>방만들기 창</h2>
@@ -150,8 +139,22 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             </button>
         </div>
         <div>
-          <label>비밀번호</label>
-          <input type="text" name="password" value={roomData.password} onChange={handleChange} />
+          <label>
+            비밀번호
+            <input
+              type="checkbox"
+              checked={showPasswordInput}
+              onChange={handleTogglePasswordInput}
+            />
+          </label>
+          {showPasswordInput && (
+            <input
+              type="text"
+              name="password"
+              value={roomData.password}
+              onChange={handleChange}
+            />
+          )}
         </div>
         <div>
           <label>capacity</label>
@@ -272,6 +275,7 @@ const ChatRoomList = ({}) => {
         <hr></hr>
       </div>
       {chatRooms.map((room) => (
+        
         <div key={room.id}>
           {/* 비밀번호 있을때 버튼 */}
           {room.password  && (
