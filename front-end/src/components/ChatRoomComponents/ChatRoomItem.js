@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
+import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
 let name = "";
 let Sock = null;
@@ -24,13 +25,24 @@ var colors = [
 const ChatRoomItem = () => {
   // 게임시작 신호--------------------------------------------------
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
-  const [startMusic, setStartMusic] = useState(0); // startMusic 상태로 추가
-  const [startRoom, setStartRoom] = useState(0); // startRoom 상태로 추가
-  
+  const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
+  const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
+  const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
+  const navigate = useNavigate();
   useEffect(() => {
     if (gameStart === 1) {
       // TODO -- 게임 시작시 로직 --
-      alert("게임시작");
+      // 오픈비두로 전달할 데이터.
+      var gameStartRes = { // 시작시 게임정보
+        roomNumber: startRoom, // 시작한 방
+        musicNumber: startMusic, // 음악 번호
+        musicName: startMusicName,  // 음악 이름
+        nickname: name,
+        userNumber: userNumber
+      };
+      // 게임 창 페이지로 이동하면서 데이터 전달
+      // navigate('/게임창경로', { state: { gameData: gameStartRes } });
+      // alert("게임시작");
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
@@ -89,7 +101,7 @@ const ChatRoomItem = () => {
         audio.currentTime = 0;
       }
       audio = new Audio(`/music/${pickedMusic}.mp3`);
-      audio.volume = 0.1; // 볼륨 30%로 설정
+      audio.volume = 0.3; // 볼륨 30%로 설정
       audio.play();
     }
   }, [pickedMusic, musicName]); // 선택곡이 바뀌면 수행
@@ -197,6 +209,7 @@ const ChatRoomItem = () => {
       setGameStart(message.isStart);
       setStartMusic(message.musicNumber);
       setStartRoom(message.roomNumber);
+      setStartMusicName(message.musicName);
       return;
     }
 
