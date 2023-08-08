@@ -68,16 +68,12 @@ public class GameController {
             , @RequestParam(value = "userNumber", required = false) Long userNumber) {
         int ranking = 0;
         List<RankDTO> ranks = new ArrayList<>();
-        if(userNumber==null){
-            ranks = gameService.getRanksByMusicNumber(musicNumber);
-        }
+        ranks = gameService.getRanksByMusicNumber(musicNumber);
         if(userNumber!=null){
             RankDTO rank = gameService.getRankByUserNumberAndMusicNumber(userNumber, musicNumber);
             if(rank!=null) {
-                List<RankDTO> allRanks = gameService.getRanksByMusicNumber(musicNumber);
-                ranks.add(rank);
-                for(int a=0;a<allRanks.size();a++){
-                    if(allRanks.get(a).getRankNumber()==rank.getRankNumber()){
+                for(int a=0;a<ranks.size();a++){
+                    if(ranks.get(a).getRankNumber()==rank.getRankNumber()){
                         ranking=a+1;
                     }
                 }
