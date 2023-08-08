@@ -13,15 +13,8 @@ import SignUp from './pages/SignUp';
 import Userinfo from './pages/Userinfo';
 import axios from 'axios';
 
-
-
-
-
-
-
 function MainPage() {
     
-  
   const navigate = useNavigate();
 
   ////////로그인 로그아웃 시작////////////////
@@ -112,6 +105,11 @@ function MainPage() {
       })
       .catch(error => {
         console.error("error");
+        const errorToken = localStorage.getItem('token');
+        if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+          window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+          return; // 함수 실행을 중단하고 반환합니다.
+        }
         const token = error.response.headers.authorization.slice(7);
         localStorage.setItem('token', token);
         axios({
@@ -154,6 +152,27 @@ function MainPage() {
 
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
+        <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Neon button
+          </a>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Neon button
+          </a>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Neon button
+          </a>
           {isLoggedIn ? (
             <React.Fragment>
               <Button variant="contained" onClick={handleButtonClick}>
@@ -175,9 +194,19 @@ function MainPage() {
                 회원 탈퇴
               </Button>
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <Button variant="contained" style={{ fontSize: '24px', padding: '20px 40px' }} onClick={() => navigate('/ChatRoomList')}>
-                      Game Start
-                  </Button>
+              <Button
+                variant="contained"
+                style={{
+                  fontSize: '24px',
+                  padding: '20px 40px',
+                  borderRadius: '50%', // 테두리를 반원으로 만듦
+                  width: '200px', // 버튼의 가로 크기를 조정해 원형으로 보이도록 함
+                  height: '200px', // 버튼의 세로 크기를 조정해 원형으로 보이도록 함
+                }}
+                onClick={() => navigate('/ChatRoomList')}
+              >
+                CatchPalm
+              </Button>
               </div>
               
     <h1>로그인 된 메인페이지</h1>
