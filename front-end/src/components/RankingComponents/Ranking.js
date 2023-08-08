@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import { color } from '@mui/system';
+import { rgb, rgba } from '@react-spring/shared';
 
 function MyComponent() {
   const [rankList, setRankList] = useState([]);
@@ -75,7 +77,7 @@ function MyComponent() {
     <div>
       <ul>
         {rankList && rankList.map((item, index) => 
-          <li key={index}>
+          <li key={index} style={{color:`white`}}>
             Rank Number: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
             User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName}
           </li>
