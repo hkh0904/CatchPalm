@@ -57,6 +57,7 @@ function MainPage() {
 
 
   useEffect(() => {
+    if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
     axios({
       method: 'get',
       url: 'https://localhost:8443/api/v1/users/me',
@@ -73,7 +74,6 @@ function MainPage() {
         console.log(response.data)
       })
       .catch(error => {
-        console.error("error");
         const token = error.response.headers.authorization.slice(7);
         localStorage.setItem('token', token);
         axios({

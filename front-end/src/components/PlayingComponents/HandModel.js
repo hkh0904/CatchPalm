@@ -108,7 +108,7 @@ export default function HandModel() {
     };
     
     fetchDataAndPredict().then((data) => {
-      const audio = new Audio("/music/YOASOBI-IDOL.mp3");
+      const audio = new Audio("/music/4.mp3");
       const finish = new Audio("/assets/Finish.mp3");
       audio.volume = 0.2; // 볼륨 30%로 설정
       finish.volume = 0.4; //
@@ -177,7 +177,7 @@ export default function HandModel() {
 // fetchData 함수를 수정하여 데이터를 가져와서 반환
 const fetchData = async () => {
   try {
-      const response = await axios.get("/music/YOASOBI-IDOL-HARD.json");
+      const response = await axios.get("/music/4.json");
       const data = response.data; // 가져온 데이터
       return data;  // 데이터 반환
   } catch (error) {
