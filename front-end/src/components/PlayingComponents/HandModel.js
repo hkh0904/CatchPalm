@@ -5,13 +5,13 @@ import { HAND_CONNECTIONS } from "@mediapipe/hands";
 import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
 let category2Name = undefined;
 let hitSound = new Audio("/assets/Hit.mp3");
-console.log(hitSound)
+let shouldStopPrediction = false; // 처음에는 false로 설정
 
 // mediaPipe 모션네임
 const motionNames = {
@@ -53,8 +53,24 @@ export default function HandModel() {
   const [score, setScore] = useState(0);
   const scoreRef = useRef(score);
   const [userNum, setUserNum] = useState(null);
+  const userNumRef = useRef(userNum);
   const [musicNum, setMusicNum] = useState(null);
+  const musicNumRef = useRef(musicNum)
 
+  const location = useLocation();
+
+  useEffect(() => {
+    const unblock = window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function(event) {
+      window.history.go(1);
+      alert("게임 중 뒤로 가기는 사용할 수 없습니다."); // 알림 추가
+      navigate(location);
+    };
+
+    return () => {
+      window.onpopstate = null;
+    };
+  }, [navigate, location]);
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
     setVideoHidden(!videoHidden);
@@ -65,6 +81,20 @@ export default function HandModel() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+        e.preventDefault();
+        e.returnValue = '정말로 페이지를 떠나시겠습니까?';
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+}, []);
+
   
   useEffect(() => {
     axios({
@@ -102,19 +132,26 @@ export default function HandModel() {
   const sendData = async () => {
     // 객체 생성
     const data = {
-        musicNumber: musicNum,
-        score: scoreRef.current, // useRef의 경우 current 속성 사용
-        userNumber: userNum
+        musicNumber: musicNumRef.current,
+        score: scoreRef.current, 
+        userNumber: userNumRef.current
+    };
+    console.log(data);
+
+    // 헤더 설정
+    const headers = {
+        'Authorization': `Bearer ${token}`
     };
 
     try {
         // POST 요청을 통해 데이터 전송
-        const response = await axios.post('https://localhost:8443/api/v1/game/log', data);
+        const response = await axios.post('https://localhost:8443/api/v1/game/log', data, { headers: headers });
         console.log("Response:", response.data);
     } catch (error) {
         console.error("Error sending the data:", error);
     }
 }
+
 
   // window의 크기가 변경될 때 windowSize 상태를 업데이트하는 함수
   const updateWindowDimensions = () => {
@@ -123,7 +160,9 @@ export default function HandModel() {
 
   useEffect(() => {
     scoreRef.current = score;  // score 값이 변경될 때마다 ref를 업데이트합니다.
-  }, [score]);
+    userNumRef.current = userNum; 
+    musicNumRef.current = musicNum;
+  }, [score, userNum, musicNum]);
 
     const props = useSpring({
       from: { val: 0 },
@@ -144,6 +183,7 @@ export default function HandModel() {
 
   // 컴포넌트가 마운트될 때 카운트다운을 시작
   useEffect(() => {
+    shouldStopPrediction = false;
     const fetchDataAndPredict = async () => {
         const data = await fetchData();  // fetchData가 데이터를 반환하도록 수정
         await createGestureRecognizer();
@@ -183,6 +223,7 @@ export default function HandModel() {
                   tracks.forEach((track) => {
                     track.stop();
                   });
+                    shouldStopPrediction = true;  // or stopPredictWebcam();
                   videoRef.current.srcObject = null;
                   // 페이지 이동
                   sendData()
@@ -191,7 +232,10 @@ export default function HandModel() {
                 }
               }
             };
-            return 0;
+            return () => {
+              shouldStopPrediction = true;
+              videoRef.current.srcObject = null;
+            };
           }
         });
       }, 500);
@@ -222,14 +266,15 @@ export default function HandModel() {
 // fetchData 함수를 수정하여 데이터를 가져와서 반환
 const fetchData = async () => {
   try {
-      const url = "/music/1.YOASOBI-IDOL-HARD.json";
-      const number = url.split('.')[0].split('/').pop(); // "1"
-      setMusicNum(number);
-      const response = await axios.get(url);
-      const data = response.data; // 가져온 데이터
-      return data;  // 데이터 반환
+    const url = "/music/1.YOASOBI-IDOL-HARD.json";
+    const numberString = url.split('.')[0].split('/').pop(); // "1"
+    const number = parseInt(numberString, 10); // 1
+    setMusicNum(number);
+    const response = await axios.get(url);
+    const data = response.data; // 가져온 데이터
+    return data;  // 데이터 반환
   } catch (error) {
-      console.error("Error fetching the JSON data:", error);
+    console.error("Error fetching the JSON data:", error);
   }
 };
 
@@ -287,6 +332,7 @@ const fetchData = async () => {
 
   // 웹캠에서 예측을 수행하는 비동기 함수
   async function predictWebcam() {
+    if (shouldStopPrediction) return;
     let nowInMs = Date.now();
     let results = gestureRecognizer.recognizeForVideo(
       videoRef.current,
@@ -334,6 +380,8 @@ canvasCtx.restore();
       }
     }
 
+    // shouldStopPrediction 상태가 true라면 함수 종료
+    
     // 다음 프레임을 요청하여 계속해서 예측을 수행
     window.requestAnimationFrame(predictWebcam);
   }
@@ -414,13 +462,18 @@ canvasCtx.restore();
   // 컴포넌트의 반환 값 (렌더링 결과)
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div id="loading" hidden={videoSize.width !== 0}>
+      <h1>로딩중입니다.</h1>
+    </div>
     <div
       id="webcamWrapper"
-      style={{
-        position: "relative",
-        width: videoSize.width,
-        height: videoSize.height,
-      }}>
+      hidden={videoSize.width === 0}
+        style={{
+          position: "relative",
+          width: videoSize.width,
+          height: videoSize.height
+        }}
+      >
       <div id="score">
       <animated.div>
         {props.val.to(val => `Score : ${Math.floor(val)}`)}

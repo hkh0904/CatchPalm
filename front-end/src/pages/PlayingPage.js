@@ -8,7 +8,7 @@ function App() {
   return (
     <React.Fragment>
       <Grid className="mainGrid" container spacing={2} style={{ marginTop: 0, marginLeft: 0 }}>
-        <Grid item style={{ padding: 0 }}>
+        <Grid item style={{ padding: 0, position: 'relative' }}>
           <HandModel />
         </Grid>
         <Grid item style={{ padding: 0 }}>
