@@ -14,6 +14,14 @@ function App() {
             <Ranking ></Ranking>
         </Grid>
       </Grid>
+        <div>
+          <a href='#' className="bottom-right">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Home</a>
+        </div>
       </div>
     </React.Fragment>
   );

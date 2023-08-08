@@ -35,13 +35,21 @@
 }
 
 .overlay-div {
-  position: fixed;
+  position: relative;
   top: 5%;
   left: 5%;
   width: 90%;
-  height: 90%;
+  height: 95%;
   z-index: 2; /* 영상 위에 위치하도록 z-index 설정 */
   background: rgba(0, 0, 0, 0.8); /* 반투명한 흰색 배경 */
   border-radius: 15px; /* 모서리를 둥글게 만듭니다. 원하는 정도로 조절하세요. */
-  border: 2px solid rgb(68, 68, 173); /* 파란색 테두리 추가. 원하는 색상과 두께로 조절하세요. */
+  /* border: 3px solid rgb(68, 68, 173); /* 파란색 테두리 추가. 원하는 색상과 두께로 조절하세요. */
 }
+
+.bottom-right {
+  position: absolute; /* position을 absolute로 설정 */
+  right: 0;         /* 오른쪽에서 0만큼 떨어진 위치에 배치 */
+  bottom: 0;        /* 아래쪽에서 0만큼 떨어진 위치에 배치 */
+  z-index: 3;
+}
+
