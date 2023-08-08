@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./ChatRoomList.css";
 import { Padding } from '@mui/icons-material';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
@@ -301,52 +304,66 @@ const ChatRoomList = ({}) => {
             style={{
               width: '45%',
               height: '100px',
-              backgroundColor: room.password ? 'red' : 'blue',
-              display: 'inline-block',
+              backgroundColor: room.password ? '#FFBEFF' : '#FFFA78',
+              display: 'flex',
+              justifyContent: 'space-between', // 콘텐츠를 버튼 오른쪽 끝으로 이동
+              alignItems: 'center', // 콘텐츠를 세로 방향으로 가운데 정렬
               margin: 5,
               textAlign: 'center',
-              display: 'flex',
+              borderRadius: '10px',
             }}
           >
-            {/* Move the thumbnail image to the leftmost */}
-            <img src={room.thumbnail} style={{ maxWidth: '90px', maxHeight: '90px' }} />
-            <div className="room-details">
-              <p>{room.roomNumber}.{room.title}[{room.typeName}]</p>
+            {/* Display the "Waiting" or "Playing" text on the right */}
+            <div>
+              {room.status === 0 ? <p>Waiting</p> : <p>Playing</p>}
+            </div>
+            <div>
+              <div style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '10px',
+                width: '180px',
+                height: '20px',
+                display: 'flex',
+                alignItems: 'center', 
+              }}>
+              <p style={{ marginLeft: '5px' }}>{room.roomNumber}.{room.title}[{room.typeName}]</p>
+              {room.password && <VpnKeyIcon />}
+              </div>
               <p>방장:{room.nickname}</p>
               <p>현재원/정원 {room.cntUser}/{room.capacity}</p>
-              {room.password && (
-                <>
-                  {showPasswordInput && (
-                    <div className="modal-content">
-                      <label>비밀번호:</label>
-                      <input
-                        type="password"
-                        value={inputPassword}
-                        onChange={handlePasswordInput}
-                      />
-                      <button
-                        onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        입장하기
-                      </button>
-                      <button onClick={closeModal} style={{ cursor: 'pointer' }}>
-                        닫기
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {!room.password && (
-                <button
-                  onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  입장하기
-                </button>
-              )}
             </div>
+            {/* Display the thumbnail image on the left */}
+            <img src={room.thumbnail} style={{ maxWidth: '90px', maxHeight: '90px', borderRadius: '10px', }} />
+            {room.password && (
+              <>
+                {showPasswordInput && (
+                  <div className="modal-content">
+                    <label>비밀번호:</label>
+                    <input
+                      type="password"
+                      value={inputPassword}
+                      onChange={handlePasswordInput}
+                    />
+                    <button
+                      onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      입장하기
+                    </button>
+                    <button onClick={closeModal} style={{ cursor: 'pointer' }}>
+                      닫기
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+            {!room.password && (
+              <button
+                onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
+                style={{ cursor: 'pointer' }}
+              >
+              </button>
+            )}
           </button>
         ))}
       </div>
