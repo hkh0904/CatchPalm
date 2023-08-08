@@ -22,6 +22,19 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
+  // 게임시작 신호--------------------------------------------------
+  const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
+  const [startMusic, setStartMusic] = useState(0); // startMusic 상태로 추가
+  const [startRoom, setStartRoom] = useState(0); // startRoom 상태로 추가
+  
+  useEffect(() => {
+    if (gameStart === 1) {
+      // TODO -- 게임 시작시 로직 --
+      alert("게임시작");
+    }
+  }, [gameStart]); // 게임시작 신호가 오면 수행
+  //------------------------------------------------------------------
+
   const token = localStorage.getItem("token");
   const [userNumber, setUserNumber] = useState(""); // userNumber 상태로 추가
   const messageAreaRef = useRef(null);
@@ -68,16 +81,18 @@ const ChatRoomItem = () => {
 
   useEffect(() => {
     if (pickedMusic !== null && musicName !== null && stompClient !== null) {
-      musicChange();
-      if (audio) {
-        audio.pause(); // Pause the previously playing audio
-        audio.currentTime = 0; // Reset playback to the beginning
+      if(name === captain) { // 방장일 경우만 
+        musicChange(); // 변경사항 소켓으로 전달.
+      }
+      if (audio) { // 음악이 켜져있다면
+        audio.pause(); // 음악끄기.
+        audio.currentTime = 0;
       }
       audio = new Audio(`/music/${pickedMusic}.mp3`);
       audio.volume = 0.1; // 볼륨 30%로 설정
       audio.play();
     }
-  }, [pickedMusic, musicName]);
+  }, [pickedMusic, musicName]); // 선택곡이 바뀌면 수행
 
 //  채팅관련
   const handleMessageChange = (event) => {
@@ -133,6 +148,7 @@ const ChatRoomItem = () => {
         setCaptain(data.nickname);
         setPickedMusic(data.musicNumber);
         setMusicName(data.musicName)
+        
       } catch (error) {
         console.error("Error fetching room info:", error);
       }
@@ -145,6 +161,10 @@ const ChatRoomItem = () => {
   useEffect(() => {
     return () => {
       stompClient.disconnect();
+      if (audio) { // 음악이 켜져있다면
+        audio.pause(); // 음악끄기.
+        audio.currentTime = 0;
+      }
     };
   }, []);
 
@@ -171,8 +191,17 @@ const ChatRoomItem = () => {
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
+
+    // 만약 게임시작 신호라면
+    if(message.type === 'START'){
+      setGameStart(message.isStart);
+      setStartMusic(message.musicNumber);
+      setStartRoom(message.roomNumber);
+      return;
+    }
+
     // 만약 음악 변경 신호면
-    if(message.type === 'MUSIC'){
+    else if(message.type === 'MUSIC'){
       setPickedMusic(message.musicNumber);
       setMusicName(message.musicName);
       return;
@@ -269,14 +298,29 @@ const ChatRoomItem = () => {
     }
     event.preventDefault();
   }
+
   // 게임 스타트 정보 전송
   const clickStart = (event) => {
     event.preventDefault();
 
     const readyCount = userInfo.filter(user => user.ready === 1).length;
     if (readyCount === userInfo.length-1) {
+      if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+        var startReq = { // 시작요청 데이터
+          roomNumber: roomNumber, // 방 번호
+          musicNumber: pickedMusic,  // 음악 번호
+          musicName: musicName // 음악 이름
+        };
+        
+        stompClient.send("/app/game.start", {}, JSON.stringify(startReq));
+      }
+      else {
+        console.log("게임 시작 실패.");
+      }
     } else {
+      alert("아직 레디가 완료되지 않았습니다.");
     }
+    event.preventDefault();
   }
 
   // 채팅 보내기.
