@@ -4,10 +4,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
+import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
 let name = "";
-
+let Sock = null;
 var stompClient = null;
+let audio = null;
+
 var colors = [
   "#2196F3",
   "#32c787",
@@ -20,6 +23,30 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
+  // 게임시작 신호--------------------------------------------------
+  const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
+  const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
+  const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
+  const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (gameStart === 1) {
+      // TODO -- 게임 시작시 로직 --
+      // 오픈비두로 전달할 데이터.
+      var gameStartRes = { // 시작시 게임정보
+        roomNumber: startRoom, // 시작한 방
+        musicNumber: startMusic, // 음악 번호
+        musicName: startMusicName,  // 음악 이름
+        nickname: name,
+        userNumber: userNumber
+      };
+      // 게임 창 페이지로 이동하면서 데이터 전달
+      // navigate('/게임창경로', { state: { gameData: gameStartRes } });
+      alert("게임시작");
+    }
+  }, [gameStart]); // 게임시작 신호가 오면 수행
+  //------------------------------------------------------------------
+
   const token = localStorage.getItem("token");
   const [userNumber, setUserNumber] = useState(""); // userNumber 상태로 추가
   const messageAreaRef = useRef(null);
@@ -65,10 +92,19 @@ const ChatRoomItem = () => {
   }
 
   useEffect(() => {
-    if (pickedMusic !== null && musicName !== null) {
-      musicChange();
+    if (pickedMusic !== null && musicName !== null && stompClient !== null) {
+      if(name === captain) { // 방장일 경우만 
+        musicChange(); // 변경사항 소켓으로 전달.
+      }
+      if (audio) { // 음악이 켜져있다면
+        audio.pause(); // 음악끄기.
+        audio.currentTime = 0;
+      }
+      audio = new Audio(`/music/${pickedMusic}.mp3`);
+      audio.volume = 0.3; // 볼륨 30%로 설정
+      audio.play();
     }
-  }, [pickedMusic, musicName]);
+  }, [pickedMusic, musicName]); // 선택곡이 바뀌면 수행
 
 //  채팅관련
   const handleMessageChange = (event) => {
@@ -95,6 +131,11 @@ const ChatRoomItem = () => {
       })
       .catch((error) => {
         console.error("error");
+        const errorToken = localStorage.getItem('token');
+            if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+              window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+              return; // 함수 실행을 중단하고 반환합니다.
+            }
         const token = error.response.headers.authorization.slice(7);
         localStorage.setItem("token", token);
         axios({
@@ -122,8 +163,9 @@ const ChatRoomItem = () => {
         const data = response.data;
         setRoomInfo(data);
         setCaptain(data.nickname);
-        setPickedMusic(data.musics[0].musicNumber);
-        setMusicName(data.musics[0].musicName)
+        setPickedMusic(data.musicNumber);
+        setMusicName(data.musicName)
+        
       } catch (error) {
         console.error("Error fetching room info:", error);
       }
@@ -136,11 +178,15 @@ const ChatRoomItem = () => {
   useEffect(() => {
     return () => {
       stompClient.disconnect();
+      if (audio) { // 음악이 켜져있다면
+        audio.pause(); // 음악끄기.
+        audio.currentTime = 0;
+      }
     };
   }, []);
 
   const connect = () => {
-    let Sock = new SockJS("https://localhost:8443/ws");
+    Sock = new SockJS("https://localhost:8443/ws");
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };
@@ -148,10 +194,9 @@ const ChatRoomItem = () => {
   const onConnected = () => {
     stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
     stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber})
-        
-    )
+      {},
+      JSON.stringify({ sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber })
+      )
   }
   // 연결이 안된경우
   const onError = (err) => {
@@ -163,12 +208,20 @@ const ChatRoomItem = () => {
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
-    alert("여기는오냐");
+
+    // 만약 게임시작 신호라면
+    if(message.type === 'START'){
+      setGameStart(message.isStart);
+      setStartMusic(message.musicNumber);
+      setStartRoom(message.roomNumber);
+      setStartMusicName(message.musicName);
+      return;
+    }
+
     // 만약 음악 변경 신호면
-    if(message.type === 'MUSIC'){
+    else if(message.type === 'MUSIC'){
       setPickedMusic(message.musicNumber);
       setMusicName(message.musicName);
-      alert("전송받음");
       return;
     }
 
@@ -235,14 +288,13 @@ const ChatRoomItem = () => {
   // 음악 변경 정보 전송
 
   const musicChange = () => {
-    if (pickedMusic && musicName && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+    if (Sock.readyState === SockJS.OPEN &&  pickedMusic && musicName) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
       var changedMusic = { // 변경된 음악정보
         roomNumber: roomInfo.roomNumber,
         musicNumber: pickedMusic, // 음악 번호
         musicName: musicName  // 음악 이름
       };
       stompClient.send("/app/music.change", {}, JSON.stringify(changedMusic));
-      alert("음악변경요청보냄");
     }
     else {
       console.log("변경된 음악 정보 전달 실패.");
@@ -264,14 +316,29 @@ const ChatRoomItem = () => {
     }
     event.preventDefault();
   }
+
   // 게임 스타트 정보 전송
   const clickStart = (event) => {
     event.preventDefault();
 
     const readyCount = userInfo.filter(user => user.ready === 1).length;
     if (readyCount === userInfo.length-1) {
+      if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+        var startReq = { // 시작요청 데이터
+          roomNumber: roomNumber, // 방 번호
+          musicNumber: pickedMusic,  // 음악 번호
+          musicName: musicName // 음악 이름
+        };
+        
+        stompClient.send("/app/game.start", {}, JSON.stringify(startReq));
+      }
+      else {
+        console.log("게임 시작 실패.");
+      }
     } else {
+      alert("아직 레디가 완료되지 않았습니다.");
     }
+    event.preventDefault();
   }
 
   // 채팅 보내기.
@@ -494,8 +561,7 @@ const ChatRoomItem = () => {
         <div className="next" onClick={() => rotate('next')}>Next</div>
       <div className="prev" onClick={() => rotate('prev')}>Prev</div>
 
-      <div>
-        {pickedMusic}
+      <div className='showMusicName'>
         {musicName}
       </div>
 

@@ -77,8 +77,28 @@ public class ChatController {
     public void clickMessage(@Payload MusicInfo musicInfo) {
 
         // TODO -- 반장에 의해 변경된 음악정보 소켓전달.
+        // db에 변경사항 종속: 게임방 리스트에서 음악보고 들어올 수 있다.
+        gameRoomService.musicChange(musicInfo.getRoomNumber(), musicInfo.getMusicNumber());
+
         // 메세지 타입 정의.
         musicInfo.setType(MessageType.MUSIC);
+        // 룸번호 타입 변경
+        String roomNumber = String.valueOf(musicInfo.getRoomNumber());
+        // 해당 방으로 메시지 브로드캐스팅
+        template.convertAndSend("/topic/chat/" + roomNumber, musicInfo);
+    }
+
+    @MessageMapping("/game.start")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void gameStart(@Payload MusicInfo musicInfo) {
+        System.out.println("gameStart");
+        // TODO -- 반장에 의해 게임 시작 및 시작 신호 전달.
+        // 시작한 음악번호와 게임방 번호 전달.
+        gameRoomService.startGame(musicInfo.getMusicNumber(), musicInfo.getRoomNumber());
+
+        // 메세지 타입 정의.
+        musicInfo.setType(MessageType.START);
+        musicInfo.setIsStart(1);
         // 룸번호 타입 변경
         String roomNumber = String.valueOf(musicInfo.getRoomNumber());
         // 해당 방으로 메시지 브로드캐스팅
