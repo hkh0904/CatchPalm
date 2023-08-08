@@ -53,7 +53,7 @@ public class GameServiceImpl implements GameService {
             rank.setScore(gameInfo.getScore());
         }else{
             rank = optionalRank.get();
-            if(gameInfo.getScore()>rank.getScore()) {
+            if(gameInfo.getScore()>=rank.getScore()) {
                 rank.setScore(gameInfo.getScore());
                 rank.setPlayDateTime(LocalDateTime.now());
             }
