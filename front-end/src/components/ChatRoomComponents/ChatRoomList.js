@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./ChatRoomList.css";
+import { Padding } from '@mui/icons-material';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
@@ -279,38 +280,64 @@ const ChatRoomList = ({}) => {
         <button onClick={handleOpenModal}>방만들기</button>
         <hr></hr>
       </div>
-      {chatRooms.map((room) => (
-        
-        <div key={room.id}>
-          {/* 비밀번호 있을때 버튼 */}
-          {room.password  && (
-            <button onClick={togglePasswordInput}>비밀번호 입력</button>
-          )}
-          {/* 비밀번호 입력창 */}
-          {showPasswordInput && (
-            <div>
-              <label>비밀번호 입력:</label>
-              <input
-                type="password"
-                value={inputPassword}
-                onChange={handlePasswordInput}
-              />
-              <button onClick={() => checkEnterChatRoom(room.roomNumber, room.password)} style={{ cursor: 'pointer' }}>입장하기</button>
-            </div>
-          )}
-          {/* 비밀번호 없을때 버튼 */}
-          {!room.password  && (
-            <button onClick={() => checkEnterChatRoom(room.roomNumber, room.password)} style={{ cursor: 'pointer' }}>입장하기</button>
-          )}
-          
-        {/* <InputPassword isOpen={passwordModalOpen} onClose={closePasswordModal} /> */}
-          <p>방제목: {room.title}</p>
-          <p>{room.typeName}</p>
-          <p>방장: {room.nickname}</p>
-          <p>현재원/정원 {room.cntUser}/{room.capacity}</p>
-          <hr />
-        </div>
-      ))}
+      <div style={{
+        width: '90%',
+        border: '1px solid',
+      }}>
+        {chatRooms.map((room) => (
+          <button 
+            onClick={togglePasswordInput}
+            key={room.id}
+            style={{
+              width: '45%',
+              height: '100px',
+              backgroundColor: room.password ? 'red' : 'blue',
+              display: 'inline-block',
+              margin: 5,
+              textAlign: 'center',
+              // display: 'flex',
+            }}
+          >
+            <p>{room.roomNumber}.{room.title}[{room.typeName}]</p>
+            <p>방장:{room.nickname}</p>
+            <p>현재원/정원 {room.cntUser}/{room.capacity}</p>
+            
+            {room.password && (
+              <>
+                
+                {showPasswordInput && (
+                  <div className="modal-content">
+                    <label>비밀번호:</label>
+                    <input
+                      type="password"
+                      value={inputPassword}
+                      onChange={handlePasswordInput}
+                    />
+                    <button
+                      onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      입장하기
+                    </button>
+                    <button onClick={togglePasswordInput} style={{ cursor: 'pointer' }}>
+                      닫기
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {!room.password && (
+              <button
+                onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
+                style={{ cursor: 'pointer' }}
+              >
+                입장하기
+              </button>
+            )}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

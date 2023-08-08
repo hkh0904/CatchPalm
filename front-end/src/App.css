@@ -9,7 +9,7 @@ body {
   cursor: url('../public/assets/cursor.png'), auto;
 
   @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
-  display: flex;
+  /* display: flex; */
   /* justify-content: center;
   align-items: center; */
   height: 100vh;
