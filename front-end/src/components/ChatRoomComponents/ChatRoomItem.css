@@ -131,7 +131,7 @@ button.accent {
     max-width: 40%;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
     position: relative;
-    height: 400px;
+    height: 20rem;
     max-height: 400px;
     display: inline-block;
     width: 40%;
@@ -144,7 +144,7 @@ button.accent {
     overflow: auto;
     overflow-y: scroll;
     padding: 0 20px 0px 20px;
-    height: calc(100% - 150px);
+    height: calc(100% - 97px);
 }
 
 
@@ -412,7 +412,7 @@ body {
     }
 
     #chat-page ul {
-        height: calc(100% - 120px);
+        height: calc(100% - 97px);
     }
 
     #messageForm .input-group button {
@@ -441,7 +441,7 @@ body {
     max-width: 40%;
     box-shadow: rgba(0, 0, 0, 0.27) 0px 1px 11px;
     position: relative;
-    height: 400px;
+    height: 20rem;
     max-height: 400px;
     display: inline-block;
     width: 30%;
