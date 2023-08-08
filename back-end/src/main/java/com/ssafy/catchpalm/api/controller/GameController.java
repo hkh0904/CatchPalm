@@ -2,6 +2,7 @@ package com.ssafy.catchpalm.api.controller;
 
 import com.ssafy.catchpalm.api.request.*;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
+import com.ssafy.catchpalm.api.response.MusicListPostRes;
 import com.ssafy.catchpalm.api.response.RankListPostRes;
 import com.ssafy.catchpalm.api.response.UserRes;
 import com.ssafy.catchpalm.api.service.GameRoomService;
@@ -9,6 +10,7 @@ import com.ssafy.catchpalm.api.service.GameService;
 import com.ssafy.catchpalm.api.service.UserService;
 import com.ssafy.catchpalm.common.auth.SsafyUserDetails;
 import com.ssafy.catchpalm.common.model.response.BaseResponseBody;
+import com.ssafy.catchpalm.db.dto.MusicDTO;
 import com.ssafy.catchpalm.db.dto.RankDTO;
 import com.ssafy.catchpalm.db.entity.GameRoom;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
@@ -67,22 +69,30 @@ public class GameController {
     public ResponseEntity<RankListPostRes> getRank(@RequestParam("musicNumber") int musicNumber
             , @RequestParam(value = "userNumber", required = false) Long userNumber) {
         int ranking = 0;
-        List<RankDTO> ranks = new ArrayList<>();
-        if(userNumber==null){
-            ranks = gameService.getRanksByMusicNumber(musicNumber);
-        }
+        List<RankDTO> ranks = gameService.getRanksByMusicNumber(musicNumber);
         if(userNumber!=null){
             RankDTO rank = gameService.getRankByUserNumberAndMusicNumber(userNumber, musicNumber);
             if(rank!=null) {
-                List<RankDTO> allRanks = gameService.getRanksByMusicNumber(musicNumber);
-                ranks.add(rank);
-                for(int a=0;a<allRanks.size();a++){
-                    if(allRanks.get(a).getRankNumber()==rank.getRankNumber()){
+                for(int a=0;a<ranks.size();a++){
+                    if(ranks.get(a).getRankNumber()==rank.getRankNumber()){
                         ranking=a+1;
                     }
                 }
             }
         }
         return ResponseEntity.status(200).body(RankListPostRes.of(200, "Success",ranks,ranking));
+    }
+
+    @GetMapping("/music")
+    @ApiOperation(value = "곡에 대한 리스트", notes = "<strong>뮤직 넘버와 유저 넘버를 넘겨주면</strong>곡에 대한 랭킹을 제공한다. (유저 넘버를 안보내면 전체 랭킹을 보낸다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<MusicListPostRes> getMusic() {
+        List<MusicDTO> musics = gameService.getMusicList();
+        return ResponseEntity.status(200).body(MusicListPostRes.of(200, "Success",musics));
     }
 }
