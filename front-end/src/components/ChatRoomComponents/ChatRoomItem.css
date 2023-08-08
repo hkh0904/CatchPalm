@@ -4,13 +4,13 @@
     box-sizing: border-box;
 }
 
-html,body {
-    /* overflow: hidden; */
-}
+/* html,body {
+    overflow: hidden;
+} */
 
 body {
     margin: 0;
-    padding: 0;
+    padding: 70px;
     font-weight: 400;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1rem;
@@ -233,9 +233,9 @@ button.accent {
     width: 100%;
 }
 
-body {
+/* body {
     padding: 70px 0;
-}
+} */
 
 .container {
     margin: 0 auto;

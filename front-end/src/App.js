@@ -15,6 +15,7 @@ import Tutorial from './pages/Tutorial';
 import RankingPage from './pages/RankingPage';
 import axios from 'axios';
 
+
 function MainPage() {
     
   const navigate = useNavigate();
@@ -114,7 +115,7 @@ function MainPage() {
       </div>
           {isLoggedIn ? (
             <React.Fragment>
-            <div className="body" container spacing={2}>
+            <div className="gamemode" container spacing={2}>
               
                 <a href="tutorial">
                   <span></span>
@@ -142,7 +143,7 @@ function MainPage() {
                 Go to Sample Page
               </Button> */}
               <br />
-
+              <button onClick={handleButtonClick}>게임시작</button>
               <div className="logout">
                 <button onClick={handleLogout}>
                   로그아웃
