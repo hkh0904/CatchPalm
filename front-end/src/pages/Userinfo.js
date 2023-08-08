@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import axios from 'axios';
 
 const Userinfo = () => {
@@ -135,6 +136,39 @@ const Userinfo = () => {
 
     const hiddenFileInput = useRef(null);
 
+    const handleDeleteAccount = () => {
+        // Confirmation before account deletion
+        if (!window.confirm('정말로 회원 탈퇴를 진행하시겠습니까?')) {
+          return; // If user cancels (clicks 'No'), stop the function
+        }
+        
+        const token = localStorage.getItem('token');
+    
+        fetch('https://localhost:8443/api/v1/users/delete', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // or however your server expects the token
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Error during account deletion');
+          }
+        })
+        .then(data => {
+          // Handle successful deletion here, such as by logging out the user
+          localStorage.removeItem('token');
+          window.location.reload();
+        })
+        .catch(error => {
+          // Handle any errors here
+          console.error('Error:', error);
+        });
+      };
+
     if (!userInfo) {
         return <div>Loading...</div>;
     }
@@ -161,6 +195,11 @@ const Userinfo = () => {
             <p>Age: {userInfo.age}</p>
             <p>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
             <button onClick={handlePasswordChange}>비밀번호 변경하기</button>
+            <div className="signout">
+                <button onClick={handleDeleteAccount}>
+                  회원탈퇴
+                </button>
+              </div>
         </div>
     );
 }
