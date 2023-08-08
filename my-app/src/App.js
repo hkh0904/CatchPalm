@@ -1,26 +1,26 @@
 import { OpenVidu } from 'openvidu-browser';
-
 import axios from 'axios';
 import React, { Component } from 'react';
-import './App.css';
 import UserVideoComponent from './UserVideoComponent';
 
+// 애플리케이션 서버 URL 설정
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://localhost:8443/';
 
 class App extends Component {
     constructor(props) {
         super(props);
 
-        // These properties are in the state's component in order to re-render the HTML whenever their values change
+        // 초기 상태 설정
         this.state = {
             mySessionId: 'SessionA',
             myUserName: 'Participant' + Math.floor(Math.random() * 100),
             session: undefined,
-            mainStreamManager: undefined,  // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
+            mainStreamManager: undefined,
             publisher: undefined,
             subscribers: [],
         };
 
+        // 함수들을 현재 컴포넌트의 컨텍스트에 바인딩
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
         this.switchCamera = this.switchCamera.bind(this);
@@ -30,151 +30,118 @@ class App extends Component {
         this.onbeforeunload = this.onbeforeunload.bind(this);
     }
 
+    // 컴포넌트가 마운트될 때 이벤트 리스너 추가
     componentDidMount() {
         window.addEventListener('beforeunload', this.onbeforeunload);
     }
 
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.onbeforeunload);
     }
 
+    // 페이지가 닫힐 때 세션을 나가는 함수
     onbeforeunload(event) {
         this.leaveSession();
     }
 
+    // 세션 ID를 변경하는 함수
     handleChangeSessionId(e) {
-        this.setState({
-            mySessionId: e.target.value,
-        });
+        this.setState({ mySessionId: e.target.value });
     }
 
+    // 사용자 이름을 변경하는 함수
     handleChangeUserName(e) {
-        this.setState({
-            myUserName: e.target.value,
-        });
+        this.setState({ myUserName: e.target.value });
     }
 
+    // 주 비디오 스트림을 처리하는 함수
     handleMainVideoStream(stream) {
         if (this.state.mainStreamManager !== stream) {
-            this.setState({
-                mainStreamManager: stream
-            });
+            this.setState({ mainStreamManager: stream });
         }
     }
 
+    // 구독자 삭제 함수
     deleteSubscriber(streamManager) {
         let subscribers = this.state.subscribers;
         let index = subscribers.indexOf(streamManager, 0);
         if (index > -1) {
             subscribers.splice(index, 1);
-            this.setState({
-                subscribers: subscribers,
-            });
+            this.setState({ subscribers: subscribers });
         }
     }
 
+    // 세션에 참가하는 함수
     joinSession() {
-        // --- 1) Get an OpenVidu object ---
-
+        // OpenVidu 객체 초기화
         this.OV = new OpenVidu();
 
-        // --- 2) Init a session ---
+        // 세션 초기화 및 이벤트 설정
+        this.setState({ session: this.OV.initSession() }, () => {
+            var mySession = this.state.session;
 
-        this.setState(
-            {
-                session: this.OV.initSession(),
-            },
-            () => {
-                var mySession = this.state.session;
+            // 스트림이 생성될 때의 이벤트 처리
+            mySession.on('streamCreated', (event) => {
+                var subscriber = mySession.subscribe(event.stream, undefined);
+                var subscribers = this.state.subscribers;
+                subscribers.push(subscriber);
+                this.setState({ subscribers: subscribers });
+            });
 
-                // --- 3) Specify the actions when events take place in the session ---
+            // 스트림이 삭제될 때의 이벤트 처리
+            mySession.on('streamDestroyed', (event) => {
+                this.deleteSubscriber(event.stream.streamManager);
+            });
 
-                // On every new Stream received...
-                mySession.on('streamCreated', (event) => {
-                    // Subscribe to the Stream to receive it. Second parameter is undefined
-                    // so OpenVidu doesn't create an HTML video by its own
-                    var subscriber = mySession.subscribe(event.stream, undefined);
-                    var subscribers = this.state.subscribers;
-                    subscribers.push(subscriber);
+            // 예외가 발생할 때의 이벤트 처리
+            mySession.on('exception', (exception) => {
+                console.warn(exception);
+            });
 
-                    // Update the state with the new subscribers
-                    this.setState({
-                        subscribers: subscribers,
-                    });
-                });
-
-                // On every Stream destroyed...
-                mySession.on('streamDestroyed', (event) => {
-
-                    // Remove the stream from 'subscribers' array
-                    this.deleteSubscriber(event.stream.streamManager);
-                });
-
-                // On every asynchronous exception...
-                mySession.on('exception', (exception) => {
-                    console.warn(exception);
-                });
-
-                // --- 4) Connect to the session with a valid user token ---
-
-                // Get a token from the OpenVidu deployment
-                this.getToken().then((token) => {
-                    // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
-                    // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
-                    mySession.connect(token, { clientData: this.state.myUserName })
-                        .then(async () => {
-
-                            // --- 5) Get your own camera stream ---
-
-                            // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
-                            // element: we will manage it on our own) and with the desired properties
-                            let publisher = await this.OV.initPublisherAsync(undefined, {
-                                audioSource: undefined, // The source of audio. If undefined default microphone
-                                videoSource: "screen", // The source of video. If undefined default webcam
-                                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-                                publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                                resolution: '640x480', // The resolution of your video
-                                frameRate: 30, // The frame rate of your video
-                                insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
-                                mirror: false, // Whether to mirror your local video or not
-                            });
-
-                            // --- 6) Publish your stream ---
-
-                            mySession.publish(publisher);
-
-                            // Obtain the current video device in use
-                            var devices = await this.OV.getDevices();
-                            var videoDevices = devices.filter(device => device.kind === 'videoinput');
-                            var currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-                            var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
-
-                            // Set the main video in the page to display our webcam and store our Publisher
-                            this.setState({
-                                currentVideoDevice: currentVideoDevice,
-                                mainStreamManager: publisher,
-                                publisher: publisher,
-                            });
-                        })
-                        .catch((error) => {
-                            console.log('There was an error connecting to the session:', error.code, error.message);
+            // 토큰을 얻어와 세션에 연결
+            this.getToken().then((token) => {
+                mySession.connect(token, { clientData: this.state.myUserName })
+                    .then(async () => {
+                        // 여기서 카메라 스트림을 가져오고 스트림을 발행
+                        let publisher = await this.OV.initPublisherAsync(undefined, {
+                            audioSource: false,
+                            videoSource: undefined,
+                            publishAudio: false,
+                            publishVideo: true,
+                            resolution: '640x480',
+                            frameRate: 30,
+                            insertMode: 'APPEND',
+                            mirror: false,
                         });
-                });
-            },
-        );
+
+                        mySession.publish(publisher);
+
+                        var devices = await this.OV.getDevices();
+                        var videoDevices = devices.filter(device => device.kind === 'videoinput');
+                        var currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+                        var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+
+                        this.setState({
+                            currentVideoDevice: currentVideoDevice,
+                            mainStreamManager: publisher,
+                            publisher: publisher,
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('There was an error connecting to the session:', error.code, error.message);
+                    });
+            });
+        });
     }
 
+    // 세션을 나가는 함수
     leaveSession() {
-
-        // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
         const mySession = this.state.session;
-
         if (mySession) {
             mySession.disconnect();
         }
 
-        // Empty all properties...
         this.OV = null;
         this.setState({
             session: undefined,
@@ -186,18 +153,16 @@ class App extends Component {
         });
     }
 
+    // 카메라를 전환하는 함수
     async switchCamera() {
         try {
             const devices = await this.OV.getDevices()
             var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
             if (videoDevices && videoDevices.length > 1) {
-
                 var newVideoDevice = videoDevices.filter(device => device.deviceId !== this.state.currentVideoDevice.deviceId)
 
                 if (newVideoDevice.length > 0) {
-                    // Creating a new publisher with specific videoSource
-                    // In mobile devices the default and first camera is the front one
                     var newPublisher = this.OV.initPublisher(undefined, {
                         videoSource: newVideoDevice[0].deviceId,
                         publishAudio: true,
@@ -205,9 +170,7 @@ class App extends Component {
                         mirror: true
                     });
 
-                    //newPublisher.once("accessAllowed", () => {
                     await this.state.session.unpublish(this.state.mainStreamManager)
-
                     await this.state.session.publish(newPublisher)
                     this.setState({
                         currentVideoDevice: newVideoDevice[0],
@@ -221,12 +184,14 @@ class App extends Component {
         }
     }
 
+    // 화면 렌더링 함수
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
 
         return (
             <div className="container">
+                {/* 세션이 정의되지 않았을 경우 Join 화면 표시 */}
                 {this.state.session === undefined ? (
                     <div id="join">
                         <div id="img-div">
@@ -265,6 +230,7 @@ class App extends Component {
                     </div>
                 ) : null}
 
+                {/* 세션이 정의되었을 경우 세션 화면 표시 */}
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
@@ -285,19 +251,20 @@ class App extends Component {
                             />
                         </div>
 
+                        {/* 주 스트림 화면
                         {this.state.mainStreamManager !== undefined ? (
                             <div id="main-video" className="col-md-6">
                                 <UserVideoComponent streamManager={this.state.mainStreamManager} />
-
                             </div>
-                        ) : null}
+                        ) : null} */}
                         <div id="video-container" className="col-md-6">
+                            {/* 발행자 스트림 화면 */}
                             {this.state.publisher !== undefined ? (
                                 <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                                    <UserVideoComponent
-                                        streamManager={this.state.publisher} />
+                                    <UserVideoComponent streamManager={this.state.publisher} />
                                 </div>
                             ) : null}
+                            {/* 구독자 스트림 화면 */}
                             {this.state.subscribers.map((sub, i) => (
                                 <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
                                     <span>{sub.id}</span>
@@ -311,39 +278,26 @@ class App extends Component {
         );
     }
 
-
-    /**
-     * --------------------------------------------
-     * GETTING A TOKEN FROM YOUR APPLICATION SERVER
-     * --------------------------------------------
-     * The methods below request the creation of a Session and a Token to
-     * your application server. This keeps your OpenVidu deployment secure.
-     *
-     * In this sample code, there is no user control at all. Anybody could
-     * access your application server endpoints! In a real production
-     * environment, your application server must identify the user to allow
-     * access to the endpoints.
-     *
-     * Visit https://docs.openvidu.io/en/stable/application-server to learn
-     * more about the integration of OpenVidu in your application server.
-     */
+    // OpenVidu 서버에서 토큰을 얻어오는 함수
     async getToken() {
         const sessionId = await this.createSession(this.state.mySessionId);
         return await this.createToken(sessionId);
     }
 
+    // 세션을 생성하는 함수
     async createSession(sessionId) {
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
             headers: { 'Content-Type': 'application/json', },
         });
-        return response.data; // The sessionId
+        return response.data; // 세션 ID 반환
     }
 
+    // 토큰을 생성하는 함수
     async createToken(sessionId) {
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
             headers: { 'Content-Type': 'application/json', },
         });
-        return response.data; // The token
+        return response.data; // 토큰 반환
     }
 }
 
