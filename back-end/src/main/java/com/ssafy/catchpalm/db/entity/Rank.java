@@ -20,7 +20,7 @@ public class Rank {
     @Column(name = "rank_number")
     private int rankNumber;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User rankUser; // 랭거 정보 : 단방향 매핑
 

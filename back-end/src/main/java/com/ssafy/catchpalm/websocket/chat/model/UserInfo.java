@@ -13,4 +13,5 @@ public class UserInfo {
     private Long userNumber;
     private Blob profileImg;
     private String nickname;
+    private int ready;
 }

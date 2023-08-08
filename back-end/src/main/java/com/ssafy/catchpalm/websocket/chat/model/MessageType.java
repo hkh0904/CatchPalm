@@ -5,5 +5,7 @@ public enum MessageType {
     CHAT,
     JOIN,
     LEAVE,
-    READY
+    READY,
+    MUSIC,
+    START
 }
