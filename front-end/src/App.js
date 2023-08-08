@@ -1,6 +1,6 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
 import React, { useEffect, useState } from 'react';
-import "./App.css";
+import style from "./App.module.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
@@ -106,56 +106,56 @@ function MainPage() {
   return (
     <React.Fragment>
 
-      <video autoPlay muted loop className="background-video">
+      <video autoPlay muted loop className={`${style.background_video}`}>
         <source src="assets/background.mp4" type="video/mp4" />
       </video>
 
-      <div className="mainword">
+      <div className={style.mainword}>
         <h2>당신의 손으로 리듬을 잡아라</h2>
       </div>
           {isLoggedIn ? (
             <React.Fragment>
-            <div className="gamemode" container spacing={2}>
+            <div className={style.gamemode} container spacing={2}>
               
                 <a href="tutorial">
-                  <span></span>
+                  
                   <span></span>
                   <span></span>
                   <span></span>
                   튜토리얼
                 </a>
-                <a href="#">
-                  <span></span>
+                <a href="/Playing">
+                  
                   <span></span>
                   <span></span>
                   <span></span>
                   SOLO MODE
                 </a>
                 <a href="/ChatRoomList">
-                  <span></span>
+                  
                   <span></span>
                   <span></span>
                   <span></span>
                   MULTI MODE
                 </a>
               </div>
-              {/* <Button variant="contained" onClick={handleButtonClick}>
+              <button variant="contained" onClick={handleButtonClick}>
                 Go to Sample Page
-              </Button> */}
+              </button>
               <br />
               <button onClick={handleButtonClick}>게임시작</button>
-              <div className="logout">
+              <div className={`${style.logout}`}>
                 <button onClick={handleLogout}>
                   로그아웃
                 </button>
               </div>
-              <div className="userinfo">
+              <div className={`${style.userinfo}`}>
                 <button onClick={handleDrawerOpen}>
                   회원정보
                 </button>
               </div>
               
-              <div className="white-text">
+              <div className={`${style.white_text}`}>
                 <p>아이디: {userId}</p>
               </div>
 
@@ -166,12 +166,12 @@ function MainPage() {
             </React.Fragment>
           ) : (
           <React.Fragment>
-              <div className="login">
+              <div className={`${style.login}`}>
                 <button onClick={handleButtonClick3}>
                   로그인
                 </button>
               </div>
-              <div className="signup">
+              <div className={`${style.signup}`}>
                 <button onClick={handleButtonClick4}>
                   회원가입
                 </button>

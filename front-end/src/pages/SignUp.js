@@ -158,11 +158,10 @@ function SignUp() {
             </Grid>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link href="/login">
                   Already have an account? Sign in
                 </Link>
-                <br/>
-                <br/>
+
                 <Link href ="/" variant="body2">
                   메인 화면으로 돌아가기
                 </Link>

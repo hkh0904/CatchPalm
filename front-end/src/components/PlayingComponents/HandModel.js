@@ -312,7 +312,7 @@ const fetchData = async () => {
 
         // 애니메이션 시작
         let scale = 1;
-        let scaleStep = 0.018;
+        let scaleStep = 0.008;
 
         function animate() {
           scale -= scaleStep;

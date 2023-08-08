@@ -1,5 +1,5 @@
 /* App.css */
-
+/* App.module.css 사용시 삭제 예정 */
 body {
   
   /* 모든페이지 스크롤바 제거 */
@@ -9,8 +9,6 @@ body {
   background-attachment: fixed;
   /* 마우스 커서 변경 */
   cursor: url('../public/assets/cursor.png'), auto;
-
-
 
   justify-content: center;
   align-items: center;

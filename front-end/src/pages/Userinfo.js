@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import style from '../App.module.css';
 import axios from 'axios';
 
 const Userinfo = () => {
@@ -195,7 +195,7 @@ const Userinfo = () => {
             <p>Age: {userInfo.age}</p>
             <p>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
             <button onClick={handlePasswordChange}>비밀번호 변경하기</button>
-            <div className="signout">
+            <div className={style.signout}>
                 <button onClick={handleDeleteAccount}>
                   회원탈퇴
                 </button>
