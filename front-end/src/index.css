@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #c6def3;
+  background-color: white;
+  
 }
 
 code {
@@ -45,4 +46,3 @@ header .header-1{
   padding: 0 ;
   border-radius: 10px ;
 };
-

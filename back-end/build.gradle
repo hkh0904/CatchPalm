@@ -46,16 +46,16 @@ group 'com.ssafy'
 version '1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-node {
-	download = true
-	version = '14.17.0'
-	// Set the work directory where node_modules should be located
-	nodeModulesDir = file("${project.projectDir}/../front-end")
-}
+//node {
+//	download = true
+//	version = '14.17.0'
+//	// Set the work directory where node_modules should be located
+//	nodeModulesDir = file("${project.projectDir}/../front-end")
+//}
 
-configurations {
-	providedRuntime
-}
+//configurations {
+//	providedRuntime
+//}
 
 /*task npmInstall(type: NpmTask, overwrite: true) {
     args = ['install']
@@ -63,16 +63,16 @@ configurations {
 
 
 
-task webpack(type: NpmTask, dependsOn: 'npmInstall') {
-	args = ['run','build']
-}
-
+//task webpack(type: NpmTask, dependsOn: 'npmInstall') {
+//	args = ['run','build']
+//}
+//
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
 // processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
-processResources.dependsOn 'webpack'
+//processResources.dependsOn 'webpack'
 
 //set build time and inject value to application.properties
 def buildTime() {
@@ -103,6 +103,11 @@ processResources {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation('io.openvidu:openvidu-java-client:2.28.0')
+	implementation('com.google.api-client:google-api-client:1.31.5')
+	implementation('com.google.oauth-client:google-oauth-client:1.31.5')
+	implementation('com.google.apis:google-api-services-oauth2:v2-rev157-1.25.0')
+	implementation('com.google.http-client:google-http-client-jackson2:1.39.2')
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -110,7 +115,10 @@ dependencies {
 	implementation("org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE")
 	testImplementation("org.springframework.security:spring-security-test")
 	annotationProcessor("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly 'com.h2database:h2'
 	runtimeOnly("mysql:mysql-connector-java")
+	implementation 'mysql:mysql-connector-java'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -162,6 +170,12 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok:1.18.20")
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+	//이메일 관련 의존성
+	implementation('org.springframework.boot:spring-boot-starter-mail')
+
+	//WebSocket Import
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 test {
