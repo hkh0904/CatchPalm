@@ -89,6 +89,7 @@ function MainPage() {
 
 
   useEffect(() => {
+    if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
     axios({
       method: 'get',
       url: 'https://localhost:8443/api/v1/users/me',
@@ -105,12 +106,6 @@ function MainPage() {
         console.log(response.data)
       })
       .catch(error => {
-        console.error("error");
-        const errorToken = localStorage.getItem('token');
-        if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
-          window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
-          return; // 함수 실행을 중단하고 반환합니다.
-        }
         const token = error.response.headers.authorization.slice(7);
         localStorage.setItem('token', token);
         axios({
