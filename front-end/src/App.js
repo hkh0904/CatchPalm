@@ -14,15 +14,8 @@ import Userinfo from './pages/Userinfo';
 import RankingPage from './pages/RankingPage';
 import axios from 'axios';
 
-
-
-
-
-
-
 function MainPage() {
     
-  
   const navigate = useNavigate();
 
   ////////로그인 로그아웃 시작////////////////
@@ -155,6 +148,27 @@ function MainPage() {
 
       <Grid className="mainGrid" container spacing={2}>
         <Grid item xs={4} md={8} lg={8}>
+        <a href="/login">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            LOGIN
+          </a>
+          <a href="/signup">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            회원가입
+          </a>
+          <a href="#" onClick={handleDrawerOpen}>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            유저 정보
+          </a>
           {isLoggedIn ? (
             <React.Fragment>
               <Button variant="contained" onClick={handleButtonClick}>
@@ -176,9 +190,19 @@ function MainPage() {
                 회원 탈퇴
               </Button>
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <Button variant="contained" style={{ fontSize: '24px', padding: '20px 40px' }} onClick={() => navigate('/ChatRoomList')}>
-                      Game Start
-                  </Button>
+              <Button
+                variant="contained"
+                style={{
+                  fontSize: '24px',
+                  padding: '20px 40px',
+                  borderRadius: '50%', // 테두리를 반원으로 만듦
+                  width: '200px', // 버튼의 가로 크기를 조정해 원형으로 보이도록 함
+                  height: '200px', // 버튼의 세로 크기를 조정해 원형으로 보이도록 함
+                }}
+                onClick={() => navigate('/ChatRoomList')}
+              >
+                CatchPalm
+              </Button>
               </div>
               
     <h1>로그인 된 메인페이지</h1>
