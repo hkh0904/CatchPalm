@@ -12,6 +12,7 @@ import com.ssafy.catchpalm.api.request.UserRegisterPostReq;
 import com.ssafy.catchpalm.db.entity.User;
 import com.ssafy.catchpalm.db.repository.UserRepository;
 import com.ssafy.catchpalm.db.repository.UserRepositorySupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -151,11 +152,11 @@ public class UserServiceImpl implements UserService {
 		return userRepository.existsByNickname(userNickname);
 	}
 
-	public boolean isVerified(String userId) throws Exception{
-		return false;
+
+	@Override
+	@Transactional
+	public void deleteUser(String userId){
+		userRepository.deleteByUserId(userId);
 	}
-
-
-
 
 }

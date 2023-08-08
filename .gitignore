@@ -36,6 +36,7 @@ back-end/*.properties
 back-end/*.log
 back-end/*.gz
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -43,9 +44,8 @@ back-end/*.gz
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
-<<<<<<< HEAD
 .vscode/
-=======
-.vscode/
->>>>>>> fc19d4722ba07251724a2b791483de1675a6da86
+
+### keystore ###
+*.p12
+*.cer

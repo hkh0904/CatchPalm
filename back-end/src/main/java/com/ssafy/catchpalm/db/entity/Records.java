@@ -15,16 +15,20 @@ public class Records {
     @Column(name = "records_number")
     private Long recordsNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "music_number")
     private Music music;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User user;
 
     private int score;
 
-    @Column(name = "play_datetime")
-    private LocalDateTime platDateTime;
+    @Column(name = "play_datetime", nullable = false, updatable = false)
+    private LocalDateTime playDateTime;
+
+    public Records() {
+        this.playDateTime = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정
+    }
 }

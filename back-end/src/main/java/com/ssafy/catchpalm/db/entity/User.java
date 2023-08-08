@@ -40,9 +40,8 @@ public class User{
     @Column(name = "profile_img", columnDefinition = "BLOB")
     private Blob profileImg;
 
-    @Lob
-    @Column(name = "profile_music", columnDefinition = "BLOB")
-    private Blob profileMusic;
+    @Column(name = "profile_music")
+    private String  profileMusic;
 
     private int point = 0;
 
@@ -68,27 +67,15 @@ public class User{
     @Column(name = "email_verified",nullable = false)
     private int emailVerified = 0;
     //민우추가
-    @OneToMany(mappedBy = "userLike")
-    @Lazy
+    @OneToMany(mappedBy = "userLike", fetch = FetchType.LAZY)
     private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
-    @OneToOne(mappedBy = "rankUser")
-    private Rank rank;
     @OneToOne(mappedBy = "captain")
     private GameRoom gameRoom;
+    @OneToOne(mappedBy = "user")
+    private GameRoomUserInfo userInfo;
 
     public User() {
         this.joinDate = LocalDateTime.now(); // 가입일을 현재 시간으로 자동 설정
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userNumber=" + userNumber +
-                ", userId='" + userId + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", age=" + age +
-                ", sex=" + sex +
-                ", joinDate=" + joinDate +
-                '}';
-    }
 }

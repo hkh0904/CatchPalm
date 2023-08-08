@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class Music {
 
     private String composer; // 작곡가
 
+    private String thumbnail;
+
     @Column(name = "release_date")
     private LocalDate releaseDate; //발매일
 
@@ -41,6 +44,6 @@ public class Music {
     @Column(name = "background_address")
     private String backgroundAddress; // 배경파일 저장위치
 
-    @OneToMany(mappedBy = "music")
+    @OneToMany(mappedBy = "music", fetch = FetchType.LAZY)
     private List<MusicLike> likeList = new ArrayList<>(); // 양방향 매핑: 좋아요 정보 리스트
 }

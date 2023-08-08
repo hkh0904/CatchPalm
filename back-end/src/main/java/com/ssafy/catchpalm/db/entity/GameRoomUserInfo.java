@@ -13,22 +13,18 @@ public class GameRoomUserInfo {
     @Column(name = "userinfo_number")
     private int userInfoNumber; // 유저정보 넘버 : PK
 
-    @ManyToOne// 단방향 매핑
+    @OneToOne
     @JoinColumn(name = "user_number", nullable = false, unique = true)
     private User user; // 게임방 유저 정보
 
-    @ManyToOne// 단방향 매핑
+    @ManyToOne(fetch = FetchType.LAZY)// 단방향 매핑
     @JoinColumn(name = "room_number", nullable = false)
     private GameRoom gameRoom; // 게임방 정보
 
-    private int team;
+    private int score; // 해당점수
 
-    @Override
-    public String toString() {
-        return "GameRoomUserInfo{" +
-                "userInfoNumber=" + userInfoNumber +
-                ", user=" + user +
-                ", team=" + team +
-                '}';
-    }
+    private int team; // 팀 정보
+
+    private int ready; // 레디정보.
+
 }

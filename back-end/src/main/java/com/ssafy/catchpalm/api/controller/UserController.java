@@ -30,6 +30,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.sql.DataSource;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.util.Base64;
 import java.util.UUID;
 
 /**
@@ -45,6 +49,9 @@ public class UserController {
 
 	@Autowired
 	EmailService emailService;
+
+	@Autowired
+	private DataSource dataSource;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -75,7 +82,14 @@ public class UserController {
 	
 	@DeleteMapping("/logout")
 	@ApiOperation(value = "로그아웃", notes = "로그인한 회원을 로그아웃 시킨다. header에 accessToken을 입력해야 한다." +
-			"\n 예시 Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.e ...")
+			"\n 예시 Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.e ..." +
+			"{\n" +
+			"\t\"timestamp\": 1690788467793,\n" +
+			"\t\"status\": 401,\n" +
+			"\t\"error\": \"TokenExpiredException\",\n" +
+			"\t\"message\": \"The Token has expired on Mon Jul 31 16:27:12 KST 2023.\",\n" +
+			"\t\"path\": \"/api/v1/users/me\"\n" +
+			"} Access 토큰이 만료되었다면 이런 응답이 오게된다. 토큰을 요구하는 모든 요청에 해당한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
@@ -92,6 +106,30 @@ public class UserController {
 		String userId = userDetails.getUsername();
 		// 로그아웃을 진행한다.
 		userService.logoutUser(userId);
+
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+	@DeleteMapping("/delete")
+	@ApiOperation(value = "회원 탈퇴", notes = "회원을 회원탈퇴 시킨다.. header에 accessToken을 입력해야 한다." +
+			"\n 예시 Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.e ...")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 500, message = "서버 오류 - 사용자 없음")
+	})
+	public ResponseEntity<? extends BaseResponseBody> delete(@ApiIgnore Authentication authentication) throws Exception {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+		// Spring security를 거치기 위해서 userDetails로 접근
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		// userId를 얻어서
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserId(userId);
+		// 로그아웃을 진행한다.
+		userService.deleteUser(userId);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -119,7 +157,9 @@ public class UserController {
 
 	@PatchMapping("/modify")
 	@ApiOperation(value = "회원 본인 정보 수정", notes = "로그인한 회원 본인의 정보를 수정한다. header에 accessToken을 입력해야 한다."+
-			"\n 정보 수정할 값에만 null이 아닌 값을 넣으면 수정이 됩니다. Header 예시 Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.e ...")
+			"\n 정보 수정할 값에만 null이 아닌 값을 넣으면 수정이 됩니다. Header 예시 Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.e ..." +
+			"\n 이미지 파일은 byte[] bytes = Files.readAllBytes(Paths.get(\"path/to/your/image.jpg\"));\n" +
+			"        String encoded = Base64.getEncoder().encodeToString(bytes); 이런식으로 이미지 파일을 bytes로 읽은 뒤 BASE64로 인코딩을 하여 전송한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -152,6 +192,25 @@ public class UserController {
 			// sex 수정
 			user.setSex(Integer.parseInt(userModifyInfo.getSex()));
 		}
+		if (userModifyInfo.getProfileImg() != null && !userModifyInfo.getProfileImg().isEmpty()) {
+			byte[] bytes = Base64.getDecoder().decode(userModifyInfo.getProfileImg());
+			// Get a connection and create a Blob
+			try (Connection connection = dataSource.getConnection()) {
+				Blob blob = connection.createBlob();
+				blob.setBytes(1, bytes);
+
+				// Now you can set the blob in your entity
+				user.setProfileImg(blob);
+			}
+		}
+		if (userModifyInfo.getProfileMusic()!= "") { //Music에 값이 있다면
+			// music 수정
+			user.setProfileMusic(userModifyInfo.getProfileMusic());
+		}
+		if (userModifyInfo.getSynk() != "") { //sex에 값이 있다면
+			// sex 수정
+			user.setSynk(Double.parseDouble(userModifyInfo.getSynk()));
+		}
 		// 위의 정보를 종합해서 user의 정보를 수정한다.
 		userService.updateUser(user);
 
@@ -183,7 +242,7 @@ public class UserController {
 	}
 
 	@PostMapping("/duplicated/userId")
-	@ApiOperation(value = "아이디 중복검사", notes = "<strong>아이디</strong>를 통해서 중복검사를 한다.")
+	@ApiOperation(value = "아이디 중복검사", notes = "<strong>아이디</strong>를 통해서 중복검사를 한다. \n 자체 회원가입을 하는 local:계정에서만 가능하다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공", response = UserDuplicatedPostRes.class),
 			@ApiResponse(code = 401, message = "인증 실패"),
