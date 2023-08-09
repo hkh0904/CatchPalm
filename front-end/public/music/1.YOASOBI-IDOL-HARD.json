@@ -1,0 +1,482 @@
+[
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.71,
+    "Y-COORDINATE": 0.16,
+    "APPEAR_TIME": 5.426
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.79,
+    "Y-COORDINATE": 0.39,
+    "APPEAR_TIME": 5.987
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.49,
+    "Y-COORDINATE": 0.81,
+    "APPEAR_TIME": 6.775
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.33,
+    "Y-COORDINATE": 0.56,
+    "APPEAR_TIME": 7.79
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.6,
+    "Y-COORDINATE": 0.72,
+    "APPEAR_TIME": 8.809
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.33,
+    "Y-COORDINATE": 0.83,
+    "APPEAR_TIME": 9.669
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.35,
+    "Y-COORDINATE": 0.51,
+    "APPEAR_TIME": 10.97
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.65,
+    "Y-COORDINATE": 0.45,
+    "APPEAR_TIME": 11.605
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.34,
+    "Y-COORDINATE": 0.3,
+    "APPEAR_TIME": 12.534
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.8,
+    "Y-COORDINATE": 0.28,
+    "APPEAR_TIME": 13.133
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.38,
+    "Y-COORDINATE": 0.26,
+    "APPEAR_TIME": 14.365
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.16,
+    "Y-COORDINATE": 0.71,
+    "APPEAR_TIME": 15.524
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.78,
+    "Y-COORDINATE": 0.52,
+    "APPEAR_TIME": 16.425
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.16,
+    "Y-COORDINATE": 0.16,
+    "APPEAR_TIME": 17.884
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.84,
+    "Y-COORDINATE": 0.2,
+    "APPEAR_TIME": 19.163
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.48,
+    "Y-COORDINATE": 0.44,
+    "APPEAR_TIME": 19.732
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.75,
+    "Y-COORDINATE": 0.59,
+    "APPEAR_TIME": 20.579
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.16,
+    "Y-COORDINATE": 0.28,
+    "APPEAR_TIME": 21.255
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.3,
+    "Y-COORDINATE": 0.19,
+    "APPEAR_TIME": 22.084
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.74,
+    "Y-COORDINATE": 0.26,
+    "APPEAR_TIME": 23.396
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.18,
+    "Y-COORDINATE": 0.24,
+    "APPEAR_TIME": 24.696
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.32,
+    "Y-COORDINATE": 0.2,
+    "APPEAR_TIME": 25.711
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.29,
+    "Y-COORDINATE": 0.81,
+    "APPEAR_TIME": 26.729
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.3,
+    "Y-COORDINATE": 0.71,
+    "APPEAR_TIME": 27.387
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.59,
+    "Y-COORDINATE": 0.44,
+    "APPEAR_TIME": 28.755
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.72,
+    "Y-COORDINATE": 0.67,
+    "APPEAR_TIME": 30.165
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.46,
+    "Y-COORDINATE": 0.83,
+    "APPEAR_TIME": 31.267
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.76,
+    "Y-COORDINATE": 0.71,
+    "APPEAR_TIME": 32.259
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.2,
+    "Y-COORDINATE": 0.71,
+    "APPEAR_TIME": 33.706
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.23,
+    "Y-COORDINATE": 0.47,
+    "APPEAR_TIME": 34.621
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.78,
+    "Y-COORDINATE": 0.33,
+    "APPEAR_TIME": 35.252
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.63,
+    "Y-COORDINATE": 0.36,
+    "APPEAR_TIME": 36.5
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.6,
+    "Y-COORDINATE": 0.58,
+    "APPEAR_TIME": 37.922
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.69,
+    "Y-COORDINATE": 0.43,
+    "APPEAR_TIME": 39.059
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.84,
+    "Y-COORDINATE": 0.62,
+    "APPEAR_TIME": 40.215
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.52,
+    "Y-COORDINATE": 0.7,
+    "APPEAR_TIME": 41.638
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.39,
+    "Y-COORDINATE": 0.63,
+    "APPEAR_TIME": 42.781
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.39,
+    "Y-COORDINATE": 0.38,
+    "APPEAR_TIME": 43.748
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.45,
+    "Y-COORDINATE": 0.19,
+    "APPEAR_TIME": 44.704
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.21,
+    "Y-COORDINATE": 0.84,
+    "APPEAR_TIME": 45.872
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.59,
+    "Y-COORDINATE": 0.17,
+    "APPEAR_TIME": 46.836
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.23,
+    "Y-COORDINATE": 0.21,
+    "APPEAR_TIME": 48.039
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.54,
+    "Y-COORDINATE": 0.55,
+    "APPEAR_TIME": 48.996
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.45,
+    "Y-COORDINATE": 0.84,
+    "APPEAR_TIME": 50.206
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.55,
+    "Y-COORDINATE": 0.23,
+    "APPEAR_TIME": 51.057
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.49,
+    "Y-COORDINATE": 0.59,
+    "APPEAR_TIME": 51.903
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.52,
+    "Y-COORDINATE": 0.28,
+    "APPEAR_TIME": 52.872
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.34,
+    "Y-COORDINATE": 0.48,
+    "APPEAR_TIME": 53.591
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.39,
+    "Y-COORDINATE": 0.31,
+    "APPEAR_TIME": 54.448
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.24,
+    "Y-COORDINATE": 0.84,
+    "APPEAR_TIME": 54.958
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.61,
+    "Y-COORDINATE": 0.62,
+    "APPEAR_TIME": 55.788
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.26,
+    "Y-COORDINATE": 0.62,
+    "APPEAR_TIME": 56.911
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.27,
+    "Y-COORDINATE": 0.58,
+    "APPEAR_TIME": 57.723
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.83,
+    "Y-COORDINATE": 0.32,
+    "APPEAR_TIME": 58.761
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.64,
+    "Y-COORDINATE": 0.52,
+    "APPEAR_TIME": 59.985
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.28,
+    "Y-COORDINATE": 0.68,
+    "APPEAR_TIME": 60.921
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.21,
+    "Y-COORDINATE": 0.21,
+    "APPEAR_TIME": 61.875
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.62,
+    "Y-COORDINATE": 0.26,
+    "APPEAR_TIME": 62.922
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.66,
+    "Y-COORDINATE": 0.21,
+    "APPEAR_TIME": 64.065
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.58,
+    "Y-COORDINATE": 0.68,
+    "APPEAR_TIME": 64.739
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.23,
+    "Y-COORDINATE": 0.41,
+    "APPEAR_TIME": 65.394
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.76,
+    "Y-COORDINATE": 0.72,
+    "APPEAR_TIME": 66.425
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.55,
+    "Y-COORDINATE": 0.65,
+    "APPEAR_TIME": 67.6
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.24,
+    "Y-COORDINATE": 0.45,
+    "APPEAR_TIME": 68.782
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.55,
+    "Y-COORDINATE": 0.69,
+    "APPEAR_TIME": 69.58
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.29,
+    "Y-COORDINATE": 0.33,
+    "APPEAR_TIME": 70.817
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.29,
+    "Y-COORDINATE": 0.4,
+    "APPEAR_TIME": 72.245
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.62,
+    "Y-COORDINATE": 0.78,
+    "APPEAR_TIME": 73.67
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.17,
+    "Y-COORDINATE": 0.85,
+    "APPEAR_TIME": 74.593
+  },
+  {
+    "MOTION_NUM": 1,
+    "X-COORDINATE": 0.62,
+    "Y-COORDINATE": 0.54,
+    "APPEAR_TIME": 75.751
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.34,
+    "Y-COORDINATE": 0.72,
+    "APPEAR_TIME": 77.182
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.55,
+    "Y-COORDINATE": 0.27,
+    "APPEAR_TIME": 78.524
+  },
+  {
+    "MOTION_NUM": 5,
+    "X-COORDINATE": 0.29,
+    "Y-COORDINATE": 0.18,
+    "APPEAR_TIME": 79.878
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.29,
+    "Y-COORDINATE": 0.72,
+    "APPEAR_TIME": 80.46
+  },
+  {
+    "MOTION_NUM": 3,
+    "X-COORDINATE": 0.73,
+    "Y-COORDINATE": 0.72,
+    "APPEAR_TIME": 81.043
+  },
+  {
+    "MOTION_NUM": 4,
+    "X-COORDINATE": 0.6,
+    "Y-COORDINATE": 0.17,
+    "APPEAR_TIME": 82.099
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.17,
+    "Y-COORDINATE": 0.18,
+    "APPEAR_TIME": 83.432
+  },
+  {
+    "MOTION_NUM": 6,
+    "X-COORDINATE": 0.73,
+    "Y-COORDINATE": 0.74,
+    "APPEAR_TIME": 84.013
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.68,
+    "Y-COORDINATE": 0.25,
+    "APPEAR_TIME": 85.197
+  },
+  {
+    "MOTION_NUM": 2,
+    "X-COORDINATE": 0.59,
+    "Y-COORDINATE": 0.23,
+    "APPEAR_TIME": 85.936
+  }
+]
