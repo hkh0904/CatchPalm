@@ -195,7 +195,7 @@ export default function HandModel() {
     };
 
     fetchDataAndPredict().then((data) => {
-      const audio = new Audio("/music/4.mp3");
+      const audio = new Audio("/music/YOASOBI-IDOL.mp3");
       const finish = new Audio("/assets/Finish.mp3");
       audio.volume = 0; // 볼륨 30%로 설정
       finish.volume = 0.3; //
