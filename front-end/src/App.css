@@ -1,7 +1,9 @@
 App.css
 
 /* 모든페이지 스크롤바 제거 */
-
+body {
+  overflow: hidden;
+}
 
 
   /* 마우스 포인터 변경 */
@@ -12,7 +14,6 @@ App.css
 h1 {
   color: blue;
 }
-
 
 .white-text p {
   color: white;
