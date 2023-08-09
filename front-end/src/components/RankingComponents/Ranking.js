@@ -84,14 +84,7 @@ function MyComponent() {
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr'}}>
-      <div className={style.inside_div} id='style-7'> 
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
+      <div className={style.inside_div}> 
         <ul>
           {musicList && musicList.map((item, index) => 
             <li key={index} style={{color:`white`,fontSize:`20px`}}>
@@ -100,35 +93,7 @@ function MyComponent() {
           )}
         </ul>
       </div>
-      <div className={style.inside_div} style={{ gridRow: '1 / span 2' , gridColumn: '2' }} id='style-7'> 
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
+      <div className={style.inside_div}> 
         <ul>
           {musicList && musicList.map((item, index) => 
             <li key={index} style={{color:`white`,fontSize:`20px`}}>
@@ -137,12 +102,22 @@ function MyComponent() {
           )}
         </ul>
       </div>
-      <div className={style.inside_div} style={{color:`white`}}> 
+      <div className={style.inside_div} style={{color:`white`,fontSize:`20px`}}> 
         <ul>
           {rankList && rankList.map((item, index) => 
             <li key={index} style={{color:`white`}}>
               Rank Number: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
               User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName} 안녕하세요
+            </li>
+          )}
+        </ul>
+      </div>
+      <div className={style.inside_div} style={{color:`white`,fontSize:`20px`}}> 
+        <ul>
+          {rankList && rankList.map((item, index) => 
+            <li key={index} style={{color:`white`}}>
+              Rank Number: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
+              User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName} 안녕하세요2
             </li>
           )}
         </ul>
