@@ -1,0 +1,120 @@
+#webcamWrapper {
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  
+  #loading {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  #videoSrc {
+    position: absolute;
+  }
+  
+  #webcam {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+  
+  #canvas {
+    width: 100%;
+    height: 100%;
+  }
+  
+  #toggleWebcam {
+    display: inline-flex;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 2;
+  }
+  
+  #countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
+  
+  #score {
+    font-size: 50px;
+    font-weight: bold;
+    position: absolute;
+    left: 10px;
+    color: white;
+    z-index: 2;
+    margin-left: 10px;
+  }
+
+
+  .circle {
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    background-color: skyblue;
+    border: 10px solid royalblue;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    opacity: 0.6;
+  }
+  
+  .circleOut {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    border: 10px solid royalblue;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    opacity: 0.6;
+  }
+  
+  .value {
+    position: absolute;
+    color: white;
+    font-size: x-large;
+  }
+  
+  .motion1 {
+    background-image: url("../../public/assets/motion1.png");
+    background-position: center;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+  }
+  .motion2 {
+    background-image: url("../../public/assets/motion2.png");
+    background-position: center;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+  }
+  .motion3 {
+    background-image: url("../../public/assets/motion3.png");
+    background-position: center;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+  }
+  .motion4 {
+    background-image: url("../../public/assets/motion4.png");
+    background-position: center;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+  }
+  .motion5 {
+    background-image: url("../../public/assets/motion5.png");
+    background-position: center;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+  }
+  .motion6 {
+    background-image: url("../../public/assets/motion6.png");
+    background-position: center;
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+  }
