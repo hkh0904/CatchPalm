@@ -371,191 +371,67 @@ const ChatRoomItem = () => {
     <div>
       {/* 음악 리스트 민우짱 */}
       <div>
-      <div className="container">
-        <div
-          className="carousel"
-          style={{
+        <div className="container">
+          <div className="carousel" style={{
             transform: `rotateY(${currdeg}deg)`,
             WebkitTransform: `rotateY(${currdeg}deg)`,
             MozTransform: `rotateY(${currdeg}deg)`,
             OTransform: `rotateY(${currdeg}deg)`,
-          }}
-        >
-          <div className="item a"
-          style={{
-            backgroundImage: `url(${roomInfo.musics[0].thumbnail})`,
-            width: '250px',
-            backgroundSize: 'cover',
-            }}
-            onMouseEnter={() => handleMouseEnter(0)}
-            onMouseLeave={() => handleMouseLeave(0)}
-          >
-            {/* 선택된 곡이면 표시 */}
-            {pickedMusic === roomInfo.musics[0].musicNumber &&
-              <img className="pickedMusic" src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png" alt="User Thumbnail" />
-            }
-            {/* 방장만 표시: 곡 선택 버튼 */}
-            {captain === name && 
-              <button className="pickbtn" onClick={() => chageMusicBtn(roomInfo.musics[0].musicNumber, roomInfo.musics[0].musicName)}>PLAY</button>
-            }
-            {showTooltip[0] && (
-              <div
-                style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                  color: '#fff',
-                  borderRadius: '5px',
-                  overflow: 'hidden',
-                  fontSize: '10px',
-                  width: '230px',
-                  height: '180px'
-                }}
-              >
-                <div className="info-container">
-                  <div className="music-name">{roomInfo.musics[0].musicName}</div>
-                  <div className="music-details">
-                    <div className="detail-item">Running Time: {roomInfo.musics[0].runningTime}</div>
-                    <div className="detail-item">Singer: {roomInfo.musics[0].singer}</div>
-                    <div className="detail-item">Level: {roomInfo.musics[0].level}</div>
-                    <div className="detail-item">Play Count: {roomInfo.musics[0].playCnt}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="item b"
-          style={{
-            backgroundImage: `url(${roomInfo.musics[1].thumbnail})`,
-            width: '250px',
-            backgroundSize: 'cover',
-            }}
-            onMouseEnter={() => handleMouseEnter(1)}
-            onMouseLeave={() => handleMouseLeave(1)}
-          >
-            {/* 선택된 곡이면 표시 */}
-            {pickedMusic === roomInfo.musics[1].musicNumber &&
-              <img className="pickedMusic" src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png" alt="User Thumbnail" />
-            }
-            {/* 방장만 표시: 곡 선택 버튼 */}
-            {captain === name && 
-              <button className="pickbtn" onClick={() => chageMusicBtn(roomInfo.musics[1].musicNumber, roomInfo.musics[1].musicName)}>PLAY</button>
-            }
-            {showTooltip[1] && (
-              <div
-                style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                  color: '#fff',
-                  borderRadius: '5px',
-                  overflow: 'hidden',
-                  fontSize: '10px',
-                  width: '230px',
-                  height: '180px'
-                }}
-              >
-                <div className="info-container">
-                  <div className="music-name">{roomInfo.musics[1].musicName}</div>
-                  <div className="music-details">
-                    <div className="detail-item">Running Time: {roomInfo.musics[1].runningTime}</div>
-                    <div className="detail-item">Singer: {roomInfo.musics[1].singer}</div>
-                    <div className="detail-item">Level: {roomInfo.musics[1].level}</div>
-                    <div className="detail-item">Play Count: {roomInfo.musics[1].playCnt}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="item c"
-          style={{
-            backgroundImage: `url(${roomInfo.musics[2].thumbnail})`,
-            width: '250px',
-            backgroundSize: 'cover',
-            }}
-            onMouseEnter={() => handleMouseEnter(2)}
-            onMouseLeave={() => handleMouseLeave(2)}
-          >
-            {/* 선택된 곡이면 표시 */}
-            {pickedMusic === roomInfo.musics[2].musicNumber &&
-              <img className="pickedMusic" src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png" alt="User Thumbnail" />
-            }
-            {/* 방장만 표시: 곡 선택 버튼 */}
-            {captain === name && 
-              <button className="pickbtn" onClick={() => chageMusicBtn(roomInfo.musics[2].musicNumber, roomInfo.musics[2].musicName)}>PLAY</button>
-            }
-            {showTooltip[2] && (
-              <div
-                style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                  color: '#fff',
-                  borderRadius: '5px',
-                  overflow: 'hidden',
-                  fontSize: '10px',
-                  width: '230px',
-                  height: '180px'
-                }}
-              >
-                <div className="info-container">
-                  <div className="music-name">{roomInfo.musics[2].musicName}</div>
-                  <div className="music-details">
-                    <div className="detail-item">Running Time: {roomInfo.musics[2].runningTime}</div>
-                    <div className="detail-item">Singer: {roomInfo.musics[2].singer}</div>
-                    <div className="detail-item">Level: {roomInfo.musics[2].level}</div>
-                    <div className="detail-item">Play Count: {roomInfo.musics[2].playCnt}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          {/* 가데이터 */}
-          <div className="item d"
-          style={{
-            backgroundImage: `url("https://lh3.googleusercontent.com/AjWNrfzz6BqjRL5diZ-bPxFqGOsNk20xS6jcqoQWpNGWdch404mDWKVBkl4s9n74aLjXJWgldqm3Dc8=w544-h544-l90-rj")`,
-            width: '250px',
-            backgroundSize: 'cover',
-            }}>
-            <div style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              color: '#fff',
-              borderRadius: '5px',
-              overflow: 'hidden',
-              height: '180px',
-              display: 'list-item',
-            }}>
-              <div className="music-name">COMMING SOON</div>
-            </div>
-          </div>
-          <div className="item e"style={{
-            backgroundImage: `url("https://i1.sndcdn.com/artworks-IaaTwyICGFYMLY7A-lZhVQQ-t500x500.jpg")`,
-            width: '250px',
-            backgroundSize: 'cover',
           }}>
-            <div style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              color: '#fff',
-              borderRadius: '5px',
-              overflow: 'hidden',
-              height: '180px',
-              display: 'list-item',
-            }}>
-              <div className="music-name">COMMING SOON</div>
-            </div>
+            {roomInfo.musics.map((music, index) => (
+              <div
+                key={index}
+                className={`item a${index+1}`}
+                style={{
+                  backgroundImage: `url(${music.thumbnail})`,
+                  width: '250px',
+                  backgroundSize: 'cover',
+                }}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+              >
+                {pickedMusic === music.musicNumber && (
+                  <img
+                    className="pickedMusic"
+                    src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png"
+                    alt="User Thumbnail"
+                  />
+                )}
+                {captain === name && (
+                  <button
+                    className="pickbtn"
+                    onClick={() => chageMusicBtn(music.musicNumber, music.musicName)}
+                  >
+                    PLAY
+                  </button>
+                )}
+                {showTooltip[index] && (
+                  <div
+                    style={{
+                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                      color: '#fff',
+                      borderRadius: '5px',
+                      overflow: 'hidden',
+                      fontSize: '10px',
+                      width: '230px',
+                      height: '180px',
+                    }}
+                  >
+                    <div className="info-container">
+                      <div className="music-name">{music.musicName}</div>
+                      <div className="music-details">
+                        <div className="detail-item">재생 시간: {music.runningTime}</div>
+                        <div className="detail-item">가수: {music.singer}</div>
+                        <div className="detail-item">난이도: {music.level}</div>
+                        <div className="detail-item">재생 횟수: {music.playCnt}</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-          <div className="item f" style={{
-            backgroundImage: `url("https://lh3.googleusercontent.com/FzLKj6zFEJna0gRNDeZRH4nuQwEyN-YbCaC-bIGLoia6EhirHUachdvdEdR3VdB7pArgFCW8mtpLPL0=w544-h544-l90-rj")`,
-            width: '250px',
-            backgroundSize: 'cover',
-          }}>
-            <div style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              color: '#fff',
-              borderRadius: '5px',
-              overflow: 'hidden',
-              height: '180px',
-              display: 'list-item',
-            }}>
-              <div className="music-name">COMMING SOON</div>
-            </div>
-          </div>
-          
-          </div>
+
         </div>
       </div>
         <div className="next" onClick={() => rotate('next')}>Next</div>

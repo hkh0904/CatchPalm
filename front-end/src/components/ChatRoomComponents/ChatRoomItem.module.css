@@ -285,22 +285,22 @@ button.accent {
     }
   }
   /* 음악리스트 */
-  .a1 {
+  .a {
     transform: rotateY(0deg) translateZ(250px);
   }
-  .a2 {
+  .b {
     transform: rotateY(60deg) translateZ(250px);
   }
-  .a3 {
+  .c {
     transform: rotateY(120deg) translateZ(250px);
   }
-  .a4 {
+  .d {
     transform: rotateY(180deg) translateZ(250px);
   }
-  .a5 {
+  .e {
     transform: rotateY(240deg) translateZ(250px);
   } 
-  .a6 {
+  .f {
     transform: rotateY(300deg) translateZ(250px);
   }
   
