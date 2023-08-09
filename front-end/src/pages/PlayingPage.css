@@ -1,13 +1,34 @@
 video {
-	position: absolute;
+	/* position: absolute; */
   transform: scaleX(-1);
 	filter: brightness(40%);
+}
+
+#loading {
+  width: 100vw;
+  height: 100vh;
+}
+
+#videoSrc {
+  position: absolute;
+}
+
+#webcam { 
+  position: absolute;
 }
 
 canvas {
   position: absolute;
   z-index: 2;
   transform: scaleX(-1);
+}
+
+#toggleWebcam {
+  display: inline-flex;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
 }
 
 #countdown {
