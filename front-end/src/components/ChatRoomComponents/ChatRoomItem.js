@@ -7,6 +7,7 @@ import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
+import { display } from '@mui/system';
 let name = "";
 let Sock = null;
 var stompClient = null;
@@ -371,7 +372,7 @@ const ChatRoomItem = () => {
   return (
     <div style={{
       marginTop:'5%'
-    }}>
+    }} className={style.gameRoomBody}>
       {/* 음악 리스트 민우짱 */}
       <div>
         <div className={style.container}>
@@ -387,7 +388,7 @@ const ChatRoomItem = () => {
                 className={`${style.item} ${style[`a${index+1}`]}`}
                 style={{
                   backgroundImage: `url(${music.thumbnail})`,
-                  width: '250px',
+                  width: '265px',
                   backgroundSize: 'cover',
                 }}
                 onMouseEnter={() => handleMouseEnter(index)}
@@ -481,9 +482,21 @@ const ChatRoomItem = () => {
           {userInfo && userInfo.map((user, index) => (
             <div className={style.user_item} style={{ 
                 backgroundColor : user.nickname === captain ? 'rgb(179, 6, 179, 0.5)' : userInfo[index].ready === 0 ? 'rgb(0, 0, 0, 0.1)' : 'rgb(179, 6, 179, 0.6)'
-              }}>
-              <img className={style.userImg} src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg" alt="User Thumbnail" />
-              <div className={style.nickname}>{user.nickname}</div>
+            }}>
+              {/* 프로필 사진 없을 때. */}
+              {user.profileImg === null &&
+                <i style={{
+                  backgroundColor: `${getAvatarColor(user.nickname)}`
+                }} className={style.noProfile}>{user.nickname[0]}</i>
+              }
+              {/* 프로필 사진 없을 때. */}
+              {user.profileImg !== null &&
+                <img className={style.userImg} src="" alt="User Thumbnail" />
+              }${user.profileImg}
+
+              <div className={style.nickname} style={{
+                color: user.nickname === name ? 'springgreen' : 'white'
+              }}>{user.nickname}</div>
               {captain === user.nickname && 
                 <img className={style.captainlogo} src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
               }
@@ -496,6 +509,51 @@ const ChatRoomItem = () => {
             </div>
 
           ))}
+        </div>
+        <div className={style.game_option} style={{
+
+        }}>
+          {captain !== name &&
+                <a style={{
+                  width: '100%',
+                  color: 'aqua',
+                  textAlign: 'center',
+                  display: 'grid',
+                  height: '50%',
+                  justifyContent: 'space-around',
+                  alignContent: 'space-around',
+                  fontSize: '2.5rem'
+                  
+                }}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  
+                  READY
+                </a>
+          }
+          {captain === name &&
+                <a style={{
+                  width: '100%',
+                  color: 'aqua',
+                  textAlign: 'center',
+                  display: 'grid',
+                  height: '50%',
+                  justifyContent: 'space-around',
+                  alignContent: 'space-around',
+                  fontSize: '2.5rem'
+                  
+                }}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  
+                  start
+                </a>
+              }
+          
         </div>
       </div>
     </div>
