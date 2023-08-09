@@ -14,4 +14,5 @@ public class MusicInfo {
     private String musicName;
     private int roomNumber;
     private MessageType type;
+    private int isStart;
 }
