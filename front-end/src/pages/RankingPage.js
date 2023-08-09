@@ -7,7 +7,7 @@ function App() {
     <React.Fragment>
       <div className={style.rankingPageContainer}>
       <video autoPlay muted loop className={style.background_video}>
-        <source src="assets/background_ranking2.mp4" type="video/mp4" />
+        <source src="/assets/background_ranking2.mp4" type="video/mp4" />
       </video>
       <div className={style.overlay_div}> {/* 큰 사각형 div 추가 */}
       <Grid className={style.mainGrid}  container spacing={1}>
