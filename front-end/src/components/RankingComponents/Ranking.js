@@ -83,69 +83,52 @@ function MyComponent() {
   }, [musicNumber,userNumber]); // empty dependency array means this effect runs once on mount
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr'}}>
-      <div className={style.inside_div} id='style-7'> 
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-      </div>
-      <div className={style.inside_div} style={{ gridRow: '1 / span 2' , gridColumn: '2' }} id='style-7'> 
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-        <ul>
-          {musicList && musicList.map((item, index) => 
-            <li key={index} style={{color:`white`,fontSize:`20px`}}>
-              music Number2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
-            </li>
-          )}
-        </ul>
-      </div>
-      <div className={style.inside_div} style={{color:`white`}}> 
-        <ul>
-          {rankList && rankList.map((item, index) => 
-            <li key={index} style={{color:`white`}}>
-              Rank Number: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
-              User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName} 안녕하세요
-            </li>
-          )}
-        </ul>
+    <div className={style.flex_container}>
+      <div className={style.horizontal_container}>
+        <div className={style.leaderboard_container}>
+          <div className={style.leaderboard_text}>
+            <span className={style.glow}>Leader</span><span className={style.blink}> Board</span>
+          </div>
+          <div className={`${style.flex_item} ${style.item1}`}>
+            <ul>
+              {musicList && musicList.map((item, index) => 
+                <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                  item1: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
+                </li>
+              )}
+            </ul>
+          </div>
+          <div className={`${style.flex_item} ${style.item3}`}>
+            <ul>
+              {rankList && rankList.map((item, index) => 
+                <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                  item3: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
+                  User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName} 안녕하세요
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+        <div className={style.leaderboard2_container}>
+          <div className={`${style.flex_item} ${style.item2}`}>
+            <ul>
+                {musicList && musicList.map((item, index) => 
+                  <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                    item2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
+                  </li>
+                )}
+              </ul>
+          </div>
+          <div className={`${style.flex_item} ${style.item4}`}>
+            <ul>
+                {musicList && musicList.map((item, index) => 
+                  <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                    item2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
+                  </li>
+                )}
+              </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

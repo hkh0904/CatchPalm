@@ -1,304 +1,261 @@
-import { OpenVidu } from 'openvidu-browser';
+// import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
+import React, { useEffect, useState } from 'react';
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import PlayingPage from './pages/PlayingPage';
+import ChatRoomItem from "./components/ChatRoomComponents/ChatRoomItem";
+import ChatRoomList from "./components/ChatRoomComponents/ChatRoomList"; // chat 리스트방으로
+import { Button, Drawer } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import Userinfo from './pages/Userinfo';
+import RankingPage from './pages/RankingPage';
 import axios from 'axios';
-import React, { Component } from 'react';
-import UserVideoComponent from './UserVideoComponent';
 
-// 애플리케이션 서버 URL 설정
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://localhost:8443/';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
+function MainPage() {
+    
+  const navigate = useNavigate();
 
-        // 초기 상태 설정
-        this.state = {
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
-            session: undefined,
-            mainStreamManager: undefined,
-            publisher: undefined,
-            subscribers: [],
-        };
+  ////////로그인 로그아웃 시작////////////////
+  const isLoggedIn = !!localStorage.getItem('token'); 
+  // const isLoggedIn = 1;  // 로그인 토큰 확인
 
-        // 함수들을 현재 컴포넌트의 컨텍스트에 바인딩
-        this.joinSession = this.joinSession.bind(this);
-        this.leaveSession = this.leaveSession.bind(this);
-        this.switchCamera = this.switchCamera.bind(this);
-        this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
-        this.handleChangeUserName = this.handleChangeUserName.bind(this);
-        this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
-        this.onbeforeunload = this.onbeforeunload.bind(this);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // 토큰 삭제
+    window.location.reload(); // 페이지 갱신
+  };
+  const handleDeleteAccount = () => {
+    // Confirmation before account deletion
+    if (!window.confirm('정말로 회원 탈퇴를 진행하시겠습니까?')) {
+      return; // If user cancels (clicks 'No'), stop the function
     }
+    
+    const token = localStorage.getItem('token');
+    
 
-    // 컴포넌트가 마운트될 때 이벤트 리스너 추가
-    componentDidMount() {
-        window.addEventListener('beforeunload', this.onbeforeunload);
-    }
 
-    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-    componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.onbeforeunload);
-    }
 
-    // 페이지가 닫힐 때 세션을 나가는 함수
-    onbeforeunload(event) {
-        this.leaveSession();
-    }
+    fetch('https://localhost:8443/api/v1/users/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // or however your server expects the token
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Error during account deletion');
+      }
+    })
+    .then(data => {
+      // Handle successful deletion here, such as by logging out the user
+      localStorage.removeItem('token');
+      window.location.reload();
+    })
+    .catch(error => {
+      // Handle any errors here
+      console.error('Error:', error);
+    });
+  };
+  
+    //// 내 정보보기 시작
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
-    // 세션 ID를 변경하는 함수
-    handleChangeSessionId(e) {
-        this.setState({ mySessionId: e.target.value });
-    }
+    const handleDrawerOpen = () => {
+      setDrawerOpen(!drawerOpen);
+    };
 
-    // 사용자 이름을 변경하는 함수
-    handleChangeUserName(e) {
-        this.setState({ myUserName: e.target.value });
-    }
+    /// 내정보 보기 끝
 
-    // 주 비디오 스트림을 처리하는 함수
-    handleMainVideoStream(stream) {
-        if (this.state.mainStreamManager !== stream) {
-            this.setState({ mainStreamManager: stream });
-        }
-    }
 
-    // 구독자 삭제 함수
-    deleteSubscriber(streamManager) {
-        let subscribers = this.state.subscribers;
-        let index = subscribers.indexOf(streamManager, 0);
-        if (index > -1) {
-            subscribers.splice(index, 1);
-            this.setState({ subscribers: subscribers });
-        }
-    }
+  const handleButtonClick3 = () => {
+    navigate('/login');
+  };
+  
+  const handleButtonClick4 = () => {
+    navigate('/signup');
+  };
+  ////////////// 로그인 로그아웃 끝////////////////  
 
-    // 세션에 참가하는 함수
-    joinSession() {
-        // OpenVidu 객체 초기화
-        this.OV = new OpenVidu();
 
-        // 세션 초기화 및 이벤트 설정
-        this.setState({ session: this.OV.initSession() }, () => {
-            var mySession = this.state.session;
+  //////// 회원정보 받아오기 시작/////////
+  const [userId, setUserId] = useState(null);
+  const token = localStorage.getItem('token');
 
-            // 스트림이 생성될 때의 이벤트 처리
-            mySession.on('streamCreated', (event) => {
-                var subscriber = mySession.subscribe(event.stream, undefined);
-                var subscribers = this.state.subscribers;
-                subscribers.push(subscriber);
-                this.setState({ subscribers: subscribers });
-            });
 
-            // 스트림이 삭제될 때의 이벤트 처리
-            mySession.on('streamDestroyed', (event) => {
-                this.deleteSubscriber(event.stream.streamManager);
-            });
+  useEffect(() => {
+    if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
+    axios({
+      method: 'get',
+      url: 'https://localhost:8443/api/v1/users/me',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // your access token here
+      }
+    })
+      .then(response => {
+        const rawUserId = response.data.userId;
+        const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+        setUserId(cleanedUserId);
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        console.log(response.data)
+      })
+      .catch(error => {
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios({
+          method: 'get',
+          url: 'https://localhost:8443/api/v1/users/me',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // your access token here
+          }
+        })
+          .then(response => {
+            const rawUserId = response.data.userId;
+            const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            setUserId(cleanedUserId);
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      });
+  }, [token]); // useEffect will run once when the component mounts
+  
 
-            // 예외가 발생할 때의 이벤트 처리
-            mySession.on('exception', (exception) => {
-                console.warn(exception);
-            });
+///////회원정보 받아오기 끝////////////  
+  const handleButtonClick = () => {
+    navigate('/Playing');
+  };
 
-            // 토큰을 얻어와 세션에 연결
-            this.getToken().then((token) => {
-                mySession.connect(token, { clientData: this.state.myUserName })
-                    .then(async () => {
-                        // 여기서 카메라 스트림을 가져오고 스트림을 발행
-                        let publisher = await this.OV.initPublisherAsync(undefined, {
-                            audioSource: false,
-                            videoSource: undefined,
-                            publishAudio: false,
-                            publishVideo: true,
-                            resolution: '640x480',
-                            frameRate: 30,
-                            insertMode: 'APPEND',
-                            mirror: false,
-                        });
+  const handleButtonClick2 = () => {
+    navigate('/ChatRoomList');
+  };
+  
+  return (
+    <React.Fragment>
+      
+      <video autoPlay muted loop className="background-video">
+        <source src="assets/background.mp4" type="video/mp4" />
+      </video>
 
-                        mySession.publish(publisher);
+      <Grid className="mainGrid" container spacing={2}>
+        <Grid item xs={4} md={8} lg={8}>
+        <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Neon button
+          </a>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Neon button
+          </a>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Neon button
+          </a>
+          {isLoggedIn ? (
+            <React.Fragment>
+              <Button variant="contained" onClick={handleButtonClick}>
+                Go to Sample Page
+              </Button>
+              <br />
+              <br />
+              
+              <Button variant="contained" onClick={handleButtonClick2}>
+                채팅방리스트로 가기
+              </Button>
+              <Button variant="contained" onClick={handleDrawerOpen}>
+                내 정보 보기
+              </Button>
+              <Button variant="contained" onClick={handleLogout}>
+                로그아웃
+              </Button>
+              <Button variant="contained" onClick={handleDeleteAccount}>
+                회원 탈퇴
+              </Button>
+              <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+              <Button
+                variant="contained"
+                style={{
+                  fontSize: '24px',
+                  padding: '20px 40px',
+                  borderRadius: '50%', // 테두리를 반원으로 만듦
+                  width: '200px', // 버튼의 가로 크기를 조정해 원형으로 보이도록 함
+                  height: '200px', // 버튼의 세로 크기를 조정해 원형으로 보이도록 함
+                }}
+                onClick={() => navigate('/ChatRoomList')}
+              >
+                CatchPalm
+              </Button>
+              </div>
+              
+    <h1>로그인 된 메인페이지</h1>
 
-                        var devices = await this.OV.getDevices();
-                        var videoDevices = devices.filter(device => device.kind === 'videoinput');
-                        var currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-                        var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+    
+              
+          <div className="white-text">
+            <p>아이디: {userId}</p>
+          </div>
 
-                        this.setState({
-                            currentVideoDevice: currentVideoDevice,
-                            mainStreamManager: publisher,
-                            publisher: publisher,
-                        });
-                    })
-                    .catch((error) => {
-                        console.log('There was an error connecting to the session:', error.code, error.message);
-                    });
-            });
-        });
-    }
 
-    // 세션을 나가는 함수
-    leaveSession() {
-        const mySession = this.state.session;
-        if (mySession) {
-            mySession.disconnect();
-        }
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+                <Userinfo />
+              </Drawer>
+              
+            </React.Fragment>
+          ) : (
+          <React.Fragment>
+            <Button variant="contained" onClick={handleButtonClick3}>
+              로그인
+            </Button> 
+            <Button variant="contained" onClick={handleButtonClick4}>
+              회원가입
+            </Button>       
+            
+    <h1>로그인 X 메인페이지</h1>
+    
+          </React.Fragment>
+          )}
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
+}
 
-        this.OV = null;
-        this.setState({
-            session: undefined,
-            subscribers: [],
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
-            mainStreamManager: undefined,
-            publisher: undefined
-        });
-    }
-
-    // 카메라를 전환하는 함수
-    async switchCamera() {
-        try {
-            const devices = await this.OV.getDevices()
-            var videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-            if (videoDevices && videoDevices.length > 1) {
-                var newVideoDevice = videoDevices.filter(device => device.deviceId !== this.state.currentVideoDevice.deviceId)
-
-                if (newVideoDevice.length > 0) {
-                    var newPublisher = this.OV.initPublisher(undefined, {
-                        videoSource: newVideoDevice[0].deviceId,
-                        publishAudio: true,
-                        publishVideo: true,
-                        mirror: true
-                    });
-
-                    await this.state.session.unpublish(this.state.mainStreamManager)
-                    await this.state.session.publish(newPublisher)
-                    this.setState({
-                        currentVideoDevice: newVideoDevice[0],
-                        mainStreamManager: newPublisher,
-                        publisher: newPublisher,
-                    });
-                }
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    // 화면 렌더링 함수
-    render() {
-        const mySessionId = this.state.mySessionId;
-        const myUserName = this.state.myUserName;
-
-        return (
-            <div className="container">
-                {/* 세션이 정의되지 않았을 경우 Join 화면 표시 */}
-                {this.state.session === undefined ? (
-                    <div id="join">
-                        <div id="img-div">
-                            <img src="resources/images/openvidu_grey_bg_transp_cropped.png" alt="OpenVidu logo" />
-                        </div>
-                        <div id="join-dialog" className="jumbotron vertical-center">
-                            <h1> Join a video session </h1>
-                            <form className="form-group" onSubmit={this.joinSession}>
-                                <p>
-                                    <label>Participant: </label>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        id="userName"
-                                        value={myUserName}
-                                        onChange={this.handleChangeUserName}
-                                        required
-                                    />
-                                </p>
-                                <p>
-                                    <label> Session: </label>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        id="sessionId"
-                                        value={mySessionId}
-                                        onChange={this.handleChangeSessionId}
-                                        required
-                                    />
-                                </p>
-                                <p className="text-center">
-                                    <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                ) : null}
-
-                {/* 세션이 정의되었을 경우 세션 화면 표시 */}
-                {this.state.session !== undefined ? (
-                    <div id="session">
-                        <div id="session-header">
-                            <h1 id="session-title">{mySessionId}</h1>
-                            <input
-                                className="btn btn-large btn-danger"
-                                type="button"
-                                id="buttonLeaveSession"
-                                onClick={this.leaveSession}
-                                value="Leave session"
-                            />
-                            <input
-                                className="btn btn-large btn-success"
-                                type="button"
-                                id="buttonSwitchCamera"
-                                onClick={this.switchCamera}
-                                value="Switch Camera"
-                            />
-                        </div>
-
-                        {/* 주 스트림 화면
-                        {this.state.mainStreamManager !== undefined ? (
-                            <div id="main-video" className="col-md-6">
-                                <UserVideoComponent streamManager={this.state.mainStreamManager} />
-                            </div>
-                        ) : null} */}
-                        <div id="video-container" className="col-md-6">
-                            {/* 발행자 스트림 화면 */}
-                            {this.state.publisher !== undefined ? (
-                                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                                    <UserVideoComponent streamManager={this.state.publisher} />
-                                </div>
-                            ) : null}
-                            {/* 구독자 스트림 화면 */}
-                            {this.state.subscribers.map((sub, i) => (
-                                <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                                    <span>{sub.id}</span>
-                                    <UserVideoComponent streamManager={sub} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ) : null}
-            </div>
-        );
-    }
-
-    // OpenVidu 서버에서 토큰을 얻어오는 함수
-    async getToken() {
-        const sessionId = await this.createSession(this.state.mySessionId);
-        return await this.createToken(sessionId);
-    }
-
-    // 세션을 생성하는 함수
-    async createSession(sessionId) {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-            headers: { 'Content-Type': 'application/json', },
-        });
-        return response.data; // 세션 ID 반환
-    }
-
-    // 토큰을 생성하는 함수
-    async createToken(sessionId) {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-            headers: { 'Content-Type': 'application/json', },
-        });
-        return response.data; // 토큰 반환
-    }
+function App() {
+  
+  return (
+    <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          
+          <Route path="/userinfo" element={<Userinfo />} />
+          <Route path="/Playing" element={<PlayingPage />} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
+          <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
+          <Route path="/ranking" element={<RankingPage />} />
+        </Routes>
+    </Router>
+  );
 }
 
 export default App;
