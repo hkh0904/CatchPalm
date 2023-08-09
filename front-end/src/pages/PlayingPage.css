@@ -1,120 +1,291 @@
+video {
+  /* position: absolute; */
+  transform: scaleX(-1);
+}
+
+canvas {
+  position: absolute;
+  z-index: 2;
+  transform: scaleX(-1);
+}
+
 #webcamWrapper {
-    width: 100vw;
-    height: 100vh;
-  }
-  
-  
-  #loading {
-    background-color: black;
-    width: 100vw;
-    height: 100vh;
-  }
-  
-  #videoSrc {
-    position: absolute;
-  }
-  
-  #webcam {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-  }
-  
-  #canvas {
-    width: 100%;
-    height: 100%;
-  }
-  
-  #toggleWebcam {
-    display: inline-flex;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    z-index: 2;
-  }
-  
-  #countdown {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-  }
-  
-  #score {
-    font-size: 50px;
-    font-weight: bold;
-    position: absolute;
-    left: 10px;
-    color: white;
-    z-index: 2;
-    margin-left: 10px;
-  }
+  width: 100vw;
+  height: 100vh;
+}
 
+#loading {
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+}
 
-  .circle {
-    margin: 0 auto;
-    width: 100px;
-    height: 100px;
-    background-color: skyblue;
-    border: 10px solid royalblue;
-    border-radius: 50%;
-    position: absolute;
-    display: block;
-    opacity: 0.6;
+#videoSrc {
+  position: absolute;
+}
+
+#webcam {
+  position: absolute;
+  filter: brightness(40%);
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+#canvas {
+  width: 100%;
+  height: 100%;
+}
+
+#toggleWebcam {
+  display: inline-flex;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+}
+
+#countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+#score {
+  font-size: 50px;
+  font-weight: bold;
+  position: absolute;
+  left: 10px;
+  color: white;
+  z-index: 2;
+  margin-left: 10px;
+}
+
+.circle {
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  background-color: skyblue;
+  border: 10px solid royalblue;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  opacity: 0.6;
+}
+
+.circleOut {
+  margin: 0 auto;
+  width: 200px;
+  height: 200px;
+  border: 10px solid royalblue;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  opacity: 0.6;
+}
+
+.value {
+  position: absolute;
+  color: white;
+  font-size: x-large;
+}
+
+.motion1 {
+  background-image: url("../../public/assets/motion1.png");
+  background-position: center;
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+}
+.motion2 {
+  background-image: url("../../public/assets/motion2.png");
+  background-position: center;
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+}
+.motion3 {
+  background-image: url("../../public/assets/motion3.png");
+  background-position: center;
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+}
+.motion4 {
+  background-image: url("../../public/assets/motion4.png");
+  background-position: center;
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+}
+.motion5 {
+  background-image: url("../../public/assets/motion5.png");
+  background-position: center;
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+}
+.motion6 {
+  background-image: url("../../public/assets/motion6.png");
+  background-position: center;
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+}
+
+.loadul {
+  height: 100%;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.loadli {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  background: transparent;
+  border: 10px solid rgba(23, 246, 251, 1);
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-radius: 500px;
+  transition: all 0.5s ease;
+}
+
+.loadli:last-child {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 20;
+  width: 200px;
+  height: 100px;
+  margin-left: -110px;
+  margin-top: -110px;
+  padding: 70px 0px 30px;
+  background-color: rgba(8, 8, 8, 1);
+  border: 10px solid rgba(8, 8, 8, 1);
+  border-radius: 200px;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 30px rgba(23, 246, 251, 0.5);
+  animation: pulseShadow 5s infinite linear;
+}
+
+.loadli:last-child:after {
+  content: "";
+  border: 3px dotted rgba(22, 42, 43, 1);
+  border-radius: 200px;
+  width: 200px;
+  height: 200px;
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  background-color: transparent;
+  box-shadow: inset 0px 0px 30px rgba(0, 0, 0, 1);
+}
+
+.loadli:first-child {
+  margin-left: -130px;
+  margin-top: -130px;
+  z-index: 2;
+  width: 240px;
+  height: 240px;
+  border-width: 10px;
+  animation: spinBG 5s infinite linear;
+}
+
+.loadli:nth-child(2) {
+  margin-left: -137px;
+  margin-top: -137px;
+  z-index: 1;
+  width: 270px;
+  height: 270px;
+  border-width: 2px;
+  border-style: dotted;
+  box-shadow: 0px 0px 20px rgba(23, 246, 251, 0.5);
+  animation: spinBG2 2s infinite linear;
+}
+
+.loadli:nth-child(3) {
+  margin-left: -150px;
+  margin-top: -150px;
+  z-index: 1;
+  width: 296px;
+  height: 296px;
+  border-width: 2px;
+  box-shadow: inset 0px 0px 25px rgba(23, 246, 251, 0.25);
+  animation: spinBG 12s infinite linear;
+}
+
+.loadli:nth-child(4) {
+  margin-left: -170px;
+  margin-top: -170px;
+  z-index: 1;
+  width: 330px;
+  height: 330px;
+  border-width: 5px;
+  border-style: solid;
+  box-shadow: inset 0px 0px 25px rgba(23, 246, 251, 1);
+  animation: spinBG3 8s infinite linear;
+}
+
+/*-------------------------------------------
+   Animations
+  -------------------------------------------*/
+@keyframes pulseGlow {
+  0% {
+    text-shadow: 0px 0px 20px rgba(23, 246, 251, 0.75);
   }
-  
-  .circleOut {
-    margin: 0 auto;
-    width: 200px;
-    height: 200px;
-    border: 10px solid royalblue;
-    border-radius: 50%;
-    position: absolute;
-    display: block;
-    opacity: 0.6;
+  50% {
+    text-shadow: 0px 0px 40px rgba(23, 246, 251, 0.5);
   }
-  
-  .value {
-    position: absolute;
-    color: white;
-    font-size: x-large;
+  100% {
+    text-shadow: 0px 0px 20px rgba(23, 246, 251, 0.75);
   }
-  
-  .motion1 {
-    background-image: url("../../public/assets/motion1.png");
-    background-position: center;
-    background-size: 80px 80px;
-    background-repeat: no-repeat;
+}
+
+@keyframes pulseShadow {
+  0% {
+    box-shadow: 0px 0px 30px rgba(23, 246, 251, 0.25);
   }
-  .motion2 {
-    background-image: url("../../public/assets/motion2.png");
-    background-position: center;
-    background-size: 80px 80px;
-    background-repeat: no-repeat;
+  50% {
+    box-shadow: 0px 0px 30px rgba(23, 246, 251, 0.75);
   }
-  .motion3 {
-    background-image: url("../../public/assets/motion3.png");
-    background-position: center;
-    background-size: 80px 80px;
-    background-repeat: no-repeat;
+  100% {
+    box-shadow: 0px 0px 30px rgba(23, 246, 251, 0.25);
   }
-  .motion4 {
-    background-image: url("../../public/assets/motion4.png");
-    background-position: center;
-    background-size: 80px 80px;
-    background-repeat: no-repeat;
+}
+
+@keyframes spinBG {
+  0% {
+    transform: rotate(0deg);
   }
-  .motion5 {
-    background-image: url("../../public/assets/motion5.png");
-    background-position: center;
-    background-size: 80px 80px;
-    background-repeat: no-repeat;
+  100% {
+    transform: rotate(360deg);
   }
-  .motion6 {
-    background-image: url("../../public/assets/motion6.png");
-    background-position: center;
-    background-size: 80px 80px;
-    background-repeat: no-repeat;
+}
+
+@keyframes spinBG2 {
+  0% {
+    transform: rotate(360deg);
+    box-shadow: 0px 0px 1px rgba(23, 246, 251, 0.5);
   }
+  50% {
+    transform: rotate(180deg);
+    box-shadow: 0px 0px 20px rgba(23, 246, 251, 0.5);
+  }
+  100% {
+    transform: rotate(0deg);
+    box-shadow: 0px 0px 1px rgba(23, 246, 251, 0.5);
+  }
+}
+
+@keyframes spinBG3 {
+  0% {
+    transform: rotate(180deg);
+    box-shadow: 0px 0px 1px rgba(23, 246, 251, 0.1);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
