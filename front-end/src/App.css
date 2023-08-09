@@ -1,23 +1,7 @@
-/* App.css */
+App.css
 
 /* 모든페이지 스크롤바 제거 */
-body {
-  overflow: hidden;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  /* 마우스 커서 변경 */
-  cursor: url('../public/assets/cursor.png'), auto;
 
-  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
-  display: flex;
-  /* justify-content: center;
-  align-items: center; */
-  height: 100vh;
-  background: #050801;
-  font-family: 'Jua', sans-serif;
-  
-}
 
 
   /* 마우스 포인터 변경 */
@@ -36,16 +20,7 @@ h1 {
 
 
 /* 배경화면 css  */
-.background-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  object-fit: cover;
-  filter: brightness(1.3);  /* 밝기를 130%로 설정 */
-}
+
 
 
 a{

@@ -1,0 +1,5 @@
+.background {
+    background-color: pink;
+    padding: 20px; /* 패딩을 추가하여 컨텐츠와 경계 사이에 간격을 제공합니다. 필요에 따라 조정하십시오. */
+    text-align: right;  
+}

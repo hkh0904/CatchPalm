@@ -99,18 +99,18 @@ useEffect(() => {
     height: window.innerHeight,
   });
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = "정말로 페이지를 떠나시겠습니까?";
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e) => {
+  //     e.preventDefault();
+  //     e.returnValue = "정말로 페이지를 떠나시겠습니까?";
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios({
@@ -335,7 +335,7 @@ useEffect(() => {
 
         // 애니메이션 시작
         let scale = 1;
-        let scaleStep = 0.018;
+        let scaleStep = 0.008;
 
         function animate() {
           scale -= scaleStep;
