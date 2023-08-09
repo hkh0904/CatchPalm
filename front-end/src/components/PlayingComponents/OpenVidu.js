@@ -248,12 +248,6 @@ class App extends Component {
                             />
                         </div>
 
-                        {/* 주 스트림 화면
-                        {this.state.mainStreamManager !== undefined ? (
-                            <div id="main-video" className="col-md-6">
-                                <UserVideoComponent streamManager={this.state.mainStreamManager} />
-                            </div>
-                        ) : null} */}
                         <div id="video-container" className="col-md-6">
                             {/* 발행자 스트림 화면 */}
                             {this.state.publisher !== undefined ? (
