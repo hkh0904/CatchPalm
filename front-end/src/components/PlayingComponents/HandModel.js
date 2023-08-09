@@ -160,6 +160,7 @@ export default function HandModel() {
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });
   };
 
+  // window의 크기가 변경될 때마다 updateWindowDimensions 함수를 실행하도록 이벤트 리스너를 등록하는 useEffect
   useEffect(() => {
     scoreRef.current = score; // score 값이 변경될 때마다 ref를 업데이트합니다.
     userNumRef.current = userNum;
@@ -578,3 +579,17 @@ export default function HandModel() {
     </div>
   );
 }
+
+// 해당 코드는 대부분 비동기 처리와 React 훅을 잘 사용하여 작성된 것으로 보입니다. 따라서, 일반적인 성능 최적화에 집중하는 것보다는 코드의 구조와 목적에 따라 최적화하는 것이 더 효과적일 수 있습니다.
+
+// 아래는 몇 가지 가능한 최적화 방법입니다:
+
+// 1. **비동기 처리 개선:** 코드에서 볼 수 있듯이, `fetchData`, `createGestureRecognizer`, `handleStartStreaming` 등의 함수들은 비동기적으로 동작합니다. 이들 함수의 처리 시간이 길어질 경우 앱의 전체적인 반응성에 영향을 미칠 수 있습니다. 따라서 이러한 함수들이 렌더링 로직과 밀접하게 연관되지 않도록 하거나, 필요한 경우 Web Worker를 사용하여 별도의 스레드에서 실행되도록 하는 것이 좋습니다.
+
+// 2. **불필요한 렌더링 방지:** 현재 `useEffect` 훅 내에서 여러 상태를 변경하고 있습니다. 이로 인해 컴포넌트가 불필요하게 여러 번 렌더링될 수 있습니다. `useEffect` 내에서 상태를 한 번에 변경하거나, 상태 변경 로직을 `useReducer` 훅을 사용하는 등의 방식으로 리팩토링하는 것이 좋습니다.
+
+// 3. **함수 메모이제이션:** `useCallback` 또는 `useMemo` 훅을 사용하여 함수를 메모이제이션하면 성능을 향상시킬 수 있습니다. 예를 들어, `handleStartStreaming`, `handleDoPredictions` 등의 함수는 컴포넌트가 리렌더링될 때마다 새로 생성되는데, 이런 경우 해당 함수를 `useCallback`으로 감싸서 메모이제이션하면 성능을 향상시킬 수 있습니다.
+
+// 4. **반복적인 DOM 접근 최소화:** `predictWebcam` 함수에서 `document.getElementById("video_out")`를 통해 동일한 DOM 요소에 반복적으로 접근하고 있습니다. 이는 성능에 부정적인 영향을 미칠 수 있습니다. 따라서 `useRef` 훅을 사용하여 한 번만 참조를 가져온 후 재사용하는 것이 좋습니다.
+
+// 다시 한번 강조하지만, 이러한 최적화 방법은 일반적인 것들이며, 실제 성능 향상을 위해서는 개발자 도구를 활용하여 성능 병목을 식별하고 그에 따라 최적화를 진행하는 것이 중요합니다.
