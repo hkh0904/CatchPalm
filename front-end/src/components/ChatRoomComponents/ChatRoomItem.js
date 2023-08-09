@@ -7,7 +7,7 @@ import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
-import { display } from '@mui/system';
+import { display, margin } from '@mui/system';
 let name = "";
 let Sock = null;
 var stompClient = null;
@@ -516,14 +516,16 @@ const ChatRoomItem = () => {
           {captain !== name &&
                 <a style={{
                   width: '100%',
-                  color: 'aqua',
+                  color: 'mediumspringgreen',
                   textAlign: 'center',
                   display: 'grid',
                   height: '50%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
-                  fontSize: '2.5rem'
-                  
+                  fontSize: '2.5rem',
+                  margin: '0',
+                  border: '1px solid',
+                  filter: 'filter: hue-rotate(215deg)'
                 }}>
                   <span></span>
                   <span></span>
@@ -542,8 +544,9 @@ const ChatRoomItem = () => {
                   height: '50%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
-                  fontSize: '2.5rem'
-                  
+                  fontSize: '2.5rem',
+                  margin: '0',
+                  border: '1px solid'
                 }}>
                   <span></span>
                   <span></span>
@@ -553,7 +556,25 @@ const ChatRoomItem = () => {
                   start
                 </a>
               }
-          
+          <a href='../ChatRoomList' style={{
+                  width: '100%',
+                  color: 'aqua',
+                  textAlign: 'center',
+                  display: 'grid',
+                  height: '50%',
+                  justifyContent: 'space-around',
+                  alignContent: 'space-around',
+                  fontSize: '2.5rem',
+                  margin: '0',
+                  border: '1px solid'
+                }}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  
+                  EXIT
+                </a>
         </div>
       </div>
     </div>

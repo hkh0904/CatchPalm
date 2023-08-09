@@ -201,7 +201,7 @@ export default function HandModel() {
       finish.volume = 0.3; //
       audio.loop = false;
       finish.loop = false;
-        
+
       const timer = setInterval(() => {
         setCountdown((prevCountdown) => {
           if (prevCountdown > 1) {
