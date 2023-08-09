@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "./ChatRoomList.css";
-import { Padding } from '@mui/icons-material';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import style from './ChatRoomList.module.css'
+// import { Padding } from '@mui/icons-material';
+// import LockIcon from '@mui/icons-material/Lock';
+// import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
@@ -121,8 +121,8 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   
 
   return (
-    <div className="modal">
-      <div className="modal-content">
+    <div className={style.modal}>
+      <div className={style.modal_content}>
         <h2>방만들기 창</h2>
         <div>
           <label>제목</label>
@@ -288,14 +288,22 @@ const ChatRoomList = ({}) => {
   
   return (
     <div>
+      <video autoPlay muted loop className={style.background_videoChatList}>
+        <source src="assets/background_ChatList.mp4" type="video/mp4"/>
+      </video>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} onCreateRoom={handleCreateRoom} />
       <div>
         <button onClick={handleOpenModal}>방만들기</button>
-        <hr />
       </div>
       <div style={{
-        width: '90%',
-        border: '1px solid',
+        display: 'flex',
+        justifyContent: 'center',
+      }}>
+      <div style={{
+        width: '80%',
+        // border: '5px solid',
+        borderColor: 'black',
+        
       }}>
         {chatRooms.map((room) => (
           <button 
@@ -304,7 +312,7 @@ const ChatRoomList = ({}) => {
             style={{
               width: '45%',
               height: '100px',
-              backgroundColor: room.password ? '#FFBEFF' : '#FFFA78',
+              backgroundColor: room.password ? '#191970' : '#FFFA78',
               display: 'flex',
               justifyContent: 'space-between', // 콘텐츠를 버튼 오른쪽 끝으로 이동
               alignItems: 'center', // 콘텐츠를 세로 방향으로 가운데 정렬
@@ -315,29 +323,29 @@ const ChatRoomList = ({}) => {
           >
             {/* Display the "Waiting" or "Playing" text on the right */}
             <div>
-              {room.status === 0 ? <p>Waiting</p> : <p>Playing</p>}
+              {room.status === 0 ? <p style={{color: 'white'}}>Waiting</p> : <p>Playing</p>}
             </div>
             <div>
               <div style={{
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
                 borderRadius: '10px',
-                width: '180px',
+                width: '300px',
                 height: '20px',
                 display: 'flex',
                 alignItems: 'center', 
               }}>
-              <p style={{ marginLeft: '5px' }}>{room.roomNumber}.{room.title}[{room.typeName}]</p>
-              {room.password && <VpnKeyIcon />}
+              <p style={{ marginLeft: '5px', color: 'white'}}>{room.roomNumber}.{room.title}[{room.typeName}]</p>
+              <p style={{color: 'white'}}>{room.password && <VpnKeyIcon />}</p>
               </div>
-              <p>방장:{room.nickname}</p>
-              <p>현재원/정원 {room.cntUser}/{room.capacity}</p>
+              <p style={{color: 'white'}}>방장:{room.nickname}</p>
+              <p style={{color: 'white'}}>현재원/정원 {room.cntUser}/{room.capacity}</p>
             </div>
             {/* Display the thumbnail image on the left */}
             <img src={room.thumbnail} style={{ maxWidth: '90px', maxHeight: '90px', borderRadius: '10px', }} />
             {room.password && (
               <>
                 {showPasswordInput && (
-                  <div className="modal-content">
+                  <div className={style.modal_content}>
                     <label>비밀번호:</label>
                     <input
                       type="password"
@@ -366,6 +374,7 @@ const ChatRoomList = ({}) => {
             )}
           </button>
         ))}
+      </div>
       </div>
     </div>
   );

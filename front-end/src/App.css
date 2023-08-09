@@ -9,18 +9,12 @@ body {
   background-attachment: fixed;
   cursor: url('../public/assets/cursor.png'), auto;
 
-<<<<<<< HEAD
-  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
   /* display: flex; */
-=======
-  display: flex;
->>>>>>> 04513f22d224eb7a0690914f586d06db7691e549
   /* justify-content: center;
   align-items: center; */
   height: 100vh;
   background: #050801;
   font-family: 'Jua', sans-serif;
-  
 }
 
 h1 {
