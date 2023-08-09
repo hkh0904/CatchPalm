@@ -6,7 +6,6 @@ import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import "../../pages/PlayingPage.module.css";
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
@@ -520,12 +519,12 @@ export default function HandModel() {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div id="loading" hidden={videoSize.width !== 0}>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+        <ul className="loadul">
+          <li className="loadli"></li>
+          <li className="loadli"></li>
+          <li className="loadli"></li>
+          <li className="loadli"></li>
+          <li className="loadli"></li>
         </ul>
       </div>
       <div
