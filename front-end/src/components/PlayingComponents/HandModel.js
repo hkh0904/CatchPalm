@@ -193,7 +193,7 @@ export default function HandModel() {
     };
     
     fetchDataAndPredict().then((data) => {
-      const audio = new Audio("/music/6.mp3");
+      const audio = new Audio("/music/3.mp3");
       const finish = new Audio("/assets/Finish.mp3");
       audio.volume = 0.3; // 볼륨 30%로 설정
       finish.volume = 0.3; //
@@ -266,7 +266,7 @@ export default function HandModel() {
 // fetchData 함수를 수정하여 데이터를 가져와서 반환
 const fetchData = async () => {
   try {
-      const response = await axios.get("/music/6.json");
+      const response = await axios.get("/music/3.json");
       const data = response.data; // 가져온 데이터
       return data;  // 데이터 반환
   } catch (error) {
