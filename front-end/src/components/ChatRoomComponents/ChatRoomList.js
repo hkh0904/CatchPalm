@@ -241,6 +241,7 @@ const ChatRoomList = ({}) => {
       }
       else {
         alert(resultMessage);
+        setInputPassword(''); // 비밀번호 입력 필드 값 초기화
       }
     } catch (error) {
       console.error('Error authentication', error);
@@ -252,7 +253,6 @@ const ChatRoomList = ({}) => {
   };
 
   const handleCloseModal = () => {
-
     setModalOpen(false);
   };
 
@@ -269,6 +269,7 @@ const ChatRoomList = ({}) => {
   
   const closeModal = () => {
     setShowPasswordInput(!showPasswordInput);
+    setInputPassword(''); // 비밀번호 입력 필드 값 초기화
   };
 
   // 비밀번호 입력창 보이기/숨기기 함수
@@ -289,21 +290,6 @@ const ChatRoomList = ({}) => {
     setInputPassword(event.target.value);
   };
   
-  const getChatRoomLayout = (index) => {
-    if (chatRooms.length === 1) {
-      return 'single-room';
-    } else if (chatRooms.length === 2) {
-      return index === 0 ? 'left' : 'right';
-    } else if (chatRooms.length >= 3) {
-      if (index === 0) {
-        return 'top-left';
-      } else if (index === 1) {
-        return 'top-right';
-      } else {
-        return 'bottom';
-      }
-    }
-  };
   
   return (
     <div>
@@ -317,30 +303,16 @@ const ChatRoomList = ({}) => {
       <div style={{
         display: 'flex',
         justifyContent: 'center',
-        marginTop: '120px'
+        marginTop: '180px',
       }}>
-      <div style={{
-        width: '80%',
-        border: '5px solid',
-        borderColor: 'black',
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap'
-      }}>
+      <div className={style.inside_div}>
         {chatRooms.map((room) => (
           <button
+            className={style.button_chatRoomList}
           onClick={room.password ? togglePasswordInput : () => checkEnterChatRoom(room.roomNumber, room.password)}
             key={room.id}
             style={{
-              width: '45%',
-              height: '100px',
               backgroundColor: room.password ? '#191970' : '#FFFA78',
-              display: 'flex',
-              justifyContent: 'space-between', // 콘텐츠를 버튼 오른쪽 끝으로 이동
-              alignItems: 'center', // 콘텐츠를 세로 방향으로 가운데 정렬
-              margin: 15,
-              textAlign: 'center',
-              borderRadius: '10px',
             }}
           >
             {/* Display the "Waiting" or "Playing" text on the right */}
@@ -348,14 +320,7 @@ const ChatRoomList = ({}) => {
               {room.status === 0 ? <p style={{color: 'white'}}>Waiting</p> : <p>Playing</p>}
             </div>
             <div>
-              <div style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                borderRadius: '10px',
-                width: '300px',
-                height: '20px',
-                display: 'flex',
-                alignItems: 'center', 
-              }}>
+              <div className={style.ChatRoomList_minibackground}>
               <p style={{ marginLeft: '5px', color: 'white'}}>{room.roomNumber}.{room.title}[{room.typeName}]</p>
               <p style={{color: 'white'}}>{room.password && <VpnKeyIcon />}</p>
               </div>
@@ -378,7 +343,7 @@ const ChatRoomList = ({}) => {
                       onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
                       style={{ cursor: 'pointer' }}
                     >
-                      입장하기
+                      입장하기!
                     </button>
                     <button onClick={closeModal} style={{ cursor: 'pointer' }}>
                       닫기
