@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 
 export default class OpenViduVideoComponent extends Component {
@@ -20,7 +21,7 @@ export default class OpenViduVideoComponent extends Component {
     }
 
     render() {
-        return <video autoPlay={true} ref={this.videoRef} />;
+        return <video autoPlay={true} ref={this.videoRef} className='opVidoCam' />;
     }
 
 }

@@ -1,5 +1,5 @@
-video {
-    width: 100%;
+.opVidoCam {
+    width: 90%;
     height: auto;
     float: left;
     cursor: pointer;
@@ -13,7 +13,6 @@ video {
     font-weight: bold;
     border-bottom-right-radius: 4px;
 }
-p{
+/* p{
     margin: 0;
-}
-
+} */
