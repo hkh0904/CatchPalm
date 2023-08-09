@@ -297,13 +297,44 @@ const ChatRoomList = ({}) => {
         <source src="assets/background_ChatList.mp4" type="video/mp4"/>
       </video>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} onCreateRoom={handleCreateRoom} />
-      <div>
-        <button onClick={handleOpenModal}>방만들기</button>
+      <div
+      style={{display: 'flex',
+      justifyContent: 'flex-end',
+      marginRight: '15%',
+      marginTop: '5%',}}>
+        
+      <div style={{display: 'flex'}}>
+        <div style={{marginRight:'10%'}}>
+        <a style={{width:'100%', height:'45%', }}>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <input style={{width:'100%', height:'100%', backgroundColor: 'rgba(0, 0, 0, 0.2)', color: 'white', border: 'none'}} 
+            // value={}
+            type=""
+            name="search"
+            placeholder="방 제목을 검색해주세요">
+            </input></a>
+        </div>
+        
+        {/* <button style={{backgroundColor: 'rgba(0, 0, 0, 0.2)', color: 'white'}} onClick={handleOpenModal}>방만들기</button> */}
+        <div>
+        <a style={{width:'85%', height:'40%'}} onClick={handleOpenModal}>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            방 만들기</a>
+        </div>
+
+        
+      </div>
       </div>
       <div style={{
         display: 'flex',
         justifyContent: 'center',
-        marginTop: '180px',
+        // marginTop: '15%',
       }}>
       <div className={style.inside_div}>
         {chatRooms.map((room) => (
@@ -312,16 +343,16 @@ const ChatRoomList = ({}) => {
           onClick={room.password ? togglePasswordInput : () => checkEnterChatRoom(room.roomNumber, room.password)}
             key={room.id}
             style={{
-              backgroundColor: room.password ? '#191970' : '#FFFA78',
+              backgroundColor: room.status === 1 ? 'rgba(0, 0, 0, 0.2)' : '#f367ce',
             }}
           >
             {/* Display the "Waiting" or "Playing" text on the right */}
             <div>
-              {room.status === 0 ? <p style={{color: 'white'}}>Waiting</p> : <p>Playing</p>}
+              {room.status === 0 ? <p style={{color: 'white'}}>Waiting</p> : <p style={{color: 'white'}}>Playing</p>}
             </div>
             <div>
               <div className={style.ChatRoomList_minibackground}>
-              <p style={{ marginLeft: '5px', color: 'white'}}>{room.roomNumber}.{room.title}[{room.typeName}]</p>
+              <p style={{ marginLeft: '5px', color: 'white',}}>{room.roomNumber}.{room.title}[{room.typeName}]</p>
               <p style={{color: 'white'}}>{room.password && <VpnKeyIcon />}</p>
               </div>
               <p style={{color: 'white'}}>방장:{room.nickname}</p>
@@ -363,8 +394,21 @@ const ChatRoomList = ({}) => {
           </button>
         ))}
       </div>
-      </div>
+      </div>   
+      <div>
+        <div style={{display:'flex', justifyContent: 'center',}}>
+          <div>
+          </div>
+        <a href='/'>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Home</a>
+        </div>
+      </div>   
     </div>
+    
   );
 };
 

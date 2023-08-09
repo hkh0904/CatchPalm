@@ -49,12 +49,6 @@ a {
   overflow: hidden;
   margin-right: 50px;
   
-  /* border-radius: 50%; 
-  width: 200px; 
-  height: 200px; 
-  text-align: center; 
-  line-height: 200px; 
-  font-size: 16px;  */
 }
 a:hover {
   background: #03e9f4;
