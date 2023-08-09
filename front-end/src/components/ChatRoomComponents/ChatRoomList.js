@@ -273,6 +273,10 @@ const ChatRoomList = ({}) => {
 
   // 비밀번호 입력창 보이기/숨기기 함수
   const togglePasswordInput = (e) => {
+
+    if (e.target.tagName === 'INPUT') {
+      return;
+    }
     // 모달 컨텐츠 내부 요소를 클릭한 경우에는 모달이 사라지지 않도록 처리
     if (e.target.closest('.modal-content')) {
       return;
@@ -285,6 +289,21 @@ const ChatRoomList = ({}) => {
     setInputPassword(event.target.value);
   };
   
+  const getChatRoomLayout = (index) => {
+    if (chatRooms.length === 1) {
+      return 'single-room';
+    } else if (chatRooms.length === 2) {
+      return index === 0 ? 'left' : 'right';
+    } else if (chatRooms.length >= 3) {
+      if (index === 0) {
+        return 'top-left';
+      } else if (index === 1) {
+        return 'top-right';
+      } else {
+        return 'bottom';
+      }
+    }
+  };
   
   return (
     <div>
@@ -298,16 +317,19 @@ const ChatRoomList = ({}) => {
       <div style={{
         display: 'flex',
         justifyContent: 'center',
+        marginTop: '120px'
       }}>
       <div style={{
         width: '80%',
-        // border: '5px solid',
+        border: '5px solid',
         borderColor: 'black',
-        
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap'
       }}>
         {chatRooms.map((room) => (
-          <button 
-            onClick={togglePasswordInput}
+          <button
+          onClick={room.password ? togglePasswordInput : () => checkEnterChatRoom(room.roomNumber, room.password)}
             key={room.id}
             style={{
               width: '45%',
@@ -316,7 +338,7 @@ const ChatRoomList = ({}) => {
               display: 'flex',
               justifyContent: 'space-between', // 콘텐츠를 버튼 오른쪽 끝으로 이동
               alignItems: 'center', // 콘텐츠를 세로 방향으로 가운데 정렬
-              margin: 5,
+              margin: 15,
               textAlign: 'center',
               borderRadius: '10px',
             }}
@@ -365,13 +387,14 @@ const ChatRoomList = ({}) => {
                 )}
               </>
             )}
-            {!room.password && (
+            {/* {!room.password && (
               <button
                 onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
                 style={{ cursor: 'pointer' }}
               >
+                입장하기
               </button>
-            )}
+            )} */}
           </button>
         ))}
       </div>
