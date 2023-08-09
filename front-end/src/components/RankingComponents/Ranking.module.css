@@ -100,11 +100,12 @@
 .leaderboard_text,
 .shadow {
     font-size: 50px;
-    font:bolder;
     letter-spacing: 0px;
     font-family: 'Jua', sans-serif;
     color: #fff;
     text-align: center;
+    font-style: italic;
+
 }
 
 .leaderboard_text {
