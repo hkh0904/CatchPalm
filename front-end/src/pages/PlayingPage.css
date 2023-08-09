@@ -3,6 +3,19 @@ video {
   transform: scaleX(-1);
 }
 
+#loading {
+  width: 100vw;
+  height: 100vh;
+}
+
+#videoSrc {
+  position: absolute;
+}
+
+#webcam { 
+  position: absolute;
+}
+
 canvas {
   position: absolute;
   z-index: 2;

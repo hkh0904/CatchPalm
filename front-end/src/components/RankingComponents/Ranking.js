@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import style from './Ranking.module.css';
+
 
 function MyComponent() {
   const [rankList, setRankList] = useState([]);
   const [ranking, setRanking] = useState(0);
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const yourMusicNumber = searchParams.get('musicNumber');
+  const [musicList,setMusicList] = useState([]);
+  const [musicNumber,setMusicNumber] = useState(1);
 
   const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const token = localStorage.getItem('token');
@@ -56,9 +56,20 @@ function MyComponent() {
       });
   }, [token]);
 
-  useEffect(() => {
-    const musicNumber = yourMusicNumber;  // 필요한 musicNumber 값
+  
+  useEffect(()=>{
+    axios.get(`https://localhost:8443/api/v1/game/music`)
+      .then(response => {
+        const data = response.data;
+        setMusicList(data.musics);
+      })
+      .catch(error => {
+        // error handling
+        console.error('Something went wrong', error);
+      });
+  },[musicNumber,userNumber]); // empty dependency array means this effect runs once on mount
 
+  useEffect(() => {
     axios.get(`https://localhost:8443/api/v1/game/rank?musicNumber=${musicNumber}&userNumber=${userNumber}`)
       .then(response => {
         const data = response.data;
@@ -69,19 +80,56 @@ function MyComponent() {
         // error handling
         console.error('Something went wrong', error);
       });
-  }, [yourMusicNumber,userNumber]); // empty dependency array means this effect runs once on mount
+  }, [musicNumber,userNumber]); // empty dependency array means this effect runs once on mount
 
   return (
-    <div>
-      <ul>
-        {rankList && rankList.map((item, index) => 
-          <li key={index}>
-            Rank Number: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
-            User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName}
-          </li>
-        )}
-      </ul>
-      <p>Ranking: {ranking}</p>
+    <div className={style.flex_container}>
+      <div className={style.horizontal_container}>
+        <div className={style.leaderboard_container}>
+          <div className={style.leaderboard_text}>
+            <span className={style.glow}>Leader</span><span className={style.blink}> Board</span>
+          </div>
+          <div className={`${style.flex_item} ${style.item1}`}>
+            <ul>
+              {musicList && musicList.map((item, index) => 
+                <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                  item1: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
+                </li>
+              )}
+            </ul>
+          </div>
+          <div className={`${style.flex_item} ${style.item3}`}>
+            <ul>
+              {rankList && rankList.map((item, index) => 
+                <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                  item3: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
+                  User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName} 안녕하세요
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+        <div className={style.leaderboard2_container}>
+          <div className={`${style.flex_item} ${style.item2}`}>
+            <ul>
+                {musicList && musicList.map((item, index) => 
+                  <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                    item2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
+                  </li>
+                )}
+              </ul>
+          </div>
+          <div className={`${style.flex_item} ${style.item4}`}>
+            <ul>
+                {musicList && musicList.map((item, index) => 
+                  <li key={index} style={{color:`white`,fontSize:`20px`}}>
+                    item2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
+                  </li>
+                )}
+              </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
