@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
-import './Ranking.css';
+import style from './Ranking.module.css';
 
 
 function MyComponent() {
@@ -9,9 +9,6 @@ function MyComponent() {
   const [ranking, setRanking] = useState(0);
   const [musicList,setMusicList] = useState([]);
   const [musicNumber,setMusicNumber] = useState(1);
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
 
   const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const token = localStorage.getItem('token');
@@ -70,7 +67,7 @@ function MyComponent() {
         // error handling
         console.error('Something went wrong', error);
       });
-  },); // empty dependency array means this effect runs once on mount
+  },[musicNumber,userNumber]); // empty dependency array means this effect runs once on mount
 
   useEffect(() => {
     axios.get(`https://localhost:8443/api/v1/game/rank?musicNumber=${musicNumber}&userNumber=${userNumber}`)
@@ -86,8 +83,8 @@ function MyComponent() {
   }, [musicNumber,userNumber]); // empty dependency array means this effect runs once on mount
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
-      <div className="inside-div"> 
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr'}}>
+      <div className={style.inside_div}> 
         <ul>
           {musicList && musicList.map((item, index) => 
             <li key={index} style={{color:`white`,fontSize:`20px`}}>
@@ -96,7 +93,7 @@ function MyComponent() {
           )}
         </ul>
       </div>
-      <div className="inside-div" style={{ gridRow: '1 / span 2' }}> 
+      <div className={style.inside_div}> 
         <ul>
           {musicList && musicList.map((item, index) => 
             <li key={index} style={{color:`white`,fontSize:`20px`}}>
@@ -105,12 +102,22 @@ function MyComponent() {
           )}
         </ul>
       </div>
-      <div className="inside-div" style={{color:`white`}}> 
+      <div className={style.inside_div} style={{color:`white`,fontSize:`20px`}}> 
         <ul>
           {rankList && rankList.map((item, index) => 
             <li key={index} style={{color:`white`}}>
               Rank Number: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
               User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName} 안녕하세요
+            </li>
+          )}
+        </ul>
+      </div>
+      <div className={style.inside_div} style={{color:`white`,fontSize:`20px`}}> 
+        <ul>
+          {rankList && rankList.map((item, index) => 
+            <li key={index} style={{color:`white`}}>
+              Rank Number: {item.rankNumber}, Score: {item.score}, Play Date Time: {item.playDateTime}
+              User: {item.userDTO.nickname}, Music: {item.musicDTO.musicName} 안녕하세요2
             </li>
           )}
         </ul>

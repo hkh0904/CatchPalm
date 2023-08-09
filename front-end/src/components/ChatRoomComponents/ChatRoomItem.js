@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import style from './ChatRoomItem.module.css';
 import "./ChatRoomItem.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -251,7 +252,7 @@ const ChatRoomItem = () => {
       );
       }
     } else {
-      messageElement.classList.add("chat-message");
+      messageElement.classList.add("chat_message");
 
       var avatarElement = document.createElement("i");
       var avatarText = document.createTextNode(message.sender[0]);
@@ -368,11 +369,13 @@ const ChatRoomItem = () => {
   }
   
   return (
-    <div>
+    <div style={{
+      marginTop:'5%'
+    }}>
       {/* 음악 리스트 민우짱 */}
       <div>
-        <div className="container">
-          <div className="carousel" style={{
+        <div className={style.container}>
+          <div className={style.carousel} style={{
             transform: `rotateY(${currdeg}deg)`,
             WebkitTransform: `rotateY(${currdeg}deg)`,
             MozTransform: `rotateY(${currdeg}deg)`,
@@ -381,7 +384,7 @@ const ChatRoomItem = () => {
             {roomInfo.musics.map((music, index) => (
               <div
                 key={index}
-                className={`item a${index+1}`}
+                className={`${style.item} ${style[`a${index+1}`]}`}
                 style={{
                   backgroundImage: `url(${music.thumbnail})`,
                   width: '250px',
@@ -392,14 +395,14 @@ const ChatRoomItem = () => {
               >
                 {pickedMusic === music.musicNumber && (
                   <img
-                    className="pickedMusic"
+                    className={style.pickedMusic}
                     src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png"
                     alt="User Thumbnail"
                   />
                 )}
                 {captain === name && (
                   <button
-                    className="pickbtn"
+                    className={style.pickbtn}
                     onClick={() => chageMusicBtn(music.musicNumber, music.musicName)}
                   >
                     PLAY
@@ -417,13 +420,13 @@ const ChatRoomItem = () => {
                       height: '180px',
                     }}
                   >
-                    <div className="info-container">
-                      <div className="music-name">{music.musicName}</div>
-                      <div className="music-details">
-                        <div className="detail-item">재생 시간: {music.runningTime}</div>
-                        <div className="detail-item">가수: {music.singer}</div>
-                        <div className="detail-item">난이도: {music.level}</div>
-                        <div className="detail-item">재생 횟수: {music.playCnt}</div>
+                    <div className={style.info_container}>
+                      <div className={style.music_name}>{music.musicName}</div>
+                      <div className={style.music_details}>
+                        <div className={style.detail_item}>재생 시간: {music.runningTime}</div>
+                        <div className={style.detail_item}>가수: {music.singer}</div>
+                        <div className={style.detail_item}>난이도: {music.level}</div>
+                        <div className={style.detail_item}>재생 횟수: {music.playCnt}</div>
                       </div>
                     </div>
                   </div>
@@ -434,40 +437,35 @@ const ChatRoomItem = () => {
 
         </div>
       </div>
-        <div className="next" onClick={() => rotate('next')}>Next</div>
-      <div className="prev" onClick={() => rotate('prev')}>Prev</div>
+        <div className={style.next} onClick={() => rotate('next')}>▷</div>
+      <div className={style.prev} onClick={() => rotate('prev')}>◁</div>
 
-      <div className='showMusicName'>
+      <div className={style.showMusicName}>
         {musicName}
       </div>
 
-      <div id="chat-page" className="hidden">
-        <div className="chat-container">
-          <div className="chat-header">
+      <div id="chat-page" className={style.hidden}>
+        <div className={style.chat_container}>
+          <div className={style.chat_header}>
             <h2 id="roomN">CHATTINGS
-            {/* {userInfo && userInfo.map((user, index) => (
-              <div key={index}>
-                <img src={user.profileImg} alt="프로필 이미지" />
-                <br></br>
-                <span>{user.nickname}</span>
-              </div>
-            ))} */}
             </h2>
           </div>
-          <ul ref={messageAreaRef}></ul>
+          <ul ref={messageAreaRef} className={style.scrollbar}></ul>
           <form id="messageForm" name="messageForm" onSubmit={handleSendMessage}>
-            <div className="form-group">
-              <div className="input-group clearfix">
+            <div className={style.form_group}>
+              <div className={`${style.input_group} ${style.clearfix}`} style={{
+                display: 'flex'
+              }}>
                 <input
                   type="text"
                   id="message"
                   placeholder="Type a message..."
                   autoComplete="off"
-                  className="form-control"
+                  className={style.form_control}
                   value={messages}
                   onChange={handleMessageChange}
                 />
-                <button type="submit" className="primary">
+                <button type="submit" className={style.primary}>
                   Send
                 </button>
               </div>
@@ -476,24 +474,24 @@ const ChatRoomItem = () => {
         </div>
 
         {/* 유저 리스트 민우짱 */}
-        <div className='user-info'>
-          <div className="user-item">
-            <div className="nickname">참가자 : {userInfo.length} / {roomInfo.capacity}</div>
+        <div className={style.user_info}>
+          <div className={style.user_item}>
+            <div className={style.playerCount}>PLAYER : {userInfo.length} / {roomInfo.capacity}</div>
           </div>
           {userInfo && userInfo.map((user, index) => (
-            <div className="user-item" style={{ 
-                backgroundColor : user.nickname === captain ? '#f367d5' : userInfo[index].ready === 0 ? 'white' : '#8aeec6'
+            <div className={style.user_item} style={{ 
+                backgroundColor : user.nickname === captain ? 'rgb(179, 6, 179, 0.5)' : userInfo[index].ready === 0 ? 'rgb(0, 0, 0, 0.1)' : 'rgb(179, 6, 179, 0.6)'
               }}>
-              <img className="userImg" src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg" alt="User Thumbnail" />
-              <div className="nickname">{user.nickname}</div>
+              <img className={style.userImg} src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg" alt="User Thumbnail" />
+              <div className={style.nickname}>{user.nickname}</div>
               {captain === user.nickname && 
-                <img className="captainlogo" src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
+                <img className={style.captainlogo} src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
               }
               {captain !== user.nickname && name === user.nickname &&
-                <button class="button" onClick={clickReady}>ready</button>
+                <button class={style.button} onClick={clickReady}>ready</button>
               }
               {captain === user.nickname && name === user.nickname &&
-                <button class="startbutton" onClick={clickStart}>start</button>
+                <button class={style.startbutton} onClick={clickStart}>start</button>
               }
             </div>
 

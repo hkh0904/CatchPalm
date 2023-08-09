@@ -1,5 +1,7 @@
 /* App.css */
-/* App.module.css 사용시 삭제 예정 */
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+/* 모든페이지 스크롤바 제거 */
 body {
   
   /* 모든페이지 스크롤바 제거 */
@@ -10,12 +12,13 @@ body {
   /* 마우스 커서 변경 */
   cursor: url('../public/assets/cursor.png'), auto;
 
-  justify-content: center;
-  align-items: center;
-  height: 150vh;
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  height: 100vh;
   background: #050801;
-  font-family: 'Raleway', sans-serif;
-  font-weight: bold;
+  font-family: 'Jua', sans-serif;
+  
 }
 
 
