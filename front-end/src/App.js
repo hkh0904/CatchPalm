@@ -122,7 +122,7 @@ function MainPage() {
                   <span></span>
                   <span></span>
                   <span></span>
-                  튜토리얼
+                  TUTORIAL
                 </a>
                 <a href="/Playing">
                   
