@@ -30,7 +30,12 @@ function MainPage() {
     window.location.reload(); // 페이지 갱신
   };
 
-  
+    // 버튼 클릭 상태를 추적하는 useState 추가
+    const [buttonClicked, setButtonClicked] = useState(false);  
+
+    const handleCircleButtonClick = () => {
+      setButtonClicked(true);
+    }
     //// 내 정보보기 시작
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -41,14 +46,29 @@ function MainPage() {
     /// 내정보 보기 끝
 
 
-  const handleButtonClick3 = () => {
-    navigate('/login');
-  };
+  // const handleButtonClick3 = () => {
+  //   navigate('/login');
+  // };
   
   const handleButtonClick4 = () => {
     navigate('/signup');
   };
   ////////////// 로그인 로그아웃 끝////////////////  
+
+  ////로그인 회원가임 Drawer
+
+    // 드로어 내용을 결정할 useState 추가
+    const [drawerContent, setDrawerContent] = useState(null);
+
+    const openLoginDrawer = () => {
+        setDrawerContent("login");
+        handleDrawerOpen();
+    };
+
+    const openSignupDrawer = () => {
+        setDrawerContent("signup");
+        handleDrawerOpen();
+    };
 
 
   //////// 회원정보 받아오기 시작/////////
@@ -105,10 +125,13 @@ function MainPage() {
   
   return (
     <React.Fragment>
-
-      <video autoPlay muted loop className={`${style.background_video}`}>
-        <source src="assets/background.mp4" type="video/mp4" />
-      </video>
+        {/* background_video에 클릭 상태에 따른 클래스 조건부 추가 */}
+        <video 
+          autoPlay muted loop 
+          className={`${style.background_video} ${buttonClicked ? style.clicked : ""}`}
+        >
+          <source src="assets/background.mp4" type="video/mp4" />
+        </video>
 
       <div className={style.mainword}>
         <h2>당신의 손으로 리듬을 잡아라</h2>
@@ -117,21 +140,21 @@ function MainPage() {
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               
-                <a href="tutorial">
+                <a href="tutorial" className={style.a}>
                   
                   <span></span>
                   <span></span>
                   <span></span>
                   TUTORIAL
                 </a>
-                <a href="/Playing">
+                <a href="/Playing" className={style.a}>
                   
                   <span></span>
                   <span></span>
                   <span></span>
                   SOLO MODE
                 </a>
-                <a href="/ChatRoomList">
+                <a href="/ChatRoomList" className={style.a}>
                   
                   <span></span>
                   <span></span>
@@ -166,8 +189,23 @@ function MainPage() {
             </React.Fragment>
           ) : (
           <React.Fragment>
-              <div className={`${style.login}`}>
-                <button onClick={handleButtonClick3}>
+            <div className={style.gamemode} container spacing={2}>
+              <a href="#" className={style.a} onClick={openLoginDrawer}>              
+                <span></span>
+                <span></span>
+                <span></span>
+                LOGIN
+              </a>
+              <a href="#" className={style.a} onClick={openSignupDrawer}>
+                
+                <span></span>
+                <span></span>
+                <span></span>
+                SIGN UP
+              </a>
+            </div>
+              {/* <div className={`${style.login}`}>
+                <button onClick={handleDrawerOpen}>
                   로그인
                 </button>
               </div>
@@ -175,7 +213,16 @@ function MainPage() {
                 <button onClick={handleButtonClick4}>
                   회원가입
                 </button>
-              </div>
+              </div> */}
+              <button 
+                className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
+                onClick={handleCircleButtonClick}
+              >
+              </button>
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+                {drawerContent === "login" && <Login />}
+                {drawerContent === "signup" && <SignUp />}
+              </Drawer>
           </React.Fragment>
           )}
         

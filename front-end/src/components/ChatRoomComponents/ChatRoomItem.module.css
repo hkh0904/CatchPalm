@@ -4,10 +4,6 @@
   box-sizing: border-box;
 }
 
-/* html,body {
-  overflow: hidden;
-} */
-
 /* 동영상  */
 .background_video {
   position: fixed;
@@ -28,10 +24,6 @@
   content: "";
   clear: both;
 }
-
-/* .hidden {
-  display: none;
-} */
 
 .form_control {
   width: 100%;
