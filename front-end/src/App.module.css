@@ -19,7 +19,7 @@ font-family: 'Raleway', sans-serif;
 
 
 /* 마우스 포인터 변경 */
-a, button, [role="button"], input[type="submit"], .clickable {
+.a, button, [role="button"], input[type="submit"], .clickable {
     cursor: url('../public/assets/pointer.png'), auto;
 }
 
@@ -157,7 +157,7 @@ top: 10%;      /* 세로 중앙 정렬 */
 
 
 /* 로그인 css */
-.login {
+/* .login {
 padding: 10px 20px;
 border: 1px solid #ccc;
 cursor: pointer;
@@ -173,16 +173,16 @@ top: 10px;
 .login-container {
 position: absolute;
 
-top: 10px;  /* adjust as needed */
-right: 10px; /* adjust as needed */
+top: 10px;  
+right: 10px; 
 }
 
 .login:hover {
 background-color: #f5f5f5;
-}
+} */
 
 /* 회원가입 css */
-.signup {
+/* .signup {
 padding: 10px 20px;
 border: 1px solid #ccc;
 cursor: pointer;
@@ -196,13 +196,13 @@ top: 10px;
 
 .signup-container {
 position: absolute;
-top: 10px;  /* adjust as needed */
-right: 10px; /* adjust as needed */
+top: 10px; 
+right: 10px; 
 }
 
 .signup:hover {
 background-color: #f5f5f5;
-}
+} */
 
 
 
@@ -284,3 +284,72 @@ background-color: #f5f5f5;
     height: 127vh; /* 뷰포트의 높이로 설정 */
     flex-direction: column; /* 자식 요소들을 수직으로 배열 */
 }
+
+
+.centeredCircleButton {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%; /* 동그라미 모양으로 만들기 위한 속성 */
+    background-color: transparent; /* 기존 배경색을 투명하게 설정 */
+    background-image: url('../public/assets/CatchPalmLogo.png'); /* 로고 이미지 설정 */
+    background-size: cover; /* 이미지가 버튼의 크기에 맞게 조절되도록 설정 */
+    background-position: center; /* 이미지 중앙이 버튼 중앙에 오도록 설정 */
+    border: none;
+    transform: translate(-50%, -50%); /* 버튼을 정확히 화면 중앙으로 이동시키기 위한 속성 */
+    cursor: pointer;
+    transition: 0.3s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #050801;
+    animation: pulseGrow 0.6s infinite; /* 0.5초 동안 pulseGrow 애니메이션을 무한 반복합니다. */
+}
+
+
+@keyframes pulseGrow {
+    0% {
+      transform: scale(1) translate(-50%, -50%);
+    }
+    50% {
+      transform: scale(1.009) translate(-50%, -50%);
+    }
+    100% {
+      transform: scale(1) translate(-50%, -50%);
+    }
+}
+
+.centeredCircleButton:hover {
+    background-color: #d81d94;
+    animation: pulseGrow 0.5s infinite; /* 0.5초 동안 pulseGrow 애니메이션을 무한 반복합니다. */
+}
+
+/* //////////////////////// */
+/* 버튼 클릭 시 사라지는 애니메이션 */
+@keyframes fadeOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  
+  /* 버튼이 클릭된 경우의 스타일 */
+  .centeredCircleButton.clicked {
+    animation: fadeOut 2s forwards;
+  }
+  
+  /* 배경 화면 밝기 애니메이션 */
+  @keyframes brighten {
+    to {
+      filter: brightness(1.3);
+    }
+  }
+  
+  .background_video.clicked {
+    animation: brighten 2s forwards;
+  }
+
