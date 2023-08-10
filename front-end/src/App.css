@@ -1,9 +1,8 @@
-/* App.css */
-
 
 /* 모든페이지 스크롤바 제거 */
 body {
   overflow: hidden;
+  margin:0px;
 }
 
 
@@ -36,7 +35,6 @@ a{
     transition: 0.5s;
     letter-spacing: 4px;
     overflow: hidden;
-    margin-right: 50px;
    
 }
 a:hover{
