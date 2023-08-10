@@ -30,7 +30,12 @@ function MainPage() {
     window.location.reload(); // 페이지 갱신
   };
 
-  
+    // 버튼 클릭 상태를 추적하는 useState 추가
+    const [buttonClicked, setButtonClicked] = useState(false);  
+
+    const handleCircleButtonClick = () => {
+      setButtonClicked(true);
+    }
     //// 내 정보보기 시작
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -41,9 +46,9 @@ function MainPage() {
     /// 내정보 보기 끝
 
 
-  const handleButtonClick3 = () => {
-    navigate('/login');
-  };
+  // const handleButtonClick3 = () => {
+  //   navigate('/login');
+  // };
   
   const handleButtonClick4 = () => {
     navigate('/signup');
@@ -105,10 +110,13 @@ function MainPage() {
   
   return (
     <React.Fragment>
-
-      <video autoPlay muted loop className={`${style.background_video}`}>
-        <source src="assets/background.mp4" type="video/mp4" />
-      </video>
+        {/* background_video에 클릭 상태에 따른 클래스 조건부 추가 */}
+        <video 
+          autoPlay muted loop 
+          className={`${style.background_video} ${buttonClicked ? style.clicked : ""}`}
+        >
+          <source src="assets/background.mp4" type="video/mp4" />
+        </video>
 
       <div className={style.mainword}>
         <h2>당신의 손으로 리듬을 잡아라</h2>
@@ -166,16 +174,39 @@ function MainPage() {
             </React.Fragment>
           ) : (
           <React.Fragment>
+            <div className={style.gamemode} container spacing={2}>
+              <a href="/login">              
+                <span></span>
+                <span></span>
+                <span></span>
+                LOGIN
+              </a>
+              <a href="/signup">
+                
+                <span></span>
+                <span></span>
+                <span></span>
+                SIGN UP
+              </a>
+            </div>
               <div className={`${style.login}`}>
-                <button onClick={handleButtonClick3}>
+                <button onClick={handleDrawerOpen}>
                   로그인
                 </button>
               </div>
+              <button 
+                className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
+                onClick={handleCircleButtonClick}
+              >
+              </button>
               <div className={`${style.signup}`}>
                 <button onClick={handleButtonClick4}>
                   회원가입
                 </button>
               </div>
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+                <Login />
+              </Drawer>
           </React.Fragment>
           )}
         
