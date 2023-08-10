@@ -21,6 +21,7 @@ canvas {
 }
 
 #videoSrc {
+  filter: brightness(40%);
   position: absolute;
 }
 
@@ -51,6 +52,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
+  font-family: 'Jua', sans-serif;
 }
 
 #score {
@@ -61,6 +63,7 @@ canvas {
   color: white;
   z-index: 2;
   margin-left: 10px;
+  font-family: 'Jua', sans-serif;
 }
 
 .circle {
@@ -89,7 +92,8 @@ canvas {
 .value {
   position: absolute;
   color: white;
-  font-size: x-large;
+  font-size: xx-large;
+  font-family: 'Jua', sans-serif;
 }
 
 .motion1 {

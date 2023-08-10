@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import style from '../App.module.css';
 import axios from 'axios';
+import styles from './Userinfo.module.css';
 
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -135,15 +137,48 @@ const Userinfo = () => {
 
     const hiddenFileInput = useRef(null);
 
+    const handleDeleteAccount = () => {
+        // Confirmation before account deletion
+        if (!window.confirm('정말로 회원 탈퇴를 진행하시겠습니까?')) {
+          return; // If user cancels (clicks 'No'), stop the function
+        }
+        
+        const token = localStorage.getItem('token');
+    
+        fetch('https://localhost:8443/api/v1/users/delete', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // or however your server expects the token
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Error during account deletion');
+          }
+        })
+        .then(data => {
+          // Handle successful deletion here, such as by logging out the user
+          localStorage.removeItem('token');
+          window.location.reload();
+        })
+        .catch(error => {
+          // Handle any errors here
+          console.error('Error:', error);
+        });
+      };
+
     if (!userInfo) {
         return <div>Loading...</div>;
     }
 
     return (
         <div>
-            <h1>유저 정보</h1>
-            <img src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
-            <button onClick={handleProfileImageClick}>
+            <h1 className={styles.h1}>유저 정보</h1>
+            <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
+            <button className={styles.button} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>
             <input
@@ -156,11 +191,16 @@ const Userinfo = () => {
             <p>User ID: {userInfo.userId}</p>
             <p>
                 User Nickname: {userInfo.userNickname} 
-                <button onClick={handleNicknameChange}>닉네임 변경하기</button>
+                <button className={styles.button} onClick={handleNicknameChange}>닉네임 변경하기</button>
             </p>
             <p>Age: {userInfo.age}</p>
             <p>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
-            <button onClick={handlePasswordChange}>비밀번호 변경하기</button>
+            <button className={styles.button} onClick={handlePasswordChange}>비밀번호 변경하기</button>
+            <div className={style.signout}>
+                <button onClick={handleDeleteAccount}>
+                  회원탈퇴
+                </button>
+              </div>
         </div>
     );
 }
