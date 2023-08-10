@@ -6,9 +6,9 @@ import OpenVidu from '../components/PlayingComponents/OpenVidu';
 import { useLocation } from 'react-router-dom';
 function App() {
   const location = useLocation();
-  const { gameData } = location.state; // 전달된 데이터 가져오기
+  // const { gameData } = location.state; // 전달된 데이터 가져오기
 
-  console.log(gameData); // 데이터확인.
+  // console.log(gameData); // 데이터확인.
 
   return (
     <React.Fragment>
