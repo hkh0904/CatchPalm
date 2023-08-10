@@ -25,6 +25,16 @@ public class UserRes{
 	int age;
 	@ApiModelProperty(name="User sex")
 	int sex;
+	@ApiModelProperty(name="User sex")
+	double synk;
+	@ApiModelProperty(name="User sex")
+	double gameSound;
+	@ApiModelProperty(name="User sex")
+	double effectSound;
+	@ApiModelProperty(name="User sex")
+	double backSound;
+	@ApiModelProperty(name="User sex")
+	int isCam;
 	
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
@@ -33,6 +43,11 @@ public class UserRes{
 		res.setUserNickname(user.getNickname());
 		res.setAge(user.getAge());
 		res.setSex(user.getSex());
+		res.setSynk(user.getSynk());
+		res.setGameSound(user.getGameSound());
+		res.setEffectSound(user.getEffectSound());
+		res.setBackSound(user.getBackSound());
+		res.setIsCam(user.getIsCam());
 		return res;
 	}
 }

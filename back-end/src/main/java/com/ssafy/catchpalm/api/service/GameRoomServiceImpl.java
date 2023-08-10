@@ -135,7 +135,6 @@ public class GameRoomServiceImpl implements GameRoomService {
 						gameRoomRepository.save(gameRoom); // 업데이트 실행.
 						return gameRoom.getCaptain().getNickname(); // 방장이 변경되면 해당 방장 닉네임만 리턴.
 					}
-
 				}
 			}
 		}

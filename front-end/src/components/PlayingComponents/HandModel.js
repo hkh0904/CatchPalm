@@ -10,8 +10,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 let gestureRecognizer = undefined;
 let category1Name = undefined;
 let category2Name = undefined;
-let hitSound = new Audio("/assets/Hit.mp3");
 let shouldStopPrediction = false; // 처음에는 false로 설정
+let webcamWrapper = undefined;
+let computedStyle = undefined;
+let webcamWrapperWidth = undefined;
+let circlePixel = undefined;
+let circleOutPixel = undefined;
 
 // mediaPipe 모션네임
 const motionNames = {
@@ -55,8 +59,29 @@ export default function HandModel() {
   const userNumRef = useRef(userNum);
   const [musicNum, setMusicNum] = useState(null);
   const musicNumRef = useRef(musicNum);
-
   const location = useLocation();
+  const [volume, setVolume] = useState(0.5); // 볼륨 상태
+  const audio1 = useRef(new Audio("/music/YOASOBI-IDOL.mp3"));
+  const audio2 = useRef(new Audio("/assets/Finish.mp3"));
+  const [effectVolume, setEffectVolume] = useState(0.5); // 볼륨 상태
+  const missSound = useRef(new Audio("/assets/Miss.mp3"));
+  const greatSound = useRef(new Audio("/assets/Great.mp3"));
+  const perpectSound = useRef(new Audio("/assets/Perpect.mp3"));
+  const scaleStepRef = useRef(0.02);
+
+  useEffect(() => {
+    // 볼륨 상태가 변경될 때마다 오디오 객체의 볼륨을 업데이트
+    audio1.current.volume = volume;
+    audio2.current.volume = volume;
+    missSound.current.volume = effectVolume;
+    greatSound.current.volume = effectVolume;
+    perpectSound.current.volume = effectVolume;
+  }, [volume, effectVolume]);
+
+  // 오디오 재생 함수
+  function playSound(audioRef) {
+    audioRef.current.play();
+  }
 
   useEffect(() => {
     const unblock = window.history.pushState(null, "", window.location.href);
@@ -195,12 +220,8 @@ export default function HandModel() {
     };
 
     fetchDataAndPredict().then((data) => {
-      const audio = new Audio("/music/YOASOBI-IDOL.mp3");
-      const finish = new Audio("/assets/Finish.mp3");
-      audio.volume = 0; // 볼륨 30%로 설정
-      finish.volume = 0.3; //
-      audio.loop = false;
-      finish.loop = false;
+      audio1.current.loop = false;
+      audio2.current.loop = false;
 
       const timer = setInterval(() => {
         setCountdown((prevCountdown) => {
@@ -208,27 +229,23 @@ export default function HandModel() {
             return prevCountdown - 1;
           } else {
             clearInterval(timer);
-            audio.play();
+            audio1.current.play();
 
             if (videoSrcRef.current) {
               videoSrcRef.current.play();
             }
             createCircles(data);
-            // Audio가 끝날 때 'finish' 재생
-            audio.onended = () => {
-              finish.play();
 
-              // 'finish'가 끝나면 비디오를 멈추고 메인 페이지로 이동
-              finish.onended = () => {
+            audio1.current.onended = () => {
+              audio2.current.play();
+
+              audio2.current.onended = () => {
                 if (videoRef.current && videoRef.current.srcObject) {
                   const tracks = videoRef.current.srcObject.getTracks();
-                  tracks.forEach((track) => {
-                    track.stop();
-                  });
-                  shouldStopPrediction = true; // or stopPredictWebcam();
+                  tracks.forEach((track) => track.stop());
+                  shouldStopPrediction = true;
                   videoRef.current.srcObject = null;
                   sendData();
-                  // 페이지 이동
                   navigate("/");
                 }
               };
@@ -242,6 +259,23 @@ export default function HandModel() {
       }, 500);
     });
   }, []);
+
+  const handleVolumeChange = (e) => {
+    setVolume(e.target.value);
+  };
+
+  // 볼륨조절 함수
+  const handleEffectChange = (e) => {
+    setEffectVolume(e.target.value);
+    missSound.current.volume = e.target.value;
+    greatSound.current.volume = e.target.value;
+    perpectSound.current.volume = e.target.value;
+  };
+
+  // 오디오 재생 함수
+  function playSound(audioRef) {
+    audioRef.current.play();
+  }
 
   // 웹캠 스트림을 시작하는 비동기 함수
   const handleStartStreaming = async () => {
@@ -278,6 +312,17 @@ export default function HandModel() {
     }
   };
 
+  useEffect(() => {
+    webcamWrapper = document.getElementById("webcamWrapper");
+    if (webcamWrapper) {
+      // 요소가 존재하는지 확인
+      computedStyle = getComputedStyle(webcamWrapper);
+      webcamWrapperWidth = parseFloat(computedStyle.width);
+      circlePixel = webcamWrapperWidth * 0.08;
+      circleOutPixel = webcamWrapperWidth * 0.18;
+    }
+  }, []);
+
   // fetchData 함수를 수정하여 데이터를 가져와서 nodes에 저장하고 웹캠 위에 원 그리기
   const createCircles = async (data) => {
     data.forEach((node) => {
@@ -285,6 +330,7 @@ export default function HandModel() {
         // circle 클래스를 가진 div를 생성합니다.
         const circleDiv = document.createElement("div");
         circleDiv.className = "circle";
+
         // circle Node의 테두리 div
         const circleOut = document.createElement("div");
         circleOut.className = "circleOut";
@@ -293,24 +339,28 @@ export default function HandModel() {
         circleDiv.classList.add("motion" + node.MOTION_NUM);
 
         // webcam의 위치와 크기를 얻습니다.
-        const webcamWrapper = document.getElementById("webcamWrapper");
         const webcamRect = webcamWrapper.getBoundingClientRect();
+
+        circleDiv.style.width = `${circlePixel}px`;
+        circleDiv.style.height = `${circlePixel}px`;
+        circleOut.style.width = `${circleOutPixel}px`;
+        circleOut.style.height = `${circleOutPixel}px`;
 
         // div의 위치를 설정합니다. X-COORDINATE와 Y-COORDINATE 값은 0~1 범위라고 가정합니다.
         circleDiv.style.left = `calc(${
           webcamRect.width -
           (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)
-        }px - 50px)`;
+        }px - ${circlePixel / 2}px)`;
         circleDiv.style.top = `calc(${
           webcamRect.top + node["Y-COORDINATE"] * webcamRect.height
-        }px - 50px)`;
+        }px - ${circlePixel / 2}px)`;
         circleOut.style.left = `calc(${
           webcamRect.width -
           (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)
-        }px - 100px)`;
+        }px - ${circleOutPixel / 2}px)`;
         circleOut.style.top = `calc(${
           webcamRect.top + node["Y-COORDINATE"] * webcamRect.height
-        }px - 100px)`;
+        }px - ${circleOutPixel / 2}px)`;
 
         // div를 웹캠의 컨테이너인 webcamWrapper에 추가합니다.
         webcamWrapper.appendChild(circleDiv);
@@ -318,10 +368,9 @@ export default function HandModel() {
 
         // 애니메이션 시작
         let scale = 1;
-        let scaleStep = 0.02;
 
         function animate() {
-          scale -= scaleStep;
+          scale -= scaleStepRef.current;
           circleOut.style.transform = `scale(${scale})`;
 
           if (scale > 0.2) {
@@ -332,25 +381,17 @@ export default function HandModel() {
           } else {
             // circleDiv의 display 값이 none이 아닐 때만 로직 실행
             if (circleDiv.parentNode) {
-              const missDiv = document.createElement("div");
-              missDiv.className = "value";
-              missDiv.innerText = "MISS";
-              missDiv.style.left = `calc(${
+              const valX =
                 webcamRect.width -
-                (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)
-              }px)`;
-              missDiv.style.top = `calc(${
-                webcamRect.top + node["Y-COORDINATE"] * webcamRect.height
-              }px)`;
-              webcamWrapper.appendChild(missDiv); // missDiv를 webcamWrapper에 추가합니다.
-
-              setTimeout(() => {
-                webcamWrapper.removeChild(missDiv); // 1초 후 missDiv를 삭제합니다.
-              }, 1000);
+                (webcamRect.left + node["X-COORDINATE"] * webcamRect.width);
+              const valY =
+                webcamRect.top + node["Y-COORDINATE"] * webcamRect.height;
+              showValue(valX, valY, "MISS");
 
               // scale이 0.2 이하가 되면 div를 삭제합니다.
               webcamWrapper.removeChild(circleDiv);
               webcamWrapper.removeChild(circleOut);
+              playSound(missSound);
             }
           }
         }
@@ -376,14 +417,15 @@ export default function HandModel() {
     // 결과가 있다면 캔버스에 그림
     // 결과가 있다면 캔버스에 그림
     if (results.landmarks) {
+      canvasCtx.shadowBlur = 10; // 흐릿한 정도 설정
+      canvasCtx.shadowColor = "#0fa"; // 그림자 색상 설정
+
       for (let landmarks of results.landmarks) {
-        // 커넥터를 그릴 때 색상을 검은색(#000000), 굵기는 5로 변경합니다.
         drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-          color: "beige",
+          color: "white",
           lineWidth: 5,
         });
-        // 각 랜드마크에 대해서는 선 색상을 강아지 발색인 베이지색(#F5F5DC), 굵기는 2로 변경합니다.
-        drawLandmarks(canvasCtx, landmarks, { color: "#F5F5DC", lineWidth: 2 });
+        drawLandmarks(canvasCtx, landmarks, { color: "white", lineWidth: 2 });
       }
     }
     canvasCtx.restore();
@@ -393,7 +435,6 @@ export default function HandModel() {
 
     // 예측 결과를 처리
     if (results.gestures.length > 0) {
-      // console.log(`x: ${results.landmarks[0][9].x.toFixed(5)}, y: ${results.landmarks[0][9].y.toFixed(5)}`);
       category1Name = results.gestures[0][0].categoryName;
       handX = results.landmarks[0][9].x;
       handY = results.landmarks[0][9].y;
@@ -476,21 +517,21 @@ export default function HandModel() {
 
             if (scaleValue >= 0.65) {
               circleOutElement.remove();
-              hitSound.play();
+              playSound(missSound);
               showValue(valX, valY, "MISS");
             } else if (scaleValue < 0.65 && scaleValue > 0.58) {
               circleOutElement.remove();
-              hitSound.play();
+              playSound(greatSound);
               showValue(valX, valY, "GREAT");
               increaseScore(200);
             } else if (scaleValue <= 0.58 && scaleValue >= 0.42) {
               circleOutElement.remove();
-              hitSound.play();
-              showValue(valX, valY, "PERPERT");
+              playSound(perpectSound);
+              showValue(valX, valY, "PERPECT");
               increaseScore(300);
             } else {
               circleOutElement.remove();
-              hitSound.play();
+              playSound(greatSound);
               showValue(valX, valY, "GREAT");
               increaseScore(200);
             }
@@ -503,15 +544,14 @@ export default function HandModel() {
   function showValue(x, y, val) {
     const webcamWrapper = document.getElementById("webcamWrapper");
     const valueDiv = document.createElement("div");
-    valueDiv.className = "value";
+    valueDiv.classList.add("value", val);
     valueDiv.innerText = val;
     valueDiv.style.left = `${x}px`;
     valueDiv.style.top = `${y}px`;
-    console.log(x, y, val);
-    webcamWrapper.appendChild(valueDiv); // missDiv를 webcamWrapper에 추가합니다.
+    webcamWrapper.appendChild(valueDiv);
 
     setTimeout(() => {
-      webcamWrapper.removeChild(valueDiv); // 1초 후 missDiv를 삭제합니다.
+      webcamWrapper.removeChild(valueDiv);
     }, 1000);
   }
 
@@ -557,6 +597,8 @@ export default function HandModel() {
           ref={videoRef}
           id="webcam"
           autoPlay
+          width={videoSize.width}
+          height={videoSize.height}
           style={{
             position: "absolute",
           }}
@@ -569,11 +611,45 @@ export default function HandModel() {
         >
           {showBackground ? "Webcam ON" : "Webcam OFF"}
         </Button>
-        {countdown > 0 && (
-          <div id="countdown" style={{ fontSize: "100px" }}>
-            {countdown}
-          </div>
-        )}
+        <div>
+          <input
+            id="volume"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={handleVolumeChange}
+          />
+        </div>
+        <div>
+          <input
+            id="volume"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={effectVolume}
+            onChange={handleEffectChange}
+            style={{ bottom: "50px", left: "150px" }}
+          />
+        </div>
+        <div>
+    <input
+        type="range"
+        min="0.005"
+        max="0.05"
+        step="0.001"
+        style={{ bottom: "80px", left: "150px", position: "absolute", zIndex: 2 }}
+        onChange={(e) => {
+            const newValue = parseFloat(e.target.value);
+            scaleStepRef.current = newValue;
+            // setScaleStep(newValue); // state를 사용하는 경우에는 이 코드도 필요합니다.
+        }}
+    />
+</div>
+
+        {countdown > 0 && <div id="countdown">{countdown}</div>}
       </div>
     </div>
   );

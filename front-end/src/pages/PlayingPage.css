@@ -20,6 +20,14 @@ canvas {
   height: 100vh;
 }
 
+#volume {
+  display: inline-flex;
+  position: absolute;
+  bottom: 20px;
+  left: 150px;
+  z-index: 2;
+}
+
 #videoSrc {
   filter: brightness(40%);
   position: absolute;
@@ -47,31 +55,35 @@ canvas {
 }
 
 #countdown {
+  font-size: 10rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-  font-family: 'Jua', sans-serif;
+  font-family: "Jua", sans-serif;
+  color: #fff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0080, 0 0 30px #ff0080,
+    0 0 40px #ff0080, 0 0 55px #ff0080, 0 0 75px #ff0080;
 }
 
 #score {
-  font-size: 50px;
+  font-size: 4.3rem;
   font-weight: bold;
   position: absolute;
   left: 10px;
-  color: white;
   z-index: 2;
   margin-left: 10px;
-  font-family: 'Jua', sans-serif;
+  font-family: "Jua", sans-serif;
+  color: #fff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0080, 0 0 30px #ff0080,
+    0 0 40px #ff0080, 0 0 55px #ff0080, 0 0 75px #ff0080;
 }
 
 .circle {
+  box-sizing: border-box;
   margin: 0 auto;
-  width: 100px;
-  height: 100px;
   background-color: skyblue;
-  border: 10px solid royalblue;
+  border: 0.5rem solid royalblue;
   border-radius: 50%;
   position: absolute;
   display: block;
@@ -79,10 +91,9 @@ canvas {
 }
 
 .circleOut {
+  box-sizing: border-box;
   margin: 0 auto;
-  width: 200px;
-  height: 200px;
-  border: 10px solid royalblue;
+  border: 0.7rem solid royalblue;
   border-radius: 50%;
   position: absolute;
   display: block;
@@ -91,9 +102,23 @@ canvas {
 
 .value {
   position: absolute;
+  font-size: 2.5rem;
+  font-family: "Jua", sans-serif;
+}
+.MISS {
   color: white;
-  font-size: xx-large;
-  font-family: 'Jua', sans-serif;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000,
+    0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 55px #ff0000, 0 0 75px #ff0000;
+}
+.GREAT {
+  color: white;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #0fa,
+    0 0 30px #0fa, 0 0 40px #0fa, 0 0 55px #0fa, 0 0 75px #0fa;
+}
+.PERPECT {
+  color: white;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #5b5efd,
+    0 0 30px #5b5efd, 0 0 40px #5b5efd, 0 0 55px #5b5efd, 0 0 75px #5b5efd;
 }
 
 .motion1 {
