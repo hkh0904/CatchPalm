@@ -12,7 +12,7 @@ let name = "";
 let Sock = null;
 var stompClient = null;
 let audio = null;
-
+let token = localStorage.getItem("token");
 var colors = [
   "#2196F3",
   "#32c787",
@@ -51,13 +51,14 @@ const ChatRoomItem = () => {
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
 
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const [userNumber, setUserNumber] = useState(""); // userNumber 상태로 추가
   const messageAreaRef = useRef(null);
   const { roomNumber } = useParams();
   const [roomInfo, setRoomInfo] = useState(null);
 
   const [userInfo, setUserInfo] = useState([]); // 유저정보들
+  const [soundVolume, setSoundVolume] = useState(); // 음악 사운드 사용자 설정 가져오기.
   const [captain, setCaptain] = useState(); // 방장 정보
   const [messages, setMessages] = useState(""); // 보내는 메세지
 
@@ -65,7 +66,7 @@ const ChatRoomItem = () => {
   const [musicOnOff, setMusicOnOff] = useState(1);
   useEffect(() => {
     if (musicOnOff === 1 && audio !==null) {
-      audio.volume = 0.3; // 볼륨 30%로 설정
+      audio.volume = soundVolume; // 볼륨 30%로 설정
     }
     else if(musicOnOff === 0 && audio !== null){
       audio.volume = 0;
@@ -114,7 +115,7 @@ const ChatRoomItem = () => {
   }
 
   useEffect(() => {
-    if (pickedMusic !== null && musicName !== null && stompClient !== null) {
+    if (pickedMusic !== null && musicName !== null && stompClient !== null && soundVolume !== null) {
       if(name === captain) { // 방장일 경우만 
         musicChange(); // 변경사항 소켓으로 전달.
       }
@@ -123,10 +124,10 @@ const ChatRoomItem = () => {
         audio.currentTime = 0;
       }
       audio = new Audio(`/music/${pickedMusic}.mp3`);
-      audio.volume = 0.3; // 볼륨 30%로 설정
+      audio.volume = soundVolume; // 볼륨 30%로 설정
       audio.play();
     }
-  }, [pickedMusic, musicName]); // 선택곡이 바뀌면 수행
+  }, [pickedMusic, musicName, soundVolume]); // 선택곡이 바뀌면 수행
 
 //  채팅관련
   const handleMessageChange = (event) => {
@@ -150,6 +151,7 @@ const ChatRoomItem = () => {
         const userNumber = response.data.userNumber;
         setUserNumber(userNumber);
         name = response.data.userNickname;
+        setSoundVolume(response.data.backSound);
       })
       .catch((error) => {
         console.error("error");
@@ -172,6 +174,7 @@ const ChatRoomItem = () => {
             const userNumber = response.data.userNumber;
             setUserNumber(userNumber);
             name = response.data.userNickname;
+            setSoundVolume(response.data.backSound);
           })
           .catch((error) => {
             console.log(error);
@@ -548,7 +551,7 @@ const ChatRoomItem = () => {
                   height:'75%',
                   cursor: 'pointer'
                 }}
-                onClick={setMusicOnOff}
+                onClick={changeSoundStatus}
             />
           }
           {musicOnOff === 0 &&
@@ -559,7 +562,7 @@ const ChatRoomItem = () => {
                   height:'75%',
                   cursor: 'pointer'
                 }}
-                onClick={setMusicOnOff}
+                onClick={changeSoundStatus}
             />
           }
 
