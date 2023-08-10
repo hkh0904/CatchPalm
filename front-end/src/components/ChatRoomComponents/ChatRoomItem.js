@@ -60,6 +60,24 @@ const ChatRoomItem = () => {
   const [userInfo, setUserInfo] = useState([]); // 유저정보들
   const [captain, setCaptain] = useState(); // 방장 정보
   const [messages, setMessages] = useState(""); // 보내는 메세지
+
+  // ------- 음악 음소거 유무 ----------------
+  const [musicOnOff, setMusicOnOff] = useState(1);
+  useEffect(() => {
+    if (musicOnOff === 1 && audio !==null) {
+      audio.volume = 0.3; // 볼륨 30%로 설정
+    }
+    else if(musicOnOff === 0 && audio !== null){
+      audio.volume = 0;
+    }
+  }, [musicOnOff]); // 선택곡이 바뀌면 수행
+
+  const changeSoundStatus = () => {
+    setMusicOnOff(musicOnOff === 0 ? 1:0);
+  };
+
+  //-----------------------------------------
+
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
   const [pickedMusic, setPickedMusic] = useState();
@@ -364,12 +382,12 @@ const ChatRoomItem = () => {
     event.preventDefault();
   };
   const handleStartChatting = () => {
-    // localStorage에서 데이터 가져오기
+    // 소켓연결
     connect();
   };
 
   const handleQuitChatRoom = () => {
-    navigate(`/chatRoomList`);
+    navigate('/chatRoomList');
   };
 
   if (!roomInfo) {
@@ -515,7 +533,37 @@ const ChatRoomItem = () => {
         <div className={style.game_option} style={{
 
         }}>
+          <div style={{
+            width: '100%',
+            height: '20%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-around'
+          }}>
+          {musicOnOff === 1 &&
+            <img
+                src="/assets/speaker.png"
+                alt="speaker-on"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+                onClick={setMusicOnOff}
+            />
+          }
+          {musicOnOff === 0 &&
+            <img
+                src="/assets/speaker_off.png"
+                alt="speaker-off"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+                onClick={setMusicOnOff}
+            />
+          }
 
+          </div>
           {captain !== name &&
                 <a onClick={clickReady} style={{
                   width: '100%',
@@ -529,7 +577,7 @@ const ChatRoomItem = () => {
                   margin: '0',
                   border: '1px solid',
                   filter: 'hue-rotate(215deg)',
-                }} href="/">
+                }} >
                   <span></span>
                   <span></span>
                   <span></span>
@@ -550,7 +598,7 @@ const ChatRoomItem = () => {
                   fontSize: '2.5rem',
                   margin: '0',
                   border: '1px solid'
-                }} href="/">
+                }} >
                   <span></span>
                   <span></span>
                   <span></span>
@@ -559,7 +607,7 @@ const ChatRoomItem = () => {
                   start
                 </a>
               }
-          <a href='/' onClick={handleQuitChatRoom} style={{
+          <a onClick={handleQuitChatRoom} style={{
                   width: '100%',
                   color: 'aqua',
                   textAlign: 'center',
