@@ -70,6 +70,10 @@ const Userinfo = () => {
             const response = await axios.patch('https://localhost:8443/api/v1/users/modify', {
                 age: "",
                 password: newPassword,
+                backSound: "",
+                effectSound: "",
+                gameSound: "",
+                isCam: "",
                 profileImg: "",
                 profileMusic: "",
                 sex: "",
@@ -111,12 +115,16 @@ const Userinfo = () => {
 
             const response = await axios.patch('https://localhost:8443/api/v1/users/modify', {
                 age: "",
+                backSound: "",
+                effectSound: "",
+                gameSound: "",
                 password: "",
+                isCam: "",
                 profileImg: "",
                 profileMusic: "",
                 sex: "",
                 synk: "",
-                nickname: newNickname
+                nickname: newNickname,
             }, {
                 headers: {
                     'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.sql.Blob;
 
 /**
@@ -28,4 +29,12 @@ public class UserModifyPostReq {
 	String profileMusic;
 	@ApiModelProperty(name="유저 synk", example="your_synk")
 	String synk;
+	@ApiModelProperty(name="유저 gameSound", example="your_synk")
+	String gameSound;
+	@ApiModelProperty(name="유저 effectSound", example="your_synk")
+	String effectSound;
+	@ApiModelProperty(name="유저 backSound", example="your_synk")
+	String backSound;
+	@ApiModelProperty(name="유저 isCam", example="your_synk")
+	String isCam;
 }
