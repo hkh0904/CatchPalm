@@ -67,7 +67,12 @@ export default function HandModel() {
   const missSound = useRef(new Audio("/assets/Miss.mp3"));
   const greatSound = useRef(new Audio("/assets/Great.mp3"));
   const perpectSound = useRef(new Audio("/assets/Perpect.mp3"));
-  const scaleStepRef = useRef(0.02);
+  const [scaleStep, setScaleStep] = useState(0.02);
+  const scaleStepRef = useRef(scaleStep);
+
+  useEffect(() => {
+    scaleStepRef.current = scaleStep;
+  }, [scaleStep]);
 
   useEffect(() => {
     // 볼륨 상태가 변경될 때마다 오디오 객체의 볼륨을 업데이트
@@ -635,19 +640,25 @@ export default function HandModel() {
           />
         </div>
         <div>
-    <input
-        type="range"
-        min="0.005"
-        max="0.05"
-        step="0.001"
-        style={{ bottom: "80px", left: "150px", position: "absolute", zIndex: 2 }}
-        onChange={(e) => {
-            const newValue = parseFloat(e.target.value);
-            scaleStepRef.current = newValue;
-            // setScaleStep(newValue); // state를 사용하는 경우에는 이 코드도 필요합니다.
-        }}
-    />
-</div>
+          <input
+            type="range"
+            min="0.001"
+            max="0.05"
+            step="0.001"
+            value={scaleStep}  // useState로 관리하는 상태를 사용
+            style={{
+              bottom: "80px",
+              left: "150px",
+              position: "absolute",
+              zIndex: 2,
+            }}
+            onChange={(e) => {
+              const newValue = parseFloat(e.target.value);
+              setScaleStep(newValue); // 상태 변경
+              // setScaleStep(newValue); // state를 사용하는 경우에는 이 코드도 필요합니다.
+            }}
+          />
+        </div>
 
         {countdown > 0 && <div id="countdown">{countdown}</div>}
       </div>
