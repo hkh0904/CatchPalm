@@ -15,12 +15,11 @@ align-items: center;
 /* height: 150vh; */
 background: #050801;
 font-family: 'Raleway', sans-serif;
-font-weight: bold;
 }
 
 
 /* 마우스 포인터 변경 */
-a, button, [role="button"], input[type="submit"], .clickable {
+.a, button, [role="button"], input[type="submit"], .clickable {
     cursor: url('../public/assets/pointer.png'), auto;
 }
 
@@ -47,7 +46,7 @@ filter: brightness(1.3);  /* 밝기를 130%로 설정 */
 }
 
 
-a{
+.a{
     position: relative;
     display: inline-block;
     padding: 25px 30px;
@@ -69,17 +68,17 @@ a:hover{
                 0 0 200px #03e9f4;
     -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
 }
-a:nth-child(1){
+.a:nth-child(1){
     filter: hue-rotate(270deg);
 }
-a:nth-child(2){
+.a:nth-child(2){
     filter: hue-rotate(110deg);
 }
-a span{
+.a span{
     position: absolute;
     display: block;
 }
-a span:nth-child(1){
+.a span:nth-child(1){
     top: 0;
     left: 0;
     width: 100%;
@@ -95,7 +94,7 @@ a span:nth-child(1){
         left: 100%;
     }
 }
-a span:nth-child(2){
+.a span:nth-child(2){
     top: -100%;
     right: 0;
     width: 2px;
@@ -112,7 +111,7 @@ a span:nth-child(2){
         top: 100%;
     }
 }
-a span:nth-child(3){
+.a span:nth-child(3){
     bottom: 0;
     right: 0;
     width: 100%;
@@ -131,7 +130,7 @@ a span:nth-child(3){
 }
 
 
-a span:nth-child(4){
+.a span:nth-child(4){
     bottom: -100%;
     left: 0;
     width: 2px;
@@ -159,7 +158,7 @@ top: 10%;      /* 세로 중앙 정렬 */
 
 
 /* 로그인 css */
-.login {
+/* .login {
 padding: 10px 20px;
 border: 1px solid #ccc;
 cursor: pointer;
@@ -175,16 +174,16 @@ top: 10px;
 .login-container {
 position: absolute;
 
-top: 10px;  /* adjust as needed */
-right: 10px; /* adjust as needed */
+top: 10px;  
+right: 10px; 
 }
 
 .login:hover {
 background-color: #f5f5f5;
-}
+} */
 
 /* 회원가입 css */
-.signup {
+/* .signup {
 padding: 10px 20px;
 border: 1px solid #ccc;
 cursor: pointer;
@@ -198,13 +197,13 @@ top: 10px;
 
 .signup-container {
 position: absolute;
-top: 10px;  /* adjust as needed */
-right: 10px; /* adjust as needed */
+top: 10px; 
+right: 10px; 
 }
 
 .signup:hover {
 background-color: #f5f5f5;
-}
+} */
 
 
 
@@ -290,7 +289,7 @@ background-color: #f5f5f5;
 
 .centeredCircleButton {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     width: 450px;
     height: 450px;

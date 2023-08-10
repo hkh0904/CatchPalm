@@ -30,7 +30,7 @@ h1 {
   object-fit: cover;
   filter: brightness(1.3);  /* 밝기를 150%로 설정 */
 }
-
+/* a태그 손대면 디짐 */
 a{
     position: relative;
     display: inline-block;

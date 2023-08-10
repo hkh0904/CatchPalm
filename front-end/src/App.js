@@ -4,7 +4,7 @@ import style from "./App.module.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
-import ChatRoomItem from "./components/ChatRoomComponents/ChatRoomItem";
+import ChatRoomItem from "./pages/ChatRoomPage";
 import ChatRoomList from "./components/ChatRoomComponents/ChatRoomList"; // chat 리스트방으로
 import { Button, Drawer } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -54,6 +54,21 @@ function MainPage() {
     navigate('/signup');
   };
   ////////////// 로그인 로그아웃 끝////////////////  
+
+  ////로그인 회원가임 Drawer
+
+    // 드로어 내용을 결정할 useState 추가
+    const [drawerContent, setDrawerContent] = useState(null);
+
+    const openLoginDrawer = () => {
+        setDrawerContent("login");
+        handleDrawerOpen();
+    };
+
+    const openSignupDrawer = () => {
+        setDrawerContent("signup");
+        handleDrawerOpen();
+    };
 
 
   //////// 회원정보 받아오기 시작/////////
@@ -125,21 +140,21 @@ function MainPage() {
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               
-                <a href="tutorial">
+                <a href="tutorial" className={style.a}>
                   
                   <span></span>
                   <span></span>
                   <span></span>
                   TUTORIAL
                 </a>
-                <a href="/Playing">
+                <a href="/Playing" className={style.a}>
                   
                   <span></span>
                   <span></span>
                   <span></span>
                   SOLO MODE
                 </a>
-                <a href="/ChatRoomList">
+                <a href="/ChatRoomList" className={style.a}>
                   
                   <span></span>
                   <span></span>
@@ -175,13 +190,13 @@ function MainPage() {
           ) : (
           <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
-              <a href="/login">              
+              <a href="#" className={style.a} onClick={openLoginDrawer}>              
                 <span></span>
                 <span></span>
                 <span></span>
                 LOGIN
               </a>
-              <a href="/signup">
+              <a href="#" className={style.a} onClick={openSignupDrawer}>
                 
                 <span></span>
                 <span></span>
@@ -189,23 +204,24 @@ function MainPage() {
                 SIGN UP
               </a>
             </div>
-              <div className={`${style.login}`}>
+              {/* <div className={`${style.login}`}>
                 <button onClick={handleDrawerOpen}>
                   로그인
                 </button>
               </div>
+              <div className={`${style.signup}`}>
+                <button onClick={handleButtonClick4}>
+                  회원가입
+                </button>
+              </div> */}
               <button 
                 className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
                 onClick={handleCircleButtonClick}
               >
               </button>
-              <div className={`${style.signup}`}>
-                <button onClick={handleButtonClick4}>
-                  회원가입
-                </button>
-              </div>
               <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
-                <Login />
+                {drawerContent === "login" && <Login />}
+                {drawerContent === "signup" && <SignUp />}
               </Drawer>
           </React.Fragment>
           )}
