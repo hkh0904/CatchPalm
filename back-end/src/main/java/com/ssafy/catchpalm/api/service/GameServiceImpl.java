@@ -1,11 +1,13 @@
 package com.ssafy.catchpalm.api.service;
 
 import com.ssafy.catchpalm.api.request.GameLogPostReq;
+import com.ssafy.catchpalm.db.dto.MusicDTO;
 import com.ssafy.catchpalm.db.dto.RankDTO;
 import com.ssafy.catchpalm.db.entity.Music;
 import com.ssafy.catchpalm.db.entity.Rank;
 import com.ssafy.catchpalm.db.entity.Records;
 import com.ssafy.catchpalm.db.entity.User;
+import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.RankRepository;
 import com.ssafy.catchpalm.db.repository.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     RecordsRepository recordsRepository;
+
+    @Autowired
+    MusicRepository musicRepository;
 
     @Override
     public void createLog(GameLogPostReq gameInfo){
@@ -68,6 +73,15 @@ public class GameServiceImpl implements GameService {
 
         return ranks.stream()
                 .map(RankDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MusicDTO> getMusicList(){
+        List<Music> musics = musicRepository.findAll();
+
+        return musics.stream()
+                .map(MusicDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
