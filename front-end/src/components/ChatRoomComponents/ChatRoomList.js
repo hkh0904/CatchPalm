@@ -329,11 +329,11 @@ const ChatRoomList = ({}) => {
       style={{
       // justifyContent: 'flex-end',
       marginRight: '15%',
-      marginTop: '5%',}}>
+      marginTop: '8%',}}>
         
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+      <div style={{display: 'flex', justifyContent: 'space-between', marginBottom:'1%'}}>
         <div style={{display: 'flex', alignItems:'center', marginLeft: '15%'}}>
-        <a style={{width:'85%', height:'40%'}} onClick={handleRefresh}>
+        <a style={{width:'85%', height:'25%'}} onClick={handleRefresh}>
             <span></span>
             <span></span>
             <span></span>
@@ -342,7 +342,7 @@ const ChatRoomList = ({}) => {
         </div>
         <div style={{display: 'flex'}}>
         <div>
-        <a style={{width:'100%', height:'45%', }}>
+        <a style={{width:'100%', height:'25%', }}>
             <span></span>
             <span></span>
             <span></span>
@@ -356,8 +356,8 @@ const ChatRoomList = ({}) => {
         </div>
         
         {/* <button style={{backgroundColor: 'rgba(0, 0, 0, 0.2)', color: 'white'}} onClick={handleOpenModal}>방만들기</button> */}
-        <div style={{marginLeft: '10%'}}> 
-        <a style={{width:'85%', height:'40%'}} onClick={handleOpenModal}>
+        <div style={{marginLeft: '20%'}}> 
+        <a style={{width:'85%', height:'25%'}} onClick={handleOpenModal}>
             <span></span>
             <span></span>
             <span></span>
@@ -433,7 +433,7 @@ const ChatRoomList = ({}) => {
       </div>
       </div>   
       <div>
-        <div style={{display:'flex', justifyContent: 'center',}}>
+        <div style={{display:'flex', justifyContent: 'center', marginTop: '1%'}}>
           <div>
           </div>
         <a href='/'>
