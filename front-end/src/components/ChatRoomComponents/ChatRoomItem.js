@@ -26,6 +26,7 @@ var colors = [
 
 const ChatRoomItem = () => {
   // 게임시작 신호--------------------------------------------------
+  const [isChecked, setIsChecked] = useState(false); // 체크박스 : true false
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
   const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
@@ -43,7 +44,7 @@ const ChatRoomItem = () => {
         nickname: name,
         userNumber: userNumber,
         userInfo: userInfo,
-        isVideo: isVideo
+        isVideo: isChecked ? 1 : 0
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       navigate('/Playing', { state: { gameData: gameStartRes } });
@@ -71,7 +72,7 @@ const ChatRoomItem = () => {
     else if(musicOnOff === 0 && audio !== null){
       audio.volume = 0;
     }
-  }, [musicOnOff]); // 선택곡이 바뀌면 수행
+  }, [musicOnOff]); 
 
   const changeSoundStatus = () => {
     setMusicOnOff(musicOnOff === 0 ? 1:0);
@@ -124,7 +125,9 @@ const ChatRoomItem = () => {
         audio.currentTime = 0;
       }
       audio = new Audio(`/music/${pickedMusic}.mp3`);
-      audio.volume = soundVolume; // 볼륨 30%로 설정
+      if (musicOnOff == 1) {
+        audio.volume = soundVolume; // 볼륨 30%로 설정
+      } else audio.volume = 0;
       audio.play();
     }
   }, [pickedMusic, musicName, soundVolume]); // 선택곡이 바뀌면 수행
@@ -564,7 +567,23 @@ const ChatRoomItem = () => {
                 }}
                 onClick={changeSoundStatus}
             />
-          }
+            }
+            
+            <img
+                src="/assets/video.png"
+                alt="speaker-off"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+            />
+
+            <div className='button r' id='button-1'>
+              <input type="checkbox" className='checkbox' checked={isChecked}
+                onChange={() => setIsChecked(!isChecked)} />
+              <div className='knobs'></div>
+              <div className='layer'></div>
+            </div>
 
           </div>
           {captain !== name &&
