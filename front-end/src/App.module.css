@@ -15,7 +15,6 @@ align-items: center;
 /* height: 150vh; */
 background: #050801;
 font-family: 'Raleway', sans-serif;
-font-weight: bold;
 }
 
 
@@ -174,6 +173,7 @@ top: 10px;
 
 .login-container {
 position: absolute;
+
 top: 10px;  /* adjust as needed */
 right: 10px; /* adjust as needed */
 }
@@ -282,6 +282,6 @@ background-color: #f5f5f5;
     display: flex;
     justify-content: center; /* 수평 중앙 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
-    height: 110vh; /* 뷰포트의 높이로 설정 */
+    height: 127vh; /* 뷰포트의 높이로 설정 */
     flex-direction: column; /* 자식 요소들을 수직으로 배열 */
 }

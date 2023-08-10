@@ -1,0 +1,42 @@
+/* App.module.css */
+
+/* 페이지 전체 배경 */
+
+
+/* 유저 정보 헤더 */
+.h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 프로필 이미지 */
+.img {
+    border-radius: 75px; /* 이미지를 원형으로 만듭니다 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 이미지에 약간의 그림자 추가 */
+    margin-bottom: 20px;
+}
+
+/* 모든 버튼에 대한 스타일 */
+.button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼 호버 시 */
+.button:hover {
+    background-color: #45a049;
+}
+
+/* 텍스트와 버튼 간격 */
+p {
+    margin: 10px 0;
+}
+
+
