@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import style from '../App.module.css';
 import axios from 'axios';
+import styles from './Userinfo.module.css';
 
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -175,9 +176,9 @@ const Userinfo = () => {
 
     return (
         <div>
-            <h1>유저 정보</h1>
-            <img height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
-            <button onClick={handleProfileImageClick}>
+            <h1 className={styles.h1}>유저 정보</h1>
+            <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
+            <button className={styles.button} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>
             <input
@@ -190,11 +191,11 @@ const Userinfo = () => {
             <p>User ID: {userInfo.userId}</p>
             <p>
                 User Nickname: {userInfo.userNickname} 
-                <button onClick={handleNicknameChange}>닉네임 변경하기</button>
+                <button className={styles.button} onClick={handleNicknameChange}>닉네임 변경하기</button>
             </p>
             <p>Age: {userInfo.age}</p>
             <p>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
-            <button onClick={handlePasswordChange}>비밀번호 변경하기</button>
+            <button className={styles.button} onClick={handlePasswordChange}>비밀번호 변경하기</button>
             <div className={style.signout}>
                 <button onClick={handleDeleteAccount}>
                   회원탈퇴
