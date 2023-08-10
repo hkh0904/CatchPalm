@@ -52,6 +52,15 @@ public class User{
     // 0:남자, 1:여자, 2:기타
     private int sex = 0;
 
+    @Column(name = "game_sound")
+    private double gameSound = 0.5;
+    @Column(name = "effect_sound")
+    private double effectSound = 0.5;
+    @Column(name = "back_sound")
+    private double backSound = 0.3;
+    @Column(name = "is_cam")
+    private int isCam = 0;
+
     @Column(name = "refresh_token",length = 1024)
     private String refreshToken;
 
