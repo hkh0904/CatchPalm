@@ -6,6 +6,7 @@ import style from './ChatRoomList.module.css'
 // import LockIcon from '@mui/icons-material/Lock';
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
@@ -104,6 +105,20 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   };
 
   const handleCreateRoom = () => {
+    if (!roomData.title) {
+      alert("방 제목을 입력 해주세요");
+      return;
+    }
+
+    else if (!roomData.categoryNumber) {
+      alert("게임 유형을 선택 해주세요");
+      return;
+    }
+
+    else if (!roomData.capacity) {
+      alert("방 정원을 입력해주세요");
+      return;
+    }
     onCreateRoom(roomData);
     onClose();
   };
@@ -148,7 +163,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             </button>
         </div>
         <div>
-          <label>
+          <label style={{marginTop:'5%'}}>
             비밀번호
             <input
               type="checkbox"
@@ -190,8 +205,8 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             <input type="number" name="capacity" value={4} disabled />
           )}
           </div>
-        <button onClick={() => { handleCreateRoom();}}>확인</button>
-        <button onClick={onClose}>닫기</button>
+        <button style={{color:'black'}} onClick={() => { handleCreateRoom();}}>확인</button>
+        <button style={{color:'black'}} onClick={onClose}>닫기</button>
       </div>
     </div>
   );
@@ -290,6 +305,19 @@ const ChatRoomList = ({}) => {
     setInputPassword(event.target.value);
   };
   
+  const handleRefresh = () => {
+    const fetchChatRooms = async () => {
+      try {
+        const response = await axios.get('https://localhost:8443/api/v1/gameRooms/listRooms');
+        console.log(response);
+        const data = response.data;
+        setChatRooms(data);
+      } catch (error) {
+        console.error('Error fetching chat rooms:', error);
+      }
+    };
+    fetchChatRooms();
+  };
   
   return (
     <div>
@@ -298,13 +326,22 @@ const ChatRoomList = ({}) => {
       </video>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} onCreateRoom={handleCreateRoom} />
       <div
-      style={{display: 'flex',
-      justifyContent: 'flex-end',
+      style={{
+      // justifyContent: 'flex-end',
       marginRight: '15%',
       marginTop: '5%',}}>
         
-      <div style={{display: 'flex'}}>
-        <div style={{marginRight:'10%'}}>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{display: 'flex', alignItems:'center', marginLeft: '15%'}}>
+        <a style={{width:'85%', height:'40%'}} onClick={handleRefresh}>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <RefreshIcon/></a>
+        </div>
+        <div style={{display: 'flex'}}>
+        <div>
         <a style={{width:'100%', height:'45%', }}>
             <span></span>
             <span></span>
@@ -319,7 +356,7 @@ const ChatRoomList = ({}) => {
         </div>
         
         {/* <button style={{backgroundColor: 'rgba(0, 0, 0, 0.2)', color: 'white'}} onClick={handleOpenModal}>방만들기</button> */}
-        <div>
+        <div style={{marginLeft: '10%'}}> 
         <a style={{width:'85%', height:'40%'}} onClick={handleOpenModal}>
             <span></span>
             <span></span>
@@ -327,7 +364,7 @@ const ChatRoomList = ({}) => {
             <span></span>
             방 만들기</a>
         </div>
-
+        </div>
         
       </div>
       </div>
@@ -340,7 +377,15 @@ const ChatRoomList = ({}) => {
         {chatRooms.map((room) => (
           <button
             className={style.button_chatRoomList}
-          onClick={room.password ? togglePasswordInput : () => checkEnterChatRoom(room.roomNumber, room.password)}
+            onClick={room.password && room.status !== 1
+              ? togglePasswordInput
+              : () => {
+                  if (room.status === 1) {
+                    alert("이미 게임중인 방입니다.");
+                  } else {
+                    checkEnterChatRoom(room.roomNumber, room.password, room.status);
+                  }
+                }}
             key={room.id}
             style={{
               backgroundColor: room.status === 1 ? 'rgba(0, 0, 0, 0.2)' : '#f367ce',
@@ -363,7 +408,7 @@ const ChatRoomList = ({}) => {
             {room.password && (
               <>
                 {showPasswordInput && (
-                  <div className={style.modal_content}>
+                  <div className={style.modal_content_password}>
                     <label>비밀번호:</label>
                     <input
                       type="password"
@@ -383,14 +428,6 @@ const ChatRoomList = ({}) => {
                 )}
               </>
             )}
-            {/* {!room.password && (
-              <button
-                onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
-                style={{ cursor: 'pointer' }}
-              >
-                입장하기
-              </button>
-            )} */}
           </button>
         ))}
       </div>
