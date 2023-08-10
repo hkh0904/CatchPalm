@@ -40,7 +40,8 @@ const ChatRoomItem = () => {
         musicNumber: startMusic, // 음악 번호
         musicName: startMusicName,  // 음악 이름
         nickname: name,
-        userNumber: userNumber
+        userNumber: userNumber,
+        userInfo: userInfo
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       // navigate('/게임창경로', { state: { gameData: gameStartRes } });
@@ -322,8 +323,8 @@ const ChatRoomItem = () => {
   // 게임 스타트 정보 전송
   const clickStart = (event) => {
     event.preventDefault();
-
-    const readyCount = userInfo.filter(user => user.ready === 1).length;
+    
+    const readyCount = userInfo.filter(user => user.nickname!==captain && user.ready === 1).length;
     if (readyCount === userInfo.length-1) {
       if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
         var startReq = { // 시작요청 데이터
@@ -371,7 +372,8 @@ const ChatRoomItem = () => {
   
   return (
     <div style={{
-      marginTop:'5%'
+      marginTop:'5%',
+      padding:'5%'
     }} className={style.gameRoomBody}>
       {/* 음악 리스트 민우짱 */}
       <div>
@@ -489,22 +491,16 @@ const ChatRoomItem = () => {
                   backgroundColor: `${getAvatarColor(user.nickname)}`
                 }} className={style.noProfile}>{user.nickname[0]}</i>
               }
-              {/* 프로필 사진 없을 때. */}
+              {/* 프로필 사진 있을 때. */}
               {user.profileImg !== null &&
-                <img className={style.userImg} src="" alt="User Thumbnail" />
-              }${user.profileImg}
+                <img className={style.userImg} src={user.profileImg} alt="User Thumbnail" />
+              }
 
               <div className={style.nickname} style={{
                 color: user.nickname === name ? 'springgreen' : 'white'
               }}>{user.nickname}</div>
               {captain === user.nickname && 
                 <img className={style.captainlogo} src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
-              }
-              {captain !== user.nickname && name === user.nickname &&
-                <button class={style.button} onClick={clickReady}>ready</button>
-              }
-              {captain === user.nickname && name === user.nickname &&
-                <button class={style.startbutton} onClick={clickStart}>start</button>
               }
             </div>
 
@@ -514,7 +510,7 @@ const ChatRoomItem = () => {
 
         }}>
           {captain !== name &&
-                <a style={{
+                <a onClick={clickReady} style={{
                   width: '100%',
                   color: 'mediumspringgreen',
                   textAlign: 'center',
@@ -525,8 +521,8 @@ const ChatRoomItem = () => {
                   fontSize: '2.5rem',
                   margin: '0',
                   border: '1px solid',
-                  filter: 'filter: hue-rotate(215deg)'
-                }}>
+                  filter: 'hue-rotate(215deg)',
+                }} href="/">
                   <span></span>
                   <span></span>
                   <span></span>
@@ -536,7 +532,7 @@ const ChatRoomItem = () => {
                 </a>
           }
           {captain === name &&
-                <a style={{
+                <a onClick={clickStart} style={{
                   width: '100%',
                   color: 'aqua',
                   textAlign: 'center',
@@ -547,7 +543,7 @@ const ChatRoomItem = () => {
                   fontSize: '2.5rem',
                   margin: '0',
                   border: '1px solid'
-                }}>
+                }} href="/">
                   <span></span>
                   <span></span>
                   <span></span>
