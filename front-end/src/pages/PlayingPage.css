@@ -80,6 +80,7 @@ canvas {
 }
 
 .circle {
+  box-sizing: border-box;
   margin: 0 auto;
   background-color: skyblue;
   border: 0.5rem solid royalblue;
@@ -90,6 +91,7 @@ canvas {
 }
 
 .circleOut {
+  box-sizing: border-box;
   margin: 0 auto;
   border: 0.7rem solid royalblue;
   border-radius: 50%;

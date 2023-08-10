@@ -67,6 +67,7 @@ export default function HandModel() {
   const missSound = useRef(new Audio("/assets/Miss.mp3"));
   const greatSound = useRef(new Audio("/assets/Great.mp3"));
   const perpectSound = useRef(new Audio("/assets/Perpect.mp3"));
+  const scaleStepRef = useRef(0.02);
 
   useEffect(() => {
     // 볼륨 상태가 변경될 때마다 오디오 객체의 볼륨을 업데이트
@@ -78,9 +79,9 @@ export default function HandModel() {
   }, [volume, effectVolume]);
 
   // 오디오 재생 함수
-function playSound(audioRef) {
-  audioRef.current.play();
-}
+  function playSound(audioRef) {
+    audioRef.current.play();
+  }
 
   useEffect(() => {
     const unblock = window.history.pushState(null, "", window.location.href);
@@ -264,17 +265,17 @@ function playSound(audioRef) {
   };
 
   // 볼륨조절 함수
-const handleEffectChange = (e) => {
-  setEffectVolume(e.target.value);
-  missSound.current.volume = e.target.value;
-  greatSound.current.volume = e.target.value;
-  perpectSound.current.volume = e.target.value;
-};
+  const handleEffectChange = (e) => {
+    setEffectVolume(e.target.value);
+    missSound.current.volume = e.target.value;
+    greatSound.current.volume = e.target.value;
+    perpectSound.current.volume = e.target.value;
+  };
 
-// 오디오 재생 함수
-function playSound(audioRef) {
-  audioRef.current.play();
-}
+  // 오디오 재생 함수
+  function playSound(audioRef) {
+    audioRef.current.play();
+  }
 
   // 웹캠 스트림을 시작하는 비동기 함수
   const handleStartStreaming = async () => {
@@ -367,10 +368,9 @@ function playSound(audioRef) {
 
         // 애니메이션 시작
         let scale = 1;
-        let scaleStep = 0.008;
 
         function animate() {
-          scale -= scaleStep;
+          scale -= scaleStepRef.current;
           circleOut.style.transform = `scale(${scale})`;
 
           if (scale > 0.2) {
@@ -381,8 +381,11 @@ function playSound(audioRef) {
           } else {
             // circleDiv의 display 값이 none이 아닐 때만 로직 실행
             if (circleDiv.parentNode) {
-              const valX = webcamRect.width - (webcamRect.left + node["X-COORDINATE"] * webcamRect.width)
-              const valY = webcamRect.top + node["Y-COORDINATE"] * webcamRect.height
+              const valX =
+                webcamRect.width -
+                (webcamRect.left + node["X-COORDINATE"] * webcamRect.width);
+              const valY =
+                webcamRect.top + node["Y-COORDINATE"] * webcamRect.height;
               showValue(valX, valY, "MISS");
 
               // scale이 0.2 이하가 되면 div를 삭제합니다.
@@ -414,14 +417,15 @@ function playSound(audioRef) {
     // 결과가 있다면 캔버스에 그림
     // 결과가 있다면 캔버스에 그림
     if (results.landmarks) {
+      canvasCtx.shadowBlur = 10; // 흐릿한 정도 설정
+      canvasCtx.shadowColor = "#0fa"; // 그림자 색상 설정
+
       for (let landmarks of results.landmarks) {
-        // 커넥터를 그릴 때 색상을 검은색(#000000), 굵기는 5로 변경합니다.
         drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-          color: "beige",
+          color: "white",
           lineWidth: 5,
         });
-        // 각 랜드마크에 대해서는 선 색상을 강아지 발색인 베이지색(#F5F5DC), 굵기는 2로 변경합니다.
-        drawLandmarks(canvasCtx, landmarks, { color: "#F5F5DC", lineWidth: 2 });
+        drawLandmarks(canvasCtx, landmarks, { color: "white", lineWidth: 2 });
       }
     }
     canvasCtx.restore();
@@ -593,7 +597,8 @@ function playSound(audioRef) {
           ref={videoRef}
           id="webcam"
           autoPlay
-          width={videoSize.width} height={videoSize.height}
+          width={videoSize.width}
+          height={videoSize.height}
           style={{
             position: "absolute",
           }}
@@ -629,11 +634,22 @@ function playSound(audioRef) {
             style={{ bottom: "50px", left: "150px" }}
           />
         </div>
-        {countdown > 0 && (
-          <div id="countdown">
-            {countdown}
-          </div>
-        )}
+        <div>
+    <input
+        type="range"
+        min="0.005"
+        max="0.05"
+        step="0.001"
+        style={{ bottom: "80px", left: "150px", position: "absolute", zIndex: 2 }}
+        onChange={(e) => {
+            const newValue = parseFloat(e.target.value);
+            scaleStepRef.current = newValue;
+            // setScaleStep(newValue); // state를 사용하는 경우에는 이 코드도 필요합니다.
+        }}
+    />
+</div>
+
+        {countdown > 0 && <div id="countdown">{countdown}</div>}
       </div>
     </div>
   );
