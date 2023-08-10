@@ -9,7 +9,7 @@ let audio = null;
 
 function MyComponent() {
   const [rankList, setRankList] = useState([]);
-  const [ranking, setRanking] = useState(0);
+  const [ranking, setRanking] = useState();
   const [musicList,setMusicList] = useState([]);
   const [musicNumber,setMusicNumber] = useState(0);
   const [backSound,setBackSound] = useState(0);
@@ -124,7 +124,7 @@ function MyComponent() {
               <tbody>
                   {musicList && musicList.map((item, index) => 
                       <tr className={style.neon_tr} key={index} onClick={() => handlePlayAudio(index+1)}>
-                          <td>{item.musicName}</td>
+                          <td style={{padding:'3px'}}>{item.musicName}</td>
                           <td>{item.level}</td>
                       </tr>
                   )}
@@ -132,7 +132,7 @@ function MyComponent() {
             </table>
           </div>
           <div className={`${style.flex_item} ${style.item3} ${style.itemContainer}`}>
-            <img src={musicList[musicNumber].thumbnail} alt="no-img" style={{width:'60%',verticalAlign: 'top',paddingLeft:'1%',paddingTop:'1%'}}></img>
+            <img src={musicList[musicNumber].thumbnail} alt="no-img" style={{width:'63%',verticalAlign: 'top',paddingLeft:'1%',paddingTop:'1%'}}></img>
             <div className={style.textContainer} style={{paddingLeft:'2%',paddingTop:'2%'}}>
               <span className={style.music_detail} style={{color:'lime', fontSize:'28px'}}>{musicList[musicNumber].musicName}</span><br></br><br></br>
               <span className={style.music_head}>Singer: </span>
@@ -148,35 +148,54 @@ function MyComponent() {
         </div>
         <div className={style.leaderboard2_container}>
           <div className={`${style.flex_item} ${style.item2}`}>
-          <table style={{ color: 'white', fontSize: '20px',textAlign:'left',padding:'2%',justifyContent:'center',borderCollapse:'separate'}}>
+          <table style={{ color: 'white', fontSize: '20px',textAlign:'left',padding:'1%',justifyContent:'center',borderCollapse:'separate'}}>
               <thead style={{color:'wheat',fontSize:'25px'}}>
-                  <tr>
-                      <th style={{width:'10%'}}>Ranking</th>
-                      <th style={{width:'30%'}}>Nickname</th>
-                      <th style={{width:'20%'}}>Score</th>
-                      <th style={{width:'9%',paddingRight:'3%'}}>Date</th>
+                  <tr >
+                      <th style={{width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Ranking</th>
+                      <th style={{width:'30%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Nickname</th>
+                      <th style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Score</th>
+                      <th style={{width:'9%',paddingRight:'3%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Date</th>
                   </tr>
               </thead>
               <tbody>
                   {rankList && rankList.map((item, index) => 
                       <tr  key={index} className={index % 2 === 0 ? style.rowColor1 : style.rowColor2}>
-                          <td style={{paddingLeft:'5px',color:'#ffd700'}}>{index+1}</td>
-                          <td>{item.userDTO.nickname}</td>
-                          <td>{item.score}</td>
-                          <td>{item.playDateTime.slice(0, 10)}</td>
+                          <td style={{paddingLeft:'10px',color:'#ffd700',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{index+1}</td>
+                          <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.userDTO.nickname}</td>
+                          <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.score}</td>
+                          <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.playDateTime.slice(0, 10)}</td>
                       </tr>
                   )}
               </tbody>
             </table>
           </div>
           <div className={`${style.flex_item} ${style.item4}`}>
+          <div className={style.leaderboard_text} style={{color:'red',fontSize:'40px',fontStyle:'inherit'}}>
+            <span className={style.glow}>My Ranking</span>
+          </div>
+          <table style={{ color: 'white', fontSize: '20px',textAlign:'left',padding:'2%',justifyContent:'center',borderCollapse:'separate'}}>
+              <tbody>
+              {ranking> 0 ? (
+                  <tr className={style.rowColor1}>
+                    <td style={{paddingLeft:'5px',color:'#ffd700',width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{ranking}</td>
+                    <td style={{width:'30%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].userDTO.nickname}</td>
+                    <td style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].score}</td>
+                    <td style={{width:'9%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].playDateTime.slice(0, 10)}</td>
+                  </tr>
+                ) : (
+                <tr>
+                  <td colSpan="4">No Records Found</td>
+                </tr>
+              )}
+              </tbody>
+            </table>
             <ul>
                 {musicList && musicList.map((item, index) => 
                   <li key={index} style={{color:`white`,fontSize:`20px`}}>
                     item2: {item.musicNumber}, music Name: {item.musicName}, music level: {item.level} music thumbnail: {item.thumbnail}
                   </li>
                 )}
-              </ul>
+            </ul>
           </div>
         </div>
       </div>

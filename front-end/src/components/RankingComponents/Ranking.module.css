@@ -49,21 +49,29 @@
 
 .item2{
   flex-basis: calc(60% - 10px);
-  min-height: 60vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  max-height: 60vh;
+  min-height: 66.5vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 66.5vh;
   width: 99%;
 }
 
 .item3{
   flex-basis: calc(40% - 10px);  /* 10px는 간격을 위해 줄인 크기 */
-  max-height: 39vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  min-height: 39vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 40vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  min-height: 40vh; /* 예시로 뷰포트 높이의 30%를 지정 */
   margin-left: 1%;
 }
 
 .item4{
   flex-basis: calc(60% - 10px);
-  max-height: 17vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 11vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  overflow: hidden;
+  
+}
+
+.table_padding{
+  padding-left:'10px';
+  padding-top: '5px';
+  padding-bottom: '5px';
 }
 
 .inside_div {
@@ -74,11 +82,11 @@
 }
 
 .rowColor1 {
-  background-color: rgba(60, 60, 60, 0.7);
+  background-color: rgba(60, 60, 60, 0.3);
 }
 
 .rowColor2 {
-  background-color: rgba(40, 40, 40, 0.7);
+  background-color: rgba(40, 40, 40, 0.3);
 }
 
 
