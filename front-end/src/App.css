@@ -4,22 +4,6 @@
 /* 모든페이지 스크롤바 제거 */
 body {
   overflow: hidden;
-<<<<<<< HEAD
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  /* 마우스 커서 변경 */
-  cursor: url('../public/assets/cursor.png'), auto;
-
-  display: flex;
-  /* justify-content: center;
-  align-items: center; */
-  height: 100vh;
-  background: #050801;
-  font-family: 'Jua', sans-serif;
-  
-=======
->>>>>>> dbf9abffce86beac37d3060dcb435e6b0d54bd3b
 }
 
 
