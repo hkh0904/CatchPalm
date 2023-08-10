@@ -134,7 +134,7 @@ function MainPage() {
         </video>
 
       <div className={style.mainword}>
-        <h2>당신의 손으로 리듬을 잡아라</h2>
+        <h2>프로젝트 소개</h2>
       </div>
           {isLoggedIn ? (
             <React.Fragment>
@@ -188,7 +188,7 @@ function MainPage() {
               
             </React.Fragment>
           ) : (
-          <React.Fragment>
+            <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               <a href="#" className={style.a} onClick={openLoginDrawer}>              
                 <span></span>
@@ -196,6 +196,7 @@ function MainPage() {
                 <span></span>
                 LOGIN
               </a>
+              <br/>
               <a href="#" className={style.a} onClick={openSignupDrawer}>
                 
                 <span></span>
@@ -210,10 +211,12 @@ function MainPage() {
                 </button>
               </div>
               <div className={`${style.signup}`}>
-                <button onClick={handleButtonClick4}>
-                  회원가입
-                </button>
-              </div> */}
+              <button onClick={handleButtonClick4}>
+              회원가입
+              </button>
+            </div> */}
+              <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
+
               <button 
                 className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
                 onClick={handleCircleButtonClick}

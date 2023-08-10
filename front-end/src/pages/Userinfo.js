@@ -186,6 +186,7 @@ const Userinfo = () => {
         <div>
             <h1 className={styles.h1}>유저 정보</h1>
             <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
+            <br/>
             <button className={styles.button} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>
@@ -199,6 +200,7 @@ const Userinfo = () => {
             <p>User ID: {userInfo.userId}</p>
             <p>
                 User Nickname: {userInfo.userNickname} 
+                
                 <button className={styles.button} onClick={handleNicknameChange}>닉네임 변경하기</button>
             </p>
             <p>Age: {userInfo.age}</p>

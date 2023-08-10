@@ -161,10 +161,6 @@ function SignUp() {
                 <Link href="/login">
                   Already have an account? Sign in
                 </Link>
-
-                <Link href ="/" variant="body2">
-                  메인 화면으로 돌아가기
-                </Link>
               </Grid>
             </Grid>
           </Box>

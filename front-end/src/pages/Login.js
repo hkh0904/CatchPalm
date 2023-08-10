@@ -57,10 +57,11 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       const response = await axios.get('https://localhost:8443/api/v1/oauth2/authorization/google');
-      if (response.status === 200) {
-        localStorage.setItem('token', response.data.accessToken);
-        navigate('/');
-        window.location.reload();
+      
+      // Google OAuth 인증 URL로 리디렉션
+      if (response.data.startsWith('redirect:')) {
+        const redirectUrl = response.data.replace('redirect:', '').trim();
+        window.location.href = redirectUrl;
       } else {
         setErrorMessage('Google 로그인 실패');
       }
@@ -69,12 +70,28 @@ const Login = () => {
       setErrorMessage('Google 로그인 실패');
     }
   };
+  
+  // 콜백 URL에서 호출될 함수 (예: componentDidMount 또는 useEffect 내부에서 호출)
+  const handleOAuthCallback = async () => {
+    const response = await axios.get('https://localhost:8443/api/v1/oauth2/callback'); // 여기서 액세스 토큰을 가져오는 백엔드 엔드포인트를 지정해야 합니다.
+  
+    if (response.data.message === 'Success') {
+      localStorage.setItem('token', response.data.accessToken);
+      window.location.href = "http://localhost:3000/";
+    } else {
+      setErrorMessage('Google 로그인 실패');
+    }
+  };
+  
+  
+  
 
   return (
     <ThemeProvider theme={theme}>
         
           <Box
             sx={{
+              maxWidth: '400px',
               my: 4,
               mx: 2,
               display: 'flex',
