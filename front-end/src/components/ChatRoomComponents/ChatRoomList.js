@@ -7,6 +7,7 @@ import style from './ChatRoomList.module.css'
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import Swal from "sweetalert2";
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
@@ -106,17 +107,29 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
 
   const handleCreateRoom = () => {
     if (!roomData.title) {
-      alert("방 제목을 입력 해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "방 제목을 입력 해주세요",
+        // text: "방 제목을 입력 해주세요",
+      });
       return;
     }
 
     else if (!roomData.categoryNumber) {
-      alert("게임 유형을 선택 해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "게임 유형을 선택 해주세요",
+        // text: "방 제목을 입력 해주세요",
+      });
       return;
     }
 
     else if (!roomData.capacity) {
-      alert("방 정원을 입력해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "방 정원을 입력해주세요",
+        // text: "방 제목을 입력 해주세요",
+      });
       return;
     }
     onCreateRoom(roomData);
@@ -141,7 +154,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
         <h2>방만들기 창</h2>
         <div>
           <label>제목</label>
-          <input type="text" name="title" value={roomData.title} onChange={handleChange} />
+          <input style={{width:'90%'}} type="text" name="title" value={roomData.title} onChange={handleChange} />
         </div>
         <div>
           <label>게임 유형</label>
@@ -180,8 +193,8 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             />
           )}
         </div>
-        <div>
-          <label>capacity</label>
+        <div style={{marginTop: '8%', width:'15%'}} >
+          <label>Capacity</label>
           {roomData.categoryNumber === 2 ? (
             <div>
               <input
