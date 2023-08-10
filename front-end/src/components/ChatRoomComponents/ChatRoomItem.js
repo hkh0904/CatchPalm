@@ -7,6 +7,7 @@ import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
+import { display, margin } from '@mui/system';
 let name = "";
 let Sock = null;
 var stompClient = null;
@@ -29,6 +30,7 @@ const ChatRoomItem = () => {
   const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
   const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
+  const [isVideo, setIsVideo] = useState(0); // startMusic 상태로 추가
   const navigate = useNavigate();
   useEffect(() => {
     if (gameStart === 1) {
@@ -39,11 +41,12 @@ const ChatRoomItem = () => {
         musicNumber: startMusic, // 음악 번호
         musicName: startMusicName,  // 음악 이름
         nickname: name,
-        userNumber: userNumber
+        userNumber: userNumber,
+        userInfo: userInfo,
+        isVideo: isVideo
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
-      // navigate('/게임창경로', { state: { gameData: gameStartRes } });
-      alert("게임시작");
+      navigate('/Playing', { state: { gameData: gameStartRes } });
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
@@ -321,8 +324,8 @@ const ChatRoomItem = () => {
   // 게임 스타트 정보 전송
   const clickStart = (event) => {
     event.preventDefault();
-
-    const readyCount = userInfo.filter(user => user.ready === 1).length;
+    
+    const readyCount = userInfo.filter(user => user.nickname!==captain && user.ready === 1).length;
     if (readyCount === userInfo.length-1) {
       if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
         var startReq = { // 시작요청 데이터
@@ -364,14 +367,20 @@ const ChatRoomItem = () => {
     // localStorage에서 데이터 가져오기
     connect();
   };
+
+  const handleQuitChatRoom = () => {
+    navigate(`/chatRoomList`);
+  };
+
   if (!roomInfo) {
     return <div>Loading...</div>;
   }
   
   return (
     <div style={{
-      marginTop:'5%'
-    }}>
+      marginTop:'5%',
+      padding:'5%'
+    }} className={style.gameRoomBody}>
       {/* 음악 리스트 민우짱 */}
       <div>
         <div className={style.container}>
@@ -387,7 +396,7 @@ const ChatRoomItem = () => {
                 className={`${style.item} ${style[`a${index+1}`]}`}
                 style={{
                   backgroundImage: `url(${music.thumbnail})`,
-                  width: '250px',
+                  width: '265px',
                   backgroundSize: 'cover',
                 }}
                 onMouseEnter={() => handleMouseEnter(index)}
@@ -481,21 +490,94 @@ const ChatRoomItem = () => {
           {userInfo && userInfo.map((user, index) => (
             <div className={style.user_item} style={{ 
                 backgroundColor : user.nickname === captain ? 'rgb(179, 6, 179, 0.5)' : userInfo[index].ready === 0 ? 'rgb(0, 0, 0, 0.1)' : 'rgb(179, 6, 179, 0.6)'
-              }}>
-              <img className={style.userImg} src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg" alt="User Thumbnail" />
-              <div className={style.nickname}>{user.nickname}</div>
+            }}>
+              {/* 프로필 사진 없을 때. */}
+              {user.profileImg === null &&
+                <i style={{
+                  backgroundColor: `${getAvatarColor(user.nickname)}`
+                }} className={style.noProfile}>{user.nickname[0]}</i>
+              }
+              {/* 프로필 사진 있을 때. */}
+              {user.profileImg !== null &&
+                <img className={style.userImg} src={user.profileImg} alt="User Thumbnail" />
+              }
+
+              <div className={style.nickname} style={{
+                color: user.nickname === name ? 'springgreen' : 'white'
+              }}>{user.nickname}</div>
               {captain === user.nickname && 
                 <img className={style.captainlogo} src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
-              }
-              {captain !== user.nickname && name === user.nickname &&
-                <button class={style.button} onClick={clickReady}>ready</button>
-              }
-              {captain === user.nickname && name === user.nickname &&
-                <button class={style.startbutton} onClick={clickStart}>start</button>
               }
             </div>
 
           ))}
+        </div>
+        <div className={style.game_option} style={{
+
+        }}>
+
+          {captain !== name &&
+                <a onClick={clickReady} style={{
+                  width: '100%',
+                  color: 'mediumspringgreen',
+                  textAlign: 'center',
+                  display: 'grid',
+                  height: '40%',
+                  justifyContent: 'space-around',
+                  alignContent: 'space-around',
+                  fontSize: '2.5rem',
+                  margin: '0',
+                  border: '1px solid',
+                  filter: 'hue-rotate(215deg)',
+                }} href="/">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  
+                  READY
+                </a>
+          }
+          {captain === name &&
+                <a onClick={clickStart} style={{
+                  width: '100%',
+                  color: 'aqua',
+                  textAlign: 'center',
+                  display: 'grid',
+                  height: '40%',
+                  justifyContent: 'space-around',
+                  alignContent: 'space-around',
+                  fontSize: '2.5rem',
+                  margin: '0',
+                  border: '1px solid'
+                }} href="/">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  
+                  start
+                </a>
+              }
+          <a href='/' onClick={handleQuitChatRoom} style={{
+                  width: '100%',
+                  color: 'aqua',
+                  textAlign: 'center',
+                  display: 'grid',
+                  height: '40%',
+                  justifyContent: 'space-around',
+                  alignContent: 'space-around',
+                  fontSize: '2.5rem',
+                  margin: '0',
+                  border: '1px solid'
+                }}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  
+                  EXIT
+                </a>
         </div>
       </div>
     </div>
