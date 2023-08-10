@@ -207,9 +207,25 @@ public class UserController {
 			// music 수정
 			user.setProfileMusic(userModifyInfo.getProfileMusic());
 		}
-		if (userModifyInfo.getSynk() != "") { //sex에 값이 있다면
-			// sex 수정
+		if (userModifyInfo.getSynk() != "") { //synk 값이 있다면
+			// synk 수정
 			user.setSynk(Double.parseDouble(userModifyInfo.getSynk()));
+		}
+		if (userModifyInfo.getGameSound() != "") { //sex에 값이 있다면
+			// sex 수정
+			user.setGameSound(Double.parseDouble(userModifyInfo.getGameSound()));
+		}
+		if (userModifyInfo.getEffectSound() != "") { //sex에 값이 있다면
+			// sex 수정
+			user.setEffectSound(Double.parseDouble(userModifyInfo.getEffectSound()));
+		}
+		if (userModifyInfo.getBackSound() != "") { //sex에 값이 있다면
+			// sex 수정
+			user.setBackSound(Double.parseDouble(userModifyInfo.getBackSound()));
+		}
+		if (userModifyInfo.getIsCam() != "") { //sex에 값이 있다면
+			// sex 수정
+			user.setIsCam(Integer.parseInt(userModifyInfo.getIsCam()));
 		}
 		// 위의 정보를 종합해서 user의 정보를 수정한다.
 		userService.updateUser(user);

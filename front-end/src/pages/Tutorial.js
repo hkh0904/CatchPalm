@@ -12,6 +12,9 @@ function Tutorial() {
   const endTutorial = () => {
     navigate('/');
   }
+  const goTutorial = () => {
+    navigate('/Playing');
+  }
 
   const handleNext = () => {
     if (currentIndex < texts.length - 1) {
@@ -31,11 +34,22 @@ function Tutorial() {
     }
   }, [currentIndex]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleNext();
+    }, 10000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [currentIndex]);
+
   return (
-    <div className={style.background}>
+    <div className={style.background_tutorial}>
       <button className={style.exitButton} onClick={endTutorial}>튜토리얼 끝내기</button>
+      <button className={style.goPlaying} onClick={goTutorial}>바로 시작하기</button>
       {texts[currentIndex] === '(플레이 영상)' ? 
-        <video className={style.video} ref={videoRef} controls style={{ opacity: 1, transition: 'opacity 0.5s' }}>
+        <video className={style.video_t} ref={videoRef} controls style={{ opacity: 1, transition: 'opacity 0.5s' }}>
           <source src="/assets/background.mp4" type="video/mp4" />
         </video>
       :
@@ -43,7 +57,7 @@ function Tutorial() {
           {texts[currentIndex]}
         </p>
       }
-      <div>
+      <div className={style.before_after}>
         <button onClick={handlePrev}>이전</button>
         <button onClick={handleNext}>다음</button>
       </div>

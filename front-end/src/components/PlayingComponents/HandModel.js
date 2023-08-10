@@ -367,7 +367,7 @@ function playSound(audioRef) {
 
         // 애니메이션 시작
         let scale = 1;
-        let scaleStep = 0.02;
+        let scaleStep = 0.008;
 
         function animate() {
           scale -= scaleStep;
@@ -593,6 +593,7 @@ function playSound(audioRef) {
           ref={videoRef}
           id="webcam"
           autoPlay
+          width={videoSize.width} height={videoSize.height}
           style={{
             position: "absolute",
           }}
