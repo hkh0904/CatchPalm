@@ -12,8 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import APPLICATION_SERVER_URL from '../ApiConfig';
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 
 const theme = createTheme();
 
@@ -58,7 +58,7 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const response = await axios.get('https://localhost:8443/api/v1/oauth2/authorization/google');
+      const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`);
       if (response.status === 200) {
         localStorage.setItem('token', response.data.accessToken);
         navigate('/');

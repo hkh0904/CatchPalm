@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import style from '../App.module.css';
 import axios from 'axios';
 import styles from './Userinfo.module.css';
+import APPLICATION_SERVER_URL from '../ApiConfig';
 
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -11,7 +12,7 @@ const Userinfo = () => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
             
-            const response = await axios.get('https://localhost:8443/api/v1/users/me', {
+            const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/me`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -31,7 +32,7 @@ const Userinfo = () => {
         const base64String = await blobToBase64(file);
 
         const token = localStorage.getItem('token');
-        await axios.patch('https://localhost:8443/api/v1/users/modify', {
+        await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
             profileImg: base64String
         }, {
             headers: {
@@ -40,7 +41,7 @@ const Userinfo = () => {
             }
         });
         
-        const response = await axios.get('https://localhost:8443/api/v1/users/me', {
+        const response = await axios.get(`${APPLICATION_SERVER_URL}:8443/api/v1/users/me`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -67,7 +68,7 @@ const Userinfo = () => {
         if (newPassword) {
             const token = localStorage.getItem('token');
             
-            const response = await axios.patch('https://localhost:8443/api/v1/users/modify', {
+            const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
                 age: "",
                 password: newPassword,
                 backSound: "",
@@ -99,7 +100,7 @@ const Userinfo = () => {
         if (newNickname) {
             const token = localStorage.getItem('token');
 
-            const duplicationResponse = await axios.get('https://localhost:8443/api/v1/users/duplicated', {
+            const duplicationResponse = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
@@ -113,7 +114,7 @@ const Userinfo = () => {
                 return;
             }
 
-            const response = await axios.patch('https://localhost:8443/api/v1/users/modify', {
+            const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
                 age: "",
                 backSound: "",
                 effectSound: "",
@@ -153,7 +154,7 @@ const Userinfo = () => {
         
         const token = localStorage.getItem('token');
     
-        fetch('https://localhost:8443/api/v1/users/delete', {
+        fetch(`${APPLICATION_SERVER_URL}/api/v1/users/delete`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
