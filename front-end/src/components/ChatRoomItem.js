@@ -6,6 +6,8 @@ import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { allResolved } from 'q';
 
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
+
 let name = '';
 let userNumber = ''; // userNumber 전역변수로 
 
@@ -47,7 +49,7 @@ const ChatRoomItem = () => {
     handleStartChatting()
     const fetchRoomInfo = async () => {
       try {
-        const response = await axios.get(`https://localhost:8443/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`);
+        const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`);
         const data = response.data;
         console.log("뭘까요",response);
         setRoomInfo(data);
@@ -66,7 +68,7 @@ const ChatRoomItem = () => {
     };
   },[]);
   const connect =()=>{
-    let Sock = new SockJS('https://localhost:8443/ws');
+    let Sock = new SockJS(`${APPLICATION_SERVER_URL}/ws`);
     stompClient = over(Sock);
     stompClient.connect({},onConnected, onError);
   }

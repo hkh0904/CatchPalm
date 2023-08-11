@@ -15,6 +15,7 @@ import Tutorial from './pages/Tutorial';
 import RankingPage from './pages/RankingPage';
 import axios from 'axios';
 
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 
 function MainPage() {
     
@@ -80,7 +81,7 @@ function MainPage() {
     if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
     axios({
       method: 'get',
-      url: 'https://localhost:8443/api/v1/users/me',
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // your access token here
@@ -98,7 +99,7 @@ function MainPage() {
         localStorage.setItem('token', token);
         axios({
           method: 'get',
-          url: 'https://localhost:8443/api/v1/users/me',
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` // your access token here

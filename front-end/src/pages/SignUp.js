@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
+
 const theme = createTheme();
 
 function SignUp() {
@@ -39,7 +41,7 @@ function SignUp() {
 
   const handleCheckUserId = async (userId) => {
     try {
-      const response = await axios.post(`https://localhost:8443/api/v1/users/duplicated/userId`, { userId });
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated/userId`, { userId });
       if (response.data.duplicated) {
         setUserIdMessage({text: '이미 사용중인 아이디입니다.', color: "error"});
       } else {
@@ -53,7 +55,7 @@ function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://localhost:8443/api/v1/users', {
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/users`, {
         userId: state.userId,
         password: state.password,
         age: state.age,
