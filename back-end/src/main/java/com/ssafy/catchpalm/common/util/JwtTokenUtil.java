@@ -72,10 +72,8 @@ public class JwtTokenUtil {
     }
 
     public static String getRefreshToken(String userId) {
-        Date expires = JwtTokenUtil.getRefreshTokenExpiration(refreshExpirationTime);
         return JWT.create()
                 .withSubject(userId)
-                .withExpiresAt(expires)
                 .withIssuer(ISSUER)
                 .withClaim("typ", "RefreshToken")
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
