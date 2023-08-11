@@ -23,6 +23,11 @@ public class Records {
     @JoinColumn(name = "user_number")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_number")
+    private GameRoom gameRoom;
+
+
     private int score;
 
     @Column(name = "play_datetime", nullable = false, updatable = false)

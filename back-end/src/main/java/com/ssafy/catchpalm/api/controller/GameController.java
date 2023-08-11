@@ -58,6 +58,23 @@ public class GameController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
+    @GetMapping("/result")
+    @ApiOperation(value = "게임 결과", notes = "<strong>방 번호를 보내주면</strong>점수를 가져온다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<BaseResponseBody> getRcords(
+            @RequestParam("roomNumber") int roomNumber) {
+
+        // 로그 기록
+        gameService.getRecords(roomNumber);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
     @GetMapping("/rank")
     @ApiOperation(value = "곡에 대한 랭킹 기록", notes = "<strong>뮤직 넘버와 유저 넘버를 넘겨주면</strong>곡에 대한 랭킹을 제공한다. (유저 넘버를 안보내면 전체 랭킹을 보낸다")
     @ApiResponses({
