@@ -375,6 +375,6 @@ background-color: #f5f5f5;
   }
   
   .background_image.clicked {
-    animation: fadeOutImage 5s forwards;
+    animation: fadeOutImage 2s forwards;
   }
   

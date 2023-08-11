@@ -27,7 +27,7 @@ function MainPage() {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // 토큰 삭제
-    window.location.reload(); // 페이지 갱신
+    navigate('/');
   };
 
     // 버튼 클릭 상태를 추적하는 useState 추가
@@ -77,15 +77,33 @@ function MainPage() {
 
 
   useEffect(() => {
-    if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
-    axios({
-      method: 'get',
-      url: 'https://localhost:8443/api/v1/users/me',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // your access token here
-      }
-    })
+    
+    const currentUrl = window.location.href;
+    console.log(currentUrl);
+    
+    // Parse the query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if token parameter is present in the URL
+    let urlToken = urlParams.get('token');
+  
+    if (urlToken) {
+      // Save the token from the URL if present
+      localStorage.setItem('token', urlToken);
+      window.location.href = 'http://localhost:3000/';
+    } else {
+      // Original code if token parameter is not present in the URL
+      
+      if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
+  
+      axios({
+        method: 'get',
+        url: 'https://localhost:8443/api/v1/users/me',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // your access token here
+        }
+      })
       .then(response => {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
@@ -104,18 +122,20 @@ function MainPage() {
             'Authorization': `Bearer ${token}` // your access token here
           }
         })
-          .then(response => {
-            const rawUserId = response.data.userId;
-            const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
-            setUserId(cleanedUserId);
-            localStorage.setItem('userData', JSON.stringify(response.data));
-            console.log(response.data)
-          })
-          .catch(error => {
-            console.log(error);
-          })
+        .then(response => {
+          const rawUserId = response.data.userId;
+          const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+          setUserId(cleanedUserId);
+          localStorage.setItem('userData', JSON.stringify(response.data));
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.log(error);
+        })
       });
-  }, [token]); // useEffect will run once when the component mounts
+    }
+  }, [token]);
+  
   
 
 ///////회원정보 받아오기 끝////////////  
@@ -205,22 +225,12 @@ function MainPage() {
                 SIGN UP
               </a>
             </div>
-              {/* <div className={`${style.login}`}>
-                <button onClick={handleDrawerOpen}>
-                  로그인
-                </button>
-              </div>
-              <div className={`${style.signup}`}>
-              <button onClick={handleButtonClick4}>
-              회원가입
-              </button>
-            </div> */}
+
               <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
 
-              <button 
-                className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
-                onClick={handleCircleButtonClick}
-              >
+              <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
+                onClick={handleCircleButtonClick}>
+                  
               </button>
               <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
                 {drawerContent === "login" && <Login />}
