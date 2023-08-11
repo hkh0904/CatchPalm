@@ -49,21 +49,21 @@
 
 .item2{
   flex-basis: calc(60% - 10px);
-  min-height: 65vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  max-height: 65vh;
+  min-height: 63vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 63vh;
   width: 99%;
 }
 
 .item3{
   flex-basis: calc(40% - 10px);  /* 10px는 간격을 위해 줄인 크기 */
-  max-height: 39vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  min-height: 39vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 37.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  min-height: 37.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
   margin-left: 1%;
 }
 
 .item4{
   flex-basis: calc(60% - 10px);
-  max-height: 12vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 14vh; /* 예시로 뷰포트 높이의 30%를 지정 */
   overflow: hidden;
   
 }
