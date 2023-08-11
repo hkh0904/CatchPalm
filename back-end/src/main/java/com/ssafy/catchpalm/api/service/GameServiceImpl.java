@@ -40,8 +40,12 @@ public class GameServiceImpl implements GameService {
         user.setUserNumber(gameInfo.getUserNumber());
         records.setUser(user);
         records.setScore(gameInfo.getScore());
+        records.setRoomNumber(gameInfo.getRoomNumber());
         recordsRepository.save(records);
     }
+
+    @Override
+    public void getRecords(int roomNumber){}
 
     @Override
     public void createRank(GameLogPostReq gameInfo){
