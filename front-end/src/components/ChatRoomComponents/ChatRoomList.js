@@ -7,7 +7,7 @@ import style from './ChatRoomList.module.css'
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import APPLICATION_SERVER_URL from './ApiConfig';
+import APPLICATION_SERVER_URL from '../../ApiConfig';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 

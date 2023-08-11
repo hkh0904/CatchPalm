@@ -8,7 +8,7 @@ import SockJS from "sockjs-client";
 import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
 import { display, margin } from '@mui/system';
-import APPLICATION_SERVER_URL from './ApiConfig';
+import APPLICATION_SERVER_URL from "../../ApiConfig";
 
 let name = "";
 let Sock = null;

@@ -2,7 +2,7 @@ import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { Component } from 'react';
 import UserVideoComponent from './UserVideoComponent';
-import APPLICATION_SERVER_URL from './ApiConfig';
+import APPLICATION_SERVER_URL from "../../ApiConfig";
 
 class App extends Component {
     constructor(props) {

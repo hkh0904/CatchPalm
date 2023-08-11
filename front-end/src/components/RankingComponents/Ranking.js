@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import style from './Ranking.module.css';
 import { width } from '@mui/system';
-import APPLICATION_SERVER_URL from './ApiConfig';
+import APPLICATION_SERVER_URL from '../../ApiConfig';
 
 let audio = null;
 
