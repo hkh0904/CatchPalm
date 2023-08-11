@@ -68,10 +68,16 @@ export default function HandModel({ gameData }) {
   const perpectSound = useRef(new Audio("/assets/Perpect.mp3"));
   const [scaleStep, setScaleStep] = useState(gameData.synk);
   const scaleStepRef = useRef(scaleStep);
+  const effectVolumeRef = useRef(effectVolume);
+  const volumeRef = useRef(volume);
+  const videoHiddenRef = useRef(videoHidden);
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
-  }, [scaleStep]);
+    effectVolumeRef.current = effectVolume;
+    volumeRef.current = volume;
+    videoHiddenRef.current = videoHidden;
+  }, [scaleStep, effectVolume, volume, videoHidden]);
 
   useEffect(() => {
     // 볼륨 상태가 변경될 때마다 오디오 객체의 볼륨을 업데이트
@@ -160,10 +166,11 @@ export default function HandModel({ gameData }) {
     // 객체 생성
     const data = {
       musicNumber: musicNumRef.current,
+      roomNumber: gameData.roomNumber,
       score: scoreRef.current,
       userNumber: userNumRef.current,
     };
-
+    console.log(data);
     // 헤더 설정
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -183,20 +190,21 @@ export default function HandModel({ gameData }) {
   };
 
   const sendUserData = async () => {
-    const isCamValue = videoHidden ? 1 : 0;
+    const isCamValue = videoHiddenRef.current ? 1 : 0;
     const data = {
       age: "",
       backSound: "",
-      effectSound: effectVolume,
-      gameSound: volume,
+      effectSound: parseFloat(effectVolumeRef.current),
+      gameSound: parseFloat(volumeRef.current),
       isCam: isCamValue,
       nickname: "",
       password: "",
       profileImg: "",
       profileMusic: "",
       sex: "",
-      synk: scaleStepRef,
+      synk: scaleStepRef.current,
     };
+    console.log(data);
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.patch(
@@ -298,7 +306,9 @@ export default function HandModel({ gameData }) {
   }, []);
 
   const handleVolumeChange = (e) => {
+    console.log("Before:", volume);
     setVolume(e.target.value);
+    console.log("After:", volume);
   };
 
   // 볼륨조절 함수
