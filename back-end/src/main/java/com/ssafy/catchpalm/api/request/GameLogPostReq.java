@@ -18,4 +18,6 @@ public class GameLogPostReq {
     Long userNumber;
     @ApiModelProperty(name="유저 점수", example="3212332")
     int score;
+    @ApiModelProperty(name="게임방 번호",example = "232")
+    int roomNumber;
 }

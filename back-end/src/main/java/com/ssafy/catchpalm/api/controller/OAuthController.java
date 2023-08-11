@@ -77,7 +77,7 @@ public class OAuthController {
 
     @GetMapping("/callback")
     @ApiOperation(value = "구글 로그인 실행", notes = "구글계정으로 로그인 또는 회원가입을 실행한다.")
-    public ResponseEntity<UserLoginPostRes> googleCallback(@RequestParam("code") String code) {
+    public void googleCallback(@RequestParam("code") String code,HttpServletResponse response) {
         try {
             TokenResponse tokenResponse =
                     flow.newTokenRequest(code).setRedirectUri("https://"+serverAddress+":8443/api/v1/oauth2/callback").execute();
@@ -99,9 +99,11 @@ public class OAuthController {
             userService.updateRefreshToken(userId, refreshToken);
 
             // accessToken을 body에 담아서 보내준다.
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
+            String accessToken = JwtTokenUtil.getToken(userId);
+            response.sendRedirect("http://"+serverAddress+":3000?token=" + accessToken);
 
         } catch (Exception e) {
+            e.printStackTrace();  // 이 부분을 추가하여 실제 발생한 예외 정보를 출력
             throw new RuntimeException("google login error");
         }
     }
