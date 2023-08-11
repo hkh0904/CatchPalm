@@ -48,7 +48,7 @@ export default function HandModel({ gameData }) {
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
   const videoSrcRef = useRef(null);
   const showBackground = useState(false);
-  const [videoHidden, setVideoHidden] = useState(true);
+  const [videoHidden, setVideoHidden] = useState(Boolean(gameData.isCam));
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 }); // 비디오의 크기를 저장하는 상태
   const [countdown, setCountdown] = useState(3);
   const navigate = useNavigate();
@@ -59,24 +59,30 @@ export default function HandModel({ gameData }) {
   const [musicNum, setMusicNum] = useState(null);
   const musicNumRef = useRef(musicNum);
   const location = useLocation();
-  const [volume, setVolume] = useState(0.5); // 볼륨 상태
-  const audio1 = useRef(new Audio(`/music/${ gameData.musicNumber }.mp3`));
+  const [volume, setVolume] = useState(gameData.gameSound); // 볼륨 상태
+  const audio1 = useRef(new Audio(`/music/${gameData.musicNumber}.mp3`));
   const audio2 = useRef(new Audio("/assets/Finish.mp3"));
-  const [effectVolume, setEffectVolume] = useState(0.5); // 볼륨 상태
+  const [effectVolume, setEffectVolume] = useState(gameData.effectSound); // 볼륨 상태
   const missSound = useRef(new Audio("/assets/Miss.mp3"));
   const greatSound = useRef(new Audio("/assets/Great.mp3"));
   const perpectSound = useRef(new Audio("/assets/Perpect.mp3"));
-  const [scaleStep, setScaleStep] = useState(0.02);
+  const [scaleStep, setScaleStep] = useState(gameData.synk);
   const scaleStepRef = useRef(scaleStep);
+  const effectVolumeRef = useRef(effectVolume);
+  const volumeRef = useRef(volume);
+  const videoHiddenRef = useRef(videoHidden);
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
-  }, [scaleStep]);
+    effectVolumeRef.current = effectVolume;
+    volumeRef.current = volume;
+    videoHiddenRef.current = videoHidden;
+  }, [scaleStep, effectVolume, volume, videoHidden]);
 
   useEffect(() => {
     // 볼륨 상태가 변경될 때마다 오디오 객체의 볼륨을 업데이트
     audio1.current.volume = volume;
-    audio2.current.volume = volume;
+    audio2.current.volume = effectVolume;
     missSound.current.volume = effectVolume;
     greatSound.current.volume = effectVolume;
     perpectSound.current.volume = effectVolume;
@@ -160,11 +166,11 @@ export default function HandModel({ gameData }) {
     // 객체 생성
     const data = {
       musicNumber: musicNumRef.current,
+      roomNumber: gameData.roomNumber,
       score: scoreRef.current,
       userNumber: userNumRef.current,
     };
     console.log(data);
-
     // 헤더 설정
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -176,6 +182,40 @@ export default function HandModel({ gameData }) {
         "https://localhost:8443/api/v1/game/log",
         data,
         { headers: headers }
+      );
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error sending the data:", error);
+    }
+  };
+
+  const sendUserData = async () => {
+    const isCamValue = videoHiddenRef.current ? 1 : 0;
+    const data = {
+      age: "",
+      backSound: "",
+      effectSound: parseFloat(effectVolumeRef.current),
+      gameSound: parseFloat(volumeRef.current),
+      isCam: isCamValue,
+      nickname: "",
+      password: "",
+      profileImg: "",
+      profileMusic: "",
+      sex: "",
+      synk: scaleStepRef.current,
+    };
+    console.log(data);
+    try {
+      // POST 요청을 통해 데이터 전송
+      const response = await axios.patch(
+        "https://localhost:8443/api/v1/users/modify",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log("Response:", response.data);
     } catch (error) {
@@ -241,6 +281,7 @@ export default function HandModel({ gameData }) {
             createCircles(data);
 
             audio1.current.onended = () => {
+              sendUserData();
               audio2.current.play();
 
               audio2.current.onended = () => {
@@ -265,7 +306,9 @@ export default function HandModel({ gameData }) {
   }, []);
 
   const handleVolumeChange = (e) => {
+    console.log("Before:", volume);
     setVolume(e.target.value);
+    console.log("After:", volume);
   };
 
   // 볼륨조절 함수
@@ -382,9 +425,12 @@ export default function HandModel({ gameData }) {
             if (circleDiv.parentNode) {
               const valX =
                 webcamRect.width -
-                (webcamRect.left + node["X-COORDINATE"] * webcamRect.width) - circlePixel/4;
+                (webcamRect.left + node["X-COORDINATE"] * webcamRect.width) -
+                circlePixel / 4;
               const valY =
-                webcamRect.top + node["Y-COORDINATE"] * webcamRect.height - circlePixel/4;
+                webcamRect.top +
+                node["Y-COORDINATE"] * webcamRect.height -
+                circlePixel / 4;
               showValue(valX, valY, "MISS");
 
               // scale이 0.2 이하가 되면 div를 삭제합니다.
@@ -463,12 +509,14 @@ export default function HandModel({ gameData }) {
       const circleX =
         1 -
         parseFloat(
-          parseFloat(circleElement.style.left.replace(/[^\d.]/g, "")) + (circlePixel/2)
+          parseFloat(circleElement.style.left.replace(/[^\d.]/g, "")) +
+            circlePixel / 2
         ) /
           document.getElementById("webcamWrapper").offsetWidth;
       const circleY =
         parseFloat(
-          parseFloat(circleElement.style.top.replace(/[^\d.]/g, "")) + (circlePixel/2)
+          parseFloat(circleElement.style.top.replace(/[^\d.]/g, "")) +
+            circlePixel / 2
         ) / document.getElementById("webcamWrapper").offsetHeight;
       const motionNum = circleElement.className
         .split(" ")[1]
@@ -492,12 +540,14 @@ export default function HandModel({ gameData }) {
             const circleOutX =
               1 -
               parseFloat(
-                parseFloat(element.style.left.replace(/[^\d.]/g, "")) + (circleOutPixel/2)
+                parseFloat(element.style.left.replace(/[^\d.]/g, "")) +
+                  circleOutPixel / 2
               ) /
                 document.getElementById("webcamWrapper").offsetWidth;
             const circleOutY =
               parseFloat(
-                parseFloat(element.style.top.replace(/[^\d.]/g, "")) + (circleOutPixel/2)
+                parseFloat(element.style.top.replace(/[^\d.]/g, "")) +
+                  circleOutPixel / 2
               ) / document.getElementById("webcamWrapper").offsetHeight;
 
             return (
@@ -579,7 +629,7 @@ export default function HandModel({ gameData }) {
           </animated.div>
         </div>
         <video
-          hidden={!videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
+          hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
           ref={videoSrcRef} // videoSrcRef를 사용합니다.
           id="videoSrc"
           src="/music/YOASOBI-IDOL.mp4" // 비디오 파일의 URL을 지정합니다.
@@ -592,7 +642,7 @@ export default function HandModel({ gameData }) {
           }}
         />
         <video
-          hidden={videoHidden}
+          hidden={!videoHidden}
           ref={videoRef}
           id="webcam"
           autoPlay
@@ -636,10 +686,10 @@ export default function HandModel({ gameData }) {
         <div>
           <input
             type="range"
-            min="0.001"
+            min="0.005"
             max="0.05"
             step="0.001"
-            value={scaleStep}  // useState로 관리하는 상태를 사용
+            value={scaleStep} // useState로 관리하는 상태를 사용
             style={{
               bottom: "80px",
               left: "150px",

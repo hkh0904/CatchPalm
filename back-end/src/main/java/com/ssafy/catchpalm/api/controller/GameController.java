@@ -1,10 +1,7 @@
 package com.ssafy.catchpalm.api.controller;
 
 import com.ssafy.catchpalm.api.request.*;
-import com.ssafy.catchpalm.api.response.GameRoomPostRes;
-import com.ssafy.catchpalm.api.response.MusicListPostRes;
-import com.ssafy.catchpalm.api.response.RankListPostRes;
-import com.ssafy.catchpalm.api.response.UserRes;
+import com.ssafy.catchpalm.api.response.*;
 import com.ssafy.catchpalm.api.service.GameRoomService;
 import com.ssafy.catchpalm.api.service.GameService;
 import com.ssafy.catchpalm.api.service.UserService;
@@ -12,6 +9,7 @@ import com.ssafy.catchpalm.common.auth.SsafyUserDetails;
 import com.ssafy.catchpalm.common.model.response.BaseResponseBody;
 import com.ssafy.catchpalm.db.dto.MusicDTO;
 import com.ssafy.catchpalm.db.dto.RankDTO;
+import com.ssafy.catchpalm.db.dto.RecordsDTO;
 import com.ssafy.catchpalm.db.entity.GameRoom;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
 import com.ssafy.catchpalm.db.entity.Rank;
@@ -66,13 +64,13 @@ public class GameController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> getRcords(
+    public ResponseEntity<GameResultPostRes> getRcords(
             @RequestParam("roomNumber") int roomNumber) {
 
         // 로그 기록
-        gameService.getRecords(roomNumber);
+        List<RecordsDTO> results = gameService.getRecords(roomNumber);
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        return ResponseEntity.status(200).body(GameResultPostRes.of(200, "Success",results));
     }
 
     @GetMapping("/rank")
