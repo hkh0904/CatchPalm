@@ -2,6 +2,7 @@ package com.ssafy.catchpalm.api.controller;
 
 import com.ssafy.catchpalm.api.request.UserModifyPostReq;
 import com.ssafy.catchpalm.api.request.UserUserIdPostReq;
+import com.ssafy.catchpalm.api.response.EmailVerifiedPostRes;
 import com.ssafy.catchpalm.api.response.UserDuplicatedPostRes;
 import com.ssafy.catchpalm.api.service.EmailService;
 import com.ssafy.catchpalm.common.util.AESUtil;
@@ -155,6 +156,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
+
 	@PatchMapping("/modify")
 	@ApiOperation(value = "회원 본인 정보 수정", notes = "로그인한 회원 본인의 정보를 수정한다. header에 accessToken을 입력해야 한다."+
 			"\n 정보 수정할 값에만 null이 아닌 값을 넣으면 수정이 됩니다. Header 예시 Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.e ..." +
@@ -271,6 +273,11 @@ public class UserController {
 			return ResponseEntity.status(401).body(UserDuplicatedPostRes.of(401, "failed - userId is required"));
 		}
 		boolean isDuplicated = userService.isDuplicatedUserId(userId);
+		User user = userService.getUserByUserId(userId);
+		int verified = user.getEmailVerified();
+		if(verified == 0){
+			isDuplicated = false;
+		}
 		return ResponseEntity.ok(UserDuplicatedPostRes.of(200, "Success",isDuplicated));
 	}
 

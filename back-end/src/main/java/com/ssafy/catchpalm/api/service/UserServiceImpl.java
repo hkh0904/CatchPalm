@@ -122,6 +122,7 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+
 	@Override
 	public String getRefreshTokenByUserId(String userId) throws Exception {
 		User user = getUserByUserId(userId);

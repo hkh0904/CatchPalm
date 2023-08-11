@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import style from './Ranking.module.css';
+import style from './Result.module.css';
+
 
 function MyComponent() {
   const [rankList, setRankList] = useState([]);
@@ -9,6 +10,8 @@ function MyComponent() {
   const [musicNumber,setMusicNumber] = useState(0);
   const [backSound,setBackSound] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [result,setResult] = useState([]);
+  const [roomNumber,setRoomNumber] = useState(1);
 
   const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const token = localStorage.getItem('token');
@@ -22,6 +25,20 @@ function MyComponent() {
     // 필요한 경우 여기에서 setMusicNumber도 호출할 수 있습니다.
     setMusicNumber(index-1);
   };
+
+  useEffect(()=>{
+    axios.get(`https://localhost:8443/api/v1/game/result?roomNumber=${roomNumber}`)
+      .then(response => {
+        const data = response.data;
+        setResult(data.records);
+        setLoading(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
+      })
+      .catch(error => {
+        // error handling
+        console.error('Something went wrong', error);
+        setLoading(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
+      });
+  },[userNumber,roomNumber]); // empty dependency array means this effect runs once on mount
 
   useEffect(()=>{
     axios.get(`https://localhost:8443/api/v1/game/music`)
@@ -107,7 +124,7 @@ function MyComponent() {
       <div className={style.horizontal_container}>
         <div className={style.leaderboard_container}>
           <div className={style.leaderboard_text}>
-            <span className={style.glow}>Leader</span><span className={style.blink}> Board</span>
+            <span className={style.glow}>Game</span><span className={style.blink}> Result</span>
           </div>
           <div className={`${style.flex_item} ${style.item1}`}>
             <table style={{ color: 'white', fontSize: '20px',textAlign:'left',paddingLeft:'3%'}}>
