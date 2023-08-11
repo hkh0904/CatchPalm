@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import style from './Ranking.module.css';
 import { width } from '@mui/system';
-
+import APPLICATION_SERVER_URL from '../../ApiConfig';
 
 let audio = null;
 
@@ -29,7 +29,7 @@ function MyComponent() {
   };
 
   useEffect(()=>{
-    axios.get(`https://localhost:8443/api/v1/game/music`)
+    axios.get(`${APPLICATION_SERVER_URL}/api/v1/game/music`)
       .then(response => {
         const data = response.data;
         setMusicList(data.musics);
@@ -48,7 +48,7 @@ function MyComponent() {
     const token = localStorage.getItem('token');
     axios({
       method: 'get',
-      url: 'https://localhost:8443/api/v1/users/me',
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // your access token here
@@ -70,7 +70,7 @@ function MyComponent() {
         localStorage.setItem('token', token);
         axios({
           method: 'get',
-          url: 'https://localhost:8443/api/v1/users/me',
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` // your access token here
@@ -89,7 +89,7 @@ function MyComponent() {
   }, [token]);
 
   useEffect(() => {
-    axios.get(`https://localhost:8443/api/v1/game/rank?musicNumber=${musicNumber+1}&userNumber=${userNumber}`)
+    axios.get(`${APPLICATION_SERVER_URL}/api/v1/game/rank?musicNumber=${musicNumber+1}&userNumber=${userNumber}`)
       .then(response => {
         const data = response.data;
         setRankList(data.ranks);
