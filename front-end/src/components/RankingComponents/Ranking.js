@@ -34,6 +34,7 @@ function MyComponent() {
         const data = response.data;
         setMusicList(data.musics);
         setLoading(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
+        console.log(data.musics);
       })
       .catch(error => {
         // error handling
@@ -132,7 +133,7 @@ function MyComponent() {
             </table>
           </div>
           <div className={`${style.flex_item} ${style.item3} ${style.itemContainer}`}>
-            <img src={musicList[musicNumber].thumbnail} alt="no-img" style={{width:'63%',verticalAlign: 'top',paddingLeft:'1%',paddingTop:'1%'}}></img>
+            <img src={musicList[musicNumber].thumbnail} alt="no-img" style={{width:'60%',verticalAlign: 'top',paddingLeft:'1%',paddingTop:'1%'}}></img>
             <div className={style.textContainer} style={{paddingLeft:'2%',paddingTop:'2%'}}>
               <span className={style.music_detail} style={{color:'lime', fontSize:'28px'}}>{musicList[musicNumber].musicName}</span><br></br><br></br>
               <span className={style.music_head}>Singer: </span>
@@ -154,7 +155,7 @@ function MyComponent() {
                       <th style={{width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Ranking</th>
                       <th style={{width:'25%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Nickname</th>
                       <th style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Score</th>
-                      <th style={{width:'9%',paddingRight:'3%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Date</th>
+                      <th style={{width:'15%',paddingRight:'3%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Date</th>
                   </tr>
               </thead>
               <tbody>
@@ -180,7 +181,7 @@ function MyComponent() {
                     <td style={{paddingLeft:'5px',color:'#ffd700',width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{ranking}</td>
                     <td style={{width:'25%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].userDTO.nickname}</td>
                     <td style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].score}</td>
-                    <td style={{width:'9%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].playDateTime.slice(0, 10)}</td>
+                    <td style={{width:'15%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].playDateTime.slice(0, 10)}</td>
                   </tr>
                 ) : (
                 <tr>
