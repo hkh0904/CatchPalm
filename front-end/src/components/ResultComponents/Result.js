@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import style from './Ranking.module.css';
-import { width } from '@mui/system';
-import APPLICATION_SERVER_URL from '../../ApiConfig';
+import style from './Result.module.css';
 
-let audio = null;
 
 function MyComponent() {
   const [rankList, setRankList] = useState([]);
@@ -13,6 +10,8 @@ function MyComponent() {
   const [musicNumber,setMusicNumber] = useState(0);
   const [backSound,setBackSound] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [result,setResult] = useState([]);
+  const [roomNumber,setRoomNumber] = useState(1);
 
   const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const token = localStorage.getItem('token');
@@ -28,7 +27,21 @@ function MyComponent() {
   };
 
   useEffect(()=>{
-    axios.get(`${APPLICATION_SERVER_URL}/api/v1/game/music`)
+    axios.get(`https://localhost:8443/api/v1/game/result?roomNumber=${roomNumber}`)
+      .then(response => {
+        const data = response.data;
+        setResult(data.records);
+        setLoading(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
+      })
+      .catch(error => {
+        // error handling
+        console.error('Something went wrong', error);
+        setLoading(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
+      });
+  },[userNumber,roomNumber]); // empty dependency array means this effect runs once on mount
+
+  useEffect(()=>{
+    axios.get(`https://localhost:8443/api/v1/game/music`)
       .then(response => {
         const data = response.data;
         setMusicList(data.musics);
@@ -47,7 +60,7 @@ function MyComponent() {
     const token = localStorage.getItem('token');
     axios({
       method: 'get',
-      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+      url: 'https://localhost:8443/api/v1/users/me',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // your access token here
@@ -69,7 +82,7 @@ function MyComponent() {
         localStorage.setItem('token', token);
         axios({
           method: 'get',
-          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+          url: 'https://localhost:8443/api/v1/users/me',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` // your access token here
@@ -88,7 +101,7 @@ function MyComponent() {
   }, [token]);
 
   useEffect(() => {
-    axios.get(`${APPLICATION_SERVER_URL}/api/v1/game/rank?musicNumber=${musicNumber+1}&userNumber=${userNumber}`)
+    axios.get(`https://localhost:8443/api/v1/game/rank?musicNumber=${musicNumber+1}&userNumber=${userNumber}`)
       .then(response => {
         const data = response.data;
         setRankList(data.ranks);
@@ -111,7 +124,7 @@ function MyComponent() {
       <div className={style.horizontal_container}>
         <div className={style.leaderboard_container}>
           <div className={style.leaderboard_text}>
-            <span className={style.glow}>Leader</span><span className={style.blink}> Board</span>
+            <span className={style.glow}>Game</span><span className={style.blink}> Result</span>
           </div>
           <div className={`${style.flex_item} ${style.item1}`}>
             <table style={{ color: 'white', fontSize: '20px',textAlign:'left',paddingLeft:'3%'}}>
