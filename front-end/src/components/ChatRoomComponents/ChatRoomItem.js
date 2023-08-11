@@ -60,14 +60,14 @@ const ChatRoomItem = () => {
   const [roomInfo, setRoomInfo] = useState(null);
 
   const [userInfo, setUserInfo] = useState([]); // 유저정보들
-  const [soundVolume, setSoundVolume] = useState(); // 음악 사운드 사용자 설정 가져오기.
+  const [soundVolume, setSoundVolume] = useState(0.3); // 음악 사운드 사용자 설정 가져오기.
   const [captain, setCaptain] = useState(); // 방장 정보
   const [messages, setMessages] = useState(""); // 보내는 메세지
-
+  
   // ------- 음악 음소거 유무 ----------------
   const [musicOnOff, setMusicOnOff] = useState(1);
   useEffect(() => {
-    if (musicOnOff === 1 && audio !==null) {
+    if (musicOnOff === 1 && audio !==null && soundVolume !==null) {
       audio.volume = soundVolume; // 볼륨 30%로 설정
     }
     else if(musicOnOff === 0 && audio !== null){
@@ -86,6 +86,7 @@ const ChatRoomItem = () => {
     setIsVideo(isVideo === 0 ? 1:0);
   };
   //------------------------------------
+  
 
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
@@ -132,10 +133,12 @@ const ChatRoomItem = () => {
         audio.currentTime = 0;
       }
       audio = new Audio(`/music/${pickedMusic}.mp3`);
-      if (musicOnOff == 1) {
+      if (musicOnOff === 1) {
         audio.volume = soundVolume; // 볼륨 30%로 설정
-      } else audio.volume = 0;
-      audio.play();
+      } else {
+        audio.volume = 0;
+      }
+        audio.play();
     }
   }, [pickedMusic, musicName, soundVolume]); // 선택곡이 바뀌면 수행
 
@@ -244,8 +247,16 @@ const ChatRoomItem = () => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
 
+    // 만약 강퇴 신호라면 
+    if(message.type === 'DROP'){
+      if(message.nickname === name){
+        navigate('/chatRoomList');
+        alert("강퇴되었습니다.");
+      }
+      return;
+    }
     // 만약 게임시작 신호라면
-    if(message.type === 'START'){
+    else if(message.type === 'START'){
       setGameStart(message.isStart);
       setStartMusic(message.musicNumber);
       setStartRoom(message.roomNumber);
@@ -320,6 +331,20 @@ const ChatRoomItem = () => {
     return colors[index];
   };
   
+  // 강퇴 정보 전송
+  const dropOutUser = (nickname) => {
+    if (Sock.readyState === SockJS.OPEN &&  nickname) { // 강퇴대상과 구독설정이 잘 되어 있다면.
+      var dropUser = { // 변경된 음악정보
+        nickname: nickname, // 강퇴할 유저 닉네임
+        roomNumber: roomInfo.roomNumber // 현재 룸 넘버
+      };
+      stompClient.send("/app/drop.user", {}, JSON.stringify(dropUser));
+    }
+    else {
+      console.log("강퇴 실패.");
+    }
+  };
+
   // 음악 변경 정보 전송
 
   const musicChange = () => {
@@ -538,6 +563,19 @@ const ChatRoomItem = () => {
               }}>{user.nickname}</div>
               {captain === user.nickname && 
                 <img className={style.captainlogo} src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
+              }
+              {/* 강퇴버튼. 방장유저만 */}
+              {captain === name && user.nickname !== name && 
+                <img
+                src="/assets/out.png"
+                alt="강퇴"
+                style={{
+                  height:'50%',
+                  cursor: 'pointer',
+                  marginLeft: 'auto'
+                }}
+                onClick={() => dropOutUser(user.nickname)}
+            />
               }
             </div>
 

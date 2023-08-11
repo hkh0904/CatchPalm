@@ -104,4 +104,16 @@ public class ChatController {
         // 해당 방으로 메시지 브로드캐스팅
         template.convertAndSend("/topic/chat/" + roomNumber, musicInfo);
     }
+
+    @MessageMapping("/drop.user")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void dropUser(@Payload DropInfo dropInfo) {
+
+        // TODO -- 유저번호 레디 신호 받아서 DB에 반영 후 최종 정보 반환
+        dropInfo.setType(MessageType.DROP);
+        // 룸번호 타입 변경
+        String roomNumber = String.valueOf(dropInfo.getRoomNumber());
+        // 해당 방으로 메시지 브로드캐스팅
+        template.convertAndSend("/topic/chat/" + roomNumber, dropInfo);
+    }
 }
