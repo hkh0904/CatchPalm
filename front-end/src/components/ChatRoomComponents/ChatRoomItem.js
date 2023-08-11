@@ -8,6 +8,8 @@ import SockJS from "sockjs-client";
 import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
 import { display, margin } from '@mui/system';
+import APPLICATION_SERVER_URL from "../../ApiConfig";
+
 let name = "";
 let Sock = null;
 var stompClient = null;
@@ -24,6 +26,8 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
+  
+
   // 게임시작 신호--------------------------------------------------
   const [mySettings, setMySettings] = useState();
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
@@ -51,6 +55,7 @@ const ChatRoomItem = () => {
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       navigate('/Playing', { state: { gameData: gameStartRes } });
+      // window.open('/Playing', '_blank');
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
@@ -156,7 +161,7 @@ const ChatRoomItem = () => {
     }
     axios({
       method: "get",
-      url: "https://localhost:8443/api/v1/users/me",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // your access token here
@@ -180,7 +185,7 @@ const ChatRoomItem = () => {
         localStorage.setItem("token", token);
         axios({
           method: "get",
-          url: "https://localhost:8443/api/v1/users/me",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // your access token here
@@ -200,7 +205,7 @@ const ChatRoomItem = () => {
     const fetchRoomInfo = async () => {
       try {
         const response = await axios.get(
-          `https://localhost:8443/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`
+          `${APPLICATION_SERVER_URL}/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`
         );
         const data = response.data;
         setRoomInfo(data);
@@ -228,7 +233,7 @@ const ChatRoomItem = () => {
   }, []);
 
   const connect = () => {
-    Sock = new SockJS("https://localhost:8443/ws");
+    Sock = new SockJS(`${APPLICATION_SERVER_URL}/ws`);
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };
