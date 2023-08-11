@@ -49,8 +49,8 @@
 
 .item2{
   flex-basis: calc(60% - 10px);
-  min-height: 66.5vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  max-height: 66.5vh;
+  min-height: 66vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 66vh;
   width: 99%;
 }
 
