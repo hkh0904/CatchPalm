@@ -3,7 +3,13 @@ import style from '../App.module.css';
 import axios from 'axios';
 import styles from './Userinfo.module.css';
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
+//const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
+let APPLICATION_SERVER_URL = '';
+if(process.env.NODE_ENV === 'production') {
+  APPLICATION_SERVER_URL = 'https://i9c206.p.ssafy.io/api';
+} else {
+  APPLICATION_SERVER_URL = 'https://localhost:8443';
+}
 
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
