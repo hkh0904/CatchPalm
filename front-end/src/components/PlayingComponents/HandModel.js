@@ -7,6 +7,8 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
+
 let gestureRecognizer = undefined;
 let category1Name = undefined;
 let category2Name = undefined;
@@ -122,7 +124,7 @@ export default function HandModel() {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://localhost:8443/api/v1/users/me",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // your access token here
@@ -137,7 +139,7 @@ export default function HandModel() {
         localStorage.setItem("token", token);
         axios({
           method: "get",
-          url: "https://localhost:8443/api/v1/users/me",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // your access token here
@@ -169,7 +171,7 @@ export default function HandModel() {
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
-        "https://localhost:8443/api/v1/game/log",
+        `${APPLICATION_SERVER_URL}/api/v1/game/log`,
         data,
         { headers: headers }
       );

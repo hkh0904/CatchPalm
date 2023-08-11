@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import UserVideoComponent from './UserVideoComponent';
 
 // 애플리케이션 서버 URL 설정
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://localhost:8443/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io' ? '' : 'https://localhost:8443';
 
 class App extends Component {
     constructor(props) {
@@ -277,7 +277,7 @@ class App extends Component {
 
     // 세션을 생성하는 함수
     async createSession(sessionId) {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
+        const response = await axios.post(APPLICATION_SERVER_URL + '/api/sessions', { customSessionId: sessionId }, {
             headers: { 'Content-Type': 'application/json', },
         });
         return response.data; // 세션 ID 반환
@@ -285,7 +285,7 @@ class App extends Component {
 
     // 토큰을 생성하는 함수
     async createToken(sessionId) {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
+        const response = await axios.post(APPLICATION_SERVER_URL + '/api/sessions/' + sessionId + '/connections', {}, {
             headers: { 'Content-Type': 'application/json', },
         });
         return response.data; // 토큰 반환
