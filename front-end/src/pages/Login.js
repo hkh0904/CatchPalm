@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import APPLICATION_SERVER_URL from '../ApiConfig';
 
 const theme = createTheme();
 
@@ -36,7 +37,7 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://localhost:8443/api/v1/auth/login', {
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/auth/login`, {
         userId,
         password,
       });
@@ -56,7 +57,7 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const response = await axios.get('https://localhost:8443/api/v1/oauth2/authorization/google');
+      const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`);
       
       // Google OAuth 인증 URL로 리디렉션
       if (response.data.startsWith('redirect:')) {
@@ -74,7 +75,7 @@ const Login = () => {
   
   // 콜백 URL에서 호출될 함수 (예: componentDidMount 또는 useEffect 내부에서 호출)
   const handleOAuthCallback = async () => {
-    const response = await axios.get('https://localhost:8443/api/v1/oauth2/callback'); // 여기서 액세스 토큰을 가져오는 백엔드 엔드포인트를 지정해야 합니다.
+    const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/callback`); // 여기서 액세스 토큰을 가져오는 백엔드 엔드포인트를 지정해야 합니다.
     console.log(response.data)
     if (response.data.message === 'Success') {
       localStorage.setItem('token', response.data.accessToken);
