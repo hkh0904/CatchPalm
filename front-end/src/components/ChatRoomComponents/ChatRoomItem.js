@@ -26,7 +26,6 @@ var colors = [
 
 const ChatRoomItem = () => {
   // 게임시작 신호--------------------------------------------------
-  const [isChecked, setIsChecked] = useState(false); // 체크박스 : true false
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
   const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
@@ -44,7 +43,7 @@ const ChatRoomItem = () => {
         nickname: name,
         userNumber: userNumber,
         userInfo: userInfo,
-        isVideo: isChecked ? 1 : 0
+        isVideo: isVideo
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       navigate('/Playing', { state: { gameData: gameStartRes } });
@@ -79,6 +78,12 @@ const ChatRoomItem = () => {
   };
 
   //-----------------------------------------
+
+  //---------비디오 활성화 유무: 게임창으로 이동했을때 반영.
+  const changeVideoStatus = () => {
+    setIsVideo(isVideo === 0 ? 1:0);
+  };
+  //------------------------------------
 
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
@@ -568,22 +573,29 @@ const ChatRoomItem = () => {
                 onClick={changeSoundStatus}
             />
             }
-            
+          {isVideo === 0 &&
             <img
-                src="/assets/video.png"
-                alt="speaker-off"
+                src="/assets/video-off.png"
+                alt="video-off"
                 style={{
                   height:'75%',
                   cursor: 'pointer'
                 }}
+                onClick={changeVideoStatus}
             />
-
-            <div className='button r' id='button-1'>
-              <input type="checkbox" className='checkbox' checked={isChecked}
-                onChange={() => setIsChecked(!isChecked)} />
-              <div className='knobs'></div>
-              <div className='layer'></div>
-            </div>
+          }  
+          {isVideo === 1 &&
+            <img
+                src="/assets/video.png"
+                alt="video-on"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+                onClick={changeVideoStatus}
+            />
+          }  
+            
 
           </div>
           {captain !== name &&

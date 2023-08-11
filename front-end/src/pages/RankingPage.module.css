@@ -37,6 +37,7 @@
   border-radius: 15px; /* 모서리를 둥글게 만듭니다. 원하는 정도로 조절하세요. */
   /* border: 3px solid rgb(68, 68, 173); /* 파란색 테두리 추가. 원하는 색상과 두께로 조절하세요. */
   font-family: 'Jua', sans-serif;
+  margin-left: -10px;
 }
 
 .bottom_right {
@@ -46,5 +47,5 @@
   z-index: 3;
   font-family: 'Jua', sans-serif;
   font-size: 24px;
+  
 }
-
