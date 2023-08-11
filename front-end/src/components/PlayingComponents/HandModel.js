@@ -6,6 +6,7 @@ import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import APPLICATION_SERVER_URL from "../../ApiConfig";
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
@@ -90,21 +91,28 @@ export default function HandModel({ gameData }) {
 
   // 오디오 재생 함수
   function playSound(audioRef) {
+    audioRef.current.currentTime = 0; // 재생 시간을 0으로 리셋
     audioRef.current.play();
   }
-
+  
   useEffect(() => {
     const unblock = window.history.pushState(null, "", window.location.href);
+    
     window.onpopstate = function (event) {
       window.history.go(1);
-      alert("게임 중 뒤로 가기는 사용할 수 없습니다."); // 알림 추가
+      // alert("게임 중 뒤로 가기는 사용할 수 없습니다."); // 알림 추가
       navigate(location);
     };
-
-    return () => {
-      window.onpopstate = null;
-    };
-  }, [navigate, location]);
+  
+    document.addEventListener('keydown', function (event) {
+      if (event.keyCode === 116 || (event.ctrlKey && event.keyCode === 82)) {
+        event.preventDefault();
+        // alert("게임 중 새로고침은 사용할 수 없습니다.");
+      }
+    });
+    
+  }, []);
+  
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
     setVideoHidden(!videoHidden);
@@ -132,7 +140,7 @@ export default function HandModel({ gameData }) {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://localhost:8443/api/v1/users/me",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // your access token here
@@ -147,7 +155,7 @@ export default function HandModel({ gameData }) {
         localStorage.setItem("token", token);
         axios({
           method: "get",
-          url: "https://localhost:8443/api/v1/users/me",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // your access token here
@@ -179,7 +187,7 @@ export default function HandModel({ gameData }) {
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
-        "https://localhost:8443/api/v1/game/log",
+        `${APPLICATION_SERVER_URL}/api/v1/game/log`,
         data,
         { headers: headers }
       );
@@ -632,7 +640,8 @@ export default function HandModel({ gameData }) {
           hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
           ref={videoSrcRef} // videoSrcRef를 사용합니다.
           id="videoSrc"
-          src="/music/YOASOBI-IDOL.mp4" // 비디오 파일의 URL을 지정합니다.
+          src="/music/GameVideo3.mp4" // 비디오 파일의 URL을 지정합니다.
+          loop
           style={{
             position: "absolute",
             width: "100%",
@@ -662,18 +671,19 @@ export default function HandModel({ gameData }) {
         </Button>
         <div>
           <input
-            id="volume"
+            className="slider"
             type="range"
             min="0"
             max="1"
             step="0.01"
             value={volume}
             onChange={handleVolumeChange}
-          />
+            style={{ bottom: "20px", left: "150px" }}
+            />
         </div>
         <div>
           <input
-            id="volume"
+            className="slider"
             type="range"
             min="0"
             max="1"
@@ -681,10 +691,11 @@ export default function HandModel({ gameData }) {
             value={effectVolume}
             onChange={handleEffectChange}
             style={{ bottom: "50px", left: "150px" }}
-          />
+            />
         </div>
         <div>
           <input
+            className="slider"
             type="range"
             min="0.005"
             max="0.05"
@@ -693,8 +704,6 @@ export default function HandModel({ gameData }) {
             style={{
               bottom: "80px",
               left: "150px",
-              position: "absolute",
-              zIndex: 2,
             }}
             onChange={(e) => {
               const newValue = parseFloat(e.target.value);

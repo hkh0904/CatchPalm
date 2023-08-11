@@ -45,7 +45,7 @@ public class User{
 
     private int point = 0;
 
-    private double synk = 0.0;
+    private double synk = 0.01;
 
     private int age = 0;
 

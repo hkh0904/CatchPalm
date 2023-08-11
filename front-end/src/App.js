@@ -13,8 +13,11 @@ import SignUp from './pages/SignUp';
 import Userinfo from './pages/Userinfo';
 import Tutorial from './pages/Tutorial';
 import RankingPage from './pages/RankingPage';
+import ResultPage from './pages/ResultPage';
 import axios from 'axios';
+import APPLICATION_SERVER_URL from './ApiConfig';
 
+//const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 
 function MainPage() {
 
@@ -91,7 +94,7 @@ function MainPage() {
     if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
     axios({
       method: 'get',
-      url: 'https://localhost:8443/api/v1/users/me',
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // your access token here
@@ -109,7 +112,7 @@ function MainPage() {
         localStorage.setItem('token', token);
         axios({
           method: 'get',
-          url: 'https://localhost:8443/api/v1/users/me',
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` // your access token here
@@ -275,6 +278,7 @@ function App() {
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
           <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
           <Route path="/ranking" element={<RankingPage />} />
+          <Route path="/result" element={<ResultPage />} />
         </Routes>
     </Router>
   );

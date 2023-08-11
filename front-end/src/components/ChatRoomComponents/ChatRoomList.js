@@ -7,7 +7,8 @@ import style from './ChatRoomList.module.css'
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import Swal from "sweetalert2";
+import APPLICATION_SERVER_URL from '../../ApiConfig';
+import Swal from "sweetalert2"
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
@@ -34,7 +35,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
     const token = localStorage.getItem('token');
     axios({
       method: 'get',
-      url: 'https://localhost:8443/api/v1/users/me',
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // your access token here
@@ -56,7 +57,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
         localStorage.setItem('token', token);
         axios({
           method: 'get',
-          url: 'https://localhost:8443/api/v1/users/me',
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` // your access token here
@@ -237,7 +238,7 @@ const ChatRoomList = ({}) => {
     
     const fetchChatRooms = async () => {
       try {
-        const response = await axios.get('https://localhost:8443/api/v1/gameRooms/listRooms');
+        const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
         console.log(response);
         const data = response.data;
         setChatRooms(data);
@@ -261,7 +262,7 @@ const ChatRoomList = ({}) => {
     const enterData = { "roomNumber": roomNumber, "password": reqPassword };
 
     try {
-      const response = await axios.post('https://localhost:8443/api/v1/gameRooms/authentication', enterData);
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/authentication`, enterData);
   
       const resultMessage = response.data.message;
   
@@ -291,7 +292,7 @@ const ChatRoomList = ({}) => {
 
   const handleCreateRoom = async (roomData) => {
     try {
-      const response = await axios.post('https://localhost:8443/api/v1/gameRooms/create', roomData);
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/create`, roomData);
       CreatedroomNumber = response.data.roomNumber;
       handleEnterChatRoom(CreatedroomNumber);
       
@@ -326,7 +327,7 @@ const ChatRoomList = ({}) => {
   const handleRefresh = () => {
     const fetchChatRooms = async () => {
       try {
-        const response = await axios.get('https://localhost:8443/api/v1/gameRooms/listRooms');
+        const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
         console.log(response);
         const data = response.data;
         setChatRooms(data);
