@@ -8,6 +8,7 @@ import style from './ChatRoomList.module.css'
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import APPLICATION_SERVER_URL from '../../ApiConfig';
+import Swal from "sweetalert2";
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
@@ -107,17 +108,29 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
 
   const handleCreateRoom = () => {
     if (!roomData.title) {
-      alert("방 제목을 입력 해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "방 제목을 입력 해주세요",
+        // text: "방 제목을 입력 해주세요",
+      });
       return;
     }
 
     else if (!roomData.categoryNumber) {
-      alert("게임 유형을 선택 해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "게임 유형을 선택 해주세요",
+        // text: "방 제목을 입력 해주세요",
+      });
       return;
     }
 
     else if (!roomData.capacity) {
-      alert("방 정원을 입력해주세요");
+      Swal.fire({
+        icon: "warning",
+        title: "방 정원을 입력해주세요",
+        // text: "방 제목을 입력 해주세요",
+      });
       return;
     }
     onCreateRoom(roomData);
@@ -142,7 +155,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
         <h2>방만들기 창</h2>
         <div>
           <label>제목</label>
-          <input type="text" name="title" value={roomData.title} onChange={handleChange} />
+          <input style={{width:'90%'}} type="text" name="title" value={roomData.title} onChange={handleChange} />
         </div>
         <div>
           <label>게임 유형</label>
@@ -181,8 +194,8 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             />
           )}
         </div>
-        <div>
-          <label>capacity</label>
+        <div style={{marginTop: '8%', width:'15%'}} >
+          <label>Capacity</label>
           {roomData.categoryNumber === 2 ? (
             <div>
               <input
@@ -245,6 +258,7 @@ const ChatRoomList = ({}) => {
     if (password) {
       reqPassword = inputPassword;
     }
+
     const enterData = { "roomNumber": roomNumber, "password": reqPassword };
 
     try {
@@ -256,7 +270,11 @@ const ChatRoomList = ({}) => {
         handleEnterChatRoom(roomNumber);
       }
       else {
-        alert(resultMessage);
+        Swal.fire({
+          icon: "warning",
+          title: resultMessage,
+          // text: "방 제목을 입력 해주세요",
+        });
         setInputPassword(''); // 비밀번호 입력 필드 값 초기화
       }
     } catch (error) {
@@ -378,14 +396,10 @@ const ChatRoomList = ({}) => {
         {chatRooms.map((room) => (
           <button
             className={style.button_chatRoomList}
-            onClick={room.password && room.status !== 1
+            onClick={room.password
               ? togglePasswordInput
               : () => {
-                  if (room.status === 1) {
-                    alert("이미 게임중인 방입니다.");
-                  } else {
                     checkEnterChatRoom(room.roomNumber, room.password, room.status);
-                  }
                 }}
             key={room.id}
             style={{
@@ -415,16 +429,20 @@ const ChatRoomList = ({}) => {
                       type="password"
                       value={inputPassword}
                       onChange={handlePasswordInput}
+                      style={{marginLeft:'1%'}}
                     />
+                    <div style={{marginTop:'5%', marginLeft:'20%'}}>
                     <button
                       onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
                       style={{ cursor: 'pointer' }}
                     >
-                      입장하기!
+                      입장
                     </button>
-                    <button onClick={closeModal} style={{ cursor: 'pointer' }}>
+                    <button onClick={closeModal} style={{ cursor: 'pointer' , marginLeft:'5%'}}>
                       닫기
                     </button>
+                    </div>
+                    
                   </div>
                 )}
               </>
