@@ -1,6 +1,7 @@
 package com.ssafy.catchpalm.db.dto;
 
 import com.ssafy.catchpalm.db.entity.Rank;
+import com.ssafy.catchpalm.db.entity.Records;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,24 +10,25 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class RecordsDTO {
-    private int rankNumber;
+    private long recordsNumber;
     private int score;
-    private LocalDateTime playDateTime;
     private UserDTO userDTO;
     private MusicDTO musicDTO;
+    private GameRoomDTO gameRoomDTO;
 
-    public RecordsDTO(int rankNumber, int score, LocalDateTime playDateTime, UserDTO userDTO, MusicDTO musicDTO) {
-        this.rankNumber = rankNumber;
+    public RecordsDTO(long recordsNumber, int score, GameRoomDTO gameRoomDTO, UserDTO userDTO, MusicDTO musicDTO) {
+        this.recordsNumber = recordsNumber;
         this.score = score;
-        this.playDateTime = playDateTime;
+        this.gameRoomDTO = gameRoomDTO;
         this.userDTO = userDTO;
         this.musicDTO = musicDTO;
     }
 
-    public static RecordsDTO fromEntity(Rank rank){
-        UserDTO userDto = UserDTO.fromEntity(rank.getRankUser());
-        MusicDTO musicDTO = MusicDTO.fromEntity(rank.getMusic());
-        return new RecordsDTO(rank.getRankNumber(), rank.getScore(), rank.getPlayDateTime(),userDto,musicDTO);
+    public static RecordsDTO fromEntity(Records records){
+        UserDTO userDto = UserDTO.fromEntity(records.getUser());
+        MusicDTO musicDTO = MusicDTO.fromEntity(records.getMusic());
+        GameRoomDTO gameRoomDTO = GameRoomDTO.fromEntity(records.getGameRoom());
+        return new RecordsDTO(records.getRecordsNumber(), records.getScore(), gameRoomDTO,userDto,musicDTO);
     }
 
 }
