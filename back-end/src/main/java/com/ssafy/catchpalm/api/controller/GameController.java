@@ -58,7 +58,7 @@ public class GameController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @PostMapping("/result")
+    @GetMapping("/result")
     @ApiOperation(value = "게임 결과", notes = "<strong>방 번호를 보내주면</strong>점수를 가져온다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -67,12 +67,10 @@ public class GameController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<BaseResponseBody> getRcords(
-            @RequestParam("roomNumber") int musicNumber) {
+            @RequestParam("roomNumber") int roomNumber) {
 
         // 로그 기록
-        gameService.createLog(gameInfo);
-        // 랭킹 업데이트
-        gameService.createRank(gameInfo);
+        gameService.getRecords(roomNumber);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
