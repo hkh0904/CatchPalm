@@ -24,8 +24,7 @@ const motionNames = {
   2: "Open_Palm",
   3: "Pointing_Up",
   4: "Victory",
-  5: "Thumb_Up",
-  6: "ILoveYou",
+  5: "ILoveYou",
 };
 
 // Gesture Recognizer를 생성하는 비동기 함수
@@ -44,7 +43,7 @@ const createGestureRecognizer = async () => {
   });
 };
 
-export default function HandModel() {
+export default function HandModel({ gameData }) {
   // 컴포넌트 상태 및 ref를 선언
   const token = localStorage.getItem("token");
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
@@ -62,7 +61,7 @@ export default function HandModel() {
   const musicNumRef = useRef(musicNum);
   const location = useLocation();
   const [volume, setVolume] = useState(0.5); // 볼륨 상태
-  const audio1 = useRef(new Audio("/music/YOASOBI-IDOL.mp3"));
+  const audio1 = useRef(new Audio(`/music/${ gameData.musicNumber }.mp3`));
   const audio2 = useRef(new Audio("/assets/Finish.mp3"));
   const [effectVolume, setEffectVolume] = useState(0.5); // 볼륨 상태
   const missSound = useRef(new Audio("/assets/Miss.mp3"));
@@ -278,11 +277,6 @@ export default function HandModel() {
     perpectSound.current.volume = e.target.value;
   };
 
-  // 오디오 재생 함수
-  function playSound(audioRef) {
-    audioRef.current.play();
-  }
-
   // 웹캠 스트림을 시작하는 비동기 함수
   const handleStartStreaming = async () => {
     try {
@@ -306,7 +300,7 @@ export default function HandModel() {
   // fetchData 함수를 수정하여 데이터를 가져와서 반환
   const fetchData = async () => {
     try {
-      const url = "/music/1.YOASOBI-IDOL-HARD.json";
+      const url = `/music/${gameData.musicNumber}.json`;
       const numberString = url.split(".")[0].split("/").pop(); // "1"
       const number = parseInt(numberString, 10); // 1
       setMusicNum(number);
@@ -389,9 +383,9 @@ export default function HandModel() {
             if (circleDiv.parentNode) {
               const valX =
                 webcamRect.width -
-                (webcamRect.left + node["X-COORDINATE"] * webcamRect.width);
+                (webcamRect.left + node["X-COORDINATE"] * webcamRect.width) - circlePixel/4;
               const valY =
-                webcamRect.top + node["Y-COORDINATE"] * webcamRect.height;
+                webcamRect.top + node["Y-COORDINATE"] * webcamRect.height - circlePixel/4;
               showValue(valX, valY, "MISS");
 
               // scale이 0.2 이하가 되면 div를 삭제합니다.
@@ -470,12 +464,12 @@ export default function HandModel() {
       const circleX =
         1 -
         parseFloat(
-          parseFloat(circleElement.style.left.replace(/[^\d.]/g, "")) + 50
+          parseFloat(circleElement.style.left.replace(/[^\d.]/g, "")) + (circlePixel/2)
         ) /
           document.getElementById("webcamWrapper").offsetWidth;
       const circleY =
         parseFloat(
-          parseFloat(circleElement.style.top.replace(/[^\d.]/g, "")) + 50
+          parseFloat(circleElement.style.top.replace(/[^\d.]/g, "")) + (circlePixel/2)
         ) / document.getElementById("webcamWrapper").offsetHeight;
       const motionNum = circleElement.className
         .split(" ")[1]
@@ -499,12 +493,12 @@ export default function HandModel() {
             const circleOutX =
               1 -
               parseFloat(
-                parseFloat(element.style.left.replace(/[^\d.]/g, "")) + 100
+                parseFloat(element.style.left.replace(/[^\d.]/g, "")) + (circleOutPixel/2)
               ) /
                 document.getElementById("webcamWrapper").offsetWidth;
             const circleOutY =
               parseFloat(
-                parseFloat(element.style.top.replace(/[^\d.]/g, "")) + 100
+                parseFloat(element.style.top.replace(/[^\d.]/g, "")) + (circleOutPixel/2)
               ) / document.getElementById("webcamWrapper").offsetHeight;
 
             return (

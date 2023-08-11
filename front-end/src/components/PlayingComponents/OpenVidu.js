@@ -7,11 +7,11 @@ import APPLICATION_SERVER_URL from "../../ApiConfig";
 class App extends Component {
     constructor(props) {
         super(props);
-
+        console.log(props.gameData)
         // 초기 상태 설정
         this.state = {
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
+            mySessionId: `${props.gameData.roomNumber}`,
+            myUserName: `${props.gameData.nickname}`,
             session: undefined,
             mainStreamManager: undefined,
             publisher: undefined,
