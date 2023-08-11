@@ -9,11 +9,11 @@ const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'htt
 class App extends Component {
     constructor(props) {
         super(props);
-
+        console.log(props.gameData)
         // 초기 상태 설정
         this.state = {
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
+            mySessionId: `sessionA`,
+            myUserName: `${props.gameData.nickname}`,
             session: undefined,
             mainStreamManager: undefined,
             publisher: undefined,
@@ -24,20 +24,25 @@ class App extends Component {
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
         this.switchCamera = this.switchCamera.bind(this);
-        this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
-        this.handleChangeUserName = this.handleChangeUserName.bind(this);
-        this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
         this.onbeforeunload = this.onbeforeunload.bind(this);
     }
 
     // 컴포넌트가 마운트될 때 이벤트 리스너 추가
+    // componentDidMount() {
+    //     window.addEventListener('beforeunload', this.onbeforeunload);
+    // }
+
+    // // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    // componentWillUnmount() {
+    //     window.removeEventListener('beforeunload', this.onbeforeunload);
+    // }
+
     componentDidMount() {
-        window.addEventListener('beforeunload', this.onbeforeunload);
+        this.joinSession();
     }
 
-    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
     componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.onbeforeunload);
+        this.leaveSession();
     }
 
     // 페이지가 닫힐 때 세션을 나가는 함수
@@ -45,22 +50,12 @@ class App extends Component {
         this.leaveSession();
     }
 
-    // 세션 ID를 변경하는 함수
-    handleChangeSessionId(e) {
-        this.setState({ mySessionId: e.target.value });
-    }
-
-    // 사용자 이름을 변경하는 함수
-    handleChangeUserName(e) {
-        this.setState({ myUserName: e.target.value });
-    }
-
-    // 주 비디오 스트림을 처리하는 함수
-    handleMainVideoStream(stream) {
-        if (this.state.mainStreamManager !== stream) {
-            this.setState({ mainStreamManager: stream });
-        }
-    }
+    // // 주 비디오 스트림을 처리하는 함수
+    // handleMainVideoStream(stream) {
+    //     if (this.state.mainStreamManager !== stream) {
+    //         this.setState({ mainStreamManager: stream });
+    //     }
+    // }
 
     // 구독자 삭제 함수
     deleteSubscriber(streamManager) {
@@ -146,8 +141,8 @@ class App extends Component {
         this.setState({
             session: undefined,
             subscribers: [],
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
+            mySessionId: undefined,
+            myUserName: `${ this.props.gameData.nickname }`,
             mainStreamManager: undefined,
             publisher: undefined
         });
@@ -186,68 +181,13 @@ class App extends Component {
 
     // 화면 렌더링 함수
     render() {
-        const mySessionId = this.state.mySessionId;
-        const myUserName = this.state.myUserName;
-
         return (
             <div className="container">
-                {/* 세션이 정의되지 않았을 경우 Join 화면 표시 */}
-                {this.state.session === undefined ? (
-                    <div id="join">
-                        <div id="join-dialog" className="jumbotron vertical-center">
-                            <h1> Join a video session </h1>
-                            <form className="form-group" onSubmit={this.joinSession}>
-                                <p>
-                                    <label>Participant: </label>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        id="userName"
-                                        value={myUserName}
-                                        onChange={this.handleChangeUserName}
-                                        required
-                                    />
-                                </p>
-                                <p>
-                                    <label> Session: </label>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        id="sessionId"
-                                        value={mySessionId}
-                                        onChange={this.handleChangeSessionId}
-                                        required
-                                    />
-                                </p>
-                                <p className="text-center">
-                                    <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                ) : null}
+                
 
                 {/* 세션이 정의되었을 경우 세션 화면 표시 */}
                 {this.state.session !== undefined ? (
                     <div id="session">
-                        <div id="session-header">
-                            <h1 id="session-title">{mySessionId}</h1>
-                            <input
-                                className="btn btn-large btn-danger"
-                                type="button"
-                                id="buttonLeaveSession"
-                                onClick={this.leaveSession}
-                                value="Leave session"
-                            />
-                            <input
-                                className="btn btn-large btn-success"
-                                type="button"
-                                id="buttonSwitchCamera"
-                                onClick={this.switchCamera}
-                                value="Switch Camera"
-                            />
-                        </div>
-
                         <div id="video-container" className="col-md-6">
                             {/* 발행자 스트림 화면 */}
                             {this.state.publisher !== undefined ? (
