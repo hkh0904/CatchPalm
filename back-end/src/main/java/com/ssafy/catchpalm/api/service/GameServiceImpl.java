@@ -3,10 +3,8 @@ package com.ssafy.catchpalm.api.service;
 import com.ssafy.catchpalm.api.request.GameLogPostReq;
 import com.ssafy.catchpalm.db.dto.MusicDTO;
 import com.ssafy.catchpalm.db.dto.RankDTO;
-import com.ssafy.catchpalm.db.entity.Music;
-import com.ssafy.catchpalm.db.entity.Rank;
-import com.ssafy.catchpalm.db.entity.Records;
-import com.ssafy.catchpalm.db.entity.User;
+import com.ssafy.catchpalm.db.dto.RecordsDTO;
+import com.ssafy.catchpalm.db.entity.*;
 import com.ssafy.catchpalm.db.repository.MusicRepository;
 import com.ssafy.catchpalm.db.repository.RankRepository;
 import com.ssafy.catchpalm.db.repository.RecordsRepository;
@@ -35,12 +33,25 @@ public class GameServiceImpl implements GameService {
         Records records = new Records();
         User user = new User();
         Music music = new Music();
+        GameRoom gameRoom = new GameRoom();
         music.setMusicNumber(gameInfo.getMusicNumber());
         records.setMusic(music);
         user.setUserNumber(gameInfo.getUserNumber());
         records.setUser(user);
         records.setScore(gameInfo.getScore());
+        gameRoom.setRoomNumber(gameInfo.getRoomNumber());
+        records.setGameRoom(gameRoom);
         recordsRepository.save(records);
+    }
+
+    @Override
+    public List<RecordsDTO> getRecords(int roomNumber){
+        List<Records> records = recordsRepository.findByGameRoomRoomNumberOrderByScoreDesc(roomNumber);
+
+        return records.stream()
+                .map(RecordsDTO::fromEntity)
+                .collect(Collectors.toList());
+
     }
 
     @Override

@@ -4,10 +4,6 @@
   box-sizing: border-box;
 }
 
-/* html,body {
-  overflow: hidden;
-} */
-
 /* 동영상  */
 .background_video {
   position: fixed;
@@ -28,10 +24,6 @@
   content: "";
   clear: both;
 }
-
-/* .hidden {
-  display: none;
-} */
 
 .form_control {
   width: 100%;
@@ -149,11 +141,13 @@ button.accent {
   max-height: 400px;
   display: inline-block;
   width: 40%;
+  background-color: rgba(0, 0, 0, 0.8);
+    color: greenyellow;
 }
 
 #chat-page ul {
   list-style-type: none;
-  background-color: #FFF;
+  background-color: rgba(0, 0, 0, 0.6);
   margin: 0;
   overflow: auto;
   overflow-y: scroll;
@@ -166,7 +160,6 @@ button.accent {
   line-height: 1.5rem;
   padding: 10px 20px;
   margin: 0;
-  border-bottom: 1px solid #f4f4f4;
 }
 
 #chat-page ul li p {
@@ -177,10 +170,11 @@ button.accent {
   width: 100%;
   text-align: center;
   clear: both;
+  color: aquamarine;
 }
 
 #chat-page .event-message p {
-  color: #777;
+  color: greenyellow;
   font-size: 14px;
   word-wrap: break-word;
 }
@@ -188,6 +182,7 @@ button.accent {
 #chat-page .chat_message {
   padding-left: 68px;
   position: relative;
+
 }
 
 #chat-page .chat_message i {
@@ -208,12 +203,12 @@ button.accent {
 }
 
 #chat-page .chat_message span {
-  color: #333;
+  color: springgreen;
   font-weight: 600;
 }
 
 #chat-page .chat_message p {
-  color: #43464b;
+  color: azure;
 }
 
 #messageForm .input_group input {
@@ -230,14 +225,12 @@ button.accent {
 
 .chat_header {
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid #ececec;
 }
 
 .chat_header h2 {
   margin: 0;
   font-weight: 500;
-  color: springgreen;
-
 }
 
 .connecting {
@@ -596,3 +589,8 @@ button.accent {
   margin-left: 1%;
   background-color: rgba(0, 0, 0, 0.6);
 }
+
+
+
+
+

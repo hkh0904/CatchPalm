@@ -12,7 +12,6 @@ let name = "";
 let Sock = null;
 var stompClient = null;
 let audio = null;
-
 var colors = [
   "#2196F3",
   "#32c787",
@@ -26,10 +25,12 @@ var colors = [
 
 const ChatRoomItem = () => {
   // 게임시작 신호--------------------------------------------------
+  const [mySettings, setMySettings] = useState();
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
   const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
   const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
+  const [isVideo, setIsVideo] = useState(0); // startMusic 상태로 추가
   const navigate = useNavigate();
   useEffect(() => {
     if (gameStart === 1) {
@@ -41,11 +42,15 @@ const ChatRoomItem = () => {
         musicName: startMusicName,  // 음악 이름
         nickname: name,
         userNumber: userNumber,
-        userInfo: userInfo
+        userInfo: userInfo,
+        isCam: isVideo,
+        backSound: mySettings.backSound,
+        effectSound: mySettings.effectSound,
+        gameSound: mySettings.gameSound,
+        synk: mySettings.synk
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
-      // navigate('/게임창경로', { state: { gameData: gameStartRes } });
-      alert("게임시작");
+      navigate('/Playing', { state: { gameData: gameStartRes } });
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
@@ -57,8 +62,34 @@ const ChatRoomItem = () => {
   const [roomInfo, setRoomInfo] = useState(null);
 
   const [userInfo, setUserInfo] = useState([]); // 유저정보들
+  const [soundVolume, setSoundVolume] = useState(0.3); // 음악 사운드 사용자 설정 가져오기.
   const [captain, setCaptain] = useState(); // 방장 정보
   const [messages, setMessages] = useState(""); // 보내는 메세지
+  
+  // ------- 음악 음소거 유무 ----------------
+  const [musicOnOff, setMusicOnOff] = useState(1);
+  useEffect(() => {
+    if (musicOnOff === 1 && audio !==null && soundVolume !==null) {
+      audio.volume = soundVolume; // 볼륨 30%로 설정
+    }
+    else if(musicOnOff === 0 && audio !== null){
+      audio.volume = 0;
+    }
+  }, [musicOnOff]); 
+
+  const changeSoundStatus = () => {
+    setMusicOnOff(musicOnOff === 0 ? 1:0);
+  };
+
+  //-----------------------------------------
+
+  //---------비디오 활성화 유무: 게임창으로 이동했을때 반영.
+  const changeVideoStatus = () => {
+    setIsVideo(isVideo === 0 ? 1:0);
+  };
+  //------------------------------------
+  
+
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
   const [pickedMusic, setPickedMusic] = useState();
@@ -95,7 +126,7 @@ const ChatRoomItem = () => {
   }
 
   useEffect(() => {
-    if (pickedMusic !== null && musicName !== null && stompClient !== null) {
+    if (pickedMusic !== null && musicName !== null && stompClient !== null && soundVolume !== null) {
       if(name === captain) { // 방장일 경우만 
         musicChange(); // 변경사항 소켓으로 전달.
       }
@@ -104,10 +135,14 @@ const ChatRoomItem = () => {
         audio.currentTime = 0;
       }
       audio = new Audio(`/music/${pickedMusic}.mp3`);
-      audio.volume = 0.3; // 볼륨 30%로 설정
-      audio.play();
+      if (musicOnOff === 1) {
+        audio.volume = soundVolume; // 볼륨 30%로 설정
+      } else {
+        audio.volume = 0;
+      }
+        audio.play();
     }
-  }, [pickedMusic, musicName]); // 선택곡이 바뀌면 수행
+  }, [pickedMusic, musicName, soundVolume]); // 선택곡이 바뀌면 수행
 
 //  채팅관련
   const handleMessageChange = (event) => {
@@ -131,6 +166,8 @@ const ChatRoomItem = () => {
         const userNumber = response.data.userNumber;
         setUserNumber(userNumber);
         name = response.data.userNickname;
+        setSoundVolume(response.data.backSound);
+        setMySettings(response.data);
       })
       .catch((error) => {
         console.error("error");
@@ -153,6 +190,8 @@ const ChatRoomItem = () => {
             const userNumber = response.data.userNumber;
             setUserNumber(userNumber);
             name = response.data.userNickname;
+            setSoundVolume(response.data.backSound);
+            setMySettings(response.data);
           })
           .catch((error) => {
             console.log(error);
@@ -212,8 +251,16 @@ const ChatRoomItem = () => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
 
+    // 만약 강퇴 신호라면 
+    if(message.type === 'DROP'){
+      if(message.nickname === name){
+        navigate('/chatRoomList');
+        alert("강퇴되었습니다.");
+      }
+      return;
+    }
     // 만약 게임시작 신호라면
-    if(message.type === 'START'){
+    else if(message.type === 'START'){
       setGameStart(message.isStart);
       setStartMusic(message.musicNumber);
       setStartRoom(message.roomNumber);
@@ -288,6 +335,20 @@ const ChatRoomItem = () => {
     return colors[index];
   };
   
+  // 강퇴 정보 전송
+  const dropOutUser = (nickname) => {
+    if (Sock.readyState === SockJS.OPEN &&  nickname) { // 강퇴대상과 구독설정이 잘 되어 있다면.
+      var dropUser = { // 변경된 음악정보
+        nickname: nickname, // 강퇴할 유저 닉네임
+        roomNumber: roomInfo.roomNumber // 현재 룸 넘버
+      };
+      stompClient.send("/app/drop.user", {}, JSON.stringify(dropUser));
+    }
+    else {
+      console.log("강퇴 실패.");
+    }
+  };
+
   // 음악 변경 정보 전송
 
   const musicChange = () => {
@@ -363,9 +424,14 @@ const ChatRoomItem = () => {
     event.preventDefault();
   };
   const handleStartChatting = () => {
-    // localStorage에서 데이터 가져오기
+    // 소켓연결
     connect();
   };
+
+  const handleQuitChatRoom = () => {
+    navigate('/chatRoomList');
+  };
+
   if (!roomInfo) {
     return <div>Loading...</div>;
   }
@@ -419,7 +485,7 @@ const ChatRoomItem = () => {
                       borderRadius: '5px',
                       overflow: 'hidden',
                       fontSize: '10px',
-                      width: '230px',
+                      width: '245px',
                       height: '180px',
                     }}
                   >
@@ -502,6 +568,19 @@ const ChatRoomItem = () => {
               {captain === user.nickname && 
                 <img className={style.captainlogo} src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
               }
+              {/* 강퇴버튼. 방장유저만 */}
+              {captain === name && user.nickname !== name && 
+                <img
+                src="/assets/out.png"
+                alt="강퇴"
+                style={{
+                  height:'50%',
+                  cursor: 'pointer',
+                  marginLeft: 'auto'
+                }}
+                onClick={() => dropOutUser(user.nickname)}
+            />
+              }
             </div>
 
           ))}
@@ -509,20 +588,74 @@ const ChatRoomItem = () => {
         <div className={style.game_option} style={{
 
         }}>
+          <div style={{
+            width: '100%',
+            height: '20%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-around'
+          }}>
+          {musicOnOff === 1 &&
+            <img
+                src="/assets/speaker.png"
+                alt="speaker-on"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+                onClick={changeSoundStatus}
+            />
+          }
+          {musicOnOff === 0 &&
+            <img
+                src="/assets/speaker_off.png"
+                alt="speaker-off"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+                onClick={changeSoundStatus}
+            />
+            }
+          {isVideo === 0 &&
+            <img
+                src="/assets/video-off.png"
+                alt="video-off"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+                onClick={changeVideoStatus}
+            />
+          }  
+          {isVideo === 1 &&
+            <img
+                src="/assets/video.png"
+                alt="video-on"
+                style={{
+                  height:'75%',
+                  cursor: 'pointer'
+                }}
+                onClick={changeVideoStatus}
+            />
+          }  
+            
+
+          </div>
           {captain !== name &&
                 <a onClick={clickReady} style={{
                   width: '100%',
                   color: 'mediumspringgreen',
                   textAlign: 'center',
                   display: 'grid',
-                  height: '50%',
+                  height: '40%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
                   fontSize: '2.5rem',
                   margin: '0',
                   border: '1px solid',
                   filter: 'hue-rotate(215deg)',
-                }} href="/">
+                }} >
                   <span></span>
                   <span></span>
                   <span></span>
@@ -537,13 +670,13 @@ const ChatRoomItem = () => {
                   color: 'aqua',
                   textAlign: 'center',
                   display: 'grid',
-                  height: '50%',
+                  height: '40%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
                   fontSize: '2.5rem',
                   margin: '0',
                   border: '1px solid'
-                }} href="/">
+                }} >
                   <span></span>
                   <span></span>
                   <span></span>
@@ -552,12 +685,12 @@ const ChatRoomItem = () => {
                   start
                 </a>
               }
-          <a href='../ChatRoomList' style={{
+          <a onClick={handleQuitChatRoom} style={{
                   width: '100%',
                   color: 'aqua',
                   textAlign: 'center',
                   display: 'grid',
-                  height: '50%',
+                  height: '40%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
                   fontSize: '2.5rem',
