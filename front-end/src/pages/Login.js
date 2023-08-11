@@ -72,27 +72,11 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        
           <Box
             sx={{
-              my: 8,
-              mx: 4,
+              my: 4,
+              mx: 2,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -140,16 +124,17 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2" onClick={handleBackButtonClick}>
-                    Back to main page
+                  <Link href="/" variant="body2" onClick={handleBackButtonClick}>
+                    비밀번호 찾기(미구현)
                   </Link>
+
                 </Grid>
               </Grid>
               {errorMessage && <Typography color="error">{errorMessage}</Typography>}
             </Box>
           </Box>
-        </Grid>
-      </Grid>
+        
+
     </ThemeProvider>
   );
 };

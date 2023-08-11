@@ -30,6 +30,7 @@ const ChatRoomItem = () => {
   const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
   const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
+  const [isVideo, setIsVideo] = useState(0); // startMusic 상태로 추가
   const navigate = useNavigate();
   useEffect(() => {
     if (gameStart === 1) {
@@ -41,11 +42,11 @@ const ChatRoomItem = () => {
         musicName: startMusicName,  // 음악 이름
         nickname: name,
         userNumber: userNumber,
-        userInfo: userInfo
+        userInfo: userInfo,
+        isVideo: isVideo
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
-      // navigate('/게임창경로', { state: { gameData: gameStartRes } });
-      alert("게임시작");
+      navigate('/Playing', { state: { gameData: gameStartRes } });
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
@@ -366,6 +367,11 @@ const ChatRoomItem = () => {
     // localStorage에서 데이터 가져오기
     connect();
   };
+
+  const handleQuitChatRoom = () => {
+    navigate(`/chatRoomList`);
+  };
+
   if (!roomInfo) {
     return <div>Loading...</div>;
   }
@@ -509,13 +515,14 @@ const ChatRoomItem = () => {
         <div className={style.game_option} style={{
 
         }}>
+
           {captain !== name &&
                 <a onClick={clickReady} style={{
                   width: '100%',
                   color: 'mediumspringgreen',
                   textAlign: 'center',
                   display: 'grid',
-                  height: '50%',
+                  height: '40%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
                   fontSize: '2.5rem',
@@ -537,7 +544,7 @@ const ChatRoomItem = () => {
                   color: 'aqua',
                   textAlign: 'center',
                   display: 'grid',
-                  height: '50%',
+                  height: '40%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
                   fontSize: '2.5rem',
@@ -552,12 +559,12 @@ const ChatRoomItem = () => {
                   start
                 </a>
               }
-          <a href='../ChatRoomList' style={{
+          <a href='/' onClick={handleQuitChatRoom} style={{
                   width: '100%',
                   color: 'aqua',
                   textAlign: 'center',
                   display: 'grid',
-                  height: '50%',
+                  height: '40%',
                   justifyContent: 'space-around',
                   alignContent: 'space-around',
                   fontSize: '2.5rem',
