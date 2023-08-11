@@ -14,7 +14,6 @@ let name = "";
 let Sock = null;
 var stompClient = null;
 let audio = null;
-let token = localStorage.getItem("token");
 var colors = [
   "#2196F3",
   "#32c787",
@@ -46,7 +45,7 @@ const ChatRoomItem = () => {
         nickname: name,
         userNumber: userNumber,
         userInfo: userInfo,
-        isVideo: isVideo,
+        isCam: isVideo,
         backSound: mySettings.backSound,
         effectSound: mySettings.effectSound,
         gameSound: mySettings.gameSound,
@@ -58,7 +57,7 @@ const ChatRoomItem = () => {
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
 
-  // const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const [userNumber, setUserNumber] = useState(""); // userNumber 상태로 추가
   const messageAreaRef = useRef(null);
   const { roomNumber } = useParams();
@@ -488,7 +487,7 @@ const ChatRoomItem = () => {
                       borderRadius: '5px',
                       overflow: 'hidden',
                       fontSize: '10px',
-                      width: '230px',
+                      width: '245px',
                       height: '180px',
                     }}
                   >
