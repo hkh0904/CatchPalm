@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import APPLICATION_SERVER_URL from '../ApiConfig';
 
+
 const theme = createTheme();
 
 const Login = () => {

@@ -1,7 +1,6 @@
 /* App.module.css */
 
 body {
-  
 /* 모든페이지 스크롤바 제거 */
 overflow: hidden;
 background-size: cover;
@@ -13,13 +12,13 @@ cursor: url('../public/assets/cursor.png'), auto;
 justify-content: center;
 align-items: center;
 /* height: 150vh; */
-background: #050801;
+
 font-family: 'Raleway', sans-serif;
 }
 
 
 /* 마우스 포인터 변경 */
-.a, button, [role="button"], input[type="submit"], .clickable {
+a, button, [role="button"], input[type="submit"], .clickable {
     cursor: url('../public/assets/pointer.png'), auto;
 }
 
@@ -289,6 +288,8 @@ right: 10px; /* adjust as needed */
 background-color: #f5f5f5;
 }
 
+
+/* 버튼 배치 */
 .gamemode{
     display: flex;
     justify-content: center; /* 수평 중앙 정렬 */
@@ -301,7 +302,7 @@ background-color: #f5f5f5;
 .centeredCircleButton {
     z-index: 2;
     position: absolute;
-    top: 60%;
+    top: 53%;
     left: 50%;
     width: 450px;
     height: 450px;
@@ -314,7 +315,7 @@ background-color: #f5f5f5;
     transform: translate(-50%, -50%); /* 버튼을 정확히 화면 중앙으로 이동시키기 위한 속성 */
     cursor: pointer;
     transition: 0.3s;
-
+    cursor: url('../public/assets/pointer.png'), auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -337,8 +338,10 @@ background-color: #f5f5f5;
 }
 
 .centeredCircleButton:hover {
-    background-color: #d81d94;
-    animation: pulseGrow 0.5s infinite; /* 0.5초 동안 pulseGrow 애니메이션을 무한 반복합니다. */
+    
+border: 1px rgba(220, 12, 234, 0.8) solid;
+box-shadow: rgba(171, 5, 133, 0.6) 0 0 24px 2px, rgba(255,0,0,0.6) 0 0 6px 1px inset;
+animation: pulseGrow 0.5s infinite; /* 0.5초 동안 pulseGrow 애니메이션을 무한 반복합니다. */
 }
 
 /* //////////////////////// */
@@ -353,6 +356,7 @@ background-color: #f5f5f5;
   /* 버튼이 클릭된 경우의 스타일 */
   .centeredCircleButton.clicked {
     animation: fadeOut 2s forwards;
+
   }
   
   /* 배경 화면 밝기 애니메이션 */

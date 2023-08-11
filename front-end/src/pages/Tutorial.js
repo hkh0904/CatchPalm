@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import style from './Tutorial.module.css';
 
 function Tutorial() {
-  const texts = ['튜토리얼 페이지', '이곳은 튜토리얼 페이지입니다.', '더욱 생동감 있는 게임을 즐기시려면 F11을 눌러 주세요', '저희 CatchPalm은 화면에 나오는 히트마커에 맞춰 손모양을 인식해 점수를 올리는 게임입니다!', '(플레이 영상)', '먼저 화면과의 적당한 거리를 조절해주세요.', '인식 가능한 손모양으로 다음과 같은 7가지 모양이 있습니다', '원이 줄어드는 박자에 맞춰 손을 마커에 가져다 대고, 점수를 획득하시요!'];
+  const texts = ['튜토리얼 페이지', '이곳은 튜토리얼 페이지입니다.', '더욱 생동감 있는 게임을 즐기시려면 F11을 눌러 주세요', '저희 CatchPalm은 화면에 나오는 히트마커에 맞춰 손모양을 인식해 점수를 올리는 게임입니다!', '(플레이 영상)', '먼저 화면과의 적당한 거리를 조절해주세요.', '인식 가능한 손모양으로 다음과 같은 7가지 모양이 있습니다', '원이 줄어드는 박자에 맞춰 손을 마커에 가져다 대고, 점수를 획득하세요!'];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
@@ -35,14 +35,8 @@ function Tutorial() {
   }, [currentIndex]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      handleNext();
-    }, 10000);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [currentIndex]);
+  });
 
   return (
     <div className={style.background_tutorial}>

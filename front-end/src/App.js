@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp';
 import Userinfo from './pages/Userinfo';
 import Tutorial from './pages/Tutorial';
 import RankingPage from './pages/RankingPage';
+import ResultPage from './pages/ResultPage';
 import axios from 'axios';
 import APPLICATION_SERVER_URL from './ApiConfig';
 
@@ -27,16 +28,22 @@ function MainPage() {
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
 
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // 토큰 삭제
-    navigate('/');
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token'); // 토큰 삭제
+  //   navigate('/');
+  // };
 
     // 버튼 클릭 상태를 추적하는 useState 추가
     const [buttonClicked, setButtonClicked] = useState(false);  
 
     const handleCircleButtonClick = () => {
       setButtonClicked(true);
+              // 효과음 재생
+        const audioElement = document.getElementById("startSound");
+        if (audioElement) {
+            audioElement.play();
+        }
+
     }
     //// 내 정보보기 시작
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -52,9 +59,9 @@ function MainPage() {
   //   navigate('/login');
   // };
   
-  const handleButtonClick4 = () => {
-    navigate('/signup');
-  };
+  // const handleButtonClick4 = () => {
+  //   navigate('/signup');
+  // };
   ////////////// 로그인 로그아웃 끝////////////////  
 
   ////로그인 회원가임 Drawer
@@ -83,20 +90,19 @@ function MainPage() {
     const currentUrl = window.location.href;
     console.log(currentUrl);
     
-    // Parse the query parameters
+    // url에서 파싱해서 token 받아오기
     const urlParams = new URLSearchParams(window.location.search);
     
     // Check if token parameter is present in the URL
     let urlToken = urlParams.get('token');
   
     if (urlToken) {
-      // Save the token from the URL if present
+      // 만약 주소 뒤에 token이러는게 있다면,
       localStorage.setItem('token', urlToken);
       window.location.href = 'http://localhost:3000/';
     } else {
-      // Original code if token parameter is not present in the URL
       
-      if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
+      if(!token) return;  // 토큰이 없으면 요청하지 않습니다. >> 원래 하던 방식대로 로그인
   
       axios({
         method: 'get',
@@ -163,21 +169,21 @@ function MainPage() {
             <div className={style.gamemode} container spacing={2}>
               
                 <a href="tutorial" className={style.a}>
-                  
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
                   TUTORIAL
                 </a>
                 <a href="/Playing" className={style.a}>
-                  
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
                   SOLO MODE
                 </a>
                 <a href="/ChatRoomList" className={style.a}>
-                  
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
@@ -189,11 +195,11 @@ function MainPage() {
               </button>
               <br />
               <button onClick={handleButtonClick}>게임시작</button>
-              <div className={`${style.logout}`}>
+              {/* <div className={`${style.logout}`}>
                 <button onClick={handleLogout}>
                   로그아웃
                 </button>
-              </div>
+              </div> */}
               <div className={`${style.userinfo}`}>
                 <button onClick={handleDrawerOpen}>
                   회원정보
@@ -229,10 +235,9 @@ function MainPage() {
             </div>
 
               <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
-
+              <audio id="startSound" src="/assets/Start.mp3" preload="auto"></audio>
               <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
                 onClick={handleCircleButtonClick}>
-                  
               </button>
               <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
                 {drawerContent === "login" && <Login />}
@@ -259,6 +264,7 @@ function App() {
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
           <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
           <Route path="/ranking" element={<RankingPage />} />
+          <Route path="/result" element={<ResultPage />} />
         </Routes>
     </Router>
   );

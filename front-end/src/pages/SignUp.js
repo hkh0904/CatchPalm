@@ -41,6 +41,7 @@ function SignUp() {
   const handleCheckUserId = async (userId) => {
     try {
       const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated/userId`, { userId });
+      
       if (response.data.duplicated) {
         setUserIdMessage({text: '이미 사용중인 아이디입니다.', color: "error"});
       } else {
