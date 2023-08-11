@@ -632,7 +632,7 @@ export default function HandModel({ gameData }) {
           hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
           ref={videoSrcRef} // videoSrcRef를 사용합니다.
           id="videoSrc"
-          src="/music/YOASOBI-IDOL.mp4" // 비디오 파일의 URL을 지정합니다.
+          src="/music/GameVideo3.mp4" // 비디오 파일의 URL을 지정합니다.
           style={{
             position: "absolute",
             width: "100%",
