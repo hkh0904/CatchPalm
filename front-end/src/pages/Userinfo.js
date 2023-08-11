@@ -7,6 +7,7 @@ import APPLICATION_SERVER_URL from '../ApiConfig';
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
     const defaultProfileImg = "/assets/basicprofile.jpg";
+    const [profileImg, setProfileImg] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,6 +22,7 @@ const Userinfo = () => {
             
             if (response.status === 200) {
                 setUserInfo(response.data);
+                setProfileImg(response.data.profileImg);
             }
         };
 
@@ -29,11 +31,22 @@ const Userinfo = () => {
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
+        console.log(file, 1111);
         const base64String = await blobToBase64(file);
-
+        console.log(base64String, 2222);
         const token = localStorage.getItem('token');
         await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
-            profileImg: base64String
+            profileImg: base64String,
+            age: "",
+            backSound: "",
+            effectSound: "",
+            gameSound: "",
+            password: "",
+            isCam: "",
+            profileMusic: "",
+            sex: "",
+            synk: "",
+            nickname: "",
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +54,8 @@ const Userinfo = () => {
             }
         });
         
-        const response = await axios.get(`${APPLICATION_SERVER_URL}:8443/api/v1/users/me`, {
+            
+        const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/me`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -50,6 +64,7 @@ const Userinfo = () => {
         
         if (response.status === 200) {
             setUserInfo(response.data);
+            setProfileImg(response.data.profileImg);
         }
     };
 
@@ -61,7 +76,15 @@ const Userinfo = () => {
             reader.readAsDataURL(blob);
         });
     };
-
+    //이미지 불러와서 디코딩
+    const getImageSrc = () => {
+        if (profileImg) {
+          // Convert Base64 data to an image data URL
+          return `data:image/jpeg;base64,${profileImg}`;
+        }
+        return null;
+    };
+    
     const handlePasswordChange = async () => {
         const newPassword = prompt('Enter new password:');
         
@@ -186,7 +209,7 @@ const Userinfo = () => {
     return (
         <div>
             <h1 className={styles.h1}>유저 정보</h1>
-            <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
+            <img className={styles.img} height={"150px"} src={getImageSrc() || defaultProfileImg} alt="Profile" />
             <button className={styles.button} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>

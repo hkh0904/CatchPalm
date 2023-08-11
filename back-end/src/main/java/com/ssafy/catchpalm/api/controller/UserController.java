@@ -152,7 +152,7 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-
+		System.out.println(user.getProfileImg());
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
@@ -195,7 +195,9 @@ public class UserController {
 			user.setSex(Integer.parseInt(userModifyInfo.getSex()));
 		}
 		if (userModifyInfo.getProfileImg() != null && !userModifyInfo.getProfileImg().isEmpty()) {
-			byte[] bytes = Base64.getDecoder().decode(userModifyInfo.getProfileImg());
+
+			String base64Data = userModifyInfo.getProfileImg().split(",")[1];
+			byte[] bytes = Base64.getDecoder().decode(base64Data);
 			// Get a connection and create a Blob
 			try (Connection connection = dataSource.getConnection()) {
 				Blob blob = connection.createBlob();

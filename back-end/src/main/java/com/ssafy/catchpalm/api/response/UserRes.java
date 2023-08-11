@@ -8,6 +8,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
+
 /**
  * 회원 본인 정보 조회 API ([GET] /api/v1/users/me) 요청에 대한 응답값 정의.
  */
@@ -35,6 +41,8 @@ public class UserRes{
 	double backSound;
 	@ApiModelProperty(name="User sex")
 	int isCam;
+	@ApiModelProperty(name="User profileImg")
+	String profileImg;
 	
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
@@ -48,6 +56,20 @@ public class UserRes{
 		res.setEffectSound(user.getEffectSound());
 		res.setBackSound(user.getBackSound());
 		res.setIsCam(user.getIsCam());
+		String proImg = "";
+		try {
+			if (user.getProfileImg() != null) {
+				InputStream inputStream = user.getProfileImg().getBinaryStream();
+				byte[] bytes = new byte[(int) user.getProfileImg().length()];
+				inputStream.read(bytes);
+				inputStream.close();
+
+				proImg = Base64.getEncoder().encodeToString(bytes);
+				res.setProfileImg(proImg);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return res;
 	}
 }
