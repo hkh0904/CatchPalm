@@ -7,5 +7,6 @@ public enum MessageType {
     LEAVE,
     READY,
     MUSIC,
-    START
+    START,
+    DROP
 }
