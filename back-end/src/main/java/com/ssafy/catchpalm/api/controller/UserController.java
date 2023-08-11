@@ -273,7 +273,10 @@ public class UserController {
 			return ResponseEntity.status(401).body(UserDuplicatedPostRes.of(401, "failed - userId is required"));
 		}
 		boolean isDuplicated = userService.isDuplicatedUserId(userId);
-		User user = userService.getUserByUserId(userId);
+		User user = userService.getUserByUserId2(userId);
+		if(user == null){
+			return ResponseEntity.ok(UserDuplicatedPostRes.of(200, "Success",false));
+		}
 		int verified = user.getEmailVerified();
 		if(verified == 0){
 			isDuplicated = false;
