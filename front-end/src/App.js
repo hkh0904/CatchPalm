@@ -20,6 +20,17 @@ import APPLICATION_SERVER_URL from './ApiConfig';
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 
 function MainPage() {
+
+  // 메인 버튼
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
     
   const navigate = useNavigate();
 
@@ -151,6 +162,8 @@ function MainPage() {
     navigate('/Playing');
   };
   
+  const buttonClasses = isHovered ? style.button + ' ' + style.hovered : style.button;
+
   return (
     <React.Fragment>
         {/* background_video에 클릭 상태에 따른 클래스 조건부 추가 */}
@@ -164,6 +177,16 @@ function MainPage() {
       <div className={style.mainword}>
         <h2>프로젝트 소개</h2>
       </div>
+      {/* 메인버튼 */}
+      <div>
+      <button
+        className={buttonClasses}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
+      >
+        <p className={style.main_font}>Catch Palm</p>
+      </button>
+    </div>
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
@@ -188,6 +211,13 @@ function MainPage() {
                   <span></span>
                   <span></span>
                   MULTI MODE
+                </a>
+                <a href="/ranking" className={style.a}>
+                  
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  ranking
                 </a>
               </div>
               <button variant="contained" onClick={handleButtonClick}>
