@@ -22,7 +22,9 @@ public interface UserService {
 	void randomNickname(String userId) throws Exception;
 
 	void updateRefreshToken(String userId, String refreshToken) throws Exception;
-	String getRefreshTokenByUserId(String userId) throws Exception;
+
+
+    String getRefreshTokenByUserId(String userId) throws Exception;
 
     User getUserByVerificationToken(String token) throws Exception;
 

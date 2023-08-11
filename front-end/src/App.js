@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp';
 import Userinfo from './pages/Userinfo';
 import Tutorial from './pages/Tutorial';
 import RankingPage from './pages/RankingPage';
+import ResultPage from './pages/ResultPage';
 import axios from 'axios';
 
 
@@ -244,6 +245,7 @@ function App() {
           <Route path="/chatRoomList" element={<ChatRoomList onSelectChatRoom={undefined} />} />
           <Route path="/chat-rooms/:roomNumber" element={<ChatRoomItem />} />
           <Route path="/ranking" element={<RankingPage />} />
+          <Route path="/result" element={<ResultPage />} />
         </Routes>
     </Router>
   );
