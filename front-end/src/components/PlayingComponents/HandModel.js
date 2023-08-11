@@ -6,7 +6,7 @@ import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import APPLICATION_SERVER_URL from './ApiConfig';
+import APPLICATION_SERVER_URL from "../../ApiConfig";
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;

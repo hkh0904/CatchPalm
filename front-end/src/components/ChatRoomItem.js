@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import { allResolved } from 'q';
-import APPLICATION_SERVER_URL from './ApiConfig';
+import APPLICATION_SERVER_URL from '../ApiConfig';
 
 let name = '';
 let userNumber = ''; // userNumber 전역변수로 

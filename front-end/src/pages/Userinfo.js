@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import style from '../App.module.css';
 import axios from 'axios';
 import styles from './Userinfo.module.css';
-import APPLICATION_SERVER_URL from './ApiConfig';
+import APPLICATION_SERVER_URL from '../ApiConfig';
 
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
