@@ -28,6 +28,7 @@ var colors = [
 
 const ChatRoomItem = () => {
   // 게임시작 신호--------------------------------------------------
+  const [mySettings, setMySettings] = useState();
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
   const [startMusic, setStartMusic] = useState(); // startMusic 상태로 추가
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
@@ -45,7 +46,11 @@ const ChatRoomItem = () => {
         nickname: name,
         userNumber: userNumber,
         userInfo: userInfo,
-        isVideo: isVideo
+        isVideo: isVideo,
+        backSound: mySettings.backSound,
+        effectSound: mySettings.effectSound,
+        gameSound: mySettings.gameSound,
+        synk: mySettings.synk
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       navigate('/Playing', { state: { gameData: gameStartRes } });
@@ -165,6 +170,7 @@ const ChatRoomItem = () => {
         setUserNumber(userNumber);
         name = response.data.userNickname;
         setSoundVolume(response.data.backSound);
+        setMySettings(response.data);
       })
       .catch((error) => {
         console.error("error");
@@ -188,6 +194,7 @@ const ChatRoomItem = () => {
             setUserNumber(userNumber);
             name = response.data.userNickname;
             setSoundVolume(response.data.backSound);
+            setMySettings(response.data);
           })
           .catch((error) => {
             console.log(error);
