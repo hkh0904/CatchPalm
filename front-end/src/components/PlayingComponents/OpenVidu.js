@@ -2,15 +2,7 @@ import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { Component } from 'react';
 import UserVideoComponent from './UserVideoComponent';
-
-// 애플리케이션 서버 URL 설정
-//const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io' ? '' : 'https://localhost:8443';
-let APPLICATION_SERVER_URL = '';
-if(process.env.NODE_ENV === 'production') {
-  APPLICATION_SERVER_URL = 'https://i9c206.p.ssafy.io/api';
-} else {
-  APPLICATION_SERVER_URL = 'https://localhost:8443';
-}
+import APPLICATION_SERVER_URL from './ApiConfig';
 
 class App extends Component {
     constructor(props) {

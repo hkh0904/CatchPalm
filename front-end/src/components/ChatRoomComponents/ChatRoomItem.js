@@ -8,14 +8,7 @@ import SockJS from "sockjs-client";
 import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
 import { display, margin } from '@mui/system';
-
-//const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
-let APPLICATION_SERVER_URL = '';
-if(process.env.NODE_ENV === 'production') {
-  APPLICATION_SERVER_URL = 'https://i9c206.p.ssafy.io/api';
-} else {
-  APPLICATION_SERVER_URL = 'https://localhost:8443';
-}
+import APPLICATION_SERVER_URL from './ApiConfig';
 
 let name = "";
 let Sock = null;

@@ -14,14 +14,9 @@ import Userinfo from './pages/Userinfo';
 import Tutorial from './pages/Tutorial';
 import RankingPage from './pages/RankingPage';
 import axios from 'axios';
+import APPLICATION_SERVER_URL from './ApiConfig';
 
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
-let APPLICATION_SERVER_URL = '';
-if(process.env.NODE_ENV === 'production') {
-  APPLICATION_SERVER_URL = 'https://i9c206.p.ssafy.io/api';
-} else {
-  APPLICATION_SERVER_URL = 'https://localhost:8443';
-}
 
 function MainPage() {
     

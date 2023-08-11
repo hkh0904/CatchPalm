@@ -7,14 +7,7 @@ import style from './ChatRoomList.module.css'
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
-
-//const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
-let APPLICATION_SERVER_URL = '';
-if(process.env.NODE_ENV === 'production') {
-  APPLICATION_SERVER_URL = 'https://i9c206.p.ssafy.io/api';
-} else {
-  APPLICATION_SERVER_URL = 'https://localhost:8443';
-}
+import APPLICATION_SERVER_URL from './ApiConfig';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
