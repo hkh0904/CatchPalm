@@ -16,10 +16,20 @@ import RankingPage from './pages/RankingPage';
 import ResultPage from './pages/ResultPage';
 import axios from 'axios';
 import APPLICATION_SERVER_URL from './ApiConfig';
+import { useLocation } from 'react-router-dom';
 
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 
 function MainPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tokenValue = searchParams.get('token');
+
+  if(tokenValue){
+    localStorage.setItem('token', searchParams.get('token'));
+    navigate("/");
+  }
 
   // 메인 버튼
   const [isHovered, setIsHovered] = useState(false);
@@ -32,7 +42,6 @@ function MainPage() {
     setIsHovered(false);
   };
     
-  const navigate = useNavigate();
 
   ////////로그인 로그아웃 시작////////////////
   const isLoggedIn = !!localStorage.getItem('token'); 
@@ -104,8 +113,6 @@ function MainPage() {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
         setUserId(cleanedUserId);
-        localStorage.setItem('userData', JSON.stringify(response.data));
-        console.log(response.data)
       })
       .catch(error => {
         const token = error.response.headers.authorization.slice(7);
@@ -122,8 +129,6 @@ function MainPage() {
             const rawUserId = response.data.userId;
             const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
             setUserId(cleanedUserId);
-            localStorage.setItem('userData', JSON.stringify(response.data));
-            console.log(response.data)
           })
           .catch(error => {
             console.log(error);
