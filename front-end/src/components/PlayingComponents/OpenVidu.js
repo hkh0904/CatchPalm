@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import UserVideoComponent from './UserVideoComponent';
 import APPLICATION_SERVER_URL from "../../ApiConfig";
+import './UserVideo.css';
 
 class App extends Component {
     constructor(props) {
@@ -47,13 +48,6 @@ class App extends Component {
     onbeforeunload(event) {
         this.leaveSession();
     }
-
-    // // 주 비디오 스트림을 처리하는 함수
-    // handleMainVideoStream(stream) {
-    //     if (this.state.mainStreamManager !== stream) {
-    //         this.setState({ mainStreamManager: stream });
-    //     }
-    // }
 
     // 구독자 삭제 함수
     deleteSubscriber(streamManager) {
@@ -102,7 +96,7 @@ class App extends Component {
                             videoSource: undefined,
                             publishAudio: false,
                             publishVideo: true,
-                            resolution: '640x480',
+                            // resolution: '640x480',
                             frameRate: 30,
                             insertMode: 'APPEND',
                             mirror: false,
@@ -181,21 +175,19 @@ class App extends Component {
     render() {
         return (
             <div className="container">
-                
-
                 {/* 세션이 정의되었을 경우 세션 화면 표시 */}
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="video-container" className="col-md-6">
                             {/* 발행자 스트림 화면 */}
                             {this.state.publisher !== undefined ? (
-                                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                                <div className="stream-container col-md-6 col-xs-6" >
                                     <UserVideoComponent streamManager={this.state.publisher} />
                                 </div>
                             ) : null}
                             {/* 구독자 스트림 화면 */}
                             {this.state.subscribers.map((sub, i) => (
-                                <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
+                                <div key={sub.id} className="stream-container col-md-6 col-xs-6">
                                     <span>{sub.id}</span>
                                     <UserVideoComponent streamManager={sub} />
                                 </div>
