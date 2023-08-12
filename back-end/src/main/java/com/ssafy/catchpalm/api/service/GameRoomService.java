@@ -35,4 +35,12 @@ public interface GameRoomService {
 
     // 음악 변경 업데이트.
     void musicChange(int gameRoomNumber, int musicNumber);
+
+    // 게임방 생태 받아오기
+    int getStatusByRoomNumber(int roomNumber);
+
+    // 게임방 상태 대기중으로 변경
+    int updateGameRoomStatusToZero(int roomNumber);
+
+
 }
