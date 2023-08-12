@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import style from './Ranking.module.css';
 import { width } from '@mui/system';

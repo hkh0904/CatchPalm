@@ -23,9 +23,8 @@ public class Records {
     @JoinColumn(name = "user_number")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_number")
-    private GameRoom gameRoom;
+    @Column(name = "room_number")
+    private int roomNumber;
 
 
     private int score;

@@ -37,7 +37,7 @@ public class User{
     private String nickname = null;
 
     @Lob
-    @Column(name = "profile_img", columnDefinition = "BLOB")
+    @Column(name = "profile_img", columnDefinition = "Blob")
     private Blob profileImg;
 
     @Column(name = "profile_music")
@@ -45,7 +45,7 @@ public class User{
 
     private int point = 0;
 
-    private double synk = 0.0;
+    private double synk = 0.01;
 
     private int age = 0;
 

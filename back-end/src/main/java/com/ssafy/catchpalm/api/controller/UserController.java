@@ -2,6 +2,7 @@ package com.ssafy.catchpalm.api.controller;
 
 import com.ssafy.catchpalm.api.request.UserModifyPostReq;
 import com.ssafy.catchpalm.api.request.UserUserIdPostReq;
+import com.ssafy.catchpalm.api.response.EmailVerifiedPostRes;
 import com.ssafy.catchpalm.api.response.UserDuplicatedPostRes;
 import com.ssafy.catchpalm.api.service.EmailService;
 import com.ssafy.catchpalm.common.util.AESUtil;
@@ -151,9 +152,10 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-
+		System.out.println(user.getProfileImg());
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
+
 
 	@PatchMapping("/modify")
 	@ApiOperation(value = "회원 본인 정보 수정", notes = "로그인한 회원 본인의 정보를 수정한다. header에 accessToken을 입력해야 한다."+
@@ -193,7 +195,9 @@ public class UserController {
 			user.setSex(Integer.parseInt(userModifyInfo.getSex()));
 		}
 		if (userModifyInfo.getProfileImg() != null && !userModifyInfo.getProfileImg().isEmpty()) {
-			byte[] bytes = Base64.getDecoder().decode(userModifyInfo.getProfileImg());
+
+			String base64Data = userModifyInfo.getProfileImg().split(",")[1];
+			byte[] bytes = Base64.getDecoder().decode(base64Data);
 			// Get a connection and create a Blob
 			try (Connection connection = dataSource.getConnection()) {
 				Blob blob = connection.createBlob();
@@ -271,6 +275,14 @@ public class UserController {
 			return ResponseEntity.status(401).body(UserDuplicatedPostRes.of(401, "failed - userId is required"));
 		}
 		boolean isDuplicated = userService.isDuplicatedUserId(userId);
+		User user = userService.getUserByUserId2(userId);
+		if(user == null){
+			return ResponseEntity.ok(UserDuplicatedPostRes.of(200, "Success",false));
+		}
+		int verified = user.getEmailVerified();
+		if(verified == 0){
+			isDuplicated = false;
+		}
 		return ResponseEntity.ok(UserDuplicatedPostRes.of(200, "Success",isDuplicated));
 	}
 

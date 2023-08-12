@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -196,7 +198,21 @@ public class GameRoomServiceImpl implements GameRoomService {
 		for(GameRoomUserInfo userInfo : userInfos){
 			UserInfo resultUserInfo = new UserInfo();
 			resultUserInfo.setNickname(userInfo.getUser().getNickname());
-			resultUserInfo.setProfileImg(userInfo.getUser().getProfileImg());
+
+			String proImg = "";
+			try {
+				if (userInfo.getUser().getProfileImg() != null) {
+					InputStream inputStream = userInfo.getUser().getProfileImg().getBinaryStream();
+					byte[] bytes = new byte[(int) userInfo.getUser().getProfileImg().length()];
+					inputStream.read(bytes);
+					inputStream.close();
+
+					proImg = Base64.getEncoder().encodeToString(bytes);
+					resultUserInfo.setProfileImg(proImg);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			resultUserInfo.setUserNumber(userInfo.getUser().getUserNumber());
 			resultUserInfo.setReady(userInfo.getReady());
 

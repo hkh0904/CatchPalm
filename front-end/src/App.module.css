@@ -8,7 +8,7 @@ background-repeat: no-repeat;
 background-attachment: fixed;
 /* 마우스 커서 변경 */
 cursor: url('../public/assets/cursor.png'), auto;
-
+margin: 0 auto;
 justify-content: center;
 align-items: center;
 /* height: 150vh; */

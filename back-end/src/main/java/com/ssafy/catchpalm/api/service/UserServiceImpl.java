@@ -123,6 +123,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User getUserByUserId2(String userId) {
+		// 디비에 유저 정보 조회 (userId 를 통한 조회).
+		Optional<User> optionalUser = userRepository.findByUserId(userId);
+
+		if(!optionalUser.isPresent()){
+			return null;
+		}
+		User user = optionalUser.get();
+		return user;
+	}
+
+
+	@Override
 	public String getRefreshTokenByUserId(String userId) throws Exception {
 		User user = getUserByUserId(userId);
 		String decryptRefreshToken = AESUtil.decrypt(user.getRefreshToken());

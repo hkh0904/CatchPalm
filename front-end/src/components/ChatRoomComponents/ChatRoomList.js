@@ -15,7 +15,7 @@ let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
-
+  
   const [showCapacityOptions, setShowCapacityOptions] = useState(false); // 방 정원 부분
 
   const handleTogglePasswordInput = () => {
@@ -238,7 +238,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
 const ChatRoomList = ({}) => {
   const [chatRooms, setChatRooms] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
-  
   const navigate = useNavigate();
   // 비밀번호 관련
   const [inputPassword, setInputPassword] = useState('');
@@ -348,7 +347,23 @@ const ChatRoomList = ({}) => {
     };
     fetchChatRooms();
   };
+  // 검색부분
+  const [filteredChatRooms, setFilteredChatRooms] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const handleSearchInputChange = (event) => {
+    setSearchKeyword(event.target.value);
+  };
+
+  useEffect(() => {
+    const filterChatRooms = () => {
+      const filteredRooms = chatRooms.filter(room =>
+        room.title.toLowerCase().includes(searchKeyword.toLowerCase())
+      );
+      setFilteredChatRooms(filteredRooms);
+    };
   
+    filterChatRooms();
+  }, [chatRooms, searchKeyword]);
 
   return (
     <div style={{display:'flex', justifyContent:'center'}}>
@@ -374,9 +389,13 @@ const ChatRoomList = ({}) => {
         <div style={{display: 'flex'}}>
         <div className={style.neon_button} style={{marginLeft:'10%',marginTop:'10%', height:'50%'}}>
             <input style={{height:'100%', backgroundColor:'rgba(0, 0, 0, 0.2)', border: 'none', marginTop:'1%', fontFamily: 'Jua, sans-serif', fontSize: '16px', color: 'white'}}
-            type=""
+            type="text"
             name="search"
-            placeholder="방 제목을 검색해주세요">
+            placeholder="방 제목을 검색해주세요"
+            value={searchKeyword}
+            onChange={handleSearchInputChange}
+            >
+            
             </input>
         </div>
         
@@ -396,7 +415,7 @@ const ChatRoomList = ({}) => {
         // marginTop: '15%',
       }}>
       <div className={style.inside_div} style={{width:'90%'}}>
-        {chatRooms.map((room) => (
+        {filteredChatRooms.map((room) => (
           <button
             className={style.button_chatRoomList}
             onClick={room.password

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
@@ -14,7 +14,6 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import APPLICATION_SERVER_URL from '../ApiConfig';
 
-// const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 
 const theme = createTheme();
 
@@ -23,6 +22,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const [googleUrl,setGoogleUrl] = useState('');
 
   const handleBackButtonClick = () => {
     navigate('/');
@@ -57,21 +57,37 @@ const Login = () => {
     }
   };
 
+  useEffect(()=>{
+    axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`)
+      .then(response => {
+        let tempGoogleUrl = response.data.slice(9);
+        setGoogleUrl(tempGoogleUrl);
+      })
+      .catch(error => {
+        // error handling
+        console.error('Something went wrong', error);
+      });
+  },[]); // empty dependency array means this effect runs once on mount
+
   const handleGoogleLogin = async () => {
-    try {
-      const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`);
-      if (response.status === 200) {
-        localStorage.setItem('token', response.data.accessToken);
-        navigate('/');
-        window.location.reload();
-      } else {
-        setErrorMessage('Google 로그인 실패');
-      }
-    } catch (error) {
-      console.error(error);
-      setErrorMessage('Google 로그인 실패');
-    }
+    window.location.href = googleUrl;
   };
+
+
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`);
+  //     if (response.status === 200) {
+  //       localStorage.setItem('token', response.data.accessToken);
+  //       window.location.reload();
+  //     } else {
+  //       setErrorMessage('Google 로그인 실패');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     setErrorMessage('Google 로그인 실패');
+  //   }
+  // };
 
   return (
     <ThemeProvider theme={theme}>
