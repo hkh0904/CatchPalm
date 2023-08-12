@@ -231,9 +231,12 @@ function MainPage() {
                 </button>
               </div> */}
               <div className={`${style.userinfo}`}>
-                <button onClick={handleDrawerOpen}>
-                  회원정보
-                </button>
+                  <img 
+                      src="/assets/user_profile.png" 
+                      alt="User Profile" 
+                      onClick={handleDrawerOpen}
+                      style={{ cursor: 'pointer' }}  // 이미지가 클릭 가능하다는 것을 나타내기 위한 스타일
+                  />
               </div>
               
               <div className={`${style.white_text}`}>

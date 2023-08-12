@@ -9,7 +9,7 @@ import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import APPLICATION_SERVER_URL from '../../ApiConfig';
 import Swal from "sweetalert2";
-import Swal from "sweetalert2"
+
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
