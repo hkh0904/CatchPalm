@@ -347,7 +347,7 @@ const ChatRoomList = ({}) => {
     };
     fetchChatRooms();
   };
-  // 검색부분
+  // 검색부분 함수 및 변수
   const [filteredChatRooms, setFilteredChatRooms] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const handleSearchInputChange = (event) => {
