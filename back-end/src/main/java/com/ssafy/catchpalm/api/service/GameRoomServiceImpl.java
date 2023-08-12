@@ -312,4 +312,14 @@ public class GameRoomServiceImpl implements GameRoomService {
 			return  2;
 		}
 	}
+
+	//게임 끝난 후 게임방으로 돌아올때 해당 유저가 기존 유저인지 확인.
+	@Override
+	public boolean isUserNumberMatching(Long userNumber, int gameRoomNumber) {
+		GameRoomUserInfo userInfo = gameRoomUserInfoRepository.findByUserUserNumber(userNumber);
+		if (userInfo != null && userInfo.getGameRoom().getRoomNumber() == gameRoomNumber) {
+			return true;
+		}
+		return false; // 해당 userInfoNumber에 해당하는 정보가 없을 경우 처리
+	}
 }

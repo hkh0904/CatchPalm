@@ -7,7 +7,7 @@
     "@emotion/styled": "^11.10.6",
     "@mediapipe/drawing_utils": "^0.3.1675466124",
     "@mediapipe/hands": "^0.4.1675469240",
-    "@mediapipe/tasks-vision": "0.10.0",
+    "@mediapipe/tasks-vision": "^0.10.0",
     "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.12.1",
     "@stomp/stompjs": "^7.0.0",

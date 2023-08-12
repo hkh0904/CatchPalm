@@ -42,5 +42,6 @@ public interface GameRoomService {
     // 게임방 상태 대기중으로 변경
     int updateGameRoomStatusToZero(int roomNumber);
 
-
+    //게임 끝난 후 게임방으로 돌아올때 해당 유저가 기존 유저인지 확인.
+    boolean isUserNumberMatching(Long userNumber, int gameRoomNumber);
 }
