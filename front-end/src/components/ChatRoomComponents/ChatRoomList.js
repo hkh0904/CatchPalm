@@ -193,14 +193,13 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             />
           )}
         </div>
-        <div style={{marginTop: '8%', width:'15%', display:'flex'}} >
-        <label>Capacity</label>
+        <div style={{marginTop: '4%', width:'15%', display:'flex', alignItems:'baseline'}} >
+          <label>Capacity</label>
           {roomData.categoryNumber === 2 ? (
-            <div>
-              
+            <>
               <input
                 className={style.neon_button_input}
-                style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '14%'}}
+                style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '39%'}}
                 type="text"
                 name="capacity"
                 value={roomData.capacity}
@@ -208,27 +207,25 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
                 onFocus={() => setShowCapacityOptions(true)}
                 readOnly // 입력요소 쓰는거 방지
               />
-              {showCapacityOptions && (
-                <div>
-                <div style={{display:'flex', marginBottom:'10%'}}>
-                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>1명</button>
-                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>2명</button>
-                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>3명</button>
-                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>4명</button>
-                </div>
-              </div>
-              )}
-            </div>
+            </>
           ) : (
             <input 
-            style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '27%'}} 
-            className={style.neon_button_input} 
-            type="number" 
-            name="capacity" 
-            value={4} 
-            disabled />
+              style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '39%'}} 
+              className={style.neon_button_input} 
+              type="number" 
+              name="capacity" 
+              value={4} 
+              disabled />
           )}
-          </div>
+        </div>
+        {showCapacityOptions && (
+                  <div style={{display:'flex', marginBottom:'10%'}}>
+                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>1명</button>
+                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(2)}>2명</button>
+                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(3)}>3명</button>
+                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(4)}>4명</button>
+                  </div>
+              )}
         <button 
         onClick={() => { handleCreateRoom();}}
         className={style.neon_button}>확인</button>
@@ -241,6 +238,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
 const ChatRoomList = ({}) => {
   const [chatRooms, setChatRooms] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
+  
   const navigate = useNavigate();
   // 비밀번호 관련
   const [inputPassword, setInputPassword] = useState('');
@@ -351,9 +349,6 @@ const ChatRoomList = ({}) => {
     fetchChatRooms();
   };
   
-  const handleInputBlur = () => { // 클릭 포커싱 해제
-    document.activeElement.blur();
-  };
 
   return (
     <div style={{display:'flex', justifyContent:'center'}}>
