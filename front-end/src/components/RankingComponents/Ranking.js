@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import style from './Ranking.module.css';
-import { width } from '@mui/system';
 import APPLICATION_SERVER_URL from '../../ApiConfig';
 
-let audio = null;
-
 function MyComponent() {
+
   const [rankList, setRankList] = useState([]);
   const [ranking, setRanking] = useState();
   const [musicList,setMusicList] = useState([]);
   const [musicNumber,setMusicNumber] = useState(0);
   const [backSound,setBackSound] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading1, setLoading1] = useState(true);
+  const [loading2, setLoading2] = useState(true);
+  const [loading3, setLoading3] = useState(true);
 
   const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const token = localStorage.getItem('token');
@@ -32,13 +32,12 @@ function MyComponent() {
       .then(response => {
         const data = response.data;
         setMusicList(data.musics);
-        setLoading(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
-        console.log(data.musics);
+        setLoading1(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       })
       .catch(error => {
         // error handling
         console.error('Something went wrong', error);
-        setLoading(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
+        setLoading1(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       });
   },[userNumber]); // empty dependency array means this effect runs once on mount
 
@@ -58,6 +57,7 @@ function MyComponent() {
         const backSound = response.data.backSound;
         setUserNumber(userNumber);
         setBackSound(backSound);
+        setLoading2(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       })
       .catch(error => {
         const errorToken = localStorage.getItem('token');
@@ -80,9 +80,11 @@ function MyComponent() {
             const backSound = response.data.backSound;
             setUserNumber(userNumber);
             setBackSound(backSound);
+            setLoading2(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
           })
           .catch(error => {
             console.log(error);
+            setLoading2(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
           })
       });
   }, [token]);
@@ -93,14 +95,16 @@ function MyComponent() {
         const data = response.data;
         setRankList(data.ranks);
         setRanking(data.userRanking);
+        setLoading3(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       })
       .catch(error => {
         // error handling
         console.error('Something went wrong', error);
+        setLoading3(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       });
   }, [musicNumber,userNumber]); // empty dependency array means this effect runs once on mount
 
-  if (loading) {
+  if (loading1 && loading2 && loading3) {
     return <div>Loading...</div>;
   }
 
@@ -160,7 +164,7 @@ function MyComponent() {
               <tbody>
                   {rankList && rankList.map((item, index) => 
                       <tr  key={index} className={index % 2 === 0 ? style.rowColor1 : style.rowColor2}>
-                          <td style={{paddingLeft:'10px',color:'#ffd700',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{index+1}</td>
+                          <td style={{paddingLeft:'10px',color:'#ffd700',paddingTop:'5px',paddingBottom:'5px'}}>{index+1}</td>
                           <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.userDTO.nickname}</td>
                           <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.score}</td>
                           <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.playDateTime.slice(0, 10)}</td>
@@ -177,7 +181,7 @@ function MyComponent() {
               <tbody>
               {ranking> 0 ? (
                   <tr className={style.rowColor1}>
-                    <td style={{paddingLeft:'5px',color:'#ffd700',width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{ranking}</td>
+                    <td style={{color:'#ffd700',width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{ranking}</td>
                     <td style={{width:'25%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].userDTO.nickname}</td>
                     <td style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].score}</td>
                     <td style={{width:'15%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].playDateTime.slice(0, 10)}</td>
