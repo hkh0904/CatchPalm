@@ -14,21 +14,22 @@ public class RecordsDTO {
     private int score;
     private UserDTO userDTO;
     private MusicDTO musicDTO;
-    private GameRoomDTO gameRoomDTO;
+    private int roomNumber;
+    private int playCnt;
 
-    public RecordsDTO(long recordsNumber, int score, GameRoomDTO gameRoomDTO, UserDTO userDTO, MusicDTO musicDTO) {
+    public RecordsDTO(long recordsNumber, int score, int roomNumber, UserDTO userDTO, MusicDTO musicDTO, int playCnt) {
         this.recordsNumber = recordsNumber;
         this.score = score;
-        this.gameRoomDTO = gameRoomDTO;
+        this.roomNumber = roomNumber;
         this.userDTO = userDTO;
         this.musicDTO = musicDTO;
+        this.playCnt=playCnt;
     }
 
     public static RecordsDTO fromEntity(Records records){
         UserDTO userDto = UserDTO.fromEntity(records.getUser());
         MusicDTO musicDTO = MusicDTO.fromEntity(records.getMusic());
-        GameRoomDTO gameRoomDTO = GameRoomDTO.fromEntity(records.getGameRoom());
-        return new RecordsDTO(records.getRecordsNumber(), records.getScore(), gameRoomDTO,userDto,musicDTO);
+        return new RecordsDTO(records.getRecordsNumber(), records.getScore(), records.getRoomNumber(),userDto,musicDTO, records.getPlayCnt());
     }
 
 }

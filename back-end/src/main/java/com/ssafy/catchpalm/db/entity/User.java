@@ -37,7 +37,7 @@ public class User{
     private String nickname = null;
 
     @Lob
-    @Column(name = "profile_img", columnDefinition = "BLOB")
+    @Column(name = "profile_img", columnDefinition = "Blob")
     private Blob profileImg;
 
     @Column(name = "profile_music")

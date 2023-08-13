@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
 import { allResolved } from "q";
 import { display, margin } from '@mui/system';
 import APPLICATION_SERVER_URL from "../../ApiConfig";
+import { BrowserRouter as Router, Route, Link, useHistory } from 'react-router-dom';
 
 let name = "";
 let Sock = null;
@@ -26,6 +27,39 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
+
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const isRefresh = localStorage.getItem("ischatRoomRefresh");
+    if (isRefresh === 1) {
+      navigate('/chatRoomList');
+    }
+  }, []);
+  //새로고침 경고
+  const preventClose = (e) => {
+    // 2. 해당 함수 안에 새로운 함수를 생성하는데, 이때 이 함수는 자바스크립트의 이벤트를 감지하게된다.
+      e.preventDefault();
+      // 2-1. 특정 이벤트에 대한 사용자 에이전트 (브라우저)의 기본 동작이 실행되지 않도록 막는다.
+      e.returnValue = ''; 
+      localStorage.setItem('ischatRoomRefresh', 1); 
+      // 2-2. e.preventDefault를 통해서 방지된 이벤트가 제대로 막혔는지 확인할 때 사용한다고 한다.
+      // 2-3. 더 이상 쓰이지 않지만, chrome 설정상 필요하다고 하여 추가함.
+      // 2-4. returnValue가 true일 경우 이벤트는 그대로 실행되고, false일 경우 실행되지 않는다고 한다.
+    };
+  useEffect(() => {
+    (() => {
+      window.addEventListener('beforeunload', preventClose);
+      // 4. beforeunload 이벤트는 리소스가 사라지기 전 window 자체에서 발행한다.
+      // 4-2. window의 이벤트를 감지하여 beforunload 이벤트 발생 시 preventClose 함수가 실행된다.
+    })();
+
+    return () => {
+      window.removeEventListener('beforeunload', preventClose);
+      // 5. 해당 이벤트 실행 후, beforeunload를 감지하는 것을 제거한다.
+    };
+  });
+
   // 게임시작 신호--------------------------------------------------
   const [mySettings, setMySettings] = useState();
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
@@ -33,7 +67,7 @@ const ChatRoomItem = () => {
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
   const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
   const [isVideo, setIsVideo] = useState(0); // startMusic 상태로 추가
-  const navigate = useNavigate();
+  
   useEffect(() => {
     if (gameStart === 1) {
       // TODO -- 게임 시작시 로직 --
@@ -53,13 +87,14 @@ const ChatRoomItem = () => {
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       navigate('/Playing', { state: { gameData: gameStartRes } });
+      // window.open('/Playing', '_blank');
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
 
   const token = localStorage.getItem("token");
   const [userNumber, setUserNumber] = useState(""); // userNumber 상태로 추가
-  const messageAreaRef = useRef(null);
+  const messageAreaRef = useRef();
   const { roomNumber } = useParams();
   const [roomInfo, setRoomInfo] = useState(null);
 
@@ -84,6 +119,15 @@ const ChatRoomItem = () => {
   };
 
   //-----------------------------------------
+
+  // 유저 프로필사진 인코딩
+  const getImageSrc = (profileImg) => {
+    if (profileImg) {
+      // Convert Base64 data to an image data URL
+      return `data:image/jpeg;base64,${profileImg}`;
+    }
+    return null;
+};
 
   //---------비디오 활성화 유무: 게임창으로 이동했을때 반영.
   const changeVideoStatus = () => {
@@ -441,7 +485,7 @@ const ChatRoomItem = () => {
   return (
     <div style={{
       marginTop:'5%',
-      padding:'5%'
+      
     }} className={style.gameRoomBody}>
       {/* 음악 리스트 민우짱 */}
       <div>
@@ -561,7 +605,7 @@ const ChatRoomItem = () => {
               }
               {/* 프로필 사진 있을 때. */}
               {user.profileImg !== null &&
-                <img className={style.userImg} src={user.profileImg} alt="User Thumbnail" />
+                <img className={style.userImg} src={getImageSrc(user.profileImg)} alt="User Thumbnail" />
               }
 
               <div className={style.nickname} style={{

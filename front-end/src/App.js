@@ -1,7 +1,7 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
 import React, { useEffect, useState } from 'react';
 import style from "./App.module.css";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,Link} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
 import ChatRoomItem from "./pages/ChatRoomPage";
@@ -16,28 +16,55 @@ import RankingPage from './pages/RankingPage';
 import ResultPage from './pages/ResultPage';
 import axios from 'axios';
 import APPLICATION_SERVER_URL from './ApiConfig';
+import { useLocation } from 'react-router-dom';
+import Swal from "sweetalert2"
 
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 
 function MainPage() {
-    
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tokenValue = searchParams.get('token');
+
+  if(tokenValue){
+    localStorage.setItem('token', searchParams.get('token'));
+    navigate("/");
+  }
+
+  // 메인 버튼
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+    
 
   ////////로그인 로그아웃 시작////////////////
   const isLoggedIn = !!localStorage.getItem('token'); 
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
 
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // 토큰 삭제
-    window.location.reload(); // 페이지 갱신
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token'); // 토큰 삭제
+  //   navigate('/');
+  // };
 
     // 버튼 클릭 상태를 추적하는 useState 추가
     const [buttonClicked, setButtonClicked] = useState(false);  
 
     const handleCircleButtonClick = () => {
       setButtonClicked(true);
+              // 효과음 재생
+        const audioElement = document.getElementById("startSound");
+        if (audioElement) {
+            audioElement.play();
+        }
+
     }
     //// 내 정보보기 시작
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -53,9 +80,9 @@ function MainPage() {
   //   navigate('/login');
   // };
   
-  const handleButtonClick4 = () => {
-    navigate('/signup');
-  };
+  // const handleButtonClick4 = () => {
+  //   navigate('/signup');
+  // };
   ////////////// 로그인 로그아웃 끝////////////////  
 
   ////로그인 회원가임 Drawer
@@ -78,23 +105,57 @@ function MainPage() {
   const [userId, setUserId] = useState(null);
   const token = localStorage.getItem('token');
 
+  useEffect(() => {
+    // 카메라 권한 요청
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+        // 스트림 처리 코드 (예: 비디오 요소에 스트림 연결)
+        console.log("Camera access granted");
+        // 스트림 종료
+        stream.getTracks().forEach(track => track.stop());
+      })
+      .catch((error) => {
+        console.error("Camera access denied:", error);
+        Swal.fire({
+          icon: "warning",
+          title: "CatchPalm에는 웹캠이 필요해요!",
+          // text: "방 제목을 입력 해주세요",
+        });
+      });
+  }, []);
+
 
   useEffect(() => {
-    if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
-    axios({
-      method: 'get',
-      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // your access token here
-      }
-    })
+    
+    const currentUrl = window.location.href;
+    console.log(currentUrl);
+    
+    // url에서 파싱해서 token 받아오기
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if token parameter is present in the URL
+    let urlToken = urlParams.get('token');
+  
+    if (urlToken) {
+      // 만약 주소 뒤에 token이러는게 있다면,
+      localStorage.setItem('token', urlToken);
+      window.location.href = 'http://localhost:3000/';
+    } else {
+      
+      if(!token) return;  // 토큰이 없으면 요청하지 않습니다. >> 원래 하던 방식대로 로그인
+  
+      axios({
+        method: 'get',
+        url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // your access token here
+        }
+      })
       .then(response => {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
         setUserId(cleanedUserId);
-        localStorage.setItem('userData', JSON.stringify(response.data));
-        console.log(response.data)
       })
       .catch(error => {
         const token = error.response.headers.authorization.slice(7);
@@ -111,14 +172,14 @@ function MainPage() {
             const rawUserId = response.data.userId;
             const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
             setUserId(cleanedUserId);
-            localStorage.setItem('userData', JSON.stringify(response.data));
-            console.log(response.data)
           })
           .catch(error => {
             console.log(error);
           })
       });
-  }, [token]); // useEffect will run once when the component mounts
+    }
+  }, [token]);
+  
   
 
 ///////회원정보 받아오기 끝////////////  
@@ -126,6 +187,8 @@ function MainPage() {
     navigate('/Playing');
   };
   
+  const buttonClasses = isHovered ? style.button + ' ' + style.hovered : style.button;
+
   return (
     <React.Fragment>
         {/* background_video에 클릭 상태에 따른 클래스 조건부 추가 */}
@@ -137,32 +200,49 @@ function MainPage() {
         </video>
 
       <div className={style.mainword}>
-        <h2>당신의 손으로 리듬을 잡아라</h2>
+        <h2>프로젝트 소개</h2>
       </div>
+      {/* 메인버튼 */}
+      <div>
+      <button
+        className={buttonClasses}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
+      >
+        <p className={style.main_font}>Catch Palm</p>
+      </button>
+    </div>
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               
                 <a href="tutorial" className={style.a}>
-                  
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
                   TUTORIAL
                 </a>
                 <a href="/Playing" className={style.a}>
-                  
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
                   SOLO MODE
                 </a>
                 <a href="/ChatRoomList" className={style.a}>
-                  
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
                   MULTI MODE
+                </a>
+                <a href="/ranking" className={style.a}>
+                  
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  ranking
                 </a>
               </div>
               <button variant="contained" onClick={handleButtonClick}>
@@ -170,15 +250,18 @@ function MainPage() {
               </button>
               <br />
               <button onClick={handleButtonClick}>게임시작</button>
-              <div className={`${style.logout}`}>
+              {/* <div className={`${style.logout}`}>
                 <button onClick={handleLogout}>
                   로그아웃
                 </button>
-              </div>
+              </div> */}
               <div className={`${style.userinfo}`}>
-                <button onClick={handleDrawerOpen}>
-                  회원정보
-                </button>
+                  <img 
+                      src="/assets/user_profile.png" 
+                      alt="User Profile" 
+                      onClick={handleDrawerOpen}
+                      style={{ cursor: 'pointer' }}  // 이미지가 클릭 가능하다는 것을 나타내기 위한 스타일
+                  />
               </div>
               
               <div className={`${style.white_text}`}>
@@ -191,7 +274,7 @@ function MainPage() {
               
             </React.Fragment>
           ) : (
-          <React.Fragment>
+            <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               <a href="#" className={style.a} onClick={openLoginDrawer}>              
                 <span></span>
@@ -199,6 +282,7 @@ function MainPage() {
                 <span></span>
                 LOGIN
               </a>
+              <br/>
               <a href="#" className={style.a} onClick={openSignupDrawer}>
                 
                 <span></span>
@@ -207,20 +291,11 @@ function MainPage() {
                 SIGN UP
               </a>
             </div>
-              {/* <div className={`${style.login}`}>
-                <button onClick={handleDrawerOpen}>
-                  로그인
-                </button>
-              </div>
-              <div className={`${style.signup}`}>
-                <button onClick={handleButtonClick4}>
-                  회원가입
-                </button>
-              </div> */}
-              <button 
-                className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
-                onClick={handleCircleButtonClick}
-              >
+
+              <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
+              <audio id="startSound" src="/assets/Start.mp3" preload="auto"></audio>
+              <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
+                onClick={handleCircleButtonClick}>
               </button>
               <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
                 {drawerContent === "login" && <Login />}

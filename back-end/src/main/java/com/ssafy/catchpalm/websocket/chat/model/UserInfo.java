@@ -11,7 +11,7 @@ import java.sql.Blob;
 @Builder
 public class UserInfo {
     private Long userNumber;
-    private Blob profileImg;
+    private String profileImg;
     private String nickname;
     private int ready;
 }
