@@ -14,11 +14,11 @@ function App() {
   const navigateToResult = () => {
     const gameRoomRes = {
       roomNumber : 1,
-      musicNumber : 1,
       userNumber: 1,
       roomTitle: "빠르게 한판ㄱㄱ",
       roomCapacity: 4,
-      rommCategoty: 2,
+      roomCategory: 2,
+      playCnt:1,
     };
 
     navigate('/result', { state: { gameRoomRes: gameRoomRes } });

@@ -41,6 +41,8 @@ public class GameRoom {
     private String title; // 게임방 제목
     @Column(nullable = false)
     private int status; // 게임방 상태 : 0 = wait, 1 = gaming
+    @Column(name="play_cnt")
+    private int playCnt=1; // 방에서 게임 홧수
 
     //연관관계 편의 메서드 : 방 유저 추가
     public void addUser(GameRoomUserInfo userInfo){
