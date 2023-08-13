@@ -488,7 +488,7 @@ const ChatRoomItem = () => {
   return (
     <div style={{
       marginTop:'5%',
-      padding:'5%'
+      
     }} className={style.gameRoomBody}>
       {/* 음악 리스트 민우짱 */}
       <div>
