@@ -299,7 +299,29 @@ export default function HandModel({ gameData }) {
                   shouldStopPrediction = true;
                   videoRef.current.srcObject = null;
                   sendData();
-                  navigate("/");
+                  // navigate("/");
+                  
+                  //게임 끝났을때 겜방 이동 테스트.---------------------------------------
+                  const fetchRoomInfo = async () => {
+                    try {
+                      const response = await axios.get(
+                        `${APPLICATION_SERVER_URL}/api/v1/gameRooms/inGameToWaiting/${gameData.roomNumber}`
+                      );
+                      const data = response.data;
+                      console.log("대기방입장",data);
+                      if (data === 1) {
+                        navigate(`/chat-rooms/${gameData.roomNumber}`); 
+                      }
+                      else {
+                        navigate("/");
+                      }
+                    } catch (error) {
+                      console.error("Error fetching room info:", error);
+                      navigate("/");
+                    }
+                  };
+                  fetchRoomInfo();
+                  //------------------------------------------------------------------------
                 }
               };
             };

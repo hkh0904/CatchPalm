@@ -7,14 +7,14 @@ import style from './ChatRoomList.module.css'
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import Swal from "sweetalert2";
 import APPLICATION_SERVER_URL from '../../ApiConfig';
+import Swal from "sweetalert2"
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
-  
+
   const [showCapacityOptions, setShowCapacityOptions] = useState(false); // 방 정원 부분
 
   const handleTogglePasswordInput = () => {
@@ -152,23 +152,27 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   return (
     <div className={style.modal}>
       <div className={style.modal_content}>
-        <h2>방 만들기</h2>
+        <h2>방만들기 창</h2>
         <div>
           <label>제목</label>
-          <input className={style.neon_button_input} style={{width:'90%'}} type="text" name="title" value={roomData.title} onChange={handleChange} />
+          <input style={{width:'90%'}} type="text" name="title" value={roomData.title} onChange={handleChange} />
         </div>
         <div>
           <label>게임 유형</label>
-            <button onClick={() => handleChangeCategory(2)} className={`${
-              roomData.categoryNumber === 2 ? 'active ' : ''
-            }${style.neon_button}`}
-            >
+            <button onClick={() => handleChangeCategory(2)} className={roomData.categoryNumber === 2 ? 'active' : ''}
+            style={{
+              backgroundColor: roomData.categoryNumber === 2 ? 'blue' : 'transparent',
+              color: roomData.categoryNumber === 2 ? 'white' : 'blue',
+              border: '1px solid blue' 
+            }}>
               개인전
             </button>
-            <button onClick={() => handleChangeCategory(1)} className={`${
-              roomData.categoryNumber === 1 ? 'active ' : ''
-            }${style.neon_button}`}
-            >
+            <button onClick={() => handleChangeCategory(1)} className={roomData.categoryNumber === 1 ? 'active' : ''}
+            style={{
+              backgroundColor: roomData.categoryNumber === 1 ? 'green' : 'transparent',
+              color: roomData.categoryNumber === 1 ? 'white' : 'green',
+              border: '1px solid green' 
+            }}>
               팀전
             </button>
         </div>
@@ -176,7 +180,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
           <label style={{marginTop:'5%'}}>
             비밀번호
             <input
-              className={style.neon_button_input}
               type="checkbox"
               checked={showPasswordInput}
               onChange={handleTogglePasswordInput}
@@ -184,7 +187,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
           </label>
           {showPasswordInput && (
             <input
-              className={style.neon_button_input}
               type="text"
               name="password"
               value={roomData.password}
@@ -192,13 +194,11 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             />
           )}
         </div>
-        <div style={{marginTop: '4%', width:'15%', display:'flex', alignItems:'baseline'}} >
+        <div style={{marginTop: '8%', width:'15%'}} >
           <label>Capacity</label>
           {roomData.categoryNumber === 2 ? (
-            <>
+            <div>
               <input
-                className={style.neon_button_input}
-                style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '39%'}}
                 type="text"
                 name="capacity"
                 value={roomData.capacity}
@@ -206,29 +206,21 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
                 onFocus={() => setShowCapacityOptions(true)}
                 readOnly // 입력요소 쓰는거 방지
               />
-            </>
-          ) : (
-            <input 
-              style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '39%'}} 
-              className={style.neon_button_input} 
-              type="number" 
-              name="capacity" 
-              value={4} 
-              disabled />
-          )}
-        </div>
-        {showCapacityOptions && (
-                  <div style={{display:'flex', marginBottom:'10%'}}>
-                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>1명</button>
-                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(2)}>2명</button>
-                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(3)}>3명</button>
-                    <button className={style.neon_button} onClick={() => handleCapacityOptionClick(4)}>4명</button>
-                  </div>
+              {showCapacityOptions && (
+                <ul className="capacity-options">
+                  <li onClick={() => handleCapacityOptionClick(1)}>1</li>
+                  <li onClick={() => handleCapacityOptionClick(2)}>2</li>
+                  <li onClick={() => handleCapacityOptionClick(3)}>3</li>
+                  <li onClick={() => handleCapacityOptionClick(4)}>4</li>
+                </ul>
               )}
-        <button 
-        onClick={() => { handleCreateRoom();}}
-        className={style.neon_button}>확인</button>
-        <button className={style.neon_button} onClick={onClose}>닫기</button>
+            </div>
+          ) : (
+            <input type="number" name="capacity" value={4} disabled />
+          )}
+          </div>
+        <button style={{color:'black'}} onClick={() => { handleCreateRoom();}}>확인</button>
+        <button style={{color:'black'}} onClick={onClose}>닫기</button>
       </div>
     </div>
   );
@@ -333,7 +325,6 @@ const ChatRoomList = ({}) => {
   };
   
   const handleRefresh = () => {
-    document.activeElement.blur();
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
@@ -347,20 +338,6 @@ const ChatRoomList = ({}) => {
     fetchChatRooms();
   };
   
-  const [filteredChatRooms, setFilteredChatRooms] = useState([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
-
-  // useEffect(() => {
-  //   const filterChatRooms = () => {
-  //     const filteredRooms = chatRooms.filter(room =>
-  //       room.title.toLowerCase().includes(searchKeyword.toLowerCase())
-  //     );
-  //     setFilteredChatRooms(filteredRooms);
-  //   };
-  
-  //   filterChatRooms();
-  // }, [chatRooms, searchKeyword]);
-
   return (
     <div style={{display:'flex', justifyContent:'center'}}>
       
@@ -385,7 +362,7 @@ const ChatRoomList = ({}) => {
         <div style={{display: 'flex'}}>
         <div className={style.neon_button} style={{marginLeft:'10%',marginTop:'10%', height:'50%'}}>
             <input style={{height:'100%', backgroundColor:'rgba(0, 0, 0, 0.2)', border: 'none', marginTop:'1%', fontFamily: 'Jua, sans-serif', fontSize: '16px', color: 'white'}}
-            type="text"
+            type=""
             name="search"
             placeholder="방 제목을 검색해주세요">
             </input>
@@ -439,26 +416,20 @@ const ChatRoomList = ({}) => {
                 {showPasswordInput && (
                   <div className={style.modal_content_password}>
                     <label>비밀번호:</label>
-                    {' '}
                     <input
                       type="password"
                       value={inputPassword}
                       onChange={handlePasswordInput}
-                      style={{marginLeft:'1%',borderRadius:'10px'}}
-                      className={style.neon_button_input}
+                      style={{marginLeft:'1%'}}
                     />
                     <div style={{marginTop:'5%', marginLeft:'20%'}}>
                     <button
-                      className={style.neon_button}
                       onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
                       style={{ cursor: 'pointer' }}
                     >
                       입장
                     </button>
-                    <button 
-                    onClick={closeModal} 
-                    style={{ cursor: 'pointer' , marginLeft:'5%'}}
-                    className={style.neon_button}>
+                    <button onClick={closeModal} style={{ cursor: 'pointer' , marginLeft:'5%'}}>
                       닫기
                     </button>
                     </div>

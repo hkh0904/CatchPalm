@@ -37,7 +37,7 @@
 }
 
 .modal_content {
-  /* position: absolute;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -45,23 +45,7 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 1.0); */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  color: hsl(317 100% 54%);
-  border: hsl(317 100% 54%) 0.125em solid;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 0.25em;
-  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
-  box-shadow: inset 0 0 0.5em 0 hsl(317 100% 54%), 0 0 0.5em 0 hsl(317 100% 54%);
-  font-family: "Jua", sans-serif;
-  font-size: 16px;
+  background: rgba(255, 255, 255, 1.0);
 }
 
 .modal_content_password {
@@ -69,18 +53,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background-color: white;
   padding: 20px;
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  color: hsl(317 100% 54%);
-  border: hsl(317 100% 54%) 0.125em solid;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 0.25em;
-  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
-  box-shadow: inset 0 0 0.5em 0 hsl(317 100% 54%), 0 0 0.5em 0 hsl(317 100% 54%);
-  font-family: "Jua", sans-serif;
-  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 1.0);
 }
 
 .modal h2 {
@@ -98,7 +75,7 @@
 .modal input[type="text"],
 .modal input[type="number"],
 .modal input[type="password"] {
-  /* width: 100%; */
+  width: 100%;
   padding: 8px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
@@ -213,23 +190,23 @@
 
 .inside_div::-webkit-scrollbar-track
 {
-   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-   background: rgba(0, 0, 0, 0.0);
-   border-radius: 60px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background: rgba(0, 0, 0, 0.0);
+	border-radius: 60px;
 }
 
 
 .inside_div::-webkit-scrollbar
 {
-   width: 10px;
-   background: rgba(0, 0, 0, 0.0);
+	width: 10px;
+	background: rgba(0, 0, 0, 0.0);
   border-radius: 60px;
 }
 
 .inside_div::-webkit-scrollbar-thumb
 {
-   border-radius: 60px;
-   background-image: -webkit-gradient(linear,
+	border-radius: 60px;
+	background-image: -webkit-gradient(linear,
     left bottom,
     left top,
     color-stop(0.44, rgb(233, 6, 127)),
@@ -275,34 +252,6 @@
   justify-content: space-evenly;
 }
 
-.neon_button_ul {
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  color: hsl(317 100% 54%);
-  /* text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor; */
-  position: relative;
-  font-family: "Jua", sans-serif;
-  font-size: 16px;
-}
-
-.neon_button_input {
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  color: hsl(317 100% 54%);
-  border: hsl(317 100% 54%) 0.125em solid;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 0.25em;
-  /* text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor; */
-  box-shadow: inset 0 0 0.5em 0 hsl(317 100% 54%), 0 0 0.5em 0 hsl(317 100% 54%);
-  position: relative;
-  font-family: "Jua", sans-serif;
-  font-size: 16px;
-}
-
-
-
 .neon_button {
   display: inline-block;
   cursor: pointer;
@@ -322,10 +271,12 @@
   pointer-events: none;
   content: "";
   position: absolute;
+  /* background: hsl(317 100% 54%); */
   top: 120%;
   left: 0;
   width: 100%;
   height: 100%;
+
   transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
   filter: blur(1em);
   opacity: 0.7;

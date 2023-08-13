@@ -8,7 +8,7 @@ import './UserVideo.css';
 class App extends Component {
     constructor(props) {
         super(props);
-        console.log(props.gameData)
+        console.log(props.gameData,"OpenVidu.js")
         // 초기 상태 설정
         this.state = {
             mySessionId: `sessionA`,
@@ -46,6 +46,25 @@ class App extends Component {
 
     // 페이지가 닫힐 때 세션을 나가는 함수
     onbeforeunload(event) {
+        const sendData = async () => {
+            // 객체 생성
+            const data = {
+                gameRoomNumber: this.props.gameData.roomNumber,
+                userNumber: this.props.gameData.userNumber
+            };
+            try {
+                // POST 요청을 통해 데이터 전송
+                const response = await axios.post(
+                `${APPLICATION_SERVER_URL}/api/v1/gameRooms/outUser`,
+                data
+                );
+                console.log("Response:", response.data);
+            } catch (error) {
+                console.error("Error sending the data:", error);
+            }
+        };
+        sendData();
+
         this.leaveSession();
     }
 
