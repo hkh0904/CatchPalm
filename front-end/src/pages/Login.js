@@ -36,6 +36,8 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
+
+  // 제출 눌렀을 때 예외처리
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -143,9 +145,9 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/" variant="body2" onClick={handleBackButtonClick}>
+                  {/* <Link href="/" variant="body2" onClick={handleBackButtonClick}>
                     비밀번호 찾기(미구현)
-                  </Link>
+                  </Link> */}
 
                 </Grid>
               </Grid>

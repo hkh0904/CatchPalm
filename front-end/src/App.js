@@ -182,16 +182,7 @@ function MainPage() {
       <div className={style.mainword}>
         <h2>프로젝트 소개</h2>
       </div>
-      {/* 메인버튼 */}
-      <div>
-      <button
-        className={buttonClasses}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleMouseLeave}
-      >
-        <p className={style.main_font}>Catch Palm</p>
-      </button>
-    </div>
+
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>

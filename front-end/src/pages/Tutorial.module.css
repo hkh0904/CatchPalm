@@ -61,4 +61,38 @@
   background-color: rgb(119, 119, 234);
 }
 
+.MISS, .GREAT, .PERFECT {
+  font-size: 35px; /* Adjust as needed */
+  margin: 0 15px;  /* Adjust for spacing */
+  text-align: center;
+  color: white;
+}
+
+
+.MISS {
+  
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000,
+    0 0 40px #ff0000, 0 0 55px #ff0000, 0 0 75px #ff0000;
+}
+.GREAT {
+  
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #0fa, 0 0 30px #0fa,
+    0 0 40px #0fa, 0 0 55px #0fa, 0 0 75px #0fa;
+}
+.PERFECT {
+  
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #5b5efd, 0 0 30px #5b5efd,
+    0 0 40px #5b5efd, 0 0 55px #5b5efd, 0 0 75px #5b5efd;
+}
+
+.wordsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 20px;
+}
 

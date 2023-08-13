@@ -6,7 +6,13 @@ import './PlayingPage.css';
 function Tutorial() {
   const navigate = useNavigate();
 
-  const audioRef = useRef(null); // 추가된 부분
+  // 배경음악
+  const audioRef = useRef(null); 
+
+  // perfect, great, miss
+  const [showWords, setShowWords] = useState(false);
+
+
 
   const timeline = [
     { start: 2, end: 7, text: "저희 CatchPalm은 화면에 나오는 히트마커에 맞춰 손모양을 인식해 점수를 올리는 게임입니다!" },
@@ -25,19 +31,27 @@ function Tutorial() {
   const [currentTime, setCurrentTime] = useState(0);
   const [currentText, setCurrentText] = useState('');
 
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(prevTime => prevTime + 1);
     }, 1000);
 
+
     const matchingEvent = timeline.find(event => event.start === currentTime);
     if (matchingEvent) {
       setCurrentText(matchingEvent.text);
+      if (currentTime === 63) {
+        setShowWords(true);
+      }
     }
 
     const endingEvent = timeline.find(event => event.end === currentTime);
     if (endingEvent) {
       setCurrentText('');
+      if (currentTime === 70) {
+        setShowWords(false);
+      }
     }
 
     return () => clearInterval(interval);
@@ -65,12 +79,25 @@ function Tutorial() {
   }
 
   return (
-    
     <div className={style.background_tutorial}>
+      {
+        // showWords && 
+        (
+          <div className={style.wordsWrapper}>
+            <span className={style.PERFECT}>PERFECT<br/><br/>300</span>
+            <span className={style.GREAT}>GREAT<br/><br/>200</span>
+            <span className={style.MISS}>MISS<br/><br/>0</span>
+          </div>
+          
+          
+
+
+        )
+      }
       <p style={{ 
           opacity: currentText ? 1 : 0, 
           transition: 'opacity 0.5s',
-          fontFamily: 'Jua, sans-serif',  // 글꼴 적용
+          fontFamily: 'Jua, sans-serif',
           fontSize: '23px' 
       }}>
         {currentText}
