@@ -6,7 +6,6 @@ import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import APPLICATION_SERVER_URL from "../../ApiConfig";
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
@@ -140,7 +139,7 @@ export default function HandModel({ gameData }) {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+      url: "https://localhost:8443/api/v1/users/me",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // your access token here
@@ -155,7 +154,7 @@ export default function HandModel({ gameData }) {
         localStorage.setItem("token", token);
         axios({
           method: "get",
-          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+          url: "https://localhost:8443/api/v1/users/me",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // your access token here
@@ -187,7 +186,7 @@ export default function HandModel({ gameData }) {
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
-        `${APPLICATION_SERVER_URL}/api/v1/game/log`,
+        "https://localhost:8443/api/v1/game/log",
         data,
         { headers: headers }
       );

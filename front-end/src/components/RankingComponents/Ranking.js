@@ -176,7 +176,7 @@ function MyComponent() {
                       <tr  key={index} className={index % 2 === 0 ? style.rowColor1 : style.rowColor2}>
                           <td style={{paddingLeft:'10px',color:'#ffd700',paddingTop:'5px',paddingBottom:'5px'}}>{index+1}</td>
                           <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px',display: 'flex', alignItems: 'center'}}>
-                          <img  src={getImageSrc(item.userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '80px', height: '80px', marginRight: '10px' }} />
+                          <img  src={getImageSrc(item.userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '4rem', height: '4rem', marginRight: '10px',borderRadius: '50%'}} />
                             {item.userDTO.nickname}
                           </td>
                           <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.score}</td>
@@ -196,7 +196,7 @@ function MyComponent() {
                   <tr className={style.rowColor1}>
                     <td style={{color:'#ffd700',width:'13%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{ranking}</td>
                     <td style={{width:'15%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px',display: 'flex', alignItems: 'center'}}>
-                      <img  src={getImageSrc(rankList[ranking-1].userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '80px', height: '80px', marginRight: '10px' }} />
+                      <img  src={getImageSrc(rankList[ranking-1].userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '4rem', height: '4rem', marginRight: '10px',borderRadius: '50%'}} />
                       {rankList[ranking-1].userDTO.nickname}
                     </td>
                     <td style={{width:'28%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].score}</td>
