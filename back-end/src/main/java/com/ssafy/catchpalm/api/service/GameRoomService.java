@@ -9,6 +9,7 @@ import com.ssafy.catchpalm.websocket.chat.model.ReadyInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserReady;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -35,4 +36,17 @@ public interface GameRoomService {
 
     // 음악 변경 업데이트.
     void musicChange(int gameRoomNumber, int musicNumber);
+
+    // 게임방 생태 받아오기
+    int getStatusByRoomNumber(int roomNumber);
+
+    // 게임방 상태 대기중으로 변경
+    int updateGameRoomStatusToZero(int roomNumber);
+
+    //게임 끝난 후 게임방으로 돌아올때 해당 유저가 기존 유저인지 확인.
+    boolean isUserNumberMatching(Long userNumber, int gameRoomNumber);
+
+    // 게임룸에 있는 유저정보 반환: 레디가 0이 아닌 유저만.
+    @Transactional
+    void resetReadyStatusForGameRoom(int roomNumber);
 }

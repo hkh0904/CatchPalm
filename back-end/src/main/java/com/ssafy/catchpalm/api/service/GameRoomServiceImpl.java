@@ -288,4 +288,53 @@ public class GameRoomServiceImpl implements GameRoomService {
 			gameRoomRepository.save(gameRoom);
 		}
 	}
+
+	// 게임방 생태 받아오기
+	@Override
+	public int getStatusByRoomNumber(int roomNumber) {
+		GameRoom gameRoom = gameRoomRepository.findByRoomNumber(roomNumber);
+		if (gameRoom != null) {
+			return gameRoom.getStatus();
+		}
+		return -1; // 해당 roomNumber에 해당하는 게임방이 없을 경우 처리
+	}
+
+	// 게임방 상태 대기중으로 변경
+	@Override
+	public int updateGameRoomStatusToZero(int roomNumber) {
+		GameRoom gameRoom = gameRoomRepository.findByRoomNumber(roomNumber);
+		if (gameRoom != null) {
+			gameRoom.setStatus(0); // status를 0으로 변경
+			gameRoomRepository.save(gameRoom); // 변경된 정보 저장
+			resetReadyStatusForGameRoom(roomNumber); // 레디정보 초기화.
+			return 1;
+		} else {
+			// 해당 roomNumber에 해당하는 게임방이 없을 경우 처리
+			return  2;
+		}
+	}
+
+	//게임 끝난 후 게임방으로 돌아올때 해당 유저가 기존 유저인지 확인.
+	@Override
+	public boolean isUserNumberMatching(Long userNumber, int gameRoomNumber) {
+		GameRoomUserInfo userInfo = gameRoomUserInfoRepository.findByUserUserNumber(userNumber);
+		if (userInfo != null && userInfo.getGameRoom().getRoomNumber() == gameRoomNumber) {
+			return true;
+		}
+		return false; // 해당 userInfoNumber에 해당하는 정보가 없을 경우 처리
+	}
+
+	// 게임룸에 있는 유저정보 반환: 레디가 0이 아닌 유저만.
+	@Transactional
+	@Override
+	public void resetReadyStatusForGameRoom(int roomNumber) {
+		List<GameRoomUserInfo> userInfoList = gameRoomUserInfoRepository.findByGameRoomRoomNumberAndReadyNot(roomNumber, 0);
+
+		for (GameRoomUserInfo userInfo : userInfoList) {
+			userInfo.setReady(0);
+		}
+
+		// 업데이트된 엔티티를 데이터베이스에 저장합니다.
+		gameRoomUserInfoRepository.saveAll(userInfoList);
+	}
 }
