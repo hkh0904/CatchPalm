@@ -8,15 +8,12 @@ import { useNavigate } from 'react-router-dom';
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
     const defaultProfileImg = "/assets/basicprofile.jpg";
+    const [profileImg, setProfileImg] = useState(null);
     const navigate = useNavigate();
-    
-
-    // 로그아웃
     const handleLogout = () => {
         localStorage.removeItem('token'); // 토큰 삭제
         navigate('/');
       };
-
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -41,6 +38,7 @@ const Userinfo = () => {
 
             if (response.status === 200) {
                 setUserInfo(response.data);
+                setProfileImg(response.data.profileImg);
             }
         };
 
@@ -49,11 +47,22 @@ const Userinfo = () => {
     // 이미지 업로드
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
+        console.log(file, 1111);
         const base64String = await blobToBase64(file);
-
+        console.log(base64String, 2222);
         const token = localStorage.getItem('token');
         await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
-            profileImg: base64String
+            profileImg: base64String,
+            age: "",
+            backSound: "",
+            effectSound: "",
+            gameSound: "",
+            password: "",
+            isCam: "",
+            profileMusic: "",
+            sex: "",
+            synk: "",
+            nickname: "",
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -61,6 +70,7 @@ const Userinfo = () => {
             }
         });
         
+            
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/me`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -70,6 +80,7 @@ const Userinfo = () => {
         
         if (response.status === 200) {
             setUserInfo(response.data);
+            setProfileImg(response.data.profileImg);
         }
     };
 
@@ -81,7 +92,15 @@ const Userinfo = () => {
             reader.readAsDataURL(blob);
         });
     };
-
+    //이미지 불러와서 디코딩
+    const getImageSrc = () => {
+        if (profileImg) {
+          // Convert Base64 data to an image data URL
+          return `data:image/jpeg;base64,${profileImg}`;
+        }
+        return null;
+    };
+    
     const handlePasswordChange = async () => {
         const newPassword = prompt('Enter new password:');
         
@@ -210,7 +229,8 @@ const Userinfo = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: '0 90px'
+            padding: '0 90px',
+            fontFamily: 'Jua, sans-serif'
         }}>
             <h1 className={styles.h1}>유저 정보</h1>
             <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
@@ -22,6 +22,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const [googleUrl,setGoogleUrl] = useState('');
 
   const handleBackButtonClick = () => {
     navigate('/');
@@ -56,45 +57,43 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`);
-      
-      // Google OAuth 인증 URL로 리디렉션
-      if (response.data.startsWith('redirect:')) {
-        const redirectUrl = response.data.replace('redirect:', '').trim();
-        window.location.href = redirectUrl;
+  useEffect(()=>{
+    axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`)
+      .then(response => {
+        let tempGoogleUrl = response.data.slice(9);
+        setGoogleUrl(tempGoogleUrl);
+      })
+      .catch(error => {
+        // error handling
+        console.error('Something went wrong', error);
+      });
+  },[]); // empty dependency array means this effect runs once on mount
 
-      } else {
-        setErrorMessage('Google 로그인 실패');
-      }
-    } catch (error) {
-      console.error(error);
-      setErrorMessage('Google 로그인 실패');
-    }
+  const handleGoogleLogin = async () => {
+    window.location.href = googleUrl;
   };
-  
-  // 콜백 URL에서 호출될 함수 (예: componentDidMount 또는 useEffect 내부에서 호출)
-  const handleOAuthCallback = async () => {
-    const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/callback`); // 여기서 액세스 토큰을 가져오는 백엔드 엔드포인트를 지정해야 합니다.
-    console.log(response.data)
-    if (response.data.message === 'Success') {
-      localStorage.setItem('token', response.data.accessToken);
-      window.location.href = "http://localhost:3000/";
-    } else {
-      setErrorMessage('Google 로그인 실패');
-    }
-  };
-  
-  
-  
+
+
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`);
+  //     if (response.status === 200) {
+  //       localStorage.setItem('token', response.data.accessToken);
+  //       window.location.reload();
+  //     } else {
+  //       setErrorMessage('Google 로그인 실패');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     setErrorMessage('Google 로그인 실패');
+  //   }
+  // };
 
   return (
     <ThemeProvider theme={theme}>
         
           <Box
             sx={{
-              maxWidth: '400px',
               my: 4,
               mx: 2,
               display: 'flex',
