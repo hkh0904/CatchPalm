@@ -46,7 +46,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<RecordsDTO> getRecords(int roomNumber,int playCnt){
+    public List<RecordsDTO> getRecords(int roomNumber, int playCnt){
         List<Records> records = recordsRepository.findByRoomNumberAndPlayCntOrderByScoreDesc(roomNumber,playCnt);
 
         return records.stream()
@@ -81,7 +81,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<RankDTO> getRanksByMusicNumber(int musicNumber) {
         // 랭크 리스트가 비어 있을 경우, 이 코드는 빈 Rank 리스트를 반환합니다.
-        List<Rank> ranks = rankRepository.findByMusicMusicNumberOrderByScoreDesc(musicNumber);
+        List<Rank> ranks = rankRepository.findTop50ByMusicMusicNumberOrderByScoreDesc(musicNumber);
 
         return ranks.stream()
                 .map(RankDTO::fromEntity)
@@ -107,6 +107,11 @@ public class GameServiceImpl implements GameService {
         }
         Rank rank = optionalRank.get();
         return RankDTO.fromEntity(rank);
+    }
+
+    @Override
+    public int getRanking(long userNumber, int musicNumber){
+        return rankRepository.getRankingForUser(userNumber,musicNumber);
     }
 
 
