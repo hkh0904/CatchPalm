@@ -15,4 +15,6 @@ import java.util.Optional;
 public interface GameRoomRepository extends JpaRepository<GameRoom, Integer> {
     // 모든 GameRoom 엔티티 조회
     List<GameRoom> findAll();
+    // 커스텀 쿼리 메서드를 추가하여 roomNumber로 게임방을 조회하는 메서드를 만듭니다.
+    GameRoom findByRoomNumber(int roomNumber);
 }

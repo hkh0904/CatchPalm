@@ -20,4 +20,7 @@ public interface GameRoomUserInfoRepository extends JpaRepository<GameRoomUserIn
     void deleteByUserUserNumber(Long userNumber);
     int countByGameRoomRoomNumber(int roomNumber);
     List<GameRoomUserInfo> findByGameRoomRoomNumber(int roomNumber);
+
+    // 해당 게임룸의 유저들 정보 반환. 레디 정보가 0이아닌 유저들만.
+    List<GameRoomUserInfo> findByGameRoomRoomNumberAndReadyNot(int roomNumber, int readyValue);
 }
