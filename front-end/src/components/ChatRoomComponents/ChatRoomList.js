@@ -10,11 +10,6 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import Swal from "sweetalert2";
 import Grid from '@mui/material/Grid';
 import APPLICATION_SERVER_URL from '../../ApiConfig';
-<<<<<<< HEAD
-=======
-import Swal from "sweetalert2";
-
->>>>>>> 146da6ebb5c113216de2f945ac90afb811acc509
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
