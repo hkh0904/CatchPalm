@@ -65,10 +65,10 @@ public class GameController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<GameResultPostRes> getRcords(
-            @RequestParam("roomNumber") int roomNumber) {
+            @RequestParam("roomNumber") int roomNumber,@RequestParam("playCnt") int playCnt) {
 
         // 로그 기록
-        List<RecordsDTO> results = gameService.getRecords(roomNumber);
+        List<RecordsDTO> results = gameService.getRecords(roomNumber,playCnt);
 
         return ResponseEntity.status(200).body(GameResultPostRes.of(200, "Success",results));
     }

@@ -13,6 +13,7 @@ function MyComponent() {
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [loading3, setLoading3] = useState(true);
+  const defaultProfileImg = "/assets/basicprofile.jpg";
 
   const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const token = localStorage.getItem('token');
@@ -25,6 +26,15 @@ function MyComponent() {
 
     // 필요한 경우 여기에서 setMusicNumber도 호출할 수 있습니다.
     setMusicNumber(index-1);
+  };
+
+  const getImageSrc = (img) => {
+    if (img) {
+      // Convert Base64 data to an image data URL
+      const imgData = `data:image/jpeg;base64,${img}`;
+      return imgData;
+    }
+    return null;
   };
 
   useEffect(()=>{
@@ -104,7 +114,7 @@ function MyComponent() {
       });
   }, [musicNumber,userNumber]); // empty dependency array means this effect runs once on mount
 
-  if (loading1 && loading2 && loading3) {
+  if (loading1 || loading2 || loading3) {
     return <div>Loading...</div>;
   }
 
@@ -152,11 +162,11 @@ function MyComponent() {
         </div>
         <div className={style.leaderboard2_container}>
           <div className={`${style.flex_item} ${style.item2}`}>
-          <table style={{ color: 'white', fontSize: '20px',textAlign:'left',padding:'1%',justifyContent:'center',borderCollapse:'separate'}}>
+          <table style={{ color: 'white', fontSize: '20px',textAlign:'left',padding:'1%',justifyContent:'center',borderCollapse:'separate',width: '100%'}}>
               <thead style={{color:'wheat',fontSize:'25px'}}>
                   <tr >
                       <th style={{width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Ranking</th>
-                      <th style={{width:'25%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Nickname</th>
+                      <th style={{width:'30%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Nickname</th>
                       <th style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Score</th>
                       <th style={{width:'15%',paddingRight:'3%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>Date</th>
                   </tr>
@@ -165,7 +175,10 @@ function MyComponent() {
                   {rankList && rankList.map((item, index) => 
                       <tr  key={index} className={index % 2 === 0 ? style.rowColor1 : style.rowColor2}>
                           <td style={{paddingLeft:'10px',color:'#ffd700',paddingTop:'5px',paddingBottom:'5px'}}>{index+1}</td>
-                          <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.userDTO.nickname}</td>
+                          <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px',display: 'flex', alignItems: 'center'}}>
+                          <img  src={getImageSrc(item.userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '80px', height: '80px', marginRight: '10px' }} />
+                            {item.userDTO.nickname}
+                          </td>
                           <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.score}</td>
                           <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{item.playDateTime.slice(0, 10)}</td>
                       </tr>
@@ -177,14 +190,17 @@ function MyComponent() {
           <div className={style.leaderboard_text} style={{color:'red',fontSize:'40px',fontStyle:'inherit'}}>
             <span className={style.glow}>My Ranking</span>
           </div>
-          <table style={{ color: 'white', fontSize: '20px',textAlign:'left',padding:'2%',justifyContent:'center',borderCollapse:'separate'}}>
+          <table style={{ color: 'white', fontSize: '20px',textAlign:'left',padding:'1%',justifyContent:'center',borderCollapse:'separate',width: '100%'}}>
               <tbody>
               {ranking> 0 ? (
                   <tr className={style.rowColor1}>
-                    <td style={{color:'#ffd700',width:'10%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{ranking}</td>
-                    <td style={{width:'25%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].userDTO.nickname}</td>
-                    <td style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].score}</td>
-                    <td style={{width:'15%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].playDateTime.slice(0, 10)}</td>
+                    <td style={{color:'#ffd700',width:'13%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{ranking}</td>
+                    <td style={{width:'15%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px',display: 'flex', alignItems: 'center'}}>
+                      <img  src={getImageSrc(rankList[ranking-1].userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '80px', height: '80px', marginRight: '10px' }} />
+                      {rankList[ranking-1].userDTO.nickname}
+                    </td>
+                    <td style={{width:'28%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].score}</td>
+                    <td style={{width:'20%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{rankList[ranking-1].playDateTime.slice(0, 10)}</td>
                   </tr>
                 ) : (
                 <tr>

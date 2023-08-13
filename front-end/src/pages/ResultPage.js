@@ -1,14 +1,12 @@
 import React, {   } from 'react';
 import Grid from '@mui/material/Grid';
 import Result from '../components/ResultComponents/Result';
-import style from './RankingPage.module.css'
+import style from './ResultPage.module.css'
 import { useLocation } from 'react-router-dom';
 
 function App() {
   const location = useLocation();
   const gameRoomRes = location.state ? location.state.gameRoomRes : {};
-  console.log(gameRoomRes);
-  console.log(location);
 
   return (
     <React.Fragment>
