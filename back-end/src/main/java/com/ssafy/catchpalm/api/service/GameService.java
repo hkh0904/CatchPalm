@@ -11,7 +11,7 @@ import java.util.List;
 public interface GameService {
     void createLog(GameLogPostReq gameInfo);
 
-    List<RecordsDTO> getRecords(int roomNumber);
+    List<RecordsDTO> getRecords(int roomNumber, int playCnt);
 
     void createRank(GameLogPostReq gameinfo);
 

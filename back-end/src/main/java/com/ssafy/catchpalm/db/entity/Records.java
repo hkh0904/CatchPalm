@@ -26,6 +26,9 @@ public class Records {
     @Column(name = "room_number")
     private int roomNumber;
 
+    @Column(name = "play_cnt")
+    private int playCnt;
+
 
     private int score;
 
