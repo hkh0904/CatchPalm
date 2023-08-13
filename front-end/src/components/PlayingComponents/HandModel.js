@@ -300,7 +300,7 @@ export default function HandModel({ gameData }) {
                   shouldStopPrediction = true;
                   videoRef.current.srcObject = null;
                   sendData();
-                  // navigate("/");
+                  navigate("/");
                   
                   //게임 끝났을때 겜방 이동 테스트.---------------------------------------
                   const fetchRoomInfo = async () => {
