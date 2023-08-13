@@ -165,7 +165,7 @@ function MyComponent({gameRoomRes}) {
                             }}>
                             <td style={{paddingLeft:'15px', color: color, paddingTop:'5px', paddingBottom:'5px',fontSize:'35px'}}>{index+1}</td>
                             <td style={{paddingLeft:'15px', paddingTop:'5px', paddingBottom:'5px', display: 'flex', alignItems: 'center'}}>
-                                <img  src={getImageSrc(item.userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '100px', height: '100px', marginRight: '10px' }} />
+                                <img  src={getImageSrc(item.userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '6rem', height: '6rem', marginRight: '10px',borderRadius: '50%',paddingRight:'0.5rem'}} />
                                 {item.userDTO.nickname}
                             </td>
                             <td style={{paddingLeft:'15px', paddingTop:'5px', paddingBottom:'5px'}}>{item.score}</td>
