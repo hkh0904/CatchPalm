@@ -20,4 +20,6 @@ public interface GameService {
     List<MusicDTO> getMusicList();
 
     RankDTO getRankByUserNumberAndMusicNumber(long userNumber, int musicNumber);
+
+    int getRanking(long userNumber, int musicNumber);
 }
