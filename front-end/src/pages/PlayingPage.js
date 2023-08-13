@@ -17,7 +17,7 @@ function App() {
         <Grid item xs={12} style={{ padding: 0 }}>
           <HandModel gameData={gameData} />
         </Grid>
-        <Grid item xs={2} style={{ padding: 0, position: 'absolute', top: 0, right: 0, height: '100vh', zIndex: 3}}>
+        <Grid item xs={2.2} style={{ padding: 0, position: 'absolute', top: 0, right: 0, height: '100vh', zIndex: 1}}>
           <OpenVidu gameData={gameData} />
         </Grid>
       </Grid>
