@@ -49,15 +49,15 @@
 
 .item2{
   flex-basis: calc(60% - 10px);
-  min-height: 63vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  max-height: 63vh;
-  width: 99%;
+  min-height: 79.3vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 79.3vh;
+  width: 128%;
 }
 
 .item3{
   flex-basis: calc(40% - 10px);  /* 10px는 간격을 위해 줄인 크기 */
-  max-height: 37.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  min-height: 37.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 39vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  min-height: 39vh; /* 예시로 뷰포트 높이의 30%를 지정 */
   margin-left: 1%;
 }
 
@@ -187,6 +187,36 @@
     }
 }
 
+@keyframes pulsate {
+    
+  100% {
+
+      text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px #fff,
+      0 0 40px #bc13fe,
+      0 0 80px #bc13fe,
+      0 0 90px #bc13fe,
+      0 0 100px #bc13fe,
+      0 0 150px #bc13fe;
+  
+  }
+  
+  0% {
+
+    text-shadow:
+    0 0 2px #fff,
+    0 0 4px #fff,
+    0 0 6px #fff,
+    0 0 10px #bc13fe,
+    0 0 45px #bc13fe,
+    0 0 55px #bc13fe,
+    0 0 70px #bc13fe,
+    0 0 80px #bc13fe;
+  }
+}
+
 .neon_tr:hover{
   background: #03e9f4;
   color: #050801;
@@ -197,6 +227,18 @@
    -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
 }
 
+.room_head{
+  color:wheat;
+  font-size: 25px;
+  padding-left: 2%;
+  margin-top: 10px;
+}
+
+.room_detail{
+  color: white;
+  font-size: 20px;
+  padding-top: 3%;
+}
 
 .music_head{
   color:wheat;

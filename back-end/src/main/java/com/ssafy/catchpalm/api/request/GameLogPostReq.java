@@ -20,4 +20,6 @@ public class GameLogPostReq {
     int score;
     @ApiModelProperty(name="게임방 번호",example = "232")
     int roomNumber;
+    @ApiModelProperty(name="게임방 게임 횟수",example = "2")
+    int playCnt;
 }
