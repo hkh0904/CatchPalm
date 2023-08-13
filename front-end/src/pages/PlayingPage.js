@@ -12,18 +12,28 @@ function App() {
   console.log(gameData); // 데이터확인.
 
   return (
-    <React.Fragment>
-      <Grid className="mainGrid" container spacing={2} 
-      style={{ backgroundColor: 'black', marginTop: 0, marginLeft: 0, position: 'relative' }}>
-        <Grid item xs={10} style={{ padding: 0 }}>
-          <HandModel gameData={gameData} />
+<React.Fragment>
+    {gameData.userInfo.length === 1 ? (
+        <Grid className="mainGrid" container spacing={2} 
+            style={{ backgroundColor: 'black', marginTop: 0, marginLeft: 0, position: 'relative' }}>
+            <Grid item xs={12} style={{ padding: 0 }}>
+                <HandModel gameData={gameData} />
+            </Grid>
         </Grid>
-        <Grid item xs={2} 
-        style={{ padding: 0, position: 'absolute', top: 0, right: 0, height: '100vh', zIndex: 1}}>
-          <OpenVidu gameData={gameData} />
+    ) : (
+        <Grid className="mainGrid" container spacing={2} 
+            style={{ backgroundColor: 'black', marginTop: 0, marginLeft: 0, position: 'relative' }}>
+            <Grid item xs={10} style={{ padding: 0 }}>
+                <HandModel gameData={gameData} />
+            </Grid>
+            <Grid item xs={2} 
+                style={{ padding: 0, position: 'absolute', top: 0, right: 0, height: '100vh', zIndex: 1}}>
+                <OpenVidu gameData={gameData} />
+            </Grid>
         </Grid>
-      </Grid>
-    </React.Fragment>
+    )}
+</React.Fragment>
+
   );
 }
 

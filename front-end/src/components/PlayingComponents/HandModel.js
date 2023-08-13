@@ -71,6 +71,7 @@ export default function HandModel({ gameData }) {
   const effectVolumeRef = useRef(effectVolume);
   const volumeRef = useRef(volume);
   const videoHiddenRef = useRef(videoHidden);
+  const controlStyle = gameData.userInfo.length === 1 ? { right: '2rem' } : {};
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
@@ -450,7 +451,7 @@ export default function HandModel({ gameData }) {
           }
         }
         animate();
-      }, node.APPEAR_TIME * 1000); // APPEAR_TIME은 초 단위로 가정합니다.
+      }, node.APPEAR_TIME * 1000 - 500 + scaleStepRef.current * 100); // APPEAR_TIME은 초 단위로 가정합니다.
     });
   };
 
@@ -670,7 +671,7 @@ export default function HandModel({ gameData }) {
         >
           {showBackground ? "Webcam ON" : "Webcam OFF"}
         </Button>
-        <div className="control" style={{ bottom: "80px" }}>
+        <div className="control" style={{ ...controlStyle, bottom: "80px" }}>
           <span>Game Sound</span>
           <input
             className="slider"
@@ -682,7 +683,7 @@ export default function HandModel({ gameData }) {
             onChange={handleVolumeChange}
             />
         </div>
-        <div className="control" style={{ bottom: "50px" }}>
+        <div className="control" style={{ ...controlStyle, bottom: "50px" }}>
           <span>Effect Sound</span>
           <input
             className="slider"
@@ -694,7 +695,7 @@ export default function HandModel({ gameData }) {
             onChange={handleEffectChange}
             />
         </div>
-        <div className="control" style={{ bottom: "20px" }}>
+        <div className="control" style={{ ...controlStyle, bottom: "20px" }}>
           <span>Sync</span>
           <input
             className="slider"
