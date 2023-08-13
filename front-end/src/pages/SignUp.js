@@ -41,6 +41,7 @@ function SignUp() {
   const handleCheckUserId = async (userId) => {
     try {
       const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated/userId`, { userId });
+      
       if (response.data.duplicated) {
         setUserIdMessage({text: '이미 사용중인 아이디입니다.', color: "error"});
       } else {
@@ -161,10 +162,6 @@ function SignUp() {
               <Grid item>
                 <Link href="/login">
                   Already have an account? Sign in
-                </Link>
-
-                <Link href ="/" variant="body2">
-                  메인 화면으로 돌아가기
                 </Link>
               </Grid>
             </Grid>
