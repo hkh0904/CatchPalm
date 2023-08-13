@@ -41,12 +41,13 @@ public class GameServiceImpl implements GameService {
         records.setScore(gameInfo.getScore());
         gameRoom.setRoomNumber(gameInfo.getRoomNumber());
         records.setRoomNumber(gameInfo.getRoomNumber());
+        records.setPlayCnt(gameInfo.getPlayCnt());
         recordsRepository.save(records);
     }
 
     @Override
-    public List<RecordsDTO> getRecords(int roomNumber){
-        List<Records> records = recordsRepository.findByRoomNumberOrderByScoreDesc(roomNumber);
+    public List<RecordsDTO> getRecords(int roomNumber,int playCnt){
+        List<Records> records = recordsRepository.findByRoomNumberAndPlayCntOrderByScoreDesc(roomNumber,playCnt);
 
         return records.stream()
                 .map(RecordsDTO::fromEntity)
