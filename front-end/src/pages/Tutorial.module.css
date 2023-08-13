@@ -20,7 +20,7 @@
 
 .background_tutorial p {
     position: absolute;
-    top: 50%;  
+    top: 10%;  
     left: 50%;  
     transform: translate(-50%, -50%);
     transition: opacity 0.5s;
@@ -62,16 +62,3 @@
 }
 
 
-.video_t {
-    width: 70%;  /* 비디오의 너비를 70%로 설정 */
-    max-width: 900px;  /* 필요한 경우 최대 너비를 설정 */
-    filter: brightness(1.3);  /* 밝기를 130%로 설정 */
-    transform: scaleX(1);
-}
-
-.before_after {
-  position: fixed;
-  bottom: 30px; /* 위에서 590px 위치에 고정 */
-  left: 50%;  /* 가로 중앙 */
-  transform: translateX(-50%); /* 요소의 너비의 절반만큼 왼쪽으로 이동하여 정확히 중앙에 위치시킵니다 */
-}
