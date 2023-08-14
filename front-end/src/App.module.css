@@ -83,8 +83,14 @@ a:nth-child(1){
     filter: hue-rotate(270deg);
 }
 a:nth-child(2){
-    filter: hue-rotate(110deg);
-}a span{
+    filter: hue-rotate(180deg);
+}
+a:nth-child(3){
+    filter: hue-rotate(90deg);
+}
+
+
+a span{
     position: absolute;
     display: block;
 }
@@ -165,56 +171,6 @@ display: flex;
 justify-content: center;  /* 가로 중앙 정렬 */
 top: 10%;      /* 세로 중앙 정렬 */
 }
-
-
-/* 로그인 css */
-/* .login {
-padding: 10px 20px;
-border: 1px solid #ccc;
-cursor: pointer;
-transition: background-color 0.2s;
-width: fit-content;
-display: flex;
-position: absolute;
-right: 150px;
-top: 10px;
-}
-
-
-.login-container {
-position: absolute;
-
-top: 10px;  
-right: 10px; 
-}
-
-.login:hover {
-background-color: #f5f5f5;
-} */
-
-/* 회원가입 css */
-/* .signup {
-padding: 10px 20px;
-border: 1px solid #ccc;
-cursor: pointer;
-transition: background-color 0.2s;
-width: fit-content;
-display: flex;
-position: absolute;
-right: 10px;
-top: 10px;
-}
-
-.signup-container {
-position: absolute;
-top: 10px; 
-right: 10px; 
-}
-
-.signup:hover {
-background-color: #f5f5f5;
-} */
-
 
 
 /* 로그아웃버튼 css */
