@@ -171,6 +171,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 			gameRoom.setMusic(music);
 			gameRoom.setPlayCnt(gameRoom.getPlayCnt()+1);
 			music.setMusicNumber(musicNumber);
+			music.setPlayCnt(music.getPlayCnt()+1);
 			gameRoomRepository.save(gameRoom);
 		}
 	}
