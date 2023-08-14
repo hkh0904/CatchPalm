@@ -267,6 +267,18 @@ const ChatRoomItem = () => {
         console.error("Error fetching room info:", error);
       }
     };
+
+    const checkLeftUser = async () => {
+      try {
+        const response = await axios.get(
+          `${APPLICATION_SERVER_URL}/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`
+        );
+        const data = response.data;
+        
+      } catch (error) {
+        console.error("Error fetching room info:", error);
+      }
+    };
     fetchRoomInfo();
   }, [userNumber]);
 
