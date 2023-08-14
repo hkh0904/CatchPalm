@@ -143,18 +143,18 @@ export default function HandModel({ gameData }) {
     height: window.innerHeight,
   });
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = "정말로 페이지를 떠나시겠습니까?";
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e) => {
+  //     e.preventDefault();
+  //     e.returnValue = "정말로 페이지를 떠나시겠습니까?";
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios({
@@ -278,8 +278,10 @@ export default function HandModel({ gameData }) {
   // window의 크기가 변경될 때마다 updateWindowDimensions 함수를 실행하도록 이벤트 리스너를 등록하는 useEffect
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
-    return () => window.removeEventListener("resize", updateWindowDimensions);
-  }, []);
+    return () => {
+      window.removeEventListener("resize", updateWindowDimensions);
+    }
+    }, []);
 
   // 컴포넌트가 마운트될 때 카운트다운을 시작
   useEffect(() => {
@@ -343,29 +345,6 @@ export default function HandModel({ gameData }) {
             return () => {
               shouldStopPrediction = true;
               videoRef.current.srcObject = null;
-              alert("언마운트");
-
-              const escapeRoom = async () => {
-                const escapeInfo = {
-                  roomNumber: gameData.roomNumber,
-                  playCnt: gameData.playCnt,
-                  userNumber: userNumRef.current,
-                };
-                try {
-                  const response = await axios.post(
-                    `${APPLICATION_SERVER_URL}/api/v1/gameRooms/escapeGame`,
-                    escapeInfo
-                  );
-                  const data = response.data;
-                  console.log(data);
-                  alert("삭제선공");
-                } catch (error) {
-                  console.error("Error escapeGame user:", error);
-                  alert("삭제실패");
-                }
-              };
-
-              escapeRoom();
             };
           }
         });

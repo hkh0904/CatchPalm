@@ -200,6 +200,7 @@ public class GameRoomController {
 	public ResponseEntity<? extends BaseResponseBody> escapeRoom(
 			@ApiParam(value="'roomNumber' : 방번호, 'playCnt' : 방 내에서 게임회차, 'userNumber' : 유저번호", required = true)@RequestBody EscapeRoom escapeRoom) {
 		gameRoomService.checkLeftUser(escapeRoom.getRoomNumber(), escapeRoom.getPlayCnt(), escapeRoom.getUserNumber());
+		System.out.println("is hear?? escapeRoom");
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 }

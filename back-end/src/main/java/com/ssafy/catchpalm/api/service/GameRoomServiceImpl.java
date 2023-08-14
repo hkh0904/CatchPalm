@@ -161,6 +161,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 	}
 
 	@Override
+	@Transactional
 	public void startGame(int musicNumber, int gameRoomNumber) {
 		// 엔티티 조회: 게임방 정보 가져오기.( 유무도 확인)
 		Optional<GameRoom> optionalGameRoom = gameRoomRepository.findById(gameRoomNumber);
@@ -171,6 +172,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 			gameRoom.setMusic(music);
 			gameRoom.setPlayCnt(gameRoom.getPlayCnt()+1);
 			music.setMusicNumber(musicNumber);
+			music.setPlayCnt(music.getPlayCnt()+1);
 			gameRoomRepository.save(gameRoom);
 		}
 	}
