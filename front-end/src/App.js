@@ -26,7 +26,8 @@ function MainPage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const tokenValue = searchParams.get('token');
-
+  const [userInfo, setUserInfo] = useState([]); // 유저정보들
+  
   if(tokenValue){
     localStorage.setItem('token', searchParams.get('token'));
     navigate("/");
@@ -205,6 +206,65 @@ function MainPage() {
   const handleEnterChatRoom = (roomNumber) => {
     navigate(`/chat-rooms/${roomNumber}`);
   };
+  const [mySettings, setMySettings] = useState();
+  const [soundVolume, setSoundVolume] = useState(0.3); // 음악 사운드 사용자 설정 가져오기.
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // your access token here
+      },
+    })
+      .then((response) => {
+        setSoundVolume(response.data.backSound);
+        setMySettings(response.data);
+      })
+      .catch((error) => {
+        console.error("error");
+        const errorToken = localStorage.getItem('token');
+            if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+              window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+              return; // 함수 실행을 중단하고 반환합니다.
+            }
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem("token", token);
+        axios({
+          method: "get",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // your access token here
+          },
+        })
+          .then((response) => {
+            setSoundVolume(response.data.backSound);
+            setMySettings(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+  }, [userNumber]);
+
+
+  const handleTutorial = () => {
+    var gameStartRes = { // 시작시 게임정보
+      musicNumber: 0, // 음악 번호
+      musicName: "Tutorial",  // 음악 이름
+      nickname: userNickname,
+      userNumber: userNumber,
+      userInfo: [{}],
+      isCam: 0,
+      backSound: mySettings.backSound,
+      effectSound: mySettings.effectSound,
+      gameSound: mySettings.gameSound,
+      synk: mySettings.synk
+    };
+    navigate('/tutorial', { state: { gameData: gameStartRes } });
+}
 
   const [roomData, setRoomData] = useState({
     capacity: '',
@@ -257,14 +317,11 @@ function MainPage() {
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
-              
-                <a href="tutorial" className={style.a}>
+              <Button onClick={handleTutorial} className={style.a}>TUTORIAL</Button>
                   <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
-                  TUTORIAL
-                </a>
                 <a className={style.a} onClick={() => { handleCreateRoom(roomData);}}>
                   <span></span>
                   <span></span>
