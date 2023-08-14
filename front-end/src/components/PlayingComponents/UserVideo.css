@@ -46,3 +46,4 @@
   .card:hover::after {
     filter: blur(30px);
   }
+
