@@ -56,14 +56,14 @@
 
 .item3{
   flex-basis: calc(40% - 10px);  /* 10px는 간격을 위해 줄인 크기 */
-  max-height: 39.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
-  min-height: 39.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 37.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  min-height: 37.8vh; /* 예시로 뷰포트 높이의 30%를 지정 */
   margin-left: 1%;
 }
 
 .item4{
   flex-basis: calc(60% - 10px);
-  max-height: 13.5vh; /* 예시로 뷰포트 높이의 30%를 지정 */
+  max-height: 14vh; /* 예시로 뷰포트 높이의 30%를 지정 */
   overflow: hidden;
   
 }

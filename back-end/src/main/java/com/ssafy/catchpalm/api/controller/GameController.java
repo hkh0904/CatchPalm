@@ -89,6 +89,9 @@ public class GameController {
         if(userNumber!=null){
             rank = gameService.getRankByUserNumberAndMusicNumber(userNumber, musicNumber);
             userRanking = gameService.getRanking(userNumber, musicNumber);
+            if(rank==null){
+                userRanking=0;
+            }
 
         }
         return ResponseEntity.status(200).body(RankListPostRes.of(200, "Success",ranks,rank,userRanking));
