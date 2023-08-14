@@ -15,7 +15,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import APPLICATION_SERVER_URL from '../ApiConfig';
 
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: '"Jua", sans-serif'
+}
+});
 
 const Login = () => {
   const [userId, setUserId] = useState('');
@@ -75,7 +79,6 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-        
           <Box
             sx={{
               my: 4,
@@ -83,6 +86,7 @@ const Login = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              maxWidth: '100%'
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -125,19 +129,9 @@ const Login = () => {
               >
                 Sign In with Google
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="/" variant="body2" onClick={handleBackButtonClick}>
-                    비밀번호 찾기(미구현)
-                  </Link>
-
-                </Grid>
-              </Grid>
               {errorMessage && <Typography color="error">{errorMessage}</Typography>}
             </Box>
           </Box>
-        
-
     </ThemeProvider>
   );
 };
