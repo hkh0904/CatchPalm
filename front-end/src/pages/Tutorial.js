@@ -24,7 +24,7 @@ function Tutorial() {
     { start: 83, end: 90, text: "만약 박자가 너무 빠르거나 느리다면 점수를 잃을수도 있습니다" },
     { start: 93, end: 98, text: "왼쪽 상단의 점수에 집중하며 정확한 타이밍을 캐치하세요!" },
     { start: 100, end: 120, text: "튜토리얼 끝!" },
-   
+    // { start: 100, end: 120, text: "추가: 손바닥이 아닌 손의 중앙에 노드가 인식되게끔 해주세용" },
     
   ];
 
@@ -104,7 +104,7 @@ function Tutorial() {
       </p>
       <button className={style.exitButton} onClick={endTutorial}>튜토리얼 끝내기</button>
       <button className={style.goPlaying} onClick={goTutorial}>바로 시작하기</button>
-      <audio ref={audioRef} src="/assets/TutorialSound.mp3" />  
+      {/* <audio ref={audioRef} src="/assets/TutorialSound.mp3" />   */}
     </div>
   );
 
