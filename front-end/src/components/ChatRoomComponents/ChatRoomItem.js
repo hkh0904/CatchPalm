@@ -10,6 +10,7 @@ import { allResolved } from "q";
 import { display, margin } from '@mui/system';
 import APPLICATION_SERVER_URL from "../../ApiConfig";
 import { BrowserRouter as Router, Route, Link, useHistory } from 'react-router-dom';
+import Swal from "sweetalert2";
 
 let name = "";
 let Sock = null;
@@ -304,7 +305,11 @@ const ChatRoomItem = () => {
     if(message.type === 'DROP'){
       if (message.nickname === name) {
         window.location.href = '/chatRoomList';
-        alert("강퇴되었습니다.");
+        Swal.fire({
+          icon: "error",
+          title: "강퇴되었습니다.",
+          // text: "방 제목을 입력 해주세요",
+        });
       }
       return;
     }
@@ -449,7 +454,11 @@ const ChatRoomItem = () => {
         console.log("게임 시작 실패.");
       }
     } else {
-      alert("아직 레디가 완료되지 않았습니다.");
+      Swal.fire({
+        icon: "warning",
+        title: "아직 레디가 완료되지 않았습니다.",
+        // text: "방 제목을 입력 해주세요",
+      });
     }
     event.preventDefault();
   }
