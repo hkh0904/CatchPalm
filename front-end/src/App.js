@@ -251,11 +251,13 @@ function MainPage() {
                 <span></span>
                 <span></span>
                 <span></span>
+                <span></span>
                 LOGIN
               </a>
               <br/>
               <a href="#" className={style.a} onClick={openSignupDrawer}>
                 
+                <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
