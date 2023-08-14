@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { FilesetResolver, GestureRecognizer } from "@mediapipe/tasks-vision"; // 정적 임포트
 import { HAND_CONNECTIONS } from "@mediapipe/hands";
 import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import APPLICATION_SERVER_URL from "../../ApiConfig";
@@ -45,10 +45,19 @@ const createGestureRecognizer = async () => {
 
 export default function HandModel({ gameData }) {
   // 컴포넌트 상태 및 ref를 선언
+  console.log(gameData)
   const token = localStorage.getItem("token");
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
+  const [videoSrc, setVideoSrc] = useState('');  // 현재 비디오의 src를 저장합니다.
+
+    // 가능한 모든 비디오 경로를 배열로 저장합니다.
+    const videoPaths = [
+        "/music/GameVideo1.mp4",
+        "/music/GameVideo2.mp4",
+        "/music/GameVideo3.mp4",
+        "/music/GameVideo4.mp4"
+    ];
   const videoSrcRef = useRef(null);
-  const showBackground = useState(false);
   const [videoHidden, setVideoHidden] = useState(Boolean(gameData.isCam));
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 }); // 비디오의 크기를 저장하는 상태
   const [countdown, setCountdown] = useState(3);
@@ -66,13 +75,22 @@ export default function HandModel({ gameData }) {
   const [effectVolume, setEffectVolume] = useState(gameData.effectSound); // 볼륨 상태
   const missSound = useRef(new Audio("/assets/Miss.mp3"));
   const greatSound = useRef(new Audio("/assets/Great.mp3"));
-  const perpectSound = useRef(new Audio("/assets/Perpect.mp3"));
+  const perfectSound = useRef(new Audio("/assets/Perfect.mp3"));
   const [scaleStep, setScaleStep] = useState(gameData.synk);
   const scaleStepRef = useRef(scaleStep);
   const effectVolumeRef = useRef(effectVolume);
   const volumeRef = useRef(volume);
   const videoHiddenRef = useRef(videoHidden);
-  const controlStyle = gameData.userInfo.length === 1 ? { right: '2rem' } : {};
+  const controlStyle = gameData.userInfo.length === 1 ? { right: "2rem" } : {};
+  const videoOnImg = "/assets/video.png";
+  const videoOffImg = "/assets/video-off.png";
+  const [showBackground, setShowBackground] = useState(false);
+
+  useEffect(() => {
+    // 페이지가 로드될 때마다 랜덤하게 하나의 비디오를 선택합니다.
+    const randomVideo = videoPaths[Math.floor(Math.random() * videoPaths.length)];
+    setVideoSrc(randomVideo);
+}, []);
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
@@ -87,7 +105,7 @@ export default function HandModel({ gameData }) {
     audio2.current.volume = effectVolume;
     missSound.current.volume = effectVolume;
     greatSound.current.volume = effectVolume;
-    perpectSound.current.volume = effectVolume;
+    perfectSound.current.volume = effectVolume;
   }, [volume, effectVolume]);
 
   // 오디오 재생 함수
@@ -95,28 +113,28 @@ export default function HandModel({ gameData }) {
     audioRef.current.currentTime = 0; // 재생 시간을 0으로 리셋
     audioRef.current.play();
   }
-  
+
   useEffect(() => {
     const unblock = window.history.pushState(null, "", window.location.href);
-    
+
     window.onpopstate = function (event) {
       window.history.go(1);
       // alert("게임 중 뒤로 가기는 사용할 수 없습니다."); // 알림 추가
       navigate(location);
     };
-  
-    document.addEventListener('keydown', function (event) {
+
+    document.addEventListener("keydown", function (event) {
       if (event.keyCode === 116 || (event.ctrlKey && event.keyCode === 82)) {
         event.preventDefault();
         // alert("게임 중 새로고침은 사용할 수 없습니다.");
       }
     });
-    
   }, []);
-  
+
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
     setVideoHidden(!videoHidden);
+    setShowBackground(prevState => !prevState);
   };
 
   // window의 크기를 저장하는 상태
@@ -302,7 +320,7 @@ export default function HandModel({ gameData }) {
                   videoRef.current.srcObject = null;
                   sendData();
                   navigate("/");
-                  
+
                   //게임 끝났을때 겜방 이동 테스트.---------------------------------------
                   // const fetchRoomInfo = async () => {
                   //   try {
@@ -312,7 +330,7 @@ export default function HandModel({ gameData }) {
                   //     const data = response.data;
                   //     console.log("대기방입장",data);
                   //     if (data === 1) {
-                  //       navigate(`/chat-rooms/${gameData.roomNumber}`); 
+                  //       navigate(`/chat-rooms/${gameData.roomNumber}`);
                   //     }
                   //     else {
                   //       navigate("/");
@@ -346,7 +364,7 @@ export default function HandModel({ gameData }) {
     setEffectVolume(e.target.value);
     missSound.current.volume = e.target.value;
     greatSound.current.volume = e.target.value;
-    perpectSound.current.volume = e.target.value;
+    perfectSound.current.volume = e.target.value;
   };
 
   // 웹캠 스트림을 시작하는 비동기 함수
@@ -390,8 +408,8 @@ export default function HandModel({ gameData }) {
       // 요소가 존재하는지 확인
       computedStyle = getComputedStyle(webcamWrapper);
       webcamWrapperHeight = parseFloat(computedStyle.height);
-      console.log(computedStyle)
-      console.log(webcamWrapperHeight)
+      console.log(computedStyle);
+      console.log(webcamWrapperHeight);
       circlePixel = webcamWrapperHeight * 0.15;
       circleOutPixel = webcamWrapperHeight * 0.33;
     }
@@ -607,8 +625,8 @@ export default function HandModel({ gameData }) {
               increaseScore(200);
             } else if (scaleValue <= 0.58 && scaleValue >= 0.42) {
               circleOutElement.remove();
-              playSound(perpectSound);
-              showValue(valX, valY, "PERPECT");
+              playSound(perfectSound);
+              showValue(valX, valY, "PERFECT");
               increaseScore(300);
             } else {
               circleOutElement.remove();
@@ -661,18 +679,18 @@ export default function HandModel({ gameData }) {
           </animated.div>
         </div>
         <video
-          hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
-          ref={videoSrcRef} // videoSrcRef를 사용합니다.
-          id="videoSrc"
-          src="/music/GameVideo2.mp4" // 비디오 파일의 URL을 지정합니다.
-          loop
-          style={{
-            position: "absolute",
-            width: "100vw ",
-            height: "100%",
-            objectFit: "cover",
-            transform: "scaleX(1)",
-          }}
+            hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
+            ref={videoSrcRef} // videoSrcRef를 사용합니다.
+            id="videoSrc"
+            src={videoSrc}  // 비디오 파일의 URL을 지정합니다.
+            loop
+            style={{
+                position: "absolute",
+                width: "100vw ",
+                height: "100%",
+                objectFit: "cover",
+                transform: "scaleX(1)",
+            }}
         />
         <video
           hidden={!videoHidden}
@@ -686,13 +704,16 @@ export default function HandModel({ gameData }) {
           }}
         />
         <canvas id="canvas" width={videoSize.width} height={videoSize.height} />
-        <Button
+        <div
           id="toggleWebcam"
-          variant="contained"
           onClick={toggleBackground}
+          style={{ cursor: "pointer" }} // 이미지를 클릭 가능한 것처럼 보이게 하려면 이 스타일을 사용하세요.
         >
-          {showBackground ? "Webcam ON" : "Webcam OFF"}
-        </Button>
+          <img
+            src={showBackground ? videoOnImg : videoOffImg}
+            alt={showBackground ? "Webcam ON" : "Webcam OFF"}
+          />
+        </div>
         <div className="control" style={{ ...controlStyle, bottom: "80px" }}>
           <span>Game Sound</span>
           <input
@@ -703,7 +724,7 @@ export default function HandModel({ gameData }) {
             step="0.01"
             value={volume}
             onChange={handleVolumeChange}
-            />
+          />
         </div>
         <div className="control" style={{ ...controlStyle, bottom: "50px" }}>
           <span>Effect Sound</span>
@@ -715,7 +736,7 @@ export default function HandModel({ gameData }) {
             step="0.01"
             value={effectVolume}
             onChange={handleEffectChange}
-            />
+          />
         </div>
         <div className="control" style={{ ...controlStyle, bottom: "20px" }}>
           <span>Sync</span>
