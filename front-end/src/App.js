@@ -49,10 +49,10 @@ function MainPage() {
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem('token'); // 토큰 삭제
-  //   navigate('/');
-  // };
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // 토큰 삭제
+    navigate('/');
+  };
 
     // 버튼 클릭 상태를 추적하는 useState 추가
     const [buttonClicked, setButtonClicked] = useState(false);  
@@ -293,11 +293,11 @@ function MainPage() {
               </button>
               <br />
               <button onClick={handleButtonClick}>게임시작</button>
-              {/* <div className={`${style.logout}`}>
+              <div className={`${style.logout}`}>
                 <button onClick={handleLogout}>
                   로그아웃
                 </button>
-              </div> */}
+              </div>
               <div className={`${style.userinfo}`}>
                   <img 
                       src="/assets/user_profile.png" 
