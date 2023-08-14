@@ -45,7 +45,6 @@ const createGestureRecognizer = async () => {
 
 export default function HandModel({ gameData }) {
   // 컴포넌트 상태 및 ref를 선언
-  console.log(gameData)
   const token = localStorage.getItem("token");
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
   const [videoSrc, setVideoSrc] = useState('');  // 현재 비디오의 src를 저장합니다.

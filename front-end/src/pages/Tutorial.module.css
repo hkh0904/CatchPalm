@@ -10,7 +10,9 @@
 .background_tutorial {
   padding: 20px;
   position: absolute;
+  width: 100vw;
   height: 100vh;
+  font-size: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,8 +21,9 @@
 
 .background_tutorial p {
   position: absolute;
-  top: 10%;
+  top: 50%;
   left: 50%;
+  font-size: large;
   transform: translate(-50%, -50%);
   transition: opacity 0.5s;
   color: white;
