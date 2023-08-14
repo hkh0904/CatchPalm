@@ -65,10 +65,10 @@ public class GameController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<GameResultPostRes> getRcords(
-            @RequestParam("roomNumber") int roomNumber) {
+            @RequestParam("roomNumber") int roomNumber,@RequestParam("playCnt") int playCnt) {
 
         // 로그 기록
-        List<RecordsDTO> results = gameService.getRecords(roomNumber);
+        List<RecordsDTO> results = gameService.getRecords(roomNumber,playCnt);
 
         return ResponseEntity.status(200).body(GameResultPostRes.of(200, "Success",results));
     }
@@ -83,19 +83,15 @@ public class GameController {
     })
     public ResponseEntity<RankListPostRes> getRank(@RequestParam("musicNumber") int musicNumber
             , @RequestParam(value = "userNumber", required = false) Long userNumber) {
-        int ranking = 0;
         List<RankDTO> ranks = gameService.getRanksByMusicNumber(musicNumber);
+        RankDTO rank = null;
+        int userRanking = 0;
         if(userNumber!=null){
-            RankDTO rank = gameService.getRankByUserNumberAndMusicNumber(userNumber, musicNumber);
-            if(rank!=null) {
-                for(int a=0;a<ranks.size();a++){
-                    if(ranks.get(a).getRankNumber()==rank.getRankNumber()){
-                        ranking=a+1;
-                    }
-                }
-            }
+            rank = gameService.getRankByUserNumberAndMusicNumber(userNumber, musicNumber);
+            userRanking = gameService.getRanking(userNumber, musicNumber);
+
         }
-        return ResponseEntity.status(200).body(RankListPostRes.of(200, "Success",ranks,ranking));
+        return ResponseEntity.status(200).body(RankListPostRes.of(200, "Success",ranks,rank,userRanking));
     }
 
     @GetMapping("/music")

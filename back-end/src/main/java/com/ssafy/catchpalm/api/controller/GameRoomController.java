@@ -82,7 +82,7 @@ public class GameRoomController {
 	}
 
 
-	@DeleteMapping("/outUser/{userNumber}")
+	@DeleteMapping("/outUser")
 	@ApiOperation(value = "게임방유저 나감(강퇴)", notes = "<strong>유저넘버</strong>를 통해 게임방유저테이블에서 강퇴. ")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -94,6 +94,7 @@ public class GameRoomController {
 			@ApiParam(value="'userNumber' : 번호, 'roomNumber' : 번호", required = true)
 
 			@RequestBody AddGameRoomUserReq addGameRoomUserReq) {
+		System.out.println("out");
 		gameRoomService.outRoomUser(addGameRoomUserReq.getUserNumber(), addGameRoomUserReq.getGameRoomNumber());
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -170,5 +171,20 @@ public class GameRoomController {
 	public ResponseEntity<?> changeReady(
 			@ApiParam(value="'roomNumber' : 방번호, 'userNumber' : 유저번호, 'isReady' : 0", required = true)@RequestBody UserReady userReady) {
 		return ResponseEntity.status(200).body(gameRoomService.readyStatus(userReady));
+	}
+
+	// 게임방 상태 대기중으로 변경.
+	@GetMapping("/inGameToWaiting/{roomNumber}")
+	@ApiOperation(value = "게임방 상태 대기중으로 변환: 게임중->대기중", notes = "<strong>게임방 번호</strong> 입력받아 해당 데이터로 게임방 상태 대기중으로 변환.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> updateGameRoomStatusToZero(
+			@ApiParam(value="방번호", required = true) @PathVariable("roomNumber") int roomNumber) {
+		return ResponseEntity.status(200).body(gameRoomService.updateGameRoomStatusToZero(roomNumber));
 	}
 }

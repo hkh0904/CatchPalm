@@ -1,7 +1,7 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
 import React, { useEffect, useState } from 'react';
 import style from "./App.module.css";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,Link} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
 import ChatRoomItem from "./pages/ChatRoomPage";
@@ -17,6 +17,7 @@ import ResultPage from './pages/ResultPage';
 import axios from 'axios';
 import APPLICATION_SERVER_URL from './ApiConfig';
 import { useLocation } from 'react-router-dom';
+import Swal from "sweetalert2"
 
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
 let CreatedroomNumber = ''; // 전역 변수로 선언
@@ -103,8 +104,26 @@ function MainPage() {
   //////// 회원정보 받아오기 시작/////////
   const [userId, setUserId] = useState(null);
   const token = localStorage.getItem('token');
-  const [userNumber, setUserNumber] = useState('');
-  const [userNickname, setuserNickname] = useState('');
+
+  useEffect(() => {
+    // 카메라 권한 요청
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+        // 스트림 처리 코드 (예: 비디오 요소에 스트림 연결)
+        console.log("Camera access granted");
+        // 스트림 종료
+        stream.getTracks().forEach(track => track.stop());
+      })
+      .catch((error) => {
+        console.error("Camera access denied:", error);
+        Swal.fire({
+          icon: "warning",
+          title: "CatchPalm에는 웹캠이 필요해요!",
+          // text: "방 제목을 입력 해주세요",
+        });
+      });
+  }, []);
+
 
   useEffect(() => {
     
