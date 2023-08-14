@@ -317,7 +317,7 @@ function MainPage() {
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
-              <div onClick={handleTutorial} className={style.a}>TUTORIAL</div>
+              <Button onClick={handleTutorial} className={style.a}>TUTORIAL</Button>
                   <span></span>
                   <span></span>
                   <span></span>
