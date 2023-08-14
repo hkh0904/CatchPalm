@@ -51,6 +51,8 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
+
+  // 제출 눌렀을 때 예외처리
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
