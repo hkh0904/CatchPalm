@@ -8,7 +8,6 @@ import style from './ChatRoomList.module.css'
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Swal from "sweetalert2";
-import Grid from '@mui/material/Grid';
 import APPLICATION_SERVER_URL from '../../ApiConfig';
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
@@ -149,6 +148,9 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
     }));
   };
   
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
 
   return (
     <div className={style.modal}>
@@ -166,9 +168,15 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             >
               개인전
             </button>
-            <button onClick={() => handleChangeCategory(1)} className={`${
-              roomData.categoryNumber === 1 ? 'active ' : ''
-            }${style.neon_button}`}
+            <button
+              onClick={() => {
+                Swal.fire({
+                  icon: "warning",
+                  title: "서비스 준비 중입니다.",
+                  // text: "방 제목을 입력 해주세요",
+                }); // 원하는 메시지로 수정
+              }}
+              className={style.neon_button}
             >
               팀전
             </button>
@@ -214,7 +222,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
               className={style.neon_button_input} 
               type="number" 
               name="capacity" 
-              value={4} 
               disabled />
           )}
         </div>
@@ -483,7 +490,12 @@ const ChatRoomList = ({}) => {
         <div style={{display:'flex', justifyContent: 'center', marginTop: '1%', fontFamily: 'Jua, sans-serif', fontSize: '20px'}}>
           <div>
           </div>
-        <a href='/'>
+        <a href='/' onClick={(e) => {
+            if (isModalOpen) {
+              e.preventDefault();
+            }
+          }}
+          style={{ position: 'relative', zIndex: isModalOpen ? -1 : 'auto' }}>
             <span></span>
             <span></span>
             <span></span>
@@ -491,7 +503,6 @@ const ChatRoomList = ({}) => {
             Home</a>
         </div>
       </div>   
-    
     </div>
     </div>
   </div>

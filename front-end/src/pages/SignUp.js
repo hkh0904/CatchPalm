@@ -49,13 +49,24 @@ function SignUp() {
 
   const navigate = useNavigate();
 
+  const isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const handleChange = (event) => {
+    const { name, value } = event.target;
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
-    if (event.target.name === 'userId') {
-      handleCheckUserId(event.target.value);
+    
+    if (name === 'userId') {
+      if (!isValidEmail(value)) {
+        setUserIdMessage({text: '유효한 이메일 형식이 아닙니다.', color: "error"});
+        return;
+      }
+      handleCheckUserId(value);
     }
   };
 
@@ -70,6 +81,7 @@ function SignUp() {
       }
     } catch (error) {
       console.error(error);
+      alert("아이디 중복검사에 오류가 발생했습니다.");
     }
   };
 
@@ -84,7 +96,6 @@ function SignUp() {
       });
       console.log(response.data);
 
-      // If the request is successful, navigate to the login page
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
@@ -155,7 +166,7 @@ function SignUp() {
 
                   />
               </Grid>
-              <Box sx={{ height: 16 }} />  {/* Add a line break */}
+              <Box sx={{ height: 16 }} />
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -194,7 +205,6 @@ function SignUp() {
                   <option value="1">여성</option>
                 </TextField>
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
@@ -269,7 +279,7 @@ function SignUp() {
                 <Link href="/login">
                   Already have an account? Sign in
                 </Link>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
         </Box>

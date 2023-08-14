@@ -225,17 +225,20 @@ const Userinfo = () => {
     }
 
     return (
-        <div style={{
+        <div 
+        
+        style={{
+            width:'300px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: '0 90px',
             fontFamily: 'Jua, sans-serif'
-        }}>
+        }}
+        >
             <h1 className={styles.h1}>유저 정보</h1>
             <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
             <br/>
-            <button className={styles.button} onClick={handleProfileImageClick}>
+            <button className={styles.neon_button} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>
             <input
@@ -245,27 +248,36 @@ const Userinfo = () => {
                 style={{ display: 'none' }}
             />
             <p>User Number: {userInfo.userNumber}</p>
-            <p>User ID: {userInfo.userId}</p>
+            <p>User ID: {userInfo.userId.slice(6)}</p>
             <p>
-                User Nickname: {userInfo.userNickname} 
+                User Nickname: {userInfo.userNickname}
                 <br/>
-                <button className={styles.button} onClick={handleNicknameChange}>닉네임 변경하기</button>
+                <button className={styles.neon_button} 
+                onClick={handleNicknameChange}
+                style={{marginLeft:'15%', marginTop:'5%'}}>
+                    닉네임 변경하기
+                    </button>
             </p>
             <p>Age: {userInfo.age}</p>
             <p>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
-            <button className={styles.button} onClick={handlePasswordChange}>비밀번호 변경하기</button>
-            
-            <div className={styles.logout}>
-                <button onClick={handleLogout}>
+            <button className={styles.neon_button} onClick={handlePasswordChange}>비밀번호 변경하기</button>
+            <div style={{display:'flex', marginTop: '20px', marginRight:'5%'}}>
+            <div className={styles.neon_button}
+            style={{marginRight:'12%'}}>
+                <button className={styles.neon_button} onClick={handleLogout}>
                   로그아웃
                 </button>
             </div>
             
-            <div className={styles.signout}>
-                <button onClick={handleDeleteAccount}>
+            <div className={styles.neon_button}>
+                <button className={styles.neon_button} 
+                onClick={handleDeleteAccount}>
                   회원탈퇴
                 </button>
             </div>
+
+            </div>
+            
         </div>
     );
 }
