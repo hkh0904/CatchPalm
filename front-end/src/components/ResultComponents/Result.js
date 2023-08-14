@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import style from './Result.module.css';
 import APPLICATION_SERVER_URL from '../../ApiConfig';
@@ -16,7 +16,8 @@ function MyComponent({gameRoomRes}) {
   const[roomCategory] = useState(gameRoomRes.roomCategory);
   const[playCnt] = useState(gameRoomRes.playCnt);
   const[resultList,setResultList] = useState([]);
-  const[music,setMusic]=useState();
+  const musicRef = useRef(undefined);
+  const[music, setMusic] = useState();
 
   const [userNumber, setUserNumber] = useState(''); // userNumber 상태로 추가
   const token = localStorage.getItem('token');
@@ -42,8 +43,8 @@ function MyComponent({gameRoomRes}) {
       .then(response => {
         const data = response.data;
         setResultList(data.records);
-        console.log(data.records);
-        setMusic(data.records[0].musicDTO)
+        const music = data.records[0].musicDTO;
+        setMusic(music);
         setLoading1(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       })
       .catch(error => {
@@ -105,7 +106,9 @@ function MyComponent({gameRoomRes}) {
     return <div>Loading...</div>;
   }
 
+  if(music){
 
+  
   return (
     <div className={style.flex_container}>
       <audio id="audioPlayer" src=""></audio>
@@ -181,5 +184,5 @@ function MyComponent({gameRoomRes}) {
     </div>
   );
 }
-
+}
 export default MyComponent;

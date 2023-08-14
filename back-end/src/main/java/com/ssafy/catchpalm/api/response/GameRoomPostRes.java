@@ -50,6 +50,11 @@ public class GameRoomPostRes {
     @ApiModelProperty(name="Music list")
     List<MusicPostRes> musics; // 음악리스트
 
+    @ApiModelProperty(name="GameRoom platCnt")
+    int playCnt; // 게임 횟수
+
+    @ApiModelProperty(name="GameRoom category")
+    int category; // 게임룸 카테고리
     public static GameRoomPostRes of(GameRoom gameRoom, List<MusicPostRes> musicList) {
         GameRoomPostRes res = new GameRoomPostRes();
         res.setRoomNumber(gameRoom.getRoomNumber());
@@ -63,6 +68,8 @@ public class GameRoomPostRes {
         res.setMusicNumber(gameRoom.getMusic().getMusicNumber());
         res.setMusicName(gameRoom.getMusic().getMusicName());
         res.setThumbnail(gameRoom.getMusic().getThumbnail());
+        res.setPlayCnt(gameRoom.getPlayCnt());
+        res.setCategory(gameRoom.getCategory().getCategoryNumber());
         if (musicList != null){
             res.setMusics(musicList);
         }

@@ -11,18 +11,18 @@ function App() {
 
   // *** 결과창에 줘야되는 정보 (테스트용 정보만 넣어놓음! 이름 맞춰서 보내줘야함) ***
   // *******************************************************************************
-  const navigateToResult = () => {
-    const gameRoomRes = {
-      roomNumber : 1,
-      userNumber: 1,
-      roomTitle: "빠르게 한판ㄱㄱ",
-      roomCapacity: 4,
-      roomCategory: 2,
-      playCnt:2,
-    };
+  // const navigateToResult = () => {
+  //   const gameRoomRes = {
+  //     roomNumber : 1,
+  //     userNumber: 1,
+  //     roomTitle: "빠르게 한판ㄱㄱ",
+  //     roomCapacity: 4,
+  //     roomCategory: 2,
+  //     playCnt:1,
+  //   };
 
-    navigate('/result', { state: { gameRoomRes: gameRoomRes } });
-  };
+  //   navigate('/result', { state: { gameRoomRes: gameRoomRes } });
+  // };
 
 
   return (
@@ -47,14 +47,14 @@ function App() {
             Home</a>
 
           {/* *****결과창 화면을 위한 임시 버튼****** */}
-          <a onClick={navigateToResult}
+          {/* <a onClick={navigateToResult}
             >
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             Result
-          </a>
+          </a> */}
           {/* *****결과창 화면을 위한 임시 버튼****** */}
 
         </div>
