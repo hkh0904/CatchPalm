@@ -26,8 +26,7 @@ function MainPage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const tokenValue = searchParams.get('token');
-  const [userInfo, setUserInfo] = useState([]); // 유저정보들
-  
+
   if(tokenValue){
     localStorage.setItem('token', searchParams.get('token'));
     navigate("/");
@@ -144,7 +143,7 @@ function MainPage() {
     if (urlToken) {
       // 만약 주소 뒤에 token이러는게 있다면,
       localStorage.setItem('token', urlToken);
-      window.location.href = 'http://localhost:3000/';
+      navigate('/');
     } else {
       
       if(!token) return;  // 토큰이 없으면 요청하지 않습니다. >> 원래 하던 방식대로 로그인
@@ -206,65 +205,6 @@ function MainPage() {
   const handleEnterChatRoom = (roomNumber) => {
     navigate(`/chat-rooms/${roomNumber}`);
   };
-  const [mySettings, setMySettings] = useState();
-  const [soundVolume, setSoundVolume] = useState(0.3); // 음악 사운드 사용자 설정 가져오기.
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // your access token here
-      },
-    })
-      .then((response) => {
-        setSoundVolume(response.data.backSound);
-        setMySettings(response.data);
-      })
-      .catch((error) => {
-        console.error("error");
-        const errorToken = localStorage.getItem('token');
-            if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
-              // window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
-              return; // 함수 실행을 중단하고 반환합니다.
-            }
-        const token = error.response.headers.authorization.slice(7);
-        localStorage.setItem("token", token);
-        axios({
-          method: "get",
-          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // your access token here
-          },
-        })
-          .then((response) => {
-            setSoundVolume(response.data.backSound);
-            setMySettings(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-  }, [userNumber]);
-
-
-  const handleTutorial = () => {
-    var gameStartRes = { // 시작시 게임정보
-      musicNumber: 0, // 음악 번호
-      musicName: "Tutorial",  // 음악 이름
-      nickname: userNickname,
-      userNumber: userNumber,
-      userInfo: [{}],
-      isCam: 0,
-      backSound: mySettings.backSound,
-      effectSound: mySettings.effectSound,
-      gameSound: mySettings.gameSound,
-      synk: mySettings.synk
-    };
-    navigate('/tutorial', { state: { gameData: gameStartRes } });
-}
 
   const [roomData, setRoomData] = useState({
     capacity: '',
@@ -317,102 +257,114 @@ function MainPage() {
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
-              <a className={style.a} onClick={handleTutorial}>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                TUTORIAL
-              </a>
-              <a className={style.a} onClick={() => { handleCreateRoom(roomData);}}>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                SOLO MODE
-              </a>
-              <a href="/ChatRoomList" className={style.a}>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                MULTI MODE
-              </a>
-              <a href="/ranking" className={style.a}>
-                
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                ranking
-              </a>
-            </div>
-            <button variant="contained" onClick={handleButtonClick}>
-              Go to Sample Page
-            </button>
-            <br />
-            <button onClick={handleButtonClick}>게임시작</button>
-            <div className={`${style.logout}`}>
-              <button onClick={handleLogout}>
-                로그아웃
+              
+                <a href="tutorial" className={style.a}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  TUTORIAL
+                </a>
+                <a className={style.a} onClick={() => { handleCreateRoom(roomData);}}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  SOLO MODE
+                </a>
+                <a href="/ChatRoomList" className={style.a}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  MULTI MODE
+                </a>
+                <a href="/ranking" className={style.a}>
+                  
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  ranking
+                </a>
+              </div>
+              <button variant="contained" onClick={handleButtonClick}>
+                Go to Sample Page
               </button>
-            </div>
-            <div className={`${style.userinfo}`}>
-                <img 
-                    src="/assets/user_profile.png" 
-                    alt="User Profile" 
-                    onClick={handleDrawerOpen}
-                    style={{ cursor: 'pointer' }}  // 이미지가 클릭 가능하다는 것을 나타내기 위한 스타일
-                />
-            </div>
-            
-            <div className={`${style.white_text}`}>
-              <p>아이디: {userId}</p>
-            </div>
+              <br />
+              <button onClick={handleButtonClick}>게임시작</button>
+              <div className={`${style.userinfo}`}
+                style={{
+                  border: '0.2rem solid #fff', // 본인이면 빨간색 테두리 적용
+                  animation: 'pulsate 1.5s infinite alternate', // 본인이면 빨간색 테두리 적용
+                  boxShadow: '0 0 .2rem #fff,0 0 .2rem #fff, 0 0 2rem #bc13fe,0 0 0.8rem #bc13fe,0 0 2.8rem #bc13fe,inset 0 0 1.3rem #bc13fe' // 본인이면 빨간색 테두리 적용
+                }}
+              >
+                  <img 
+                      src="/assets/user_profile.png" 
+                      alt="User Profile" 
+                      onClick={handleDrawerOpen}
+                      style={{ cursor: 'pointer' }}  // 이미지가 클릭 가능하다는 것을 나타내기 위한 스타일
+                  />
+              </div>
+              
+              <div className={`${style.white_text}`}>
+                <p>아이디: {userId}</p>
+              </div>
 
-            <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
-              <Userinfo />
-            </Drawer>
-            
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-          <div className={style.gamemode} container spacing={2}>
-            <a href="#" className={style.a} onClick={openLoginDrawer}>              
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              LOGIN
-            </a>
-            <br/>
-            <a href="#" className={style.a} onClick={openSignupDrawer}>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              SIGN UP
-            </a>
-          </div>
-
-            <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
-            <audio id="startSound" src="/assets/Start.mp3" preload="auto"></audio>
-            <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
-              onClick={handleCircleButtonClick}>
-            </button>
-            <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}     sx={{
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen} 
+              sx={{
                 "& .MuiDrawer-paper": {
                     width: '30%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                  
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',  
                 }
-                
-            }}>
-              {drawerContent === "login" && <Login />}
-              {drawerContent === "signup" && <SignUp />}
-            </Drawer>
-        </React.Fragment>
-        )}
+              }}
+              >
+                <Userinfo />
+              </Drawer>
+              
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+            <div className={style.gamemode} container spacing={2}
+            
+            >
+              <a href="#" className={style.a} onClick={openLoginDrawer}>              
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                LOGIN
+              </a>
+              <br/>
+              <a href="#" className={style.a} onClick={openSignupDrawer}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                SIGN UP
+              </a>
+            </div>
+
+              <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
+              <audio id="startSound" src="/assets/Start.mp3" preload="auto"></audio>
+              <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
+                onClick={handleCircleButtonClick}>
+              </button>
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}  sx={{
+                  "& .MuiDrawer-paper": {
+                      width: '30%',
+                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    
+                  }
+                  
+              }}>
+                {drawerContent === "login" && <Login />}
+                {drawerContent === "signup" && <SignUp />}
+              </Drawer>
+          </React.Fragment>
+          )}
+        
     </React.Fragment>
   );
 }
