@@ -75,9 +75,7 @@ const Userinfo = () => {
     // 이미지 업로드
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
-        console.log(file, 1111);
         const base64String = await blobToBase64(file);
-        console.log(base64String, 2222);
         const token = localStorage.getItem('token');
         await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
             profileImg: base64String,
@@ -144,31 +142,41 @@ const Userinfo = () => {
         const token = localStorage.getItem('token');
     
         fetch(`${APPLICATION_SERVER_URL}/api/v1/users/delete`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // or however your server expects the token
-          }
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // or however your server expects the token
+            }
         })
         .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            console.log(token)
-              console.log(response)
-            throw new Error('Error during account deletion');
-          }
-        })
-        .then(data => {
-          // Handle successful deletion here, such as by logging out the user
-          localStorage.removeItem('token');
-          window.location.reload();
+            localStorage.removeItem('token');
+            window.location.reload();
         })
         .catch(error => {
-          // Handle any errors here
-          console.error('Error:', error);
-        });
-      };
+            const errorToken = localStorage.getItem('token');
+            if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+              window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+              return; // 함수 실행을 중단하고 반환합니다.
+            }
+            const token = error.response.headers.authorization.slice(7);
+            localStorage.setItem('token', token)
+            fetch(`${APPLICATION_SERVER_URL}/api/v1/users/delete`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // or however your server expects the token
+                }
+            })
+            .then(response => {
+                localStorage.removeItem('token');
+                window.location.reload();
+            })
+            .catch(error => {
+                // Handle any errors here
+                console.error('Error:', error);
+            });
+        })
+    };
 
     if (!userInfo) {
         return <div>Loading...</div>;
@@ -182,52 +190,77 @@ const Userinfo = () => {
             return;  // '@' 문자가 포함되어 있으면 함수를 여기서 종료
         }
         const token = localStorage.getItem('token');
+        
 
-        const duplicationResponse = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            params: {
-                nickname: editedNickname
-            }
-        });
         try{
-        const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
-            age: editedAge,
-            password: "",
-            backSound: "",
-            effectSound: "",
-            gameSound: "",
-            isCam: "",
-            profileImg: "",
-            profileMusic: "",
-            sex: "",
-            synk: "",
-            nickname: editedNickname,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+            const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
+                age: editedAge,
+                password: "",
+                backSound: "",
+                effectSound: "",
+                gameSound: "",
+                isCam: "",
+                profileImg: "",
+                profileMusic: "",
+                sex: "",
+                synk: "",
+                nickname: editedNickname,
+                }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+        
+            if (response.status === 200) {
+                setUserInfo(prevState => ({ ...prevState, userNickname: editedNickname }));
+                setUserInfo(prevState => ({ ...prevState, age: editedAge }));
             }
-        });
-        
-        if (response.status === 200) {
-            setUserInfo(prevState => ({ ...prevState, userNickname: editedNickname }));
-            setUserInfo(prevState => ({ ...prevState, age: editedAge }));
-        }
-        setIsEditing(true);
-        setErrorMessage("");
-        }
-        catch{
-            setErrorMessage("중복되는 닉네임입니다.");
-
-        }
-        
-    };
+            setIsEditing(true);
+            setErrorMessage("");
+            }
+            catch(error){
+                if(error.response.status===403){
+                    setErrorMessage("중복되는 닉네임입니다.");
+                    return;
+                }else if(error.response.status==401){
+                    const errorToken = localStorage.getItem('token');
+                    if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+                      window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+                      return; // 함수 실행을 중단하고 반환합니다.
+                    }
+                    const token = error.response.headers.authorization.slice(7);
+                    localStorage.setItem('token', token);
+                    const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
+                        age: editedAge,
+                        password: "",
+                        backSound: "",
+                        effectSound: "",
+                        gameSound: "",
+                        isCam: "",
+                        profileImg: "",
+                        profileMusic: "",
+                        sex: "",
+                        synk: "",
+                        nickname: editedNickname,
+                        }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    if (response.status === 200) {
+                        setUserInfo(prevState => ({ ...prevState, userNickname: editedNickname }));
+                        setUserInfo(prevState => ({ ...prevState, age: editedAge }));
+                    }
+                    setIsEditing(true);
+                    setErrorMessage("");
+                }
+            }
+        };
     
     const handleCancelEdit = () => {
         // 단순히 편집 모드를 종료하고 원래 정보로 돌아갑니다.
-        console.log(isEditing);
         setIsEditing(true);
     };
 
@@ -244,7 +277,7 @@ const Userinfo = () => {
         {isEditing ?(
             <>
             <h1 className={styles.h1} style={{color:'wheat',fontSize:'3rem'}}>유저 정보</h1>
-            <img className={styles.img} height={"25%"} src={getImageSrc(userInfo.profileImg) || defaultProfileImg} alt="Profile"  style={{ margin: 'auto' }} />
+            <img className={styles.img} height={"20%"} width={"20%"} src={getImageSrc(userInfo.profileImg) || defaultProfileImg} alt="Profile"  style={{ margin: 'auto',marginBottom:'0px',marginTop:'0px' }} />
             <br/>
             {/* <button className={styles.neon_button} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
@@ -259,7 +292,7 @@ const Userinfo = () => {
             Email : {
                 userInfo.userId[0] === 'g' 
                     ? userInfo.userId.slice(7) 
-                    : userInfo.userId[0] === 'L' 
+                    : userInfo.userId[0] === 'l' 
                         ? userInfo.userId.slice(6) 
                         : userInfo.userId 
             }
@@ -300,10 +333,10 @@ const Userinfo = () => {
             </>
         ):(
             <>
-            <h1 className={styles.h1} style={{color:'wheat',fontSize:'3rem'}}>정보 수정</h1>
-            <img className={styles.img} height={"25%"} src={getImageSrc(userInfo.profileImg) || defaultProfileImg} alt="Profile"  style={{ margin: 'auto' }} />
+            <h1 className={styles.h1} style={{color:'wheat',fontSize:'3rem',paddingTop:'0px'}}>정보 수정</h1>
+            <img className={styles.img} height={"20%"} width={"20%"} src={getImageSrc(userInfo.profileImg) || defaultProfileImg} alt="Profile"  style={{ margin: 'auto', marginBottom:'0px',marginTop:'0px' }} />
             <br/>
-            <button className={styles.neon_button} style={{width:'40%',margin:'auto'}} onClick={handleProfileImageClick}>
+            <button className={styles.neon_button} style={{width:'40%',margin:'auto', marginBottom:'10px',marginTop:'0px' }} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>
             <input
@@ -313,22 +346,15 @@ const Userinfo = () => {
                 style={{ display: 'none', textAlign:'left'}}
             />
             <div style={{ display: 'flex', alignItems: 'center',marginBottom:'2%' }}>
-                <span style={{color:'white', marginLeft:'5rem', fontSize:'1.7rem'}}>Email:</span>
-                <input 
-                    style={{display: 'inline-block',color:'white', marginLeft:'0.2rem', fontSize:'1.7rem', backgroundColor: 'transparent', width:'60%', border:'none', borderBottom: '1px solid white'}} 
-                    value={
-                        userInfo.userId[0] === 'g' 
-                            ? userInfo.userId.slice(7) 
-                            : userInfo.userId[0] === 'L' 
-                                ? userInfo.userId.slice(6) 
-                                : userInfo.userId 
-                    }
-                    readOnly
-                    onChange={(e) => {
-                        // 만약 상태를 변경하고 싶다면 이 부분에 로직 추가
-                        setEditedEmail(e.target.value)
-                    }}
-                />
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>
+            Email : {
+                userInfo.userId[0] === 'g' 
+                    ? userInfo.userId.slice(7) 
+                    : userInfo.userId[0] === 'L' 
+                        ? userInfo.userId.slice(6) 
+                        : userInfo.userId 
+            }
+            </p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
             <span style={{color:'white', marginLeft:'5rem', fontSize:'1.7rem'}}>Nickname:</span>

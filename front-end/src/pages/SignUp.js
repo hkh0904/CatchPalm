@@ -78,7 +78,7 @@ function SignUp() {
       if (response.data.duplicated) {
         setUserIdMessage({text: '이미 사용중인 아이디입니다.', color: "error"});
       } else {
-        setUserIdMessage({text: '사용 가능한 아이디입니다.', color: "success"});
+        setUserIdMessage({text: '사용 가능한 아이디입니다.', color: "#ffd700"});
       }
     } catch (error) {
       console.error(error);
@@ -88,6 +88,16 @@ function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const loadingAlert = Swal.fire({
+      title: '이메일 전송 중...',
+      zIndex: 10,
+      allowOutsideClick: false,
+      showConfirmButton: false,  // 추가: 확인 버튼을 숨깁니다.
+      onBeforeOpen: () => {
+          Swal.showLoading();
+      }
+  });
+  Swal.showLoading();
     try {
       const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/users`, {
         userId: state.userId,
@@ -95,12 +105,11 @@ function SignUp() {
         age: state.age,
         sex: state.sex,
       });
-      console.log(response.data);
-
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "가입하신 이메일을 확인해주세요!",
+          zIndex:11,
         });
       }
       
