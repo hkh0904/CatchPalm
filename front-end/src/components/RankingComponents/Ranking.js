@@ -197,7 +197,7 @@ function MyComponent() {
               {userRanking> 0 ? (
                   <tr className={style.rowColor1}>
                     <td style={{color:'#ffd700',width:'13%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px'}}>{userRanking}</td>
-                    <td style={{width:'15%',paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px',display: 'flex', alignItems: 'center'}}>
+                    <td style={{paddingLeft:'10px',paddingTop:'5px',paddingBottom:'5px',display: 'flex', alignItems: 'center'}}>
                       <img  src={getImageSrc(userRank.userDTO.profileImg) || defaultProfileImg} alt="Profile"  style={{ width: '4rem', height: '4rem', marginRight: '10px',borderRadius: '50%'}} />
                       {userRank.userDTO.nickname}
                     </td>
