@@ -37,15 +37,6 @@
 }
 
 .modal_content {
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 1.0); */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -98,7 +89,6 @@
 .modal input[type="text"],
 .modal input[type="number"],
 .modal input[type="password"] {
-  /* width: 100%; */
   padding: 8px;
   margin-bottom: 16px;
   border: 1px solid #ccc;

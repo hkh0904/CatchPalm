@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
 import style from './Tutorial.module.css';
-import './PlayingPage.css';
+import HandModel from '../components/PlayingComponents/HandModel';
 
 function Tutorial() {
+  
+  const location = useLocation();
+  const { gameData } = location.state; // 전달된 데이터 가져오기
+  console.log(gameData); // 데이터확인.
   const navigate = useNavigate();
-
-  // 배경음악
-  const audioRef = useRef(null); 
 
   // perfect, great, miss
   const [showWords, setShowWords] = useState(false);
-
-
 
   const timeline = [
     { start: 2, end: 7, text: "저희 CatchPalm은 화면에 나오는 히트마커에 맞춰 손모양을 인식해 점수를 올리는 게임입니다!" },
@@ -57,19 +57,6 @@ function Tutorial() {
     return () => clearInterval(interval);
   }, [currentTime]);
 
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.play();
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-    };
-  }, []); // 추가된 부분
-
   const endTutorial = () => {
     navigate('/');
   }
@@ -79,35 +66,37 @@ function Tutorial() {
   }
 
   return (
-    <div className={style.background_tutorial}>
-      {
-        showWords && 
-        (
-          <div className={style.wordsWrapper}>
-            <span className={style.PERFECT}>PERFECT<br/><br/>300</span>
-            <span className={style.GREAT}>GREAT<br/><br/>200</span>
-            <span className={style.MISS}>MISS<br/><br/>0</span>
-          </div>
-          
-          
-
-
-        )
-      }
-      <p style={{ 
-          opacity: currentText ? 1 : 0, 
-          transition: 'opacity 0.5s',
-          fontFamily: 'Jua, sans-serif',
-          fontSize: '23px' 
-      }}>
-        {currentText}
-      </p>
-      <button className={style.exitButton} onClick={endTutorial}>튜토리얼 끝내기</button>
-      <button className={style.goPlaying} onClick={goTutorial}>바로 시작하기</button>
-      {/* <audio ref={audioRef} src="/assets/TutorialSound.mp3" />   */}
-    </div>
+    <React.Fragment>
+      <Grid className="mainGrid" container spacing={2} 
+      style={{ backgroundColor: 'black', marginTop: 0, marginLeft: 0, position: 'relative' }}>
+        <Grid item xs={12} style={{ padding: 0 }}>
+          <HandModel gameData={gameData} />
+        </Grid>
+        <Grid item xs={12} className={style.background_tutorial}>
+          {
+            showWords && 
+            (
+              <div className={style.wordsWrapper}>
+                <span className={style.PERFECT}>PERFECT<br/><br/>300</span>
+                <span className={style.GREAT}>GREAT<br/><br/>200</span>
+                <span className={style.MISS}>MISS<br/><br/>0</span>
+              </div>
+              )
+            }
+          <p style={{ 
+            opacity: currentText ? 1 : 0, 
+            transition: 'opacity 0.5s',
+            fontFamily: 'Jua, sans-serif',
+            fontSize: '23px' 
+          }}>
+            {currentText}
+          </p>
+          <button className={style.exitButton} onClick={endTutorial}>튜토리얼 끝내기</button>
+          <button className={style.goPlaying} onClick={goTutorial}>바로 시작하기</button>
+        </Grid>
+      </Grid>
+    </React.Fragment>
   );
-
 }
 
 export default Tutorial;
