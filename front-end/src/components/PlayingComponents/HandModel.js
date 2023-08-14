@@ -178,6 +178,7 @@ export default function HandModel({ gameData }) {
       roomNumber: gameData.roomNumber,
       score: scoreRef.current,
       userNumber: userNumRef.current,
+      playCnt: gameData.playCnt,
     };
     console.log(data);
     // 헤더 설정
@@ -291,6 +292,7 @@ export default function HandModel({ gameData }) {
 
             audio1.current.onended = () => {
               sendUserData();
+              sendData();
               audio2.current.play();
 
               audio2.current.onended = () => {
@@ -299,30 +301,18 @@ export default function HandModel({ gameData }) {
                   tracks.forEach((track) => track.stop());
                   shouldStopPrediction = true;
                   videoRef.current.srcObject = null;
-                  sendData();
-                  navigate("/");
-                  
-                  //게임 끝났을때 겜방 이동 테스트.---------------------------------------
-                  const fetchRoomInfo = async () => {
-                    try {
-                      const response = await axios.get(
-                        `${APPLICATION_SERVER_URL}/api/v1/gameRooms/inGameToWaiting/${gameData.roomNumber}`
-                      );
-                      const data = response.data;
-                      console.log("대기방입장",data);
-                      if (data === 1) {
-                        navigate(`/chat-rooms/${gameData.roomNumber}`); 
-                      }
-                      else {
-                        navigate("/");
-                      }
-                    } catch (error) {
-                      console.error("Error fetching room info:", error);
-                      navigate("/");
-                    }
+                  // navigate("/");
+                  // 게임 끝났을때 순위창으로 이동
+                  const gameRoomRes = {
+                    roomNumber : gameData.roomNumber,
+                    userNumber: gameData.userNumber,
+                    roomTitle: gameData.roomTitle,
+                    roomCapacity: gameData.roomCapacity,
+                    roomCategory: gameData.roomCategory,
+                    playCnt: gameData.playCnt,
                   };
-                  fetchRoomInfo();
-                  //------------------------------------------------------------------------
+                  navigate("/result", { state: { gameRoomRes: gameRoomRes } })
+                  
                 }
               };
             };
