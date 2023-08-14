@@ -20,7 +20,7 @@ import { useLocation } from 'react-router-dom';
 import Swal from "sweetalert2"
 
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
-
+let CreatedroomNumber = ''; // 전역 변수로 선언
 function MainPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -105,6 +105,10 @@ function MainPage() {
   const [userId, setUserId] = useState(null);
   const token = localStorage.getItem('token');
 
+  const [userNickname, setuserNickname] = useState(null);
+  const [userNumber, setUserNumber] = useState(null);
+
+
   useEffect(() => {
     // 카메라 권한 요청
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -135,7 +139,7 @@ function MainPage() {
     
     // Check if token parameter is present in the URL
     let urlToken = urlParams.get('token');
-  
+    
     if (urlToken) {
       // 만약 주소 뒤에 token이러는게 있다면,
       localStorage.setItem('token', urlToken);
@@ -155,6 +159,10 @@ function MainPage() {
       .then(response => {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+        const userNumber = response.data.userNumber;
+        const userNickname = response.data.userNickname;
+        setuserNickname(userNickname);
+        setUserNumber(userNumber);
         setUserId(cleanedUserId);
       })
       .catch(error => {
@@ -171,6 +179,10 @@ function MainPage() {
           .then(response => {
             const rawUserId = response.data.userId;
             const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            const userNumber = response.data.userNumber;
+            const userNickname = response.data.userNickname;
+            setuserNickname(userNickname);
+            setUserNumber(userNumber);  
             setUserId(cleanedUserId);
           })
           .catch(error => {
@@ -189,6 +201,43 @@ function MainPage() {
   
   const buttonClasses = isHovered ? style.button + ' ' + style.hovered : style.button;
 
+  
+  const handleEnterChatRoom = (roomNumber) => {
+    navigate(`/chat-rooms/${roomNumber}`);
+  };
+
+  const [roomData, setRoomData] = useState({
+    capacity: '',
+    categoryNumber: '',
+    password: '',
+    title: '',
+    userNumber: userNumber,
+    roomNumber: ''
+  });
+
+  useEffect(() => {
+      setRoomData({
+        capacity: 1,
+        categoryNumber: 2,
+        password: '',
+        title: userNickname,
+        userNumber: userNumber,
+        roomNumber: ''
+      });
+  }, [userNumber]);
+
+  const handleCreateRoom = async (roomData) => {
+    console.log(roomData)
+    try {
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/create`, roomData);
+      CreatedroomNumber = response.data.roomNumber;
+      handleEnterChatRoom(CreatedroomNumber);
+      
+    } catch (error) {
+      console.error('Error craating a new room:', error);
+    }
+  };
+
   return (
     <React.Fragment>
         {/* background_video에 클릭 상태에 따른 클래스 조건부 추가 */}
@@ -204,13 +253,13 @@ function MainPage() {
       </div>
       {/* 메인버튼 */}
       <div>
-      <button
+      {/* <button
         className={buttonClasses}
         onMouseEnter={handleHover}
         onMouseLeave={handleMouseLeave}
       >
         <p className={style.main_font}>Catch Palm</p>
-      </button>
+      </button> */}
     </div>
           {isLoggedIn ? (
             <React.Fragment>
@@ -223,7 +272,7 @@ function MainPage() {
                   <span></span>
                   TUTORIAL
                 </a>
-                <a href="/Playing" className={style.a}>
+                <a className={style.a} onClick={() => { handleCreateRoom(roomData);}}>
                   <span></span>
                   <span></span>
                   <span></span>
@@ -239,6 +288,7 @@ function MainPage() {
                 </a>
                 <a href="/ranking" className={style.a}>
                   
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
@@ -280,11 +330,13 @@ function MainPage() {
                 <span></span>
                 <span></span>
                 <span></span>
+                <span></span>
                 LOGIN
               </a>
               <br/>
               <a href="#" className={style.a} onClick={openSignupDrawer}>
                 
+                <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
