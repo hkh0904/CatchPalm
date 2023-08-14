@@ -35,24 +35,11 @@ function MainPage() {
   // 메인 버튼
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-    
 
   ////////로그인 로그아웃 시작////////////////
   const isLoggedIn = !!localStorage.getItem('token'); 
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
-
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // 토큰 삭제
-    navigate('/');
-  };
 
     // 버튼 클릭 상태를 추적하는 useState 추가
     const [buttonClicked, setButtonClicked] = useState(false);  
@@ -72,20 +59,6 @@ function MainPage() {
     const handleDrawerOpen = () => {
       setDrawerOpen(!drawerOpen);
     };
-
-    /// 내정보 보기 끝
-
-
-  // const handleButtonClick3 = () => {
-  //   navigate('/login');
-  // };
-  
-  // const handleButtonClick4 = () => {
-  //   navigate('/signup');
-  // };
-  ////////////// 로그인 로그아웃 끝////////////////  
-
-  ////로그인 회원가임 Drawer
 
     // 드로어 내용을 결정할 useState 추가
     const [drawerContent, setDrawerContent] = useState(null);
@@ -195,16 +168,73 @@ function MainPage() {
   
 
 ///////회원정보 받아오기 끝////////////  
-  const handleButtonClick = () => {
-    navigate('/Playing');
-  };
-  
-  const buttonClasses = isHovered ? style.button + ' ' + style.hovered : style.button;
 
   
   const handleEnterChatRoom = (roomNumber) => {
     navigate(`/chat-rooms/${roomNumber}`);
   };
+  const [mySettings, setMySettings] = useState();
+  const [soundVolume, setSoundVolume] = useState(0.3); // 음악 사운드 사용자 설정 가져오기.
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // your access token here
+      },
+    })
+      .then((response) => {
+        setSoundVolume(response.data.backSound);
+        setMySettings(response.data);
+      })
+      .catch((error) => {
+        console.error("error");
+        const errorToken = localStorage.getItem('token');
+            if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+              // window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+              return; // 함수 실행을 중단하고 반환합니다.
+            }
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem("token", token);
+        axios({
+          method: "get",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // your access token here
+          },
+        })
+          .then((response) => {
+            setSoundVolume(response.data.backSound);
+            setMySettings(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+  }, [userNumber]);
+
+
+  const handleTutorial = () => {
+    var gameStartRes = { // 시작시 게임정보
+      musicNumber: 0, // 음악 번호
+      musicName: "Tutorial",  // 음악 이름
+      nickname: userNickname,
+      userNumber: userNumber,
+      userInfo: [{}],
+      isCam: 0,
+      backSound: mySettings.backSound,
+      effectSound: mySettings.effectSound,
+      gameSound: mySettings.gameSound,
+      synk: mySettings.synk
+    };
+    navigate('/tutorial', { state: { gameData: gameStartRes } });
+}
+
+
+
 
   const [roomData, setRoomData] = useState({
     capacity: '',
@@ -258,7 +288,7 @@ function MainPage() {
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               
-                <a href="tutorial" className={style.a}>
+                <a href="tutorial" className={style.a} onClick={handleTutorial}>
                   <span></span>
                   <span></span>
                   <span></span>
@@ -288,15 +318,10 @@ function MainPage() {
                   ranking
                 </a>
               </div>
-              <button variant="contained" onClick={handleButtonClick}>
-                Go to Sample Page
-              </button>
-              <br />
-              <button onClick={handleButtonClick}>게임시작</button>
               <div className={`${style.userinfo}`}
                 style={{
-                  border: '0.2rem solid #fff', // 본인이면 빨간색 테두리 적용
-                  animation: 'pulsate 1.5s infinite alternate', // 본인이면 빨간색 테두리 적용
+                  border: '0.2rem solid #fff', 
+                  animation: 'pulsate 1.5s infinite alternate', 
                   boxShadow: '0 0 .2rem #fff,0 0 .2rem #fff, 0 0 2rem #bc13fe,0 0 0.8rem #bc13fe,0 0 2.8rem #bc13fe,inset 0 0 1.3rem #bc13fe' // 본인이면 빨간색 테두리 적용
                 }}
               >
@@ -307,11 +332,6 @@ function MainPage() {
                       style={{ cursor: 'pointer' }}  // 이미지가 클릭 가능하다는 것을 나타내기 위한 스타일
                   />
               </div>
-              
-              <div className={`${style.white_text}`}>
-                <p>아이디: {userId}</p>
-              </div>
-
               <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen} 
               sx={{
                 "& .MuiDrawer-paper": {
