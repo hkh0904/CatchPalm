@@ -159,7 +159,7 @@ export default function HandModel({ gameData }) {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://localhost:8443/api/v1/users/me",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // your access token here
@@ -174,7 +174,7 @@ export default function HandModel({ gameData }) {
         localStorage.setItem("token", token);
         axios({
           method: "get",
-          url: "https://localhost:8443/api/v1/users/me",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // your access token here
@@ -208,7 +208,7 @@ export default function HandModel({ gameData }) {
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
-        "https://localhost:8443/api/v1/game/log",
+        `${APPLICATION_SERVER_URL}/api/v1/game/log`,
         data,
         { headers: headers }
       );
@@ -237,7 +237,7 @@ export default function HandModel({ gameData }) {
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.patch(
-        "https://localhost:8443/api/v1/users/modify",
+        `${APPLICATION_SERVER_URL}/api/v1/users/modify`,
         data,
         {
           headers: {
@@ -360,7 +360,7 @@ export default function HandModel({ gameData }) {
                   alert("삭제실패");
                 }
               };
-              
+
               escapeRoom();
             };
           }
