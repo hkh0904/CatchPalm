@@ -4,46 +4,74 @@ import axios from 'axios';
 import styles from './Userinfo.module.css';
 import APPLICATION_SERVER_URL from '../ApiConfig';
 import { useNavigate } from 'react-router-dom';
+import { textAlign } from '@mui/system';
 
 const Userinfo = () => {
     const [userInfo, setUserInfo] = useState(null);
     const defaultProfileImg = "/assets/basicprofile.jpg";
     const [profileImg, setProfileImg] = useState(null);
+    const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem('token'); // 토큰 삭제
         navigate('/');
-      };
+    };
+
+    const [isEditing, setIsEditing] = useState(true);
+    const [editedEmail, setEditedEmail] = useState("");
+    const [editedNickname, setEditedNickname] = useState("");
+    const [editedSex, setEditedSex] = useState("");
+    const [editedAge, setEditedAge] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleEditClick = () => {
+        setIsEditing(false);
+        setEditedEmail(userInfo.userId); // or whatever the initial value should be
+        setEditedNickname(userInfo.userNickname);
+        setEditedSex(userInfo.sex);
+        setEditedAge(userInfo.age);
+    };
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        
         // 예외처리: 로그인 안된 경우
         if (!token) {
             alert('로그인 후 이용해 주세요.');
             navigate('/');
             return;
         }    
-        const fetchData = async () => {
-            
+        const fetchData = async () => {            
             const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/me`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
-            });
-            
-            // 예외처리: 로그인 되어있지 않다면 유저정보 볼 수 없음
-
-
-            if (response.status === 200) {
+            })
+            .then(response => {
                 setUserInfo(response.data);
                 setProfileImg(response.data.profileImg);
-            }
+                })
+                .catch(error => {
+                const token = error.response.headers.authorization.slice(7);
+                localStorage.setItem('token', token);
+                axios({
+                    method: 'get',
+                    url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // your access token here
+                    }
+                })
+                .then(response => {
+                    setUserInfo(response.data);
+                    setProfileImg(response.data.profileImg);
+                })
+                .catch(error => {
+                console.log(error);
+                })
+                });
         };
-
         fetchData();
-    }, []);
+    }, [token]);
     // 이미지 업로드
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
@@ -95,90 +123,12 @@ const Userinfo = () => {
     //이미지 불러와서 디코딩
     const getImageSrc = () => {
         if (profileImg) {
-          // Convert Base64 data to an image data URL
-          return `data:image/jpeg;base64,${profileImg}`;
+            // Convert Base64 data to an image data URL
+            return `data:image/jpeg;base64,${profileImg}`;
         }
         return null;
     };
     
-    const handlePasswordChange = async () => {
-        const newPassword = prompt('Enter new password:');
-        
-        if (newPassword) {
-            const token = localStorage.getItem('token');
-            
-            const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
-                age: "",
-                password: newPassword,
-                backSound: "",
-                effectSound: "",
-                gameSound: "",
-                isCam: "",
-                profileImg: "",
-                profileMusic: "",
-                sex: "",
-                synk: "",
-                nickname: ""
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            
-            if (response.status === 200) {
-                setUserInfo(prevState => ({ ...prevState, userPassword: newPassword }));
-                alert('비밀번호가 변경되었습니다!');
-            }
-        }
-    }
-
-    const handleNicknameChange = async () => {
-        const newNickname = prompt('Enter new nickname:');
-        
-        if (newNickname) {
-            const token = localStorage.getItem('token');
-
-            const duplicationResponse = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                params: {
-                    nickname: newNickname
-                }
-            });
-    
-            if (duplicationResponse.data.duplicated) {
-                alert('이미 사용중인 닉네임입니다');
-                return;
-            }
-
-            const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
-                age: "",
-                backSound: "",
-                effectSound: "",
-                gameSound: "",
-                password: "",
-                isCam: "",
-                profileImg: "",
-                profileMusic: "",
-                sex: "",
-                synk: "",
-                nickname: newNickname,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-    
-            if (response.status === 200) {
-                setUserInfo(prevState => ({ ...prevState, userNickname: newNickname }));
-                alert('닉네임이 변경되었습니다!');
-            }
-        }
-    }
-
     const handleProfileImageClick = () => {
         hiddenFileInput.current.click();
     };
@@ -224,60 +174,209 @@ const Userinfo = () => {
         return <div>Loading...</div>;
     }
 
+    const handleConfirmEdit = async () => {
+        // TODO: 수정된 내용을 서버로 전송하고 결과를 확인합니다.
+        // 서버 응답이 올바르다면, userInfo 상태를 업데이트하고 isEditing을 false로 설정합니다.
+        if (editedNickname.includes('@')) {
+            setErrorMessage("닉네임에 '@' 문자를 사용할 수 없습니다.");
+            return;  // '@' 문자가 포함되어 있으면 함수를 여기서 종료
+        }
+        const token = localStorage.getItem('token');
+
+        const duplicationResponse = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            params: {
+                nickname: editedNickname
+            }
+        });
+        try{
+        const response = await axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, {
+            age: editedAge,
+            password: "",
+            backSound: "",
+            effectSound: "",
+            gameSound: "",
+            isCam: "",
+            profileImg: "",
+            profileMusic: "",
+            sex: "",
+            synk: "",
+            nickname: editedNickname,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.status === 200) {
+            setUserInfo(prevState => ({ ...prevState, userNickname: editedNickname }));
+            setUserInfo(prevState => ({ ...prevState, age: editedAge }));
+        }
+        setIsEditing(true);
+        setErrorMessage("");
+        }
+        catch{
+            setErrorMessage("중복되는 닉네임입니다.");
+
+        }
+        
+    };
+    
+    const handleCancelEdit = () => {
+        // 단순히 편집 모드를 종료하고 원래 정보로 돌아갑니다.
+        console.log(isEditing);
+        setIsEditing(true);
+    };
+
     return (
         <div 
-        
         style={{
-            width:'300px',
+            width:'100%',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            fontFamily: 'Jua, sans-serif'
+            fontFamily: 'Jua, sans-serif',
+            justifyContent: 'center',   // 세로 방향으로 가운데 정렬
         }}
         >
-            <h1 className={styles.h1}>유저 정보</h1>
-            <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
+        {isEditing ?(
+            <>
+            <h1 className={styles.h1} style={{color:'wheat',fontSize:'3rem'}}>유저 정보</h1>
+            <img className={styles.img} height={"25%"} src={getImageSrc(userInfo.profileImg) || defaultProfileImg} alt="Profile"  style={{ margin: 'auto' }} />
             <br/>
-            <button className={styles.neon_button} onClick={handleProfileImageClick}>
+            {/* <button className={styles.neon_button} onClick={handleProfileImageClick}>
+                프로필 사진 변경하기
+            </button> */}
+            <input
+                type="file"
+                ref={hiddenFileInput}
+                onChange={handleImageUpload}
+                style={{ display: 'none', textAlign:'left'}}
+            />
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>
+            Email : {
+                userInfo.userId[0] === 'g' 
+                    ? userInfo.userId.slice(7) 
+                    : userInfo.userId[0] === 'L' 
+                        ? userInfo.userId.slice(6) 
+                        : userInfo.userId 
+            }
+            </p>
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>
+                Nickname: {userInfo.userNickname}
+                <br/>
+                {/* <button className={styles.neon_button} 
+                onClick={handleNicknameChange}
+                style={{marginLeft:'15%', marginTop:'5%'}}>
+                    닉네임 변경하기
+                </button> */}
+            </p>
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Age: {userInfo.age}</p>
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
+            <div style={{display:'flex',marginLeft:'15%',marginTop:'20%'}}>
+                <div className={styles.neon_button}
+                style={{marginRight:'6%'}}>
+                    <button className={styles.neon_button} onClick={handleLogout}>
+                        로그아웃
+                    </button>
+                </div>
+
+                <div className={styles.neon_button}
+                style={{marginRight:'6%'}}>
+                    <button className={styles.neon_button} onClick={handleEditClick}>
+                        정보수정
+                    </button>
+                </div>
+            
+                <div className={styles.neon_button}>
+                    <button className={styles.neon_button} 
+                    onClick={handleDeleteAccount}>
+                        회원탈퇴
+                    </button>
+                </div>
+            </div>
+            </>
+        ):(
+            <>
+            <h1 className={styles.h1} style={{color:'wheat',fontSize:'3rem'}}>정보 수정</h1>
+            <img className={styles.img} height={"25%"} src={getImageSrc(userInfo.profileImg) || defaultProfileImg} alt="Profile"  style={{ margin: 'auto' }} />
+            <br/>
+            <button className={styles.neon_button} style={{width:'40%',margin:'auto'}} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
             </button>
             <input
                 type="file"
                 ref={hiddenFileInput}
                 onChange={handleImageUpload}
-                style={{ display: 'none' }}
+                style={{ display: 'none', textAlign:'left'}}
             />
-            <p>User Number: {userInfo.userNumber}</p>
-            <p>User ID: {userInfo.userId.slice(6)}</p>
-            <p>
-                User Nickname: {userInfo.userNickname}
-                <br/>
-                <button className={styles.neon_button} 
+            <div style={{ display: 'flex', alignItems: 'center',marginBottom:'2%' }}>
+                <span style={{color:'white', marginLeft:'5rem', fontSize:'1.7rem'}}>Email:</span>
+                <input 
+                    style={{display: 'inline-block',color:'white', marginLeft:'0.2rem', fontSize:'1.7rem', backgroundColor: 'transparent', width:'60%', border:'none', borderBottom: '1px solid white'}} 
+                    value={
+                        userInfo.userId[0] === 'g' 
+                            ? userInfo.userId.slice(7) 
+                            : userInfo.userId[0] === 'L' 
+                                ? userInfo.userId.slice(6) 
+                                : userInfo.userId 
+                    }
+                    readOnly
+                    onChange={(e) => {
+                        // 만약 상태를 변경하고 싶다면 이 부분에 로직 추가
+                        setEditedEmail(e.target.value)
+                    }}
+                />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{color:'white', marginLeft:'5rem', fontSize:'1.7rem'}}>Nickname:</span>
+            <input style={{display: 'inline-block',color:'white', marginLeft:'0.2rem', fontSize:'1.7rem', backgroundColor: 'transparent', width:'50%', border:'none', borderBottom: '1px solid white'}}
+                value= {editedNickname}
+                onChange={(e) => {
+                    // 만약 상태를 변경하고 싶다면 이 부분에 로직 추가
+                    setEditedNickname(e.target.value)
+                }}
+            >
+                {/* <button className={styles.neon_button} 
                 onClick={handleNicknameChange}
                 style={{marginLeft:'15%', marginTop:'5%'}}>
                     닉네임 변경하기
-                    </button>
-            </p>
-            <p>Age: {userInfo.age}</p>
-            <p>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
-            <button className={styles.neon_button} onClick={handlePasswordChange}>비밀번호 변경하기</button>
-            <div style={{display:'flex', marginTop: '20px', marginRight:'5%'}}>
-            <div className={styles.neon_button}
-            style={{marginRight:'12%'}}>
-                <button className={styles.neon_button} onClick={handleLogout}>
-                  로그아웃
-                </button>
+                </button> */}
+            </input>
             </div>
-            
-            <div className={styles.neon_button}>
-                <button className={styles.neon_button} 
-                onClick={handleDeleteAccount}>
-                  회원탈퇴
-                </button>
-            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{color:'white', marginLeft:'5rem', fontSize:'1.7rem'}}>Age:</span>
+            <input style={{display: 'inline-block',color:'white', marginLeft:'0.2rem', fontSize:'1.7rem', backgroundColor: 'transparent', width:'10%', border:'none', borderBottom: '1px solid white'}}
+                value= {editedAge}
+                type='number'
 
+                onChange={(e) => {
+                    // 만약 상태를 변경하고 싶다면 이 부분에 로직 추가
+                    setEditedAge(e.target.value)
+                }}
+            >
+            </input>
             </div>
-            
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
+            {errorMessage && <p style={{color:'red',display: 'block',marginLeft:'5rem'}}>{errorMessage}</p>}
+            <div style={{display:'flex',marginLeft:'15%',marginTop:'20%'}}>
+                <div className={styles.neon_button}
+                style={{marginRight:'6%'}}>
+                    <button className={styles.neon_button} onClick={handleConfirmEdit}>
+                        확인
+                    </button>
+                </div>
+                <div className={styles.neon_button}>
+                    <button className={styles.neon_button} 
+                    onClick={handleCancelEdit}>
+                        취소
+                    </button>
+                </div>
+            </div>
+            </>
+        )}
         </div>
     );
 }

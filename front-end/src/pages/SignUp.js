@@ -104,7 +104,7 @@ function SignUp() {
         });
       }
       
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       setErrorMessage('입력 형식이 올바르지 않습니다.');
     }
@@ -278,7 +278,7 @@ function SignUp() {
                 <Link href="/login">
                   Already have an account? Sign in
                 </Link>
-              </Grid> */}
+              </Grid>
             </Grid>
           </Box>
         </Box>

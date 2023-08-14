@@ -143,7 +143,7 @@ function MainPage() {
     if (urlToken) {
       // 만약 주소 뒤에 token이러는게 있다면,
       localStorage.setItem('token', urlToken);
-      window.location.href = 'http://localhost:3000/';
+      navigate('/');
     } else {
       
       if(!token) return;  // 토큰이 없으면 요청하지 않습니다. >> 원래 하던 방식대로 로그인
@@ -293,12 +293,13 @@ function MainPage() {
               </button>
               <br />
               <button onClick={handleButtonClick}>게임시작</button>
-              <div className={`${style.logout}`}>
-                <button onClick={handleLogout}>
-                  로그아웃
-                </button>
-              </div>
-              <div className={`${style.userinfo}`}>
+              <div className={`${style.userinfo}`}
+                style={{
+                  border: '0.2rem solid #fff', // 본인이면 빨간색 테두리 적용
+                  animation: 'pulsate 1.5s infinite alternate', // 본인이면 빨간색 테두리 적용
+                  boxShadow: '0 0 .2rem #fff,0 0 .2rem #fff, 0 0 2rem #bc13fe,0 0 0.8rem #bc13fe,0 0 2.8rem #bc13fe,inset 0 0 1.3rem #bc13fe' // 본인이면 빨간색 테두리 적용
+                }}
+              >
                   <img 
                       src="/assets/user_profile.png" 
                       alt="User Profile" 
@@ -311,14 +312,23 @@ function MainPage() {
                 <p>아이디: {userId}</p>
               </div>
 
-              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen} 
+              sx={{
+                "& .MuiDrawer-paper": {
+                    width: '30%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',  
+                }
+              }}
+              >
                 <Userinfo />
               </Drawer>
               
             </React.Fragment>
           ) : (
             <React.Fragment>
-            <div className={style.gamemode} container spacing={2}>
+            <div className={style.gamemode} container spacing={2}
+            
+            >
               <a href="#" className={style.a} onClick={openLoginDrawer}>              
                 <span></span>
                 <span></span>
@@ -341,7 +351,7 @@ function MainPage() {
               <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
                 onClick={handleCircleButtonClick}>
               </button>
-              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}     sx={{
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}  sx={{
                   "& .MuiDrawer-paper": {
                       width: '30%',
                       backgroundColor: 'rgba(0, 0, 0, 0.7)',
