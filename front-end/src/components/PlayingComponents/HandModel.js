@@ -45,18 +45,17 @@ const createGestureRecognizer = async () => {
 
 export default function HandModel({ gameData }) {
   // 컴포넌트 상태 및 ref를 선언
-  console.log(gameData)
   const token = localStorage.getItem("token");
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
-  const [videoSrc, setVideoSrc] = useState('');  // 현재 비디오의 src를 저장합니다.
+  const [videoSrc, setVideoSrc] = useState(""); // 현재 비디오의 src를 저장합니다.
 
-    // 가능한 모든 비디오 경로를 배열로 저장합니다.
-    const videoPaths = [
-        "/music/GameVideo1.mp4",
-        "/music/GameVideo2.mp4",
-        "/music/GameVideo3.mp4",
-        "/music/GameVideo4.mp4"
-    ];
+  // 가능한 모든 비디오 경로를 배열로 저장합니다.
+  const videoPaths = [
+    "/music/GameVideo1.mp4",
+    "/music/GameVideo2.mp4",
+    "/music/GameVideo3.mp4",
+    "/music/GameVideo4.mp4",
+  ];
   const videoSrcRef = useRef(null);
   const [videoHidden, setVideoHidden] = useState(Boolean(gameData.isCam));
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 }); // 비디오의 크기를 저장하는 상태
@@ -88,9 +87,10 @@ export default function HandModel({ gameData }) {
 
   useEffect(() => {
     // 페이지가 로드될 때마다 랜덤하게 하나의 비디오를 선택합니다.
-    const randomVideo = videoPaths[Math.floor(Math.random() * videoPaths.length)];
+    const randomVideo =
+      videoPaths[Math.floor(Math.random() * videoPaths.length)];
     setVideoSrc(randomVideo);
-}, []);
+  }, []);
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
@@ -134,7 +134,7 @@ export default function HandModel({ gameData }) {
   // 배경의 표시 상태를 토글하는 함수
   const toggleBackground = () => {
     setVideoHidden(!videoHidden);
-    setShowBackground(prevState => !prevState);
+    setShowBackground((prevState) => !prevState);
   };
 
   // window의 크기를 저장하는 상태
@@ -143,23 +143,23 @@ export default function HandModel({ gameData }) {
     height: window.innerHeight,
   });
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = "정말로 페이지를 떠나시겠습니까?";
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e) => {
+  //     e.preventDefault();
+  //     e.returnValue = "정말로 페이지를 떠나시겠습니까?";
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://localhost:8443/api/v1/users/me",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // your access token here
@@ -174,7 +174,7 @@ export default function HandModel({ gameData }) {
         localStorage.setItem("token", token);
         axios({
           method: "get",
-          url: "https://localhost:8443/api/v1/users/me",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // your access token here
@@ -208,7 +208,7 @@ export default function HandModel({ gameData }) {
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
-        "https://localhost:8443/api/v1/game/log",
+        `${APPLICATION_SERVER_URL}/api/v1/game/log`,
         data,
         { headers: headers }
       );
@@ -237,7 +237,7 @@ export default function HandModel({ gameData }) {
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.patch(
-        "https://localhost:8443/api/v1/users/modify",
+        `${APPLICATION_SERVER_URL}/api/v1/users/modify`,
         data,
         {
           headers: {
@@ -278,8 +278,10 @@ export default function HandModel({ gameData }) {
   // window의 크기가 변경될 때마다 updateWindowDimensions 함수를 실행하도록 이벤트 리스너를 등록하는 useEffect
   useEffect(() => {
     window.addEventListener("resize", updateWindowDimensions);
-    return () => window.removeEventListener("resize", updateWindowDimensions);
-  }, []);
+    return () => {
+      window.removeEventListener("resize", updateWindowDimensions);
+    }
+    }, []);
 
   // 컴포넌트가 마운트될 때 카운트다운을 시작
   useEffect(() => {
@@ -320,21 +322,26 @@ export default function HandModel({ gameData }) {
                   tracks.forEach((track) => track.stop());
                   shouldStopPrediction = true;
                   videoRef.current.srcObject = null;
-                  // navigate("/");
-                  // 게임 끝났을때 순위창으로 이동
-                  const gameRoomRes = {
-                    roomNumber : gameData.roomNumber,
-                    userNumber: gameData.userNumber,
-                    roomTitle: gameData.roomTitle,
-                    roomCapacity: gameData.roomCapacity,
-                    roomCategory: gameData.roomCategory,
-                    playCnt: gameData.playCnt,
-                  };
-                  navigate("/result", { state: { gameRoomRes: gameRoomRes } })
-                  
+                  if (gameData.musicNumber === 0) {
+                    navigate("/");
+                  } else {
+                    // 게임 끝났을때 순위창으로 이동
+                    const gameRoomRes = {
+                      roomNumber: gameData.roomNumber,
+                      userNumber: gameData.userNumber,
+                      roomTitle: gameData.roomTitle,
+                      roomCapacity: gameData.roomCapacity,
+                      roomCategory: gameData.roomCategory,
+                      playCnt: gameData.playCnt,
+                    };
+                    navigate("/result", {
+                      state: { gameRoomRes: gameRoomRes },
+                    });
+                  }
                 }
               };
             };
+
             return () => {
               shouldStopPrediction = true;
               videoRef.current.srcObject = null;
@@ -669,18 +676,18 @@ export default function HandModel({ gameData }) {
           </animated.div>
         </div>
         <video
-            hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
-            ref={videoSrcRef} // videoSrcRef를 사용합니다.
-            id="videoSrc"
-            src={videoSrc}  // 비디오 파일의 URL을 지정합니다.
-            loop
-            style={{
-                position: "absolute",
-                width: "100vw ",
-                height: "100%",
-                objectFit: "cover",
-                transform: "scaleX(1)",
-            }}
+          hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
+          ref={videoSrcRef} // videoSrcRef를 사용합니다.
+          id="videoSrc"
+          src={videoSrc} // 비디오 파일의 URL을 지정합니다.
+          loop
+          style={{
+            position: "absolute",
+            width: "100vw ",
+            height: "100%",
+            objectFit: "cover",
+            transform: "scaleX(1)",
+          }}
         />
         <video
           hidden={!videoHidden}

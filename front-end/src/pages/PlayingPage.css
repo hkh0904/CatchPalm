@@ -87,7 +87,6 @@ canvas {
 }
 
 #toggleWebcam {
-  /* width: %; */
   height: 8%;
   display: inline-flex;
   position: absolute;

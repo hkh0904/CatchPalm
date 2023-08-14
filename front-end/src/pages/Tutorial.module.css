@@ -10,7 +10,9 @@
 .background_tutorial {
   padding: 20px;
   position: absolute;
+  width: 100vw;
   height: 100vh;
+  font-size: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,47 +21,36 @@
 
 .background_tutorial p {
   position: absolute;
-  top: 10%;
+  top: 50%;
   left: 50%;
+  font-size: 200%;
+  text-align: center;
   transform: translate(-50%, -50%);
   transition: opacity 0.5s;
+  white-space: pre-line;
   color: white;
+  width: 60%;
   text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #0fa, 0 0 30px #0fa,
     0 0 40px #0fa, 0 0 55px #0fa, 0 0 75px #0fa;
 }
 
 .exitButton {
+  visibility: hidden;
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 10px 20px;
-  background-color: red;
-  color: white;
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   border: none;
+  background-image: url("../../public/assets/tutorialOut.png");
+  top: 1.1rem;
+  right: 4.5%;
+  width: 6%;
+  height: 7%;
+  padding: 0;
   cursor: pointer;
   border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.exitButton:hover {
-  background-color: darkred;
-}
-
-.goPlaying {
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  padding: 10px 20px;
-  background-color: blue;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.goPlaying:hover {
-  background-color: rgb(119, 119, 234);
+  z-index: 3;
 }
 
 .MISS,

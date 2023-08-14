@@ -49,4 +49,7 @@ public interface GameRoomService {
     // 게임룸에 있는 유저정보 반환: 레디가 0이 아닌 유저만.
     @Transactional
     void resetReadyStatusForGameRoom(int roomNumber);
+
+    @Transactional
+    void checkLeftUser(int roomNumber, int platCnt, Long userNumber);
 }

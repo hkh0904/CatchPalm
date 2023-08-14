@@ -187,4 +187,20 @@ public class GameRoomController {
 			@ApiParam(value="방번호", required = true) @PathVariable("roomNumber") int roomNumber) {
 		return ResponseEntity.status(200).body(gameRoomService.updateGameRoomStatusToZero(roomNumber));
 	}
+
+	// 게임 도중 나간 유저에 대한 처리.
+	@PostMapping("/escapeGame")
+	@ApiOperation(value = "게임 도중 나가버린 유저 처리", notes = "<strong>게임방 번호, 유저번호, 현재레디상태</strong> 입력받아 해당 데이터로 레디상태 변화")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> escapeRoom(
+			@ApiParam(value="'roomNumber' : 방번호, 'playCnt' : 방 내에서 게임회차, 'userNumber' : 유저번호", required = true)@RequestBody EscapeRoom escapeRoom) {
+		gameRoomService.checkLeftUser(escapeRoom.getRoomNumber(), escapeRoom.getPlayCnt(), escapeRoom.getUserNumber());
+		System.out.println("is hear?? escapeRoom");
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
 }
