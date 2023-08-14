@@ -204,13 +204,6 @@ function MainPage() {
       </div>
       {/* 메인버튼 */}
       <div>
-      <button
-        className={buttonClasses}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleMouseLeave}
-      >
-        <p className={style.main_font}>Catch Palm</p>
-      </button>
     </div>
           {isLoggedIn ? (
             <React.Fragment>
@@ -280,11 +273,12 @@ function MainPage() {
                 <span></span>
                 <span></span>
                 <span></span>
+                <span></span>
                 LOGIN
               </a>
               <br/>
               <a href="#" className={style.a} onClick={openSignupDrawer}>
-                
+                <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -297,7 +291,14 @@ function MainPage() {
               <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
                 onClick={handleCircleButtonClick}>
               </button>
-              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}     sx={{
+                  "& .MuiDrawer-paper": {
+                      width: '30%',
+                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    
+                  }
+                  
+              }}>
                 {drawerContent === "login" && <Login />}
                 {drawerContent === "signup" && <SignUp />}
               </Drawer>
