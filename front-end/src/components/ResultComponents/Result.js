@@ -42,6 +42,7 @@ function MyComponent({gameRoomRes}) {
       .then(response => {
         const data = response.data;
         setResultList(data.records);
+        console.log(data.records);
         setMusic(data.records[0].musicDTO)
         setLoading1(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       })

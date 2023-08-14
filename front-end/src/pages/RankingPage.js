@@ -18,7 +18,7 @@ function App() {
       roomTitle: "빠르게 한판ㄱㄱ",
       roomCapacity: 4,
       roomCategory: 2,
-      playCnt:1,
+      playCnt:2,
     };
 
     navigate('/result', { state: { gameRoomRes: gameRoomRes } });
