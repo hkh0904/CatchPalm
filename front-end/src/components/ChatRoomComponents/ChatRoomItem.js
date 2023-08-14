@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import style from './ChatRoomItem.module.css';
+import style from "./ChatRoomItem.module.css";
 import "./ChatRoomItem.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
-import { useNavigate } from 'react-router-dom'; // useNavigate 불러옴
+import { useNavigate } from "react-router-dom"; // useNavigate 불러옴
 import { allResolved } from "q";
-import { display, margin } from '@mui/system';
+import { display, margin } from "@mui/system";
 import APPLICATION_SERVER_URL from "../../ApiConfig";
-import { BrowserRouter as Router, Route, Link, useHistory } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 import Swal from "sweetalert2";
 
 let name = "";
@@ -28,35 +33,34 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
-
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const isRefresh = localStorage.getItem("ischatRoomRefresh");
     if (isRefresh === 1) {
-      navigate('/chatRoomList');
+      navigate("/chatRoomList");
     }
   }, []);
   //새로고침 경고
   const preventClose = (e) => {
     // 2. 해당 함수 안에 새로운 함수를 생성하는데, 이때 이 함수는 자바스크립트의 이벤트를 감지하게된다.
-      e.preventDefault();
-      // 2-1. 특정 이벤트에 대한 사용자 에이전트 (브라우저)의 기본 동작이 실행되지 않도록 막는다.
-      e.returnValue = ''; 
-      localStorage.setItem('ischatRoomRefresh', 1); 
-      // 2-2. e.preventDefault를 통해서 방지된 이벤트가 제대로 막혔는지 확인할 때 사용한다고 한다.
-      // 2-3. 더 이상 쓰이지 않지만, chrome 설정상 필요하다고 하여 추가함.
-      // 2-4. returnValue가 true일 경우 이벤트는 그대로 실행되고, false일 경우 실행되지 않는다고 한다.
-    };
+    e.preventDefault();
+    // 2-1. 특정 이벤트에 대한 사용자 에이전트 (브라우저)의 기본 동작이 실행되지 않도록 막는다.
+    e.returnValue = "";
+    localStorage.setItem("ischatRoomRefresh", 1);
+    // 2-2. e.preventDefault를 통해서 방지된 이벤트가 제대로 막혔는지 확인할 때 사용한다고 한다.
+    // 2-3. 더 이상 쓰이지 않지만, chrome 설정상 필요하다고 하여 추가함.
+    // 2-4. returnValue가 true일 경우 이벤트는 그대로 실행되고, false일 경우 실행되지 않는다고 한다.
+  };
   useEffect(() => {
     (() => {
-      window.addEventListener('beforeunload', preventClose);
+      window.addEventListener("beforeunload", preventClose);
       // 4. beforeunload 이벤트는 리소스가 사라지기 전 window 자체에서 발행한다.
       // 4-2. window의 이벤트를 감지하여 beforunload 이벤트 발생 시 preventClose 함수가 실행된다.
     })();
 
     return () => {
-      window.removeEventListener('beforeunload', preventClose);
+      window.removeEventListener("beforeunload", preventClose);
       // 5. 해당 이벤트 실행 후, beforeunload를 감지하는 것을 제거한다.
     };
   });
@@ -68,15 +72,16 @@ const ChatRoomItem = () => {
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
   const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
   const [isVideo, setIsVideo] = useState(0); // startMusic 상태로 추가
-  
+
   useEffect(() => {
     if (gameStart === 1) {
       // TODO -- 게임 시작시 로직 --
       // 오픈비두로 전달할 데이터.
-      var gameStartRes = { // 시작시 게임정보
+      var gameStartRes = {
+        // 시작시 게임정보
         roomNumber: startRoom, // 시작한 방
         musicNumber: startMusic, // 음악 번호
-        musicName: startMusicName,  // 음악 이름
+        musicName: startMusicName, // 음악 이름
         nickname: name,
         userNumber: userNumber,
         userInfo: userInfo,
@@ -84,10 +89,15 @@ const ChatRoomItem = () => {
         backSound: mySettings.backSound,
         effectSound: mySettings.effectSound,
         gameSound: mySettings.gameSound,
-        synk: mySettings.synk
+        synk: mySettings.synk,
+        playCnt: roomInfo.playCnt,
+        roomTitle: roomInfo.title,
+        roomCapacity: roomInfo.capacity,
+        roomCategory: roomInfo.category
+
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
-      navigate('/Playing', { state: { gameData: gameStartRes } });
+      navigate("/Playing", { state: { gameData: gameStartRes } });
       // window.open('/Playing', '_blank');
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
@@ -103,20 +113,19 @@ const ChatRoomItem = () => {
   const [soundVolume, setSoundVolume] = useState(0.3); // 음악 사운드 사용자 설정 가져오기.
   const [captain, setCaptain] = useState(); // 방장 정보
   const [messages, setMessages] = useState(""); // 보내는 메세지
-  
+
   // ------- 음악 음소거 유무 ----------------
   const [musicOnOff, setMusicOnOff] = useState(1);
   useEffect(() => {
-    if (musicOnOff === 1 && audio !==null && soundVolume !==null) {
+    if (musicOnOff === 1 && audio !== null && soundVolume !== null) {
       audio.volume = soundVolume; // 볼륨 30%로 설정
-    }
-    else if(musicOnOff === 0 && audio !== null){
+    } else if (musicOnOff === 0 && audio !== null) {
       audio.volume = 0;
     }
-  }, [musicOnOff]); 
+  }, [musicOnOff]);
 
   const changeSoundStatus = () => {
-    setMusicOnOff(musicOnOff === 0 ? 1:0);
+    setMusicOnOff(musicOnOff === 0 ? 1 : 0);
   };
 
   //-----------------------------------------
@@ -128,21 +137,20 @@ const ChatRoomItem = () => {
       return `data:image/jpeg;base64,${profileImg}`;
     }
     return null;
-};
+  };
 
   //---------비디오 활성화 유무: 게임창으로 이동했을때 반영.
   const changeVideoStatus = () => {
-    setIsVideo(isVideo === 0 ? 1:0);
+    setIsVideo(isVideo === 0 ? 1 : 0);
   };
   //------------------------------------
-  
 
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
   const [pickedMusic, setPickedMusic] = useState();
   const [musicName, setMusicName] = useState();
   const [currdeg, setCurrdeg] = useState(0);
-  const [showTooltip, setShowTooltip] = useState([false,false,false]);
+  const [showTooltip, setShowTooltip] = useState([false, false, false]);
   const handleMouseEnter = (index) => {
     setShowTooltip((prevState) => {
       const newState = [...prevState];
@@ -160,9 +168,9 @@ const ChatRoomItem = () => {
   };
 
   const rotate = (direction) => {
-    if (direction === 'next') {
+    if (direction === "next") {
       setCurrdeg(currdeg - 60);
-    } else if (direction === 'prev') {
+    } else if (direction === "prev") {
       setCurrdeg(currdeg + 60);
     }
   };
@@ -170,14 +178,21 @@ const ChatRoomItem = () => {
   const chageMusicBtn = (musicNumber, musicName1) => {
     setPickedMusic(musicNumber);
     setMusicName(musicName1);
-  }
+  };
 
   useEffect(() => {
-    if (pickedMusic !== null && musicName !== null && stompClient !== null && soundVolume !== null) {
-      if(name === captain) { // 방장일 경우만 
+    if (
+      pickedMusic !== null &&
+      musicName !== null &&
+      stompClient !== null &&
+      soundVolume !== null
+    ) {
+      if (name === captain) {
+        // 방장일 경우만
         musicChange(); // 변경사항 소켓으로 전달.
       }
-      if (audio) { // 음악이 켜져있다면
+      if (audio) {
+        // 음악이 켜져있다면
         audio.pause(); // 음악끄기.
         audio.currentTime = 0;
       }
@@ -190,11 +205,10 @@ const ChatRoomItem = () => {
       if (audio != null) {
         audio.play();
       }
-      }
-    
+    }
   }, [pickedMusic, musicName, soundVolume]); // 선택곡이 바뀌면 수행
 
-//  채팅관련
+  //  채팅관련
   const handleMessageChange = (event) => {
     setMessages(event.target.value);
   };
@@ -221,11 +235,12 @@ const ChatRoomItem = () => {
       })
       .catch((error) => {
         console.error("error");
-        const errorToken = localStorage.getItem('token');
-            if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
-              window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
-              return; // 함수 실행을 중단하고 반환합니다.
-            }
+        const errorToken = localStorage.getItem("token");
+        if (!errorToken) {
+          // token이 null 또는 undefined 또는 빈 문자열일 때
+          window.location.href = "/"; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+          return; // 함수 실행을 중단하고 반환합니다.
+        }
         const token = error.response.headers.authorization.slice(7);
         localStorage.setItem("token", token);
         axios({
@@ -256,7 +271,18 @@ const ChatRoomItem = () => {
         setRoomInfo(data);
         setCaptain(data.nickname);
         setPickedMusic(data.musicNumber);
-        setMusicName(data.musicName)
+        setMusicName(data.musicName);
+      } catch (error) {
+        console.error("Error fetching room info:", error);
+      }
+    };
+
+    const checkLeftUser = async () => {
+      try {
+        const response = await axios.get(
+          `${APPLICATION_SERVER_URL}/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`
+        );
+        const data = response.data;
         
       } catch (error) {
         console.error("Error fetching room info:", error);
@@ -270,7 +296,8 @@ const ChatRoomItem = () => {
   useEffect(() => {
     return () => {
       stompClient.disconnect();
-      if (audio) { // 음악이 켜져있다면
+      if (audio) {
+        // 음악이 켜져있다면
         audio.pause(); // 음악끄기.
         audio.currentTime = 0;
       }
@@ -285,11 +312,17 @@ const ChatRoomItem = () => {
   // 연결 됬다면 구독 매핑 및 연결 유저 정보 전송
   const onConnected = () => {
     stompClient.subscribe(`/topic/chat/${roomNumber}`, onMessageReceived);
-    stompClient.send("/app/chat.addUser",
+    stompClient.send(
+      "/app/chat.addUser",
       {},
-      JSON.stringify({ sender: name, type: 'JOIN', userNumber: userNumber, roomNumber: roomNumber })
-      )
-  }
+      JSON.stringify({
+        sender: name,
+        type: "JOIN",
+        userNumber: userNumber,
+        roomNumber: roomNumber,
+      })
+    );
+  };
   // 연결이 안된경우
   const onError = (err) => {
     console.log(err);
@@ -301,10 +334,10 @@ const ChatRoomItem = () => {
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement("li");
 
-    // 만약 강퇴 신호라면 
-    if(message.type === 'DROP'){
+    // 만약 강퇴 신호라면
+    if (message.type === "DROP") {
       if (message.nickname === name) {
-        window.location.href = '/chatRoomList';
+        window.location.href = "/chatRoomList";
         Swal.fire({
           icon: "error",
           title: "강퇴되었습니다.",
@@ -314,7 +347,7 @@ const ChatRoomItem = () => {
       return;
     }
     // 만약 게임시작 신호라면
-    else if(message.type === 'START'){
+    else if (message.type === "START") {
       setGameStart(message.isStart);
       setStartMusic(message.musicNumber);
       setStartRoom(message.roomNumber);
@@ -323,36 +356,38 @@ const ChatRoomItem = () => {
     }
 
     // 만약 음악 변경 신호면
-    else if(message.type === 'MUSIC'){
+    else if (message.type === "MUSIC") {
       setPickedMusic(message.musicNumber);
       setMusicName(message.musicName);
       return;
     }
 
     // 만약 레디신호면
-    else if (message.type === 'READY') {
+    else if (message.type === "READY") {
       setUserInfo((prevUserInfo) =>
         prevUserInfo.map((user) =>
-          user.userNumber === message.userNumber ? { ...user, ready: message.isReady } : user
+          user.userNumber === message.userNumber
+            ? { ...user, ready: message.isReady }
+            : user
         )
       );
       return;
-    }
-    else if (message.type === 'JOIN') {
-      messageElement.classList.add('event-message');
-      message.content = message.sender + ' joined!';
+    } else if (message.type === "JOIN") {
+      messageElement.classList.add("event-message");
+      message.content = message.sender + " joined!";
       setUserInfo(message.userInfo);
-    } else if (message.type === 'LEAVE') {
-      messageElement.classList.add('event-message');
-      message.content = message.sender + ' left!';
+    } else if (message.type === "LEAVE") {
+      messageElement.classList.add("event-message");
+      message.content = message.sender + " left!";
       setUserInfo(message.userInfo);
-      if (message.captain !== null) { // 방장 정보가 들어왔다면 : 방장이 나감.
+      if (message.captain !== null) {
+        // 방장 정보가 들어왔다면 : 방장이 나감.
         setCaptain(message.captain);
         setUserInfo((prevUserInfo) =>
-        prevUserInfo.map((user) =>
-          user.userNumber === message.captain ? { ...user, ready: 1} : user
-        )
-      );
+          prevUserInfo.map((user) =>
+            user.userNumber === message.captain ? { ...user, ready: 1 } : user
+          )
+        );
       }
     } else {
       messageElement.classList.add("chat_message");
@@ -388,17 +423,18 @@ const ChatRoomItem = () => {
     var index = Math.abs(hash % colors.length);
     return colors[index];
   };
-  
+
   // 강퇴 정보 전송
   const dropOutUser = (nickname) => {
-    if (Sock.readyState === SockJS.OPEN &&  nickname) { // 강퇴대상과 구독설정이 잘 되어 있다면.
-      var dropUser = { // 변경된 음악정보
+    if (Sock.readyState === SockJS.OPEN && nickname) {
+      // 강퇴대상과 구독설정이 잘 되어 있다면.
+      var dropUser = {
+        // 변경된 음악정보
         nickname: nickname, // 강퇴할 유저 닉네임
-        roomNumber: roomInfo.roomNumber // 현재 룸 넘버
+        roomNumber: roomInfo.roomNumber, // 현재 룸 넘버
       };
       stompClient.send("/app/drop.user", {}, JSON.stringify(dropUser));
-    }
-    else {
+    } else {
       console.log("강퇴 실패.");
     }
   };
@@ -406,51 +442,56 @@ const ChatRoomItem = () => {
   // 음악 변경 정보 전송
 
   const musicChange = () => {
-    if (Sock.readyState === SockJS.OPEN &&  pickedMusic && musicName) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
-      var changedMusic = { // 변경된 음악정보
+    if (Sock.readyState === SockJS.OPEN && pickedMusic && musicName) {
+      // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+      var changedMusic = {
+        // 변경된 음악정보
         roomNumber: roomInfo.roomNumber,
         musicNumber: pickedMusic, // 음악 번호
-        musicName: musicName  // 음악 이름
+        musicName: musicName, // 음악 이름
       };
       stompClient.send("/app/music.change", {}, JSON.stringify(changedMusic));
-    }
-    else {
+    } else {
       console.log("변경된 음악 정보 전달 실패.");
     }
-  }
+  };
 
   // 레디 정보 전송
   const clickReady = (event) => {
     event.preventDefault();
-    if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
-      var readyFlag = { // 레디신호 데이터
+    if (userNumber && roomNumber && stompClient) {
+      // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+      var readyFlag = {
+        // 레디신호 데이터
         roomNumber: roomNumber, // 방 번호
-        userNumber: userNumber  // 유저 번호
+        userNumber: userNumber, // 유저 번호
       };
       stompClient.send("/app/ready.click", {}, JSON.stringify(readyFlag));
-    }
-    else {
+    } else {
       console.log("READY신호 전달 실패.");
     }
     event.preventDefault();
-  }
+  };
 
   // 게임 스타트 정보 전송
   const clickStart = (event) => {
     event.preventDefault();
-    
-    const readyCount = userInfo.filter(user => user.nickname!==captain && user.ready === 1).length;
-    if (readyCount === userInfo.length-1) {
-      if (userNumber && roomNumber && stompClient) { // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
-        var startReq = { // 시작요청 데이터
+
+    const readyCount = userInfo.filter(
+      (user) => user.nickname !== captain && user.ready === 1
+    ).length;
+    if (readyCount === userInfo.length - 1) {
+      if (userNumber && roomNumber && stompClient) {
+        // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+        var startReq = {
+          // 시작요청 데이터
           roomNumber: roomNumber, // 방 번호
-          musicNumber: pickedMusic,  // 음악 번호
-          musicName: musicName // 음악 이름
+          musicNumber: pickedMusic, // 음악 번호
+          musicName: musicName, // 음악 이름
         };
-        
+
         stompClient.send("/app/game.start", {}, JSON.stringify(startReq));
-      }
-      else {
+      } else {
         console.log("게임 시작 실패.");
       }
     } else {
@@ -461,7 +502,7 @@ const ChatRoomItem = () => {
       });
     }
     event.preventDefault();
-  }
+  };
 
   // 채팅 보내기.
   const handleSendMessage = (event) => {
@@ -476,7 +517,11 @@ const ChatRoomItem = () => {
         type: "CHAT",
         roomNumber: roomNumber,
       };
-      stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+      stompClient.send(
+        "/app/chat.sendMessage",
+        {},
+        JSON.stringify(chatMessage)
+      );
       setMessages("");
     }
     event.preventDefault();
@@ -487,35 +532,40 @@ const ChatRoomItem = () => {
   };
 
   const handleQuitChatRoom = () => {
-    navigate('/chatRoomList');
+    navigate("/chatRoomList");
   };
 
   if (!roomInfo) {
     return <div>Loading...</div>;
   }
-  
+
   return (
-    <div style={{
-      marginTop:'5%',
-      
-    }} className={style.gameRoomBody}>
+    <div
+      style={{
+        marginTop: "5%",
+      }}
+      className={style.gameRoomBody}
+    >
       {/* 음악 리스트 민우짱 */}
       <div>
         <div className={style.container}>
-          <div className={style.carousel} style={{
-            transform: `rotateY(${currdeg}deg)`,
-            WebkitTransform: `rotateY(${currdeg}deg)`,
-            MozTransform: `rotateY(${currdeg}deg)`,
-            OTransform: `rotateY(${currdeg}deg)`,
-          }}>
+          <div
+            className={style.carousel}
+            style={{
+              transform: `rotateY(${currdeg}deg)`,
+              WebkitTransform: `rotateY(${currdeg}deg)`,
+              MozTransform: `rotateY(${currdeg}deg)`,
+              OTransform: `rotateY(${currdeg}deg)`,
+            }}
+          >
             {roomInfo.musics.map((music, index) => (
               <div
                 key={index}
-                className={`${style.item} ${style[`a${index+1}`]}`}
+                className={`${style.item} ${style[`a${index + 1}`]}`}
                 style={{
                   backgroundImage: `url(${music.thumbnail})`,
-                  width: '265px',
-                  backgroundSize: 'cover',
+                  width: "265px",
+                  backgroundSize: "cover",
                 }}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
@@ -530,7 +580,9 @@ const ChatRoomItem = () => {
                 {captain === name && (
                   <button
                     className={style.pickbtn}
-                    onClick={() => chageMusicBtn(music.musicNumber, music.musicName)}
+                    onClick={() =>
+                      chageMusicBtn(music.musicNumber, music.musicName)
+                    }
                   >
                     PLAY
                   </button>
@@ -538,22 +590,30 @@ const ChatRoomItem = () => {
                 {showTooltip[index] && (
                   <div
                     style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                      color: '#fff',
-                      borderRadius: '5px',
-                      overflow: 'hidden',
-                      fontSize: '10px',
-                      width: '245px',
-                      height: '180px',
+                      backgroundColor: "rgba(0, 0, 0, 0.3)",
+                      color: "#fff",
+                      borderRadius: "5px",
+                      overflow: "hidden",
+                      fontSize: "10px",
+                      width: "245px",
+                      height: "180px",
                     }}
                   >
                     <div className={style.info_container}>
                       <div className={style.music_name}>{music.musicName}</div>
                       <div className={style.music_details}>
-                        <div className={style.detail_item}>재생 시간: {music.runningTime}</div>
-                        <div className={style.detail_item}>가수: {music.singer}</div>
-                        <div className={style.detail_item}>난이도: {music.level}</div>
-                        <div className={style.detail_item}>재생 횟수: {music.playCnt}</div>
+                        <div className={style.detail_item}>
+                          재생 시간: {music.runningTime}
+                        </div>
+                        <div className={style.detail_item}>
+                          가수: {music.singer}
+                        </div>
+                        <div className={style.detail_item}>
+                          난이도: {music.level}
+                        </div>
+                        <div className={style.detail_item}>
+                          재생 횟수: {music.playCnt}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -561,28 +621,35 @@ const ChatRoomItem = () => {
               </div>
             ))}
           </div>
-
         </div>
       </div>
-        <div className={style.next} onClick={() => rotate('next')}>▷</div>
-      <div className={style.prev} onClick={() => rotate('prev')}>◁</div>
-
-      <div className={style.showMusicName}>
-        {musicName}
+      <div className={style.next} onClick={() => rotate("next")}>
+        ▷
       </div>
+      <div className={style.prev} onClick={() => rotate("prev")}>
+        ◁
+      </div>
+
+      <div className={style.showMusicName}>{musicName}</div>
 
       <div id="chat-page" className={style.hidden}>
         <div className={style.chat_container}>
           <div className={style.chat_header}>
-            <h2 id="roomN">CHATTINGS
-            </h2>
+            <h2 id="roomN">CHATTINGS</h2>
           </div>
           <ul ref={messageAreaRef} className={style.scrollbar}></ul>
-          <form id="messageForm" name="messageForm" onSubmit={handleSendMessage}>
+          <form
+            id="messageForm"
+            name="messageForm"
+            onSubmit={handleSendMessage}
+          >
             <div className={style.form_group}>
-              <div className={`${style.input_group} ${style.clearfix}`} style={{
-                display: 'flex'
-              }}>
+              <div
+                className={`${style.input_group} ${style.clearfix}`}
+                style={{
+                  display: "flex",
+                }}
+              >
                 <input
                   type="text"
                   id="message"
@@ -603,165 +670,197 @@ const ChatRoomItem = () => {
         {/* 유저 리스트 민우짱 */}
         <div className={style.user_info}>
           <div className={style.user_item}>
-            <div className={style.playerCount}>PLAYER : {userInfo.length} / {roomInfo.capacity}</div>
-          </div>
-          {userInfo && userInfo.map((user, index) => (
-            <div className={style.user_item} style={{ 
-                backgroundColor : user.nickname === captain ? 'rgb(179, 6, 179, 0.5)' : userInfo[index].ready === 0 ? 'rgb(0, 0, 0, 0.1)' : 'rgb(179, 6, 179, 0.6)'
-            }}>
-              {/* 프로필 사진 없을 때. */}
-              {user.profileImg === null &&
-                <i style={{
-                  backgroundColor: `${getAvatarColor(user.nickname)}`
-                }} className={style.noProfile}>{user.nickname[0]}</i>
-              }
-              {/* 프로필 사진 있을 때. */}
-              {user.profileImg !== null &&
-                <img className={style.userImg} src={getImageSrc(user.profileImg)} alt="User Thumbnail" />
-              }
-
-              <div className={style.nickname} style={{
-                color: user.nickname === name ? 'springgreen' : 'white'
-              }}>{user.nickname}</div>
-              {captain === user.nickname && 
-                <img className={style.captainlogo} src="https://cdn-icons-png.flaticon.com/512/679/679660.png" alt="Captain" />
-              }
-              {/* 강퇴버튼. 방장유저만 */}
-              {captain === name && user.nickname !== name && 
-                <img
-                src="/assets/out.png"
-                alt="강퇴"
-                style={{
-                  height:'50%',
-                  cursor: 'pointer',
-                  marginLeft: 'auto'
-                }}
-                onClick={() => dropOutUser(user.nickname)}
-            />
-              }
+            <div className={style.playerCount}>
+              PLAYER : {userInfo.length} / {roomInfo.capacity}
             </div>
+          </div>
+          {userInfo &&
+            userInfo.map((user, index) => (
+              <div
+                className={style.user_item}
+                style={{
+                  backgroundColor:
+                    user.nickname === captain
+                      ? "rgb(179, 6, 179, 0.5)"
+                      : userInfo[index].ready === 0
+                      ? "rgb(0, 0, 0, 0.1)"
+                      : "rgb(179, 6, 179, 0.6)",
+                }}
+              >
+                {/* 프로필 사진 없을 때. */}
+                {user.profileImg === null && (
+                  <i
+                    style={{
+                      backgroundColor: `${getAvatarColor(user.nickname)}`,
+                    }}
+                    className={style.noProfile}
+                  >
+                    {user.nickname[0]}
+                  </i>
+                )}
+                {/* 프로필 사진 있을 때. */}
+                {user.profileImg !== null && (
+                  <img
+                    className={style.userImg}
+                    src={getImageSrc(user.profileImg)}
+                    alt="User Thumbnail"
+                  />
+                )}
 
-          ))}
+                <div
+                  className={style.nickname}
+                  style={{
+                    color: user.nickname === name ? "springgreen" : "white",
+                  }}
+                >
+                  {user.nickname}
+                </div>
+                {captain === user.nickname && (
+                  <img
+                    className={style.captainlogo}
+                    src="https://cdn-icons-png.flaticon.com/512/679/679660.png"
+                    alt="Captain"
+                  />
+                )}
+                {/* 강퇴버튼. 방장유저만 */}
+                {captain === name && user.nickname !== name && (
+                  <img
+                    src="/assets/out.png"
+                    alt="강퇴"
+                    style={{
+                      height: "50%",
+                      cursor: "pointer",
+                      marginLeft: "auto",
+                    }}
+                    onClick={() => dropOutUser(user.nickname)}
+                  />
+                )}
+              </div>
+            ))}
         </div>
-        <div className={style.game_option} style={{
-
-        }}>
-          <div style={{
-            width: '100%',
-            height: '20%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-around'
-          }}>
-          {musicOnOff === 1 &&
-            <img
+        <div className={style.game_option} style={{}}>
+          <div
+            style={{
+              width: "100%",
+              height: "20%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            {musicOnOff === 1 && (
+              <img
                 src="/assets/speaker.png"
                 alt="speaker-on"
                 style={{
-                  height:'75%',
-                  cursor: 'pointer'
+                  height: "75%",
+                  cursor: "pointer",
                 }}
                 onClick={changeSoundStatus}
-            />
-          }
-          {musicOnOff === 0 &&
-            <img
+              />
+            )}
+            {musicOnOff === 0 && (
+              <img
                 src="/assets/speaker_off.png"
                 alt="speaker-off"
                 style={{
-                  height:'75%',
-                  cursor: 'pointer'
+                  height: "75%",
+                  cursor: "pointer",
                 }}
                 onClick={changeSoundStatus}
-            />
-            }
-          {isVideo === 0 &&
-            <img
+              />
+            )}
+            {isVideo === 0 && (
+              <img
                 src="/assets/video-off.png"
                 alt="video-off"
                 style={{
-                  height:'75%',
-                  cursor: 'pointer'
+                  height: "75%",
+                  cursor: "pointer",
                 }}
                 onClick={changeVideoStatus}
-            />
-          }  
-          {isVideo === 1 &&
-            <img
+              />
+            )}
+            {isVideo === 1 && (
+              <img
                 src="/assets/video.png"
                 alt="video-on"
                 style={{
-                  height:'75%',
-                  cursor: 'pointer'
+                  height: "75%",
+                  cursor: "pointer",
                 }}
                 onClick={changeVideoStatus}
-            />
-          }  
-            
-
+              />
+            )}
           </div>
-          {captain !== name &&
-                <a onClick={clickReady} style={{
-                  width: '100%',
-                  color: 'mediumspringgreen',
-                  textAlign: 'center',
-                  display: 'grid',
-                  height: '40%',
-                  justifyContent: 'space-around',
-                  alignContent: 'space-around',
-                  fontSize: '2.5rem',
-                  margin: '0',
-                  border: '1px solid',
-                  filter: 'hue-rotate(215deg)',
-                }} >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  
-                  READY
-                </a>
-          }
-          {captain === name &&
-                <a onClick={clickStart} style={{
-                  width: '100%',
-                  color: 'aqua',
-                  textAlign: 'center',
-                  display: 'grid',
-                  height: '40%',
-                  justifyContent: 'space-around',
-                  alignContent: 'space-around',
-                  fontSize: '2.5rem',
-                  margin: '0',
-                  border: '1px solid'
-                }} >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  
-                  start
-                </a>
-              }
-          <a onClick={handleQuitChatRoom} style={{
-                  width: '100%',
-                  color: 'aqua',
-                  textAlign: 'center',
-                  display: 'grid',
-                  height: '40%',
-                  justifyContent: 'space-around',
-                  alignContent: 'space-around',
-                  fontSize: '2.5rem',
-                  margin: '0',
-                  border: '1px solid'
-                }}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  
-                  EXIT
-                </a>
+          {captain !== name && (
+            <a
+              onClick={clickReady}
+              style={{
+                width: "100%",
+                color: "mediumspringgreen",
+                textAlign: "center",
+                display: "grid",
+                height: "40%",
+                justifyContent: "space-around",
+                alignContent: "space-around",
+                fontSize: "2.5rem",
+                margin: "0",
+                border: "1px solid",
+                filter: "hue-rotate(215deg)",
+              }}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              READY
+            </a>
+          )}
+          {captain === name && (
+            <a
+              onClick={clickStart}
+              style={{
+                width: "100%",
+                color: "aqua",
+                textAlign: "center",
+                display: "grid",
+                height: "40%",
+                justifyContent: "space-around",
+                alignContent: "space-around",
+                fontSize: "2.5rem",
+                margin: "0",
+                border: "1px solid",
+              }}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              start
+            </a>
+          )}
+          <a
+            onClick={handleQuitChatRoom}
+            style={{
+              width: "100%",
+              color: "aqua",
+              textAlign: "center",
+              display: "grid",
+              height: "40%",
+              justifyContent: "space-around",
+              alignContent: "space-around",
+              fontSize: "2.5rem",
+              margin: "0",
+              border: "1px solid",
+            }}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            EXIT
+          </a>
         </div>
       </div>
     </div>

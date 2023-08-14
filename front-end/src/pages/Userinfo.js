@@ -236,7 +236,7 @@ const Userinfo = () => {
         }}
         >
             <h1 className={styles.h1}>유저 정보</h1>
-            <img className={styles.img} height={"150px"} src={userInfo.profileImg || defaultProfileImg} alt="Profile" />
+            <img className={styles.img} height={"150px"} src={getImageSrc(userInfo.profileImg) || defaultProfileImg} alt="Profile" />
             <br/>
             <button className={styles.neon_button} onClick={handleProfileImageClick}>
                 프로필 사진 변경하기
