@@ -52,7 +52,7 @@ function MyComponent({gameRoomRes}) {
         console.error('Something went wrong', error);
         setLoading1(false); // 데이터를 가져오면 loading 상태를 false로 설정합니다.
       });
-  },[userNumber]); // empty dependency array means this effect runs once on mount
+  },[]); // empty dependency array means this effect runs once on mount
 
   useEffect(() => {
     // localStorage에서 데이터 가져오기
