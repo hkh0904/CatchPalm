@@ -105,6 +105,10 @@ function MainPage() {
   const [userId, setUserId] = useState(null);
   const token = localStorage.getItem('token');
 
+  const [userNickname, setuserNickname] = useState(null);
+  const [userNumber, setUserNumber] = useState(null);
+
+
   useEffect(() => {
     // 카메라 권한 요청
     navigator.mediaDevices.getUserMedia({ video: true })
