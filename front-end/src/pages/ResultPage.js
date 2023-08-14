@@ -49,7 +49,7 @@ function App() {
             <span></span>
             <span></span>
             <span></span>
-            Home</a>
+            REPLAY</a>
         </div>
       </div>
     </React.Fragment>
