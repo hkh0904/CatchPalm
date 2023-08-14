@@ -39,14 +39,19 @@ public class WebSocketEventListener {
                     .sender(username)
                     .roomNumber(roomNumber)
                     .build();
+            // 게임중인 방인지 확인
+            int roomStatus = gameRoomService.getStatusByRoomNumber(roomNumber);
+
             // 연결이 끊긴(게임방을 나간) 후 게임방 정보 업데이트
-            try {
-                String captain = gameRoomService.outRoomUser(userNumber, roomNumber); // 나간 유저가 방장이였다면 새로운 반장 리턴.
-                if (captain != null) chatMessage.setCaptain(captain); // 반환값이 있었다면 방장 변경.
-                System.out.println("leave: hear1");
-            }catch (Exception e){
-                e.getMessage();
-                System.out.println(e);
+            if(roomStatus != 1){
+                try {
+                    String captain = gameRoomService.outRoomUser(userNumber, roomNumber); // 나간 유저가 방장이였다면 새로운 반장 리턴.
+                    if (captain != null) chatMessage.setCaptain(captain); // 반환값이 있었다면 방장 변경.
+                    System.out.println("leave: hear1");
+                }catch (Exception e){
+                    e.getMessage();
+                    System.out.println(e);
+                }
             }
 
             //  방에 있는 사람들의 정보 가져오기

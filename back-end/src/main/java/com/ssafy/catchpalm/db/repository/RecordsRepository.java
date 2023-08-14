@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RecordsRepository extends JpaRepository<Records, Integer> {
-    List<Records> findByRoomNumberOrderByScoreDesc(int roomNumber);
+    List<Records> findByRoomNumberAndPlayCntOrderByScoreDesc(int roomNumber,int playCnt);
 }

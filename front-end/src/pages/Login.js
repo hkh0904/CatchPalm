@@ -75,22 +75,6 @@ const Login = () => {
     window.location.href = googleUrl;
   };
 
-
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/oauth2/authorization/google`);
-  //     if (response.status === 200) {
-  //       localStorage.setItem('token', response.data.accessToken);
-  //       window.location.reload();
-  //     } else {
-  //       setErrorMessage('Google 로그인 실패');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setErrorMessage('Google 로그인 실패');
-  //   }
-  // };
-
   return (
     <ThemeProvider theme={theme}>
         

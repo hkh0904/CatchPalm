@@ -6,6 +6,7 @@ import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import APPLICATION_SERVER_URL from "../../ApiConfig";
 
 let gestureRecognizer = undefined;
 let category1Name = undefined;
@@ -13,7 +14,7 @@ let category2Name = undefined;
 let shouldStopPrediction = false; // 처음에는 false로 설정
 let webcamWrapper = undefined;
 let computedStyle = undefined;
-let webcamWrapperWidth = undefined;
+let webcamWrapperHeight = undefined;
 let circlePixel = undefined;
 let circleOutPixel = undefined;
 
@@ -71,6 +72,7 @@ export default function HandModel({ gameData }) {
   const effectVolumeRef = useRef(effectVolume);
   const volumeRef = useRef(volume);
   const videoHiddenRef = useRef(videoHidden);
+  const controlStyle = gameData.userInfo.length === 1 ? { right: '2rem' } : {};
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
@@ -299,6 +301,28 @@ export default function HandModel({ gameData }) {
                   videoRef.current.srcObject = null;
                   sendData();
                   navigate("/");
+                  
+                  //게임 끝났을때 겜방 이동 테스트.---------------------------------------
+                  const fetchRoomInfo = async () => {
+                    try {
+                      const response = await axios.get(
+                        `${APPLICATION_SERVER_URL}/api/v1/gameRooms/inGameToWaiting/${gameData.roomNumber}`
+                      );
+                      const data = response.data;
+                      console.log("대기방입장",data);
+                      if (data === 1) {
+                        navigate(`/chat-rooms/${gameData.roomNumber}`); 
+                      }
+                      else {
+                        navigate("/");
+                      }
+                    } catch (error) {
+                      console.error("Error fetching room info:", error);
+                      navigate("/");
+                    }
+                  };
+                  fetchRoomInfo();
+                  //------------------------------------------------------------------------
                 }
               };
             };
@@ -366,9 +390,11 @@ export default function HandModel({ gameData }) {
     if (webcamWrapper) {
       // 요소가 존재하는지 확인
       computedStyle = getComputedStyle(webcamWrapper);
-      webcamWrapperWidth = parseFloat(computedStyle.width);
-      circlePixel = webcamWrapperWidth * 0.08;
-      circleOutPixel = webcamWrapperWidth * 0.18;
+      webcamWrapperHeight = parseFloat(computedStyle.height);
+      console.log(computedStyle)
+      console.log(webcamWrapperHeight)
+      circlePixel = webcamWrapperHeight * 0.15;
+      circleOutPixel = webcamWrapperHeight * 0.33;
     }
   }, []);
 
@@ -448,7 +474,7 @@ export default function HandModel({ gameData }) {
           }
         }
         animate();
-      }, node.APPEAR_TIME * 1000); // APPEAR_TIME은 초 단위로 가정합니다.
+      }, node.APPEAR_TIME * 1000 - 500 + scaleStepRef.current * 100); // APPEAR_TIME은 초 단위로 가정합니다.
     });
   };
 
@@ -639,11 +665,11 @@ export default function HandModel({ gameData }) {
           hidden={videoHidden} // videoHidden 상태에 따라 숨김/표시를 결정합니다.
           ref={videoSrcRef} // videoSrcRef를 사용합니다.
           id="videoSrc"
-          src="/music/GameVideo3.mp4" // 비디오 파일의 URL을 지정합니다.
+          src="/music/GameVideo2.mp4" // 비디오 파일의 URL을 지정합니다.
           loop
           style={{
             position: "absolute",
-            width: "100%",
+            width: "100vw ",
             height: "100%",
             objectFit: "cover",
             transform: "scaleX(1)",
@@ -654,7 +680,7 @@ export default function HandModel({ gameData }) {
           ref={videoRef}
           id="webcam"
           autoPlay
-          width={videoSize.width}
+          // width={videoSize.width}
           height={videoSize.height}
           style={{
             position: "absolute",
@@ -668,7 +694,8 @@ export default function HandModel({ gameData }) {
         >
           {showBackground ? "Webcam ON" : "Webcam OFF"}
         </Button>
-        <div>
+        <div className="control" style={{ ...controlStyle, bottom: "80px" }}>
+          <span>Game Sound</span>
           <input
             className="slider"
             type="range"
@@ -677,10 +704,10 @@ export default function HandModel({ gameData }) {
             step="0.01"
             value={volume}
             onChange={handleVolumeChange}
-            style={{ bottom: "20px", left: "150px" }}
             />
         </div>
-        <div>
+        <div className="control" style={{ ...controlStyle, bottom: "50px" }}>
+          <span>Effect Sound</span>
           <input
             className="slider"
             type="range"
@@ -689,10 +716,10 @@ export default function HandModel({ gameData }) {
             step="0.01"
             value={effectVolume}
             onChange={handleEffectChange}
-            style={{ bottom: "50px", left: "150px" }}
             />
         </div>
-        <div>
+        <div className="control" style={{ ...controlStyle, bottom: "20px" }}>
+          <span>Sync</span>
           <input
             className="slider"
             type="range"
@@ -700,10 +727,6 @@ export default function HandModel({ gameData }) {
             max="0.05"
             step="0.001"
             value={scaleStep} // useState로 관리하는 상태를 사용
-            style={{
-              bottom: "80px",
-              left: "150px",
-            }}
             onChange={(e) => {
               const newValue = parseFloat(e.target.value);
               setScaleStep(newValue); // 상태 변경

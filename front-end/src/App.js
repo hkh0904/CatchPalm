@@ -1,7 +1,7 @@
 // import './App.css'; // 필요한 경우 주석을 제거하고 사용하세요.
 import React, { useEffect, useState } from 'react';
 import style from "./App.module.css";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,Link} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import PlayingPage from './pages/PlayingPage';
 import ChatRoomItem from "./pages/ChatRoomPage";
@@ -17,9 +17,10 @@ import ResultPage from './pages/ResultPage';
 import axios from 'axios';
 import APPLICATION_SERVER_URL from './ApiConfig';
 import { useLocation } from 'react-router-dom';
+import Swal from "sweetalert2"
 
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
-
+let CreatedroomNumber = ''; // 전역 변수로 선언
 function MainPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -104,6 +105,29 @@ function MainPage() {
   const [userId, setUserId] = useState(null);
   const token = localStorage.getItem('token');
 
+  const [userNickname, setuserNickname] = useState(null);
+  const [userNumber, setUserNumber] = useState(null);
+
+
+  useEffect(() => {
+    // 카메라 권한 요청
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+        // 스트림 처리 코드 (예: 비디오 요소에 스트림 연결)
+        console.log("Camera access granted");
+        // 스트림 종료
+        stream.getTracks().forEach(track => track.stop());
+      })
+      .catch((error) => {
+        console.error("Camera access denied:", error);
+        Swal.fire({
+          icon: "warning",
+          title: "CatchPalm에는 웹캠이 필요해요!",
+          // text: "방 제목을 입력 해주세요",
+        });
+      });
+  }, []);
+
 
   useEffect(() => {
     
@@ -115,7 +139,7 @@ function MainPage() {
     
     // Check if token parameter is present in the URL
     let urlToken = urlParams.get('token');
-  
+    
     if (urlToken) {
       // 만약 주소 뒤에 token이러는게 있다면,
       localStorage.setItem('token', urlToken);
@@ -135,6 +159,10 @@ function MainPage() {
       .then(response => {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+        const userNumber = response.data.userNumber;
+        const userNickname = response.data.userNickname;
+        setuserNickname(userNickname);
+        setUserNumber(userNumber);
         setUserId(cleanedUserId);
       })
       .catch(error => {
@@ -151,6 +179,10 @@ function MainPage() {
           .then(response => {
             const rawUserId = response.data.userId;
             const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            const userNumber = response.data.userNumber;
+            const userNickname = response.data.userNickname;
+            setuserNickname(userNickname);
+            setUserNumber(userNumber);  
             setUserId(cleanedUserId);
           })
           .catch(error => {
@@ -169,6 +201,43 @@ function MainPage() {
   
   const buttonClasses = isHovered ? style.button + ' ' + style.hovered : style.button;
 
+  
+  const handleEnterChatRoom = (roomNumber) => {
+    navigate(`/chat-rooms/${roomNumber}`);
+  };
+
+  const [roomData, setRoomData] = useState({
+    capacity: '',
+    categoryNumber: '',
+    password: '',
+    title: '',
+    userNumber: userNumber,
+    roomNumber: ''
+  });
+
+  useEffect(() => {
+      setRoomData({
+        capacity: 1,
+        categoryNumber: 2,
+        password: '',
+        title: userNickname,
+        userNumber: userNumber,
+        roomNumber: ''
+      });
+  }, [userNumber]);
+
+  const handleCreateRoom = async (roomData) => {
+    console.log(roomData)
+    try {
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/create`, roomData);
+      CreatedroomNumber = response.data.roomNumber;
+      handleEnterChatRoom(CreatedroomNumber);
+      
+    } catch (error) {
+      console.error('Error craating a new room:', error);
+    }
+  };
+
   return (
     <React.Fragment>
         {/* background_video에 클릭 상태에 따른 클래스 조건부 추가 */}
@@ -182,7 +251,16 @@ function MainPage() {
       <div className={style.mainword}>
         <h2>프로젝트 소개</h2>
       </div>
-
+      {/* 메인버튼 */}
+      <div>
+      {/* <button
+        className={buttonClasses}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
+      >
+        <p className={style.main_font}>Catch Palm</p>
+      </button> */}
+    </div>
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
@@ -194,7 +272,7 @@ function MainPage() {
                   <span></span>
                   TUTORIAL
                 </a>
-                <a href="/Playing" className={style.a}>
+                <a className={style.a} onClick={() => { handleCreateRoom(roomData);}}>
                   <span></span>
                   <span></span>
                   <span></span>
@@ -210,6 +288,7 @@ function MainPage() {
                 </a>
                 <a href="/ranking" className={style.a}>
                   
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
