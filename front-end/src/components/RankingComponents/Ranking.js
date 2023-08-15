@@ -211,6 +211,7 @@ function MyComponent() {
               )}
               </tbody>
             </table>
+            <br></br>
             <ul>
                 {musicList && musicList.map((item, index) => 
                   <li key={index} style={{color:`white`,fontSize:`20px`}}>
