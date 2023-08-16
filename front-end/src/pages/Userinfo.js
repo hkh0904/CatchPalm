@@ -307,7 +307,7 @@ const Userinfo = () => {
                 </button> */}
             </p>
             <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Age: {userInfo.age}</p>
-            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Gender: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
             <div style={{display:'flex',marginLeft:'15%',marginTop:'20%'}}>
                 <div className={styles.neon_button}
                 style={{marginRight:'6%'}}>
@@ -385,7 +385,7 @@ const Userinfo = () => {
             >
             </input>
             </div>
-            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Sex: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
+            <p style={{color:'white',marginLeft:'5rem',fontSize:'1.7rem'}}>Gender: {userInfo.sex === 0 ? 'Male' : 'Female'}</p>
             {errorMessage && <p style={{color:'red',display: 'block',marginLeft:'5rem'}}>{errorMessage}</p>}
             <div style={{display:'flex',marginLeft:'15%',marginTop:'20%'}}>
                 <div className={styles.neon_button}
