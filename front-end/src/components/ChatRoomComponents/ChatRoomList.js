@@ -8,6 +8,7 @@ import style from './ChatRoomList.module.css'
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import APPLICATION_SERVER_URL from '../../ApiConfig';
 <<<<<<< HEAD
 =======
@@ -16,6 +17,11 @@ import Swal from "sweetalert2";
 =======
 import Swal from "sweetalert2"
 >>>>>>> 0658da426 ([홍경환](update) 게임중 새로고침 차단, 히트사운드 중복재생 설정)
+=======
+import Swal from "sweetalert2";
+import Grid from '@mui/material/Grid';
+import APPLICATION_SERVER_URL from '../../ApiConfig';
+>>>>>>> b39c83436 ([임준환](update) 채팅방 리스트 모달창)
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
@@ -159,27 +165,23 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   return (
     <div className={style.modal}>
       <div className={style.modal_content}>
-        <h2>방만들기 창</h2>
+        <h2>방 만들기</h2>
         <div>
           <label>제목</label>
-          <input style={{width:'90%'}} type="text" name="title" value={roomData.title} onChange={handleChange} />
+          <input className={style.neon_button_input} style={{width:'90%'}} type="text" name="title" value={roomData.title} onChange={handleChange} />
         </div>
         <div>
           <label>게임 유형</label>
-            <button onClick={() => handleChangeCategory(2)} className={roomData.categoryNumber === 2 ? 'active' : ''}
-            style={{
-              backgroundColor: roomData.categoryNumber === 2 ? 'blue' : 'transparent',
-              color: roomData.categoryNumber === 2 ? 'white' : 'blue',
-              border: '1px solid blue' 
-            }}>
+            <button onClick={() => handleChangeCategory(2)} className={`${
+              roomData.categoryNumber === 2 ? 'active ' : ''
+            }${style.neon_button}`}
+            >
               개인전
             </button>
-            <button onClick={() => handleChangeCategory(1)} className={roomData.categoryNumber === 1 ? 'active' : ''}
-            style={{
-              backgroundColor: roomData.categoryNumber === 1 ? 'green' : 'transparent',
-              color: roomData.categoryNumber === 1 ? 'white' : 'green',
-              border: '1px solid green' 
-            }}>
+            <button onClick={() => handleChangeCategory(1)} className={`${
+              roomData.categoryNumber === 1 ? 'active ' : ''
+            }${style.neon_button}`}
+            >
               팀전
             </button>
         </div>
@@ -187,6 +189,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
           <label style={{marginTop:'5%'}}>
             비밀번호
             <input
+              className={style.neon_button_input}
               type="checkbox"
               checked={showPasswordInput}
               onChange={handleTogglePasswordInput}
@@ -194,6 +197,7 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
           </label>
           {showPasswordInput && (
             <input
+              className={style.neon_button_input}
               type="text"
               name="password"
               value={roomData.password}
@@ -201,11 +205,14 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             />
           )}
         </div>
-        <div style={{marginTop: '8%', width:'15%'}} >
-          <label>Capacity</label>
+        <div style={{marginTop: '8%', width:'15%', display:'flex'}} >
+        <label>Capacity</label>
           {roomData.categoryNumber === 2 ? (
             <div>
+              
               <input
+                className={style.neon_button_input}
+                style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '14%'}}
                 type="text"
                 name="capacity"
                 value={roomData.capacity}
@@ -214,20 +221,30 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
                 readOnly // 입력요소 쓰는거 방지
               />
               {showCapacityOptions && (
-                <ul className="capacity-options">
-                  <li onClick={() => handleCapacityOptionClick(1)}>1</li>
-                  <li onClick={() => handleCapacityOptionClick(2)}>2</li>
-                  <li onClick={() => handleCapacityOptionClick(3)}>3</li>
-                  <li onClick={() => handleCapacityOptionClick(4)}>4</li>
-                </ul>
+                <div>
+                <div style={{display:'flex', marginBottom:'10%'}}>
+                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>1명</button>
+                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>2명</button>
+                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>3명</button>
+                  <button className={style.neon_button} onClick={() => handleCapacityOptionClick(1)}>4명</button>
+                </div>
+              </div>
               )}
             </div>
           ) : (
-            <input type="number" name="capacity" value={4} disabled />
+            <input 
+            style={{width:'35px', height: '15px', textAlign: 'center', display: 'block', marginLeft: '27%'}} 
+            className={style.neon_button_input} 
+            type="number" 
+            name="capacity" 
+            value={4} 
+            disabled />
           )}
           </div>
-        <button style={{color:'black'}} onClick={() => { handleCreateRoom();}}>확인</button>
-        <button style={{color:'black'}} onClick={onClose}>닫기</button>
+        <button 
+        onClick={() => { handleCreateRoom();}}
+        className={style.neon_button}>확인</button>
+        <button className={style.neon_button} onClick={onClose}>닫기</button>
       </div>
     </div>
   );
@@ -332,6 +349,7 @@ const ChatRoomList = ({}) => {
   };
   
   const handleRefresh = () => {
+    document.activeElement.blur();
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
@@ -345,6 +363,10 @@ const ChatRoomList = ({}) => {
     fetchChatRooms();
   };
   
+  const handleInputBlur = () => { // 클릭 포커싱 해제
+    document.activeElement.blur();
+  };
+
   return (
     <div style={{display:'flex', justifyContent:'center'}}>
       
@@ -423,20 +445,26 @@ const ChatRoomList = ({}) => {
                 {showPasswordInput && (
                   <div className={style.modal_content_password}>
                     <label>비밀번호:</label>
+                    {' '}
                     <input
                       type="password"
                       value={inputPassword}
                       onChange={handlePasswordInput}
-                      style={{marginLeft:'1%'}}
+                      style={{marginLeft:'1%',borderRadius:'10px'}}
+                      className={style.neon_button_input}
                     />
                     <div style={{marginTop:'5%', marginLeft:'20%'}}>
                     <button
+                      className={style.neon_button}
                       onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
                       style={{ cursor: 'pointer' }}
                     >
                       입장
                     </button>
-                    <button onClick={closeModal} style={{ cursor: 'pointer' , marginLeft:'5%'}}>
+                    <button 
+                    onClick={closeModal} 
+                    style={{ cursor: 'pointer' , marginLeft:'5%'}}
+                    className={style.neon_button}>
                       닫기
                     </button>
                     </div>
