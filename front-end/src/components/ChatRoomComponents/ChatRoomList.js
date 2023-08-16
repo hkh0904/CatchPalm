@@ -7,27 +7,14 @@ import style from './ChatRoomList.module.css'
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import RefreshIcon from '@mui/icons-material/Refresh';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import APPLICATION_SERVER_URL from '../../ApiConfig';
-<<<<<<< HEAD
-=======
 import Swal from "sweetalert2";
->>>>>>> a590f8171 ([임준환](update) 모달창 꾸미기)
-=======
-import Swal from "sweetalert2"
->>>>>>> 0658da426 ([홍경환](update) 게임중 새로고침 차단, 히트사운드 중복재생 설정)
-=======
-import Swal from "sweetalert2";
-import Grid from '@mui/material/Grid';
 import APPLICATION_SERVER_URL from '../../ApiConfig';
->>>>>>> b39c83436 ([임준환](update) 채팅방 리스트 모달창)
 
 let CreatedroomNumber = ''; // 전역 변수로 선언
 
 const Modal = ({ isOpen, onClose, onCreateRoom }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
-
+  
   const [showCapacityOptions, setShowCapacityOptions] = useState(false); // 방 정원 부분
 
   const handleTogglePasswordInput = () => {
@@ -57,7 +44,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
       .then(response => {
         const userNumber = response.data.userNumber;
         setUserNumber(userNumber);
-        console.log(userNumber);
       })
       .catch(error => {
         const errorToken = localStorage.getItem('token');
@@ -161,6 +147,9 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
     }));
   };
   
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
 
   return (
     <div className={style.modal}>
@@ -178,9 +167,15 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
             >
               개인전
             </button>
-            <button onClick={() => handleChangeCategory(1)} className={`${
-              roomData.categoryNumber === 1 ? 'active ' : ''
-            }${style.neon_button}`}
+            <button
+              onClick={() => {
+                Swal.fire({
+                  icon: "warning",
+                  title: "서비스 준비 중입니다.",
+                  // text: "방 제목을 입력 해주세요",
+                }); // 원하는 메시지로 수정
+              }}
+              className={style.neon_button}
             >
               팀전
             </button>
@@ -226,7 +221,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
               className={style.neon_button_input} 
               type="number" 
               name="capacity" 
-              value={4} 
               disabled />
           )}
         </div>
@@ -250,7 +244,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
 const ChatRoomList = ({}) => {
   const [chatRooms, setChatRooms] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
-  
   const navigate = useNavigate();
   // 비밀번호 관련
   const [inputPassword, setInputPassword] = useState('');
@@ -261,7 +254,6 @@ const ChatRoomList = ({}) => {
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
-        console.log(response);
         const data = response.data;
         setChatRooms(data);
       } catch (error) {
@@ -351,7 +343,6 @@ const ChatRoomList = ({}) => {
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
-        console.log(response);
         const data = response.data;
         setChatRooms(data);
       } catch (error) {
@@ -360,8 +351,6 @@ const ChatRoomList = ({}) => {
     };
     fetchChatRooms();
   };
-<<<<<<< HEAD
-=======
   // 검색부분 함수 및 변수
   const [filteredChatRooms, setFilteredChatRooms] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -376,8 +365,9 @@ const ChatRoomList = ({}) => {
       );
       setFilteredChatRooms(filteredRooms);
     };
->>>>>>> a557c34a2 ([임준환](update) 검색기능 다시 수정)
   
+    filterChatRooms();
+  }, [chatRooms, searchKeyword]);
 
   return (
     <div style={{display:'flex', justifyContent:'center'}}>
@@ -403,9 +393,13 @@ const ChatRoomList = ({}) => {
         <div style={{display: 'flex'}}>
         <div className={style.neon_button} style={{marginLeft:'10%',marginTop:'10%', height:'50%'}}>
             <input style={{height:'100%', backgroundColor:'rgba(0, 0, 0, 0.2)', border: 'none', marginTop:'1%', fontFamily: 'Jua, sans-serif', fontSize: '16px', color: 'white'}}
-            type=""
+            type="text"
             name="search"
-            placeholder="방 제목을 검색해주세요">
+            placeholder="방 제목을 검색해주세요"
+            value={searchKeyword}
+            onChange={handleSearchInputChange}
+            >
+            
             </input>
         </div>
         
@@ -425,7 +419,7 @@ const ChatRoomList = ({}) => {
         // marginTop: '15%',
       }}>
       <div className={style.inside_div} style={{width:'90%'}}>
-        {chatRooms.map((room) => (
+        {filteredChatRooms.map((room) => (
           <button
             className={style.button_chatRoomList}
             onClick={room.password
@@ -493,7 +487,12 @@ const ChatRoomList = ({}) => {
         <div style={{display:'flex', justifyContent: 'center', marginTop: '1%', fontFamily: 'Jua, sans-serif', fontSize: '20px'}}>
           <div>
           </div>
-        <a href='/'>
+        <a href='/' onClick={(e) => {
+            if (isModalOpen) {
+              e.preventDefault();
+            }
+          }}
+          style={{ position: 'relative', zIndex: isModalOpen ? -1 : 'auto' }}>
             <span></span>
             <span></span>
             <span></span>
@@ -501,7 +500,6 @@ const ChatRoomList = ({}) => {
             Home</a>
         </div>
       </div>   
-    
     </div>
     </div>
   </div>
