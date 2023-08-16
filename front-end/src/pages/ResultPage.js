@@ -18,7 +18,6 @@ function App() {
           `${APPLICATION_SERVER_URL}/api/v1/gameRooms/inGameToWaiting/${gameRoomRes.roomNumber}`
         );
         const data = response.data;
-        console.log("대기방입장",data);
         if (data === 1) {
           navigate(`/chat-rooms/${gameRoomRes.roomNumber}`); 
         }

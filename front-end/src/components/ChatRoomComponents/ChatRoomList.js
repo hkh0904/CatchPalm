@@ -44,7 +44,6 @@ const Modal = ({ isOpen, onClose, onCreateRoom }) => {
       .then(response => {
         const userNumber = response.data.userNumber;
         setUserNumber(userNumber);
-        console.log(userNumber);
       })
       .catch(error => {
         const errorToken = localStorage.getItem('token');
@@ -255,7 +254,6 @@ const ChatRoomList = ({}) => {
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
-        console.log(response);
         const data = response.data;
         setChatRooms(data);
       } catch (error) {
@@ -345,7 +343,6 @@ const ChatRoomList = ({}) => {
     const fetchChatRooms = async () => {
       try {
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/listRooms`);
-        console.log(response);
         const data = response.data;
         setChatRooms(data);
       } catch (error) {

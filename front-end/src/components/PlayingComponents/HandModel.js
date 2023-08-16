@@ -194,7 +194,6 @@ export default function HandModel({ gameData }) {
       userNumber: userNumRef.current,
       playCnt: gameData.playCnt,
     };
-    console.log(data);
     // 헤더 설정
 
     try {
@@ -203,7 +202,6 @@ export default function HandModel({ gameData }) {
         `${APPLICATION_SERVER_URL}/api/v1/game/log`,
         data
       );
-      console.log("Response:", response.data);
     } catch (error) {
       console.error("Error sending the data:", error);
     }
@@ -224,7 +222,6 @@ export default function HandModel({ gameData }) {
       sex: "",
       synk: scaleStepRef.current,
     };
-    console.log(data);
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.patch(
@@ -233,11 +230,29 @@ export default function HandModel({ gameData }) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb29nbGU6eXNtaTExMjFAZ21haWwuY29tIiwiaXNzIjoic3NhZnkuY29tIiwidHlwIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE2OTIxNTUzODgsImlhdCI6MTY5MjE1NDc4OH0.Qxs1-E9BXlb6cCWdaGgJ2rXxBz4xeUcKTJxEqgg8abK-CtzGMY_j6CQLbP27iVb_BegCt1qrP3jerQ5cJQX60Q`,
           },
         }
-      );
-      console.log("Response:", response.data);
+      )
+      .catch(error=>{
+        const errorToken = localStorage.getItem('token');
+        if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+          window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+          return; // 함수 실행을 중단하고 반환합니다.
+        }
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem('token', token);
+        axios.patch(
+          `${APPLICATION_SERVER_URL}/api/v1/users/modify`,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      })
     } catch (error) {
       console.error("Error sending the data:", error);
     }
@@ -400,8 +415,6 @@ export default function HandModel({ gameData }) {
       // 요소가 존재하는지 확인
       computedStyle = getComputedStyle(webcamWrapper);
       webcamWrapperHeight = parseFloat(computedStyle.height);
-      console.log(computedStyle);
-      console.log(webcamWrapperHeight);
       circlePixel = webcamWrapperHeight * 0.15;
       circleOutPixel = webcamWrapperHeight * 0.35;
     }

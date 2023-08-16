@@ -103,10 +103,6 @@ function MainPage() {
 
 
   useEffect(() => {
-    
-    const currentUrl = window.location.href;
-    console.log(currentUrl);
-    
     // url에서 파싱해서 token 받아오기
     const urlParams = new URLSearchParams(window.location.search);
     
@@ -257,7 +253,6 @@ function MainPage() {
   }, [userNumber]);
 
   const handleCreateRoom = async (roomData) => {
-    console.log(roomData)
     try {
       const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/create`, roomData);
       CreatedroomNumber = response.data.roomNumber;
