@@ -57,6 +57,7 @@ function MyComponent({gameRoomRes}) {
   useEffect(() => {
     // localStorage에서 데이터 가져오기
     const token = localStorage.getItem('token');
+    
     axios({
       method: 'get',
       url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,

@@ -126,7 +126,7 @@ function MyComponent() {
       <audio id="audioPlayer" src=""></audio>
       <div className={style.horizontal_container}>
         <div className={style.leaderboard_container}>
-          <div className={style.leaderboard_text}>
+          <div className={style.leaderboard_text} >
             <span className={style.glow}>Leader</span><span className={style.blink}> Board</span>
           </div>
           <div className={`${style.flex_item} ${style.item1}`}>
