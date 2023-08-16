@@ -20,7 +20,7 @@ import { useLocation } from 'react-router-dom';
 import Swal from "sweetalert2"
 
 //const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'https://i9c206.p.ssafy.io/api' ? '' : 'https://localhost:8443';
-
+let CreatedroomNumber = ''; // 전역 변수로 선언
 function MainPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,30 +35,23 @@ function MainPage() {
   // 메인 버튼
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-    
 
   ////////로그인 로그아웃 시작////////////////
   const isLoggedIn = !!localStorage.getItem('token'); 
   // const isLoggedIn = 1;  // 로그인 토큰 확인
 
 
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // 토큰 삭제
-    window.location.reload(); // 페이지 갱신
-  };
-
     // 버튼 클릭 상태를 추적하는 useState 추가
     const [buttonClicked, setButtonClicked] = useState(false);  
 
     const handleCircleButtonClick = () => {
       setButtonClicked(true);
+              // 효과음 재생
+        const audioElement = document.getElementById("startSound");
+        if (audioElement) {
+            audioElement.play();
+        }
+
     }
     //// 내 정보보기 시작
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -66,20 +59,6 @@ function MainPage() {
     const handleDrawerOpen = () => {
       setDrawerOpen(!drawerOpen);
     };
-
-    /// 내정보 보기 끝
-
-
-  // const handleButtonClick3 = () => {
-  //   navigate('/login');
-  // };
-  
-  const handleButtonClick4 = () => {
-    navigate('/signup');
-  };
-  ////////////// 로그인 로그아웃 끝////////////////  
-
-  ////로그인 회원가임 Drawer
 
     // 드로어 내용을 결정할 useState 추가
     const [drawerContent, setDrawerContent] = useState(null);
@@ -98,6 +77,10 @@ function MainPage() {
   //////// 회원정보 받아오기 시작/////////
   const [userId, setUserId] = useState(null);
   const token = localStorage.getItem('token');
+
+  const [userNickname, setuserNickname] = useState(null);
+  const [userNumber, setUserNumber] = useState(null);
+
 
   useEffect(() => {
     // 카메라 권한 요청
@@ -120,18 +103,35 @@ function MainPage() {
 
 
   useEffect(() => {
-    if(!token) return;  // 토큰이 없으면 요청하지 않습니다.
-    axios({
-      method: 'get',
-      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // your access token here
-      }
-    })
+    // url에서 파싱해서 token 받아오기
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if token parameter is present in the URL
+    let urlToken = urlParams.get('token');
+    
+    if (urlToken) {
+      // 만약 주소 뒤에 token이러는게 있다면,
+      localStorage.setItem('token', urlToken);
+      navigate('/');
+    } else {
+      
+      if(!token) return;  // 토큰이 없으면 요청하지 않습니다. >> 원래 하던 방식대로 로그인
+  
+      axios({
+        method: 'get',
+        url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // your access token here
+        }
+      })
       .then(response => {
         const rawUserId = response.data.userId;
         const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+        const userNumber = response.data.userNumber;
+        const userNickname = response.data.userNickname;
+        setuserNickname(userNickname);
+        setUserNumber(userNumber);
         setUserId(cleanedUserId);
       })
       .catch(error => {
@@ -148,21 +148,120 @@ function MainPage() {
           .then(response => {
             const rawUserId = response.data.userId;
             const cleanedUserId = rawUserId.replace('local:', ''); // 앞에 local: 지우기
+            const userNumber = response.data.userNumber;
+            const userNickname = response.data.userNickname;
+            setuserNickname(userNickname);
+            setUserNumber(userNumber);  
             setUserId(cleanedUserId);
           })
           .catch(error => {
             console.log(error);
           })
       });
-  }, [token]); // useEffect will run once when the component mounts
+    }
+  }, [token]);
+  
   
 
 ///////회원정보 받아오기 끝////////////  
-  const handleButtonClick = () => {
-    navigate('/Playing');
-  };
+
   
-  const buttonClasses = isHovered ? style.button + ' ' + style.hovered : style.button;
+  const handleEnterChatRoom = (roomNumber) => {
+    navigate(`/chat-rooms/${roomNumber}`);
+  };
+  const [mySettings, setMySettings] = useState();
+  const [soundVolume, setSoundVolume] = useState(0.3); // 음악 사운드 사용자 설정 가져오기.
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // your access token here
+      },
+    })
+      .then((response) => {
+        setSoundVolume(response.data.backSound);
+        setMySettings(response.data);
+      })
+      .catch((error) => {
+        console.error("error");
+        const errorToken = localStorage.getItem('token');
+            if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
+              // window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+              return; // 함수 실행을 중단하고 반환합니다.
+            }
+        const token = error.response.headers.authorization.slice(7);
+        localStorage.setItem("token", token);
+        axios({
+          method: "get",
+          url: `${APPLICATION_SERVER_URL}/api/v1/users/me`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // your access token here
+          },
+        })
+          .then((response) => {
+            setSoundVolume(response.data.backSound);
+            setMySettings(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+  }, [userNumber]);
+
+
+  const handleTutorial = () => {
+    var gameStartRes = { // 시작시 게임정보
+      musicNumber: 0, // 음악 번호
+      musicName: "Tutorial",  // 음악 이름
+      nickname: userNickname,
+      userNumber: userNumber,
+      userInfo: [{}],
+      isCam: 0,
+      backSound: mySettings.backSound,
+      effectSound: mySettings.effectSound,
+      gameSound: mySettings.gameSound,
+      synk: mySettings.synk
+    };
+    navigate('/tutorial', { state: { gameData: gameStartRes } });
+}
+
+
+
+
+  const [roomData, setRoomData] = useState({
+    capacity: '',
+    categoryNumber: '',
+    password: '',
+    title: '',
+    userNumber: userNumber,
+    roomNumber: ''
+  });
+
+  useEffect(() => {
+      setRoomData({
+        capacity: 1,
+        categoryNumber: 2,
+        password: '',
+        title: userNickname,
+        userNumber: userNumber,
+        roomNumber: ''
+      });
+  }, [userNumber]);
+
+  const handleCreateRoom = async (roomData) => {
+    try {
+      const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/create`, roomData);
+      CreatedroomNumber = response.data.roomNumber;
+      handleEnterChatRoom(CreatedroomNumber);
+      
+    } catch (error) {
+      console.error('Error craating a new room:', error);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -175,38 +274,35 @@ function MainPage() {
         </video>
 
       <div className={style.mainword}>
-        <h2>프로젝트 소개</h2>
+        <h2 className={style.introduce} style={{textAlign:'center', color:'lime',fontSize:'3rem'}}>CatchPalm을 재밌게 즐기는 법!</h2><br></br>
+        <p style={{color:'red', fontSize:'1.5rem', textAlign:'center'}}>* 멀티 플레이 시, 웹캠으로 본인의 얼굴이 공유됩니다! 주의해주세요 *</p>
+        <p style={{color:'white', fontSize:'1.5rem'}}>1. F11키를 눌러서 전체화면으로 만들어주세요!</p>
+        <p style={{color:'white', fontSize:'1.5rem'}}>2. 브라우저 배율은 100%, 디스플레이 설정을 1080p 125%에 맞춰주세요!</p>
+        <p style={{color:'white', fontSize:'1.5rem'}}>3. 게임 중, 뒤로가기나 새로고침은 자제!</p>
       </div>
       {/* 메인버튼 */}
       <div>
-      <button
-        className={buttonClasses}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleMouseLeave}
-      >
-        <p className={style.main_font}>Catch Palm</p>
-      </button>
     </div>
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               
-                <a href="tutorial" className={style.a}>
-                  
+                <a className={style.a} onClick={handleTutorial}>
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
                   TUTORIAL
                 </a>
-                <a href="/Playing" className={style.a}>
-                  
+                <a className={style.a} onClick={() => { handleCreateRoom(roomData);}}>
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
                   SOLO MODE
                 </a>
                 <a href="/ChatRoomList" className={style.a}>
-                  
+                  <span></span>
                   <span></span>
                   <span></span>
                   <span></span>
@@ -217,38 +313,43 @@ function MainPage() {
                   <span></span>
                   <span></span>
                   <span></span>
+                  <span></span>
                   ranking
                 </a>
               </div>
-              <button variant="contained" onClick={handleButtonClick}>
-                Go to Sample Page
-              </button>
-              <br />
-              <button onClick={handleButtonClick}>게임시작</button>
-              <div className={`${style.logout}`}>
-                <button onClick={handleLogout}>
-                  로그아웃
-                </button>
+              <div className={`${style.userinfo}`}
+                style={{
+                  border: '0.2rem solid #fff', 
+                  animation: 'pulsate 1.5s infinite alternate', 
+                  boxShadow: '0 0 .2rem #fff,0 0 .2rem #fff, 0 0 2rem #bc13fe,0 0 0.8rem #bc13fe,0 0 2.8rem #bc13fe,inset 0 0 1.3rem #bc13fe' // 본인이면 빨간색 테두리 적용
+                }}
+              >
+                  <img 
+                      src="/assets/user_profile.png" 
+                      alt="User Profile" 
+                      onClick={handleDrawerOpen}
+                      style={{ cursor: 'pointer' }}  // 이미지가 클릭 가능하다는 것을 나타내기 위한 스타일
+                  />
               </div>
-              <div className={`${style.userinfo}`}>
-                <button onClick={handleDrawerOpen}>
-                  회원정보
-                </button>
-              </div>
-              
-              <div className={`${style.white_text}`}>
-                <p>아이디: {userId}</p>
-              </div>
-
-              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen} 
+              sx={{
+                "& .MuiDrawer-paper": {
+                    width: '30%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',  
+                }
+              }}
+              >
                 <Userinfo />
               </Drawer>
               
             </React.Fragment>
           ) : (
             <React.Fragment>
-            <div className={style.gamemode} container spacing={2}>
+            <div className={style.gamemode} container spacing={2}
+            
+            >
               <a href="#" className={style.a} onClick={openLoginDrawer}>              
+                <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -256,40 +357,27 @@ function MainPage() {
               </a>
               <br/>
               <a href="#" className={style.a} onClick={openSignupDrawer}>
-                
+                <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 SIGN UP
               </a>
             </div>
-            
-              {/* <div className={`${style.login}`}>
-                <button onClick={handleDrawerOpen}>
-                  로그인
-                </button>
-              </div>
-              <div className={`${style.signup}`}>
-<<<<<<< HEAD
-                <button onClick={handleButtonClick4}>
-                  회원가입
-                </button>
-              </div> */}
-              {/* <button 
-=======
-              <button onClick={handleButtonClick4}>
-              회원가입
-              </button>
-            </div> */}
-              <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
 
-              <button 
->>>>>>> a7851940d (구글로 로그인(미완), 백 처리 필요)
-                className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
-                onClick={handleCircleButtonClick}
-              >
-              </button> */}
-              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}>
+              <div className={`${style.background_image} ${buttonClicked ? style.clicked : ""}`}></div>
+              <audio id="startSound" src="/assets/Start.mp3" preload="auto"></audio>
+              <button className={`${style.centeredCircleButton} ${buttonClicked ? style.clicked : ""}`} 
+                onClick={handleCircleButtonClick}>
+              </button>
+              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerOpen}  sx={{
+                  "& .MuiDrawer-paper": {
+                      width: '30%',
+                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    
+                  }
+                  
+              }}>
                 {drawerContent === "login" && <Login />}
                 {drawerContent === "signup" && <SignUp />}
               </Drawer>
