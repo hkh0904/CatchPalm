@@ -365,6 +365,7 @@ function MainPage() {
                 <span></span>
                 <span></span>
                 <span></span>
+                <span></span>
                 SIGN UP
               </a>
             </div>
