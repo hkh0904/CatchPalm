@@ -230,7 +230,7 @@ export default function HandModel({ gameData }) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnb29nbGU6eXNtaTExMjFAZ21haWwuY29tIiwiaXNzIjoic3NhZnkuY29tIiwidHlwIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE2OTIxNTUzODgsImlhdCI6MTY5MjE1NDc4OH0.Qxs1-E9BXlb6cCWdaGgJ2rXxBz4xeUcKTJxEqgg8abK-CtzGMY_j6CQLbP27iVb_BegCt1qrP3jerQ5cJQX60Q`,
           },
         }
       )

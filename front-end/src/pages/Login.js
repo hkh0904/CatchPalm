@@ -79,7 +79,6 @@ const Login = () => {
       .then(response => {
         let tempGoogleUrl = response.data.slice(9);
         setGoogleUrl(tempGoogleUrl);
-        console.log("씨발")
       })
       .catch(error => {
         // error handling

@@ -50,7 +50,6 @@ const ChatRoomItem = () => {
       try {
         const response = await axios.get(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/getGameRoomInfo/${roomNumber}`);
         const data = response.data;
-        console.log("뭘까요",response);
         setRoomInfo(data);
       } catch (error) {
         console.error('Error fetching room info:', error);
