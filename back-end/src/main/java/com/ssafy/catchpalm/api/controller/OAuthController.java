@@ -70,7 +70,9 @@ public class OAuthController {
             ).build();
 
             AuthorizationCodeRequestUrl authorizationUrl =
-                    flow.newAuthorizationUrl().setRedirectUri("https://"+serverUrl+"/api/v1/oauth2/callback");
+                    //flow.newAuthorizationUrl().setRedirectUri("https://"+serverUrl+"/api/v1/oauth2/callback");
+		    flow.newAuthorizationUrl().setRedirectUri("https://"+ "i9c206.p.ssafy.io/api" +"/api/v1/oauth2/callback");
+
 
             return "redirect:" + authorizationUrl+"&prompt=select_account";
         } catch (Exception e) {
@@ -83,7 +85,8 @@ public class OAuthController {
     public void googleCallback(@RequestParam("code") String code,HttpServletResponse response) {
         try {
             TokenResponse tokenResponse =
-                    flow.newTokenRequest(code).setRedirectUri("https://"+serverUrl+"/api/v1/oauth2/callback").execute();
+                    //flow.newTokenRequest(code).setRedirectUri("https://"+serverUrl+"/api/v1/oauth2/callback").execute();
+		    flow.newTokenRequest(code).setRedirectUri("https://"+ "i9c206.p.ssafy.io/api" +"/api/v1/oauth2/callback").execute();
 
             GoogleTokenResponse googleTokenResponse = (GoogleTokenResponse) tokenResponse;
             GoogleIdToken idToken = googleTokenResponse.parseIdToken();
@@ -103,7 +106,7 @@ public class OAuthController {
 
             // accessToken을 body에 담아서 보내준다.
             String accessToken = JwtTokenUtil.getToken(userId);
-            response.sendRedirect("https://"+serverAddress+"?token=" + accessToken);
+            response.sendRedirect("https://"+ "i9c206.p.ssafy.io" +"?token=" + accessToken);
 
         } catch (Exception e) {
             e.printStackTrace();  // 이 부분을 추가하여 실제 발생한 예외 정보를 출력

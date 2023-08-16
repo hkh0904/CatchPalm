@@ -89,7 +89,9 @@ public class  AuthController {
 
 		// 프론트 https로 변경되면 변경해야함
 		//String address = "http://"+serverAddress+":3000";
-		String address = "https://"+serverAddress;
+		//String address = "https://"+serverAddress;
+		String address = "https://i9c206.p.ssafy.io";
+
 
 		URI redirectUrl = new URI(address); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();

@@ -14,7 +14,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @Api(value = "openVidu API", tags = {"openVidu."})
-@RestController
+@RestController("/api")
 public class VideoController {
 
     @Value("${openvidu.url}")
@@ -37,7 +37,9 @@ public class VideoController {
     @PostMapping("/api/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
+	    System.out.println("Session Create Start");
         SessionProperties properties = SessionProperties.fromJson(params).build();
+	System.out.println("Session Created");
         Session session = openvidu.createSession(properties);
         return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
     }
