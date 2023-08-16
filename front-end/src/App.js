@@ -280,9 +280,13 @@ function MainPage() {
         <p style={{color:'white', fontSize:'1.5rem'}}>2. 브라우저 배율은 100%, 디스플레이 설정을 1080p 125%에 맞춰주세요!</p>
         <p style={{color:'white', fontSize:'1.5rem'}}>3. 게임 중, 뒤로가기나 새로고침은 자제!</p>
       </div>
+<<<<<<< HEAD
       {/* 메인버튼 */}
       <div>
     </div>
+=======
+
+>>>>>>> e4c8df365 (튜토리얼 디자인)
           {isLoggedIn ? (
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>

@@ -50,31 +50,54 @@ function SignUp() {
 
   const navigate = useNavigate();
 
+  const isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const handleChange = (event) => {
+    const { name, value } = event.target;
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
-    if (event.target.name === 'userId') {
-      handleCheckUserId(event.target.value);
+    
+    if (name === 'userId') {
+      if (!isValidEmail(value)) {
+        setUserIdMessage({text: '유효한 이메일 형식이 아닙니다.', color: "error"});
+        return;
+      }
+      handleCheckUserId(value);
     }
   };
 
   const handleCheckUserId = async (userId) => {
     try {
       const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/users/duplicated/userId`, { userId });
+      
       if (response.data.duplicated) {
         setUserIdMessage({text: '이미 사용중인 아이디입니다.', color: "error"});
       } else {
-        setUserIdMessage({text: '사용 가능한 아이디입니다.', color: "success"});
+        setUserIdMessage({text: '사용 가능한 아이디입니다.', color: "#ffd700"});
       }
     } catch (error) {
       console.error(error);
+      alert("아이디 중복검사에 오류가 발생했습니다.");
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const loadingAlert = Swal.fire({
+      title: '이메일 전송 중...',
+      zIndex: 10,
+      allowOutsideClick: false,
+      showConfirmButton: false,  // 추가: 확인 버튼을 숨깁니다.
+      onBeforeOpen: () => {
+          Swal.showLoading();
+      }
+  });
+  Swal.showLoading();
     try {
       const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/users`, {
         userId: state.userId,
@@ -82,17 +105,15 @@ function SignUp() {
         age: state.age,
         sex: state.sex,
       });
-      console.log(response.data);
-
-      // If the request is successful, navigate to the login page
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "가입하신 이메일을 확인해주세요!",
+          zIndex:11,
         });
       }
       
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       setErrorMessage('입력 형식이 올바르지 않습니다.');
     }
@@ -152,7 +173,7 @@ function SignUp() {
 
                   />
               </Grid>
-              <Box sx={{ height: 16 }} />  {/* Add a line break */}
+              <Box sx={{ height: 16 }} />
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -191,7 +212,6 @@ function SignUp() {
                   <option value="1" style={{color:'black'}}>여성</option>
                 </TextField>
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
