@@ -10,8 +10,6 @@ import axios from "axios";
 function App() {
   const location = useLocation();
   const { gameData } = location.state; // 전달된 데이터 가져오기
-
-  console.log(gameData); // 데이터확인.
   
   useEffect(()=>{
     const escapeRoom = async () => {
@@ -26,7 +24,6 @@ function App() {
             escapeInfo
           );
           const data = response.data;
-          console.log(data);
         } catch (error) {
           console.error("Error escapeGame user:", error);
         }

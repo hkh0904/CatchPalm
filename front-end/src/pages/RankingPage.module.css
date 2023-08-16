@@ -42,7 +42,7 @@
 
 .bottom_right {
   position: absolute; /* position을 absolute로 설정 */
-  right: 45%;         /* 오른쪽에서 0만큼 떨어진 위치에 배치 */
+  right: 42.5%;         /* 오른쪽에서 0만큼 떨어진 위치에 배치 */
   bottom: 0;        /* 아래쪽에서 0만큼 떨어진 위치에 배치 */
   z-index: 3;
   font-family: 'Jua', sans-serif;

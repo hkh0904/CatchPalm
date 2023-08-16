@@ -103,10 +103,6 @@ function MainPage() {
 
 
   useEffect(() => {
-    
-    const currentUrl = window.location.href;
-    console.log(currentUrl);
-    
     // url에서 파싱해서 token 받아오기
     const urlParams = new URLSearchParams(window.location.search);
     
@@ -257,7 +253,6 @@ function MainPage() {
   }, [userNumber]);
 
   const handleCreateRoom = async (roomData) => {
-    console.log(roomData)
     try {
       const response = await axios.post(`${APPLICATION_SERVER_URL}/api/v1/gameRooms/create`, roomData);
       CreatedroomNumber = response.data.roomNumber;
@@ -279,7 +274,11 @@ function MainPage() {
         </video>
 
       <div className={style.mainword}>
-        <h2>프로젝트 소개</h2>
+        <h2 className={style.introduce} style={{textAlign:'center', color:'lime',fontSize:'3rem'}}>CatchPalm을 재밌게 즐기는 법!</h2><br></br>
+        <p style={{color:'red', fontSize:'1.5rem', textAlign:'center'}}>* 멀티 플레이 시, 웹캠으로 본인의 얼굴이 공유됩니다! 주의해주세요 *</p>
+        <p style={{color:'white', fontSize:'1.5rem'}}>1. F11키를 눌러서 전체화면으로 만들어주세요!</p>
+        <p style={{color:'white', fontSize:'1.5rem'}}>2. 브라우저 배율은 100%, 디스플레이 설정을 1080p 125%에 맞춰주세요!</p>
+        <p style={{color:'white', fontSize:'1.5rem'}}>3. 게임 중, 뒤로가기나 새로고침은 자제!</p>
       </div>
       {/* 메인버튼 */}
       <div>
@@ -288,7 +287,7 @@ function MainPage() {
             <React.Fragment>
             <div className={style.gamemode} container spacing={2}>
               
-                <a href="tutorial" className={style.a} onClick={handleTutorial}>
+                <a className={style.a} onClick={handleTutorial}>
                   <span></span>
                   <span></span>
                   <span></span>

@@ -282,13 +282,6 @@ function SignUp() {
                 </Button>
               </Grid>
             </Grid>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Link href="/login">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

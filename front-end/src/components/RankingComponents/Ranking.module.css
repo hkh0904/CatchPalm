@@ -133,6 +133,9 @@
     color: #fff;
     text-align: center;
     font-style: italic;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
 
 }
 

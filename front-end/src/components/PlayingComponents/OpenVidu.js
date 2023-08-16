@@ -8,7 +8,6 @@ import './UserVideo.css';
 class App extends Component {
     constructor(props) {
         super(props);
-        console.log(props.gameData,"OpenVidu.js")
         // 초기 상태 설정
         this.state = {
             mySessionId: `sessionA`,
@@ -58,7 +57,6 @@ class App extends Component {
                 `${APPLICATION_SERVER_URL}/api/v1/gameRooms/outUser`,
                 data
                 );
-                console.log("Response:", response.data);
             } catch (error) {
                 console.error("Error sending the data:", error);
             }
