@@ -14,9 +14,7 @@ function App() {
   console.log(gameData); // 데이터확인.
   
   useEffect(()=>{
-    return() =>{
-
-      const escapeRoom = async () => {
+    const escapeRoom = async () => {
         const escapeInfo = {
           roomNumber: gameData.roomNumber,
           playCnt: gameData.playCnt,
@@ -29,15 +27,21 @@ function App() {
           );
           const data = response.data;
           console.log(data);
-          alert("삭제선공");
         } catch (error) {
           console.error("Error escapeGame user:", error);
-          alert("삭제실패");
         }
       };
-      
-      escapeRoom();
-    }
+  
+      const unloadListener = (event) => {
+        escapeRoom();
+        event.returnValue = '게임중입니다. 정말로 나가시겠습니까? 상당한 불이익이 닥칩니다.';
+      };
+  
+      window.addEventListener('beforeunload', unloadListener);
+  
+      return () => {
+        window.removeEventListener('beforeunload', unloadListener);
+      };
   }, [])
 
   return (
