@@ -37,6 +37,7 @@ const theme = createTheme({
 });
 
 function SignUp() {
+  const [errorMessage, setErrorMessage] = useState('');
   
   const [state, setState] = useState({
     userId: '',
@@ -93,10 +94,7 @@ function SignUp() {
       
       navigate('/login');
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "입력형식이 올바르지 않습니다!",
-      });
+      setErrorMessage('입력 형식이 올바르지 않습니다.');
     }
   };
 
@@ -188,9 +186,9 @@ function SignUp() {
                     },
                   }}
                   >
-                  <option value=""></option>
-                  <option value="0">남성</option>
-                  <option value="1">여성</option>
+                  <option value=""  style={{color:'black'}}></option>
+                  <option value="0" style={{color:'black'}}>남성</option>
+                  <option value="1" style={{color:'black'}}>여성</option>
                 </TextField>
               </Grid>
 
@@ -251,6 +249,7 @@ function SignUp() {
                   }}
                   />
               </Grid>
+              {errorMessage && <Typography color="error" sx={{ marginTop: '1rem',marginLeft:'1rem'}}>{errorMessage}</Typography>}
               <Grid item xs={12}>
                 <Button
                   type="submit"
