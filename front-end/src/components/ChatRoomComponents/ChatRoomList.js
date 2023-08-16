@@ -360,6 +360,23 @@ const ChatRoomList = ({}) => {
     };
     fetchChatRooms();
   };
+<<<<<<< HEAD
+=======
+  // 검색부분 함수 및 변수
+  const [filteredChatRooms, setFilteredChatRooms] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const handleSearchInputChange = (event) => {
+    setSearchKeyword(event.target.value);
+  };
+
+  useEffect(() => {
+    const filterChatRooms = () => {
+      const filteredRooms = chatRooms.filter(room =>
+        room.title.toLowerCase().includes(searchKeyword.toLowerCase())
+      );
+      setFilteredChatRooms(filteredRooms);
+    };
+>>>>>>> a557c34a2 ([임준환](update) 검색기능 다시 수정)
   
 
   return (
