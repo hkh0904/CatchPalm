@@ -42,6 +42,7 @@ const ChatRoomItem = () => {
   const [startRoom, setStartRoom] = useState(); // startRoom 상태로 추가
   const [startMusicName, setStartMusicName] = useState(""); // startMusic 상태로 추가
   const [isVideo, setIsVideo] = useState(0); // startMusic 상태로 추가
+  const [exitStatus, setExitStatus] = useState(0); // 방 나가는 버튼 활성화 여부
 
   useEffect(() => {
     if (gameStart === 1) {
@@ -373,6 +374,7 @@ const ChatRoomItem = () => {
       messageElement.classList.add("event-message");
       message.content = message.sender + " joined!";
       setUserInfo(message.userInfo);
+      setExitStatus(1);
     } else if (message.type === "LEAVE") {
       messageElement.classList.add("event-message");
       message.content = message.sender + " left!";
@@ -529,285 +531,310 @@ const ChatRoomItem = () => {
   };
 
   const handleQuitChatRoom = () => {
-    navigate("/chatRoomList");
+    if(exitStatus === 1){
+      navigate("/chatRoomList");
+    }
   };
 
-  if (!roomInfo) {
+  if (!roomInfo || !Sock) {
     return <div>Loading...</div>;
   }
+  if(roomInfo && Sock){
 
-  return (
-    <div
-      style={{
-        marginTop: "5%",
-      }}
-      className={style.gameRoomBody}
-    >
-      {/* 음악 리스트 민우짱 */}
-      <div>
-        <div className={style.container}>
-          <div
-            className={style.carousel}
-            style={{
-              transform: `rotateY(${currdeg}deg)`,
-              WebkitTransform: `rotateY(${currdeg}deg)`,
-              MozTransform: `rotateY(${currdeg}deg)`,
-              OTransform: `rotateY(${currdeg}deg)`,
-            }}
-          >
-            {roomInfo.musics.map((music, index) => (
-              <div
-                key={index}
-                className={`${style.item} ${style[`a${index + 1}`]}`}
-                style={{
-                  backgroundImage: `url(${music.thumbnail})`,
-                  width: "265px",
-                  backgroundSize: "cover",
-                }}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
-              >
-                {pickedMusic === music.musicNumber && (
-                  <img
-                    className={style.pickedMusic}
-                    src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png"
-                    alt="User Thumbnail"
-                  />
-                )}
-                {captain === name && (
-                  <button
-                    className={style.pickbtn}
-                    onClick={() =>
-                      chageMusicBtn(music.musicNumber, music.musicName)
-                    }
-                  >
-                    PLAY
-                  </button>
-                )}
-                {showTooltip[index] && (
-                  <div
-                    style={{
-                      backgroundColor: "rgba(0, 0, 0, 0.3)",
-                      color: "#fff",
-                      borderRadius: "5px",
-                      overflow: "hidden",
-                      fontSize: "10px",
-                      width: "245px",
-                      height: "180px",
-                    }}
-                  >
-                    <div className={style.info_container}>
-                      <div className={style.music_name}>{music.musicName}</div>
-                      <div className={style.music_details}>
-                        <div className={style.detail_item}>재생 시간: {music.runningTime}</div>
-                        <div className={style.detail_item}>가수: {music.singer}</div>
-                        <div className={style.detail_item}>난이도: {music.level}</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className={style.next} onClick={() => rotate("next")}>
-        ▷
-      </div>
-      <div className={style.prev} onClick={() => rotate("prev")}>
-        ◁
-      </div>
-
-      <div className={style.showMusicName}>{musicName}</div>
-
-      <div id="chat-page" className={style.hidden}>
-        <div className={style.chat_container}>
-          <div className={style.chat_header}>
-            <h2 id="roomN">CHATTINGS</h2>
-          </div>
-          <ul ref={messageAreaRef} className={style.scrollbar}></ul>
-          <form
-            id="messageForm"
-            name="messageForm"
-            onSubmit={handleSendMessage}
-          >
-            <div className={style.form_group}>
-              <div
-                className={`${style.input_group} ${style.clearfix}`}
-                style={{
-                  display: "flex",
-                }}
-              >
-                <input
-                  type="text"
-                  id="message"
-                  placeholder="Type a message..."
-                  autoComplete="off"
-                  className={style.form_control}
-                  value={messages}
-                  onChange={handleMessageChange}
-                />
-                <button type="submit" className={style.primary}>
-                  Send
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        {/* 유저 리스트 민우짱 */}
-        <div className={style.user_info}>
-          <div className={style.user_item}>
-            <div className={style.playerCount}>
-              PLAYER : {userInfo.length} / {roomInfo.capacity}
-            </div>
-          </div>
-          {userInfo &&
-            userInfo.map((user, index) => (
-              <div
-                className={style.user_item}
-                style={{
-                  backgroundColor:
-                    user.nickname === captain
-                      ? "rgb(179, 6, 179, 0.5)"
-                      : userInfo[index].ready === 0
-                      ? "rgb(0, 0, 0, 0.1)"
-                      : "rgb(179, 6, 179, 0.6)",
-                }}
-              >
-                {/* 프로필 사진 없을 때. */}
-                {user.profileImg === null && (
-                  <i
-                    style={{
-                      backgroundColor: `${getAvatarColor(user.nickname)}`,
-                    }}
-                    className={style.noProfile}
-                  >
-                    {user.nickname[0]}
-                  </i>
-                )}
-                {/* 프로필 사진 있을 때. */}
-                {user.profileImg !== null && (
-                  <img
-                    className={style.userImg}
-                    src={getImageSrc(user.profileImg)}
-                    alt="User Thumbnail"
-                  />
-                )}
-
-                <div
-                  className={style.nickname}
-                  style={{
-                    color: user.nickname === name ? "springgreen" : "white",
-                  }}
-                >
-                  {user.nickname}
-                </div>
-                {captain === user.nickname && (
-                  <img
-                    className={style.captainlogo}
-                    src="https://cdn-icons-png.flaticon.com/512/679/679660.png"
-                    alt="Captain"
-                  />
-                )}
-                {/* 강퇴버튼. 방장유저만 */}
-                {captain === name && user.nickname !== name && (
-                  <img
-                    src="/assets/out.png"
-                    alt="강퇴"
-                    style={{
-                      height: "50%",
-                      cursor: "pointer",
-                      marginLeft: "auto",
-                    }}
-                    onClick={() => dropOutUser(user.nickname)}
-                  />
-                )}
-              </div>
-            ))}
-        </div>
-        <div className={style.game_option} style={{}}>
-          <div
-            style={{
-              width: "100%",
-              height: "20%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
-            }}
-          >
-            {musicOnOff === 1 && (
-              <img
-                src="/assets/speaker.png"
-                alt="speaker-on"
-                style={{
-                  height: "75%",
-                  cursor: "pointer",
-                }}
-                onClick={changeSoundStatus}
-              />
-            )}
-            {musicOnOff === 0 && (
-              <img
-                src="/assets/speaker_off.png"
-                alt="speaker-off"
-                style={{
-                  height: "75%",
-                  cursor: "pointer",
-                }}
-                onClick={changeSoundStatus}
-              />
-            )}
-            {isVideo === 0 && (
-              <img
-                src="/assets/video-off.png"
-                alt="video-off"
-                style={{
-                  height: "75%",
-                  cursor: "pointer",
-                }}
-                onClick={changeVideoStatus}
-              />
-            )}
-            {isVideo === 1 && (
-              <img
-                src="/assets/video.png"
-                alt="video-on"
-                style={{
-                  height: "75%",
-                  cursor: "pointer",
-                }}
-                onClick={changeVideoStatus}
-              />
-            )}
-          </div>
-          {captain !== name && (
-            <a
-              onClick={clickReady}
+    return (
+      <div
+        style={{
+          marginTop: "5%",
+        }}
+        className={style.gameRoomBody}
+      >
+        {/* 음악 리스트 민우짱 */}
+        <div>
+          <div className={style.container}>
+            <div
+              className={style.carousel}
               style={{
-                width: "100%",
-                color: "mediumspringgreen",
-                textAlign: "center",
-                display: "grid",
-                height: "40%",
-                justifyContent: "space-around",
-                alignContent: "space-around",
-                fontSize: "2.5rem",
-                margin: "0",
-                border: "1px solid",
-                filter: "hue-rotate(215deg)",
+                transform: `rotateY(${currdeg}deg)`,
+                WebkitTransform: `rotateY(${currdeg}deg)`,
+                MozTransform: `rotateY(${currdeg}deg)`,
+                OTransform: `rotateY(${currdeg}deg)`,
               }}
             >
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              READY
-            </a>
-          )}
-          {captain === name && (
+              {roomInfo.musics.map((music, index) => (
+                <div
+                  key={index}
+                  className={`${style.item} ${style[`a${index + 1}`]}`}
+                  style={{
+                    backgroundImage: `url(${music.thumbnail})`,
+                    width: "265px",
+                    backgroundSize: "cover",
+                  }}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={() => handleMouseLeave(index)}
+                >
+                  {pickedMusic === music.musicNumber && (
+                    <img
+                      className={style.pickedMusic}
+                      src="https://assets-v2.lottiefiles.com/a/27d1e422-117c-11ee-afb5-33b1d01a5c73/s3QDBfQGB4.png"
+                      alt="User Thumbnail"
+                    />
+                  )}
+                  {captain === name && (
+                    <button
+                      className={style.pickbtn}
+                      onClick={() =>
+                        chageMusicBtn(music.musicNumber, music.musicName)
+                      }
+                    >
+                      PLAY
+                    </button>
+                  )}
+                  {showTooltip[index] && (
+                    <div
+                      style={{
+                        backgroundColor: "rgba(0, 0, 0, 0.3)",
+                        color: "#fff",
+                        borderRadius: "5px",
+                        overflow: "hidden",
+                        fontSize: "10px",
+                        width: "245px",
+                        height: "180px",
+                      }}
+                    >
+                      <div className={style.info_container}>
+                        <div className={style.music_name}>{music.musicName}</div>
+                        <div className={style.music_details}>
+                          <div className={style.detail_item}>재생 시간: {music.runningTime}</div>
+                          <div className={style.detail_item}>가수: {music.singer}</div>
+                          <div className={style.detail_item}>난이도: {music.level}</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className={style.next} onClick={() => rotate("next")}>
+          ▷
+        </div>
+        <div className={style.prev} onClick={() => rotate("prev")}>
+          ◁
+        </div>
+  
+        <div className={style.showMusicName}>{musicName}</div>
+  
+        <div id="chat-page" className={style.hidden}>
+          <div className={style.chat_container}>
+            <div className={style.chat_header}>
+              <h2 id="roomN">CHATTINGS</h2>
+            </div>
+            <ul ref={messageAreaRef} className={style.scrollbar}></ul>
+            <form
+              id="messageForm"
+              name="messageForm"
+              onSubmit={handleSendMessage}
+            >
+              <div className={style.form_group}>
+                <div
+                  className={`${style.input_group} ${style.clearfix}`}
+                  style={{
+                    display: "flex",
+                  }}
+                >
+                  <input
+                    type="text"
+                    id="message"
+                    placeholder="Type a message..."
+                    autoComplete="off"
+                    className={style.form_control}
+                    value={messages}
+                    onChange={handleMessageChange}
+                  />
+                  <button type="submit" className={style.primary}>
+                    Send
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+  
+          {/* 유저 리스트 민우짱 */}
+          <div className={style.user_info}>
+            <div className={style.user_item}>
+              <div className={style.playerCount}>
+                PLAYER : {userInfo.length} / {roomInfo.capacity}
+              </div>
+            </div>
+            {userInfo &&
+              userInfo.map((user, index) => (
+                <div
+                  className={style.user_item}
+                  style={{
+                    backgroundColor:
+                      user.nickname === captain
+                        ? "rgb(179, 6, 179, 0.5)"
+                        : userInfo[index].ready === 0
+                        ? "rgb(0, 0, 0, 0.1)"
+                        : "rgb(179, 6, 179, 0.6)",
+                  }}
+                >
+                  {/* 프로필 사진 없을 때. */}
+                  {user.profileImg === null && (
+                    <i
+                      style={{
+                        backgroundColor: `${getAvatarColor(user.nickname)}`,
+                      }}
+                      className={style.noProfile}
+                    >
+                      {user.nickname[0]}
+                    </i>
+                  )}
+                  {/* 프로필 사진 있을 때. */}
+                  {user.profileImg !== null && (
+                    <img
+                      className={style.userImg}
+                      src={getImageSrc(user.profileImg)}
+                      alt="User Thumbnail"
+                    />
+                  )}
+  
+                  <div
+                    className={style.nickname}
+                    style={{
+                      color: user.nickname === name ? "springgreen" : "white",
+                    }}
+                  >
+                    {user.nickname}
+                  </div>
+                  {captain === user.nickname && (
+                    <img
+                      className={style.captainlogo}
+                      src="https://cdn-icons-png.flaticon.com/512/679/679660.png"
+                      alt="Captain"
+                    />
+                  )}
+                  {/* 강퇴버튼. 방장유저만 */}
+                  {captain === name && user.nickname !== name && (
+                    <img
+                      src="/assets/out.png"
+                      alt="강퇴"
+                      style={{
+                        height: "50%",
+                        cursor: "pointer",
+                        marginLeft: "auto",
+                      }}
+                      onClick={() => dropOutUser(user.nickname)}
+                    />
+                  )}
+                </div>
+              ))}
+          </div>
+          <div className={style.game_option} style={{}}>
+            <div
+              style={{
+                width: "100%",
+                height: "20%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-around",
+              }}
+            >
+              {musicOnOff === 1 && (
+                <img
+                  src="/assets/speaker.png"
+                  alt="speaker-on"
+                  style={{
+                    height: "75%",
+                    cursor: "pointer",
+                  }}
+                  onClick={changeSoundStatus}
+                />
+              )}
+              {musicOnOff === 0 && (
+                <img
+                  src="/assets/speaker_off.png"
+                  alt="speaker-off"
+                  style={{
+                    height: "75%",
+                    cursor: "pointer",
+                  }}
+                  onClick={changeSoundStatus}
+                />
+              )}
+              {isVideo === 0 && (
+                <img
+                  src="/assets/video-off.png"
+                  alt="video-off"
+                  style={{
+                    height: "75%",
+                    cursor: "pointer",
+                  }}
+                  onClick={changeVideoStatus}
+                />
+              )}
+              {isVideo === 1 && (
+                <img
+                  src="/assets/video.png"
+                  alt="video-on"
+                  style={{
+                    height: "75%",
+                    cursor: "pointer",
+                  }}
+                  onClick={changeVideoStatus}
+                />
+              )}
+            </div>
+            {captain !== name && (
+              <a
+                onClick={clickReady}
+                style={{
+                  width: "100%",
+                  color: "mediumspringgreen",
+                  textAlign: "center",
+                  display: "grid",
+                  height: "40%",
+                  justifyContent: "space-around",
+                  alignContent: "space-around",
+                  fontSize: "2.5rem",
+                  margin: "0",
+                  border: "1px solid",
+                  filter: "hue-rotate(215deg)",
+                }}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                READY
+              </a>
+            )}
+            {captain === name && (
+              <a
+                onClick={clickStart}
+                style={{
+                  width: "100%",
+                  color: "aqua",
+                  textAlign: "center",
+                  display: "grid",
+                  height: "40%",
+                  justifyContent: "space-around",
+                  alignContent: "space-around",
+                  fontSize: "2.5rem",
+                  margin: "0",
+                  border: "1px solid",
+                }}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                start
+              </a>
+            )}
             <a
-              onClick={clickStart}
+              onClick={handleQuitChatRoom}
               style={{
                 width: "100%",
                 color: "aqua",
@@ -825,34 +852,13 @@ const ChatRoomItem = () => {
               <span></span>
               <span></span>
               <span></span>
-              start
+              EXIT
             </a>
-          )}
-          <a
-            onClick={handleQuitChatRoom}
-            style={{
-              width: "100%",
-              color: "aqua",
-              textAlign: "center",
-              display: "grid",
-              height: "40%",
-              justifyContent: "space-around",
-              alignContent: "space-around",
-              fontSize: "2.5rem",
-              margin: "0",
-              border: "1px solid",
-            }}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            EXIT
-          </a>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
+  }
 
 export default ChatRoomItem;
