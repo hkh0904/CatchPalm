@@ -176,7 +176,7 @@ public class UserController {
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
 		if(userModifyInfo.getNickname() != ""){ // 값이 있으면
-			if(userService.isDuplicatedNickname(userModifyInfo.getNickname())){ // 중복인지 조사한 다음에
+			if(userService.isDuplicatedNickname(userModifyInfo.getNickname()) && !(userModifyInfo.getNickname().equals(user.getNickname()))){ // 중복인지 조사한 다음에
 				return ResponseEntity.status(403).body(BaseResponseBody.of(403, "Nickname is duplicated"));
 			}
 			// 중복이 아니라면 닉네임 수정
