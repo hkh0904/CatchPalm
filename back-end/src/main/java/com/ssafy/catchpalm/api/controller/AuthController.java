@@ -41,6 +41,9 @@ public class  AuthController {
 	@Value("${server.address}")
 	String serverAddress;
 
+	@Value("${server.address.port}")
+    String serverUrl;
+
 	@Autowired
 	UserService userService;
 
@@ -85,8 +88,8 @@ public class  AuthController {
 		User user = userService.getUserByVerificationToken(decodedToken);
 
 		// 프론트 https로 변경되면 변경해야함
-		String address = "http://"+serverAddress+":3000";
-		//String address = "https://"+serverAddress;
+		//String address = "http://"+serverAddress+":3000";
+		String address = "https://"+serverAddress;
 
 		URI redirectUrl = new URI(address); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();
