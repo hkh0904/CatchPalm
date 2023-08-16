@@ -261,6 +261,7 @@ const ChatRoomList = ({}) => {
     if (password) {
       reqPassword = inputPassword;
     }
+
     const enterData = { "roomNumber": roomNumber, "password": reqPassword };
 
     try {
@@ -272,7 +273,11 @@ const ChatRoomList = ({}) => {
         handleEnterChatRoom(roomNumber);
       }
       else {
-        alert(resultMessage);
+        Swal.fire({
+          icon: "warning",
+          title: resultMessage,
+          // text: "방 제목을 입력 해주세요",
+        });
         setInputPassword(''); // 비밀번호 입력 필드 값 초기화
       }
     } catch (error) {
@@ -394,14 +399,10 @@ const ChatRoomList = ({}) => {
         {chatRooms.map((room) => (
           <button
             className={style.button_chatRoomList}
-            onClick={room.password && room.status !== 1
+            onClick={room.password
               ? togglePasswordInput
               : () => {
-                  if (room.status === 1) {
-                    alert("이미 게임중인 방입니다.");
-                  } else {
                     checkEnterChatRoom(room.roomNumber, room.password, room.status);
-                  }
                 }}
             key={room.id}
             style={{
@@ -431,16 +432,20 @@ const ChatRoomList = ({}) => {
                       type="password"
                       value={inputPassword}
                       onChange={handlePasswordInput}
+                      style={{marginLeft:'1%'}}
                     />
+                    <div style={{marginTop:'5%', marginLeft:'20%'}}>
                     <button
                       onClick={() => checkEnterChatRoom(room.roomNumber, room.password)}
                       style={{ cursor: 'pointer' }}
                     >
-                      입장하기!
+                      입장
                     </button>
-                    <button onClick={closeModal} style={{ cursor: 'pointer' }}>
+                    <button onClick={closeModal} style={{ cursor: 'pointer' , marginLeft:'5%'}}>
                       닫기
                     </button>
+                    </div>
+                    
                   </div>
                 )}
               </>
