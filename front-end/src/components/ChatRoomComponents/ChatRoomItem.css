@@ -1,9 +1,12 @@
+#webpack-dev-server-client-overlay-div {
+  display: none;
+}
+
 #chat-page {
   position: relative;
   bottom: 0px;
   padding: 0px 10px;
 }
-
 .chat_container {
   max-width: 40%;
   box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);

@@ -145,8 +145,11 @@ const ChatRoomItem = () => {
       } else {
         audio.volume = 0;
       }
+      if (audio != null) {
         audio.play();
-    }
+      }
+      }
+    
   }, [pickedMusic, musicName, soundVolume]); // 선택곡이 바뀌면 수행
 
 //  채팅관련
@@ -258,8 +261,8 @@ const ChatRoomItem = () => {
 
     // 만약 강퇴 신호라면 
     if(message.type === 'DROP'){
-      if(message.nickname === name){
-        navigate('/chatRoomList');
+      if (message.nickname === name) {
+        window.location.href = '/chatRoomList';
         alert("강퇴되었습니다.");
       }
       return;

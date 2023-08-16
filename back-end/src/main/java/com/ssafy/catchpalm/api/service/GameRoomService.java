@@ -9,15 +9,16 @@ import com.ssafy.catchpalm.websocket.chat.model.ReadyInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserInfo;
 import com.ssafy.catchpalm.websocket.chat.model.UserReady;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 인터페이스 정의.
  */
 public interface GameRoomService {
-	GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq);
-	void deleteRoom(int roomNumber);
-	GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
+    GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq);
+    void deleteRoom(int roomNumber);
+    GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
 
     String outRoomUser(Long userNumber, int gameRoomNumber);
 
@@ -42,5 +43,13 @@ public interface GameRoomService {
     // 게임방 상태 대기중으로 변경
     int updateGameRoomStatusToZero(int roomNumber);
 
+    //게임 끝난 후 게임방으로 돌아올때 해당 유저가 기존 유저인지 확인.
+    boolean isUserNumberMatching(Long userNumber, int gameRoomNumber);
 
+    // 게임룸에 있는 유저정보 반환: 레디가 0이 아닌 유저만.
+    @Transactional
+    void resetReadyStatusForGameRoom(int roomNumber);
+
+    @Transactional
+    void checkLeftUser(int roomNumber, int platCnt, Long userNumber);
 }

@@ -82,7 +82,7 @@ public class GameRoomController {
 	}
 
 
-	@DeleteMapping("/outUser/{userNumber}")
+	@DeleteMapping("/outUser")
 	@ApiOperation(value = "게임방유저 나감(강퇴)", notes = "<strong>유저넘버</strong>를 통해 게임방유저테이블에서 강퇴. ")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -94,6 +94,7 @@ public class GameRoomController {
 			@ApiParam(value="'userNumber' : 번호, 'roomNumber' : 번호", required = true)
 
 			@RequestBody AddGameRoomUserReq addGameRoomUserReq) {
+		System.out.println("out");
 		gameRoomService.outRoomUser(addGameRoomUserReq.getUserNumber(), addGameRoomUserReq.getGameRoomNumber());
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}

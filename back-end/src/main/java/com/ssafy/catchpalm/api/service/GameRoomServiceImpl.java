@@ -4,6 +4,7 @@ import com.ssafy.catchpalm.api.request.AuthenticationRoomReq;
 import com.ssafy.catchpalm.api.request.GameRoomRegisterPostReq;
 import com.ssafy.catchpalm.api.response.GameRoomPostRes;
 import com.ssafy.catchpalm.api.response.MusicPostRes;
+import com.ssafy.catchpalm.db.dto.RecordsDTO;
 import com.ssafy.catchpalm.db.entity.*;
 import com.ssafy.catchpalm.db.repository.GameRoomRepository;
 import com.ssafy.catchpalm.db.repository.GameRoomUserInfoRepository;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +38,9 @@ public class GameRoomServiceImpl implements GameRoomService {
 
 	@Autowired
 	MusicRepository musicRepository;
+
+	@Autowired
+	GameService gameService;
 
 	@Override
 	public GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq) {
@@ -155,6 +161,7 @@ public class GameRoomServiceImpl implements GameRoomService {
 	}
 
 	@Override
+	@Transactional
 	public void startGame(int musicNumber, int gameRoomNumber) {
 		// 엔티티 조회: 게임방 정보 가져오기.( 유무도 확인)
 		Optional<GameRoom> optionalGameRoom = gameRoomRepository.findById(gameRoomNumber);
@@ -163,7 +170,9 @@ public class GameRoomServiceImpl implements GameRoomService {
 			GameRoom gameRoom = optionalGameRoom.get();
 			gameRoom.setStatus(1);
 			gameRoom.setMusic(music);
+			gameRoom.setPlayCnt(gameRoom.getPlayCnt()+1);
 			music.setMusicNumber(musicNumber);
+			music.setPlayCnt(music.getPlayCnt()+1);
 			gameRoomRepository.save(gameRoom);
 		}
 	}
@@ -196,7 +205,21 @@ public class GameRoomServiceImpl implements GameRoomService {
 		for(GameRoomUserInfo userInfo : userInfos){
 			UserInfo resultUserInfo = new UserInfo();
 			resultUserInfo.setNickname(userInfo.getUser().getNickname());
-			resultUserInfo.setProfileImg(userInfo.getUser().getProfileImg());
+
+			String proImg = "";
+			try {
+				if (userInfo.getUser().getProfileImg() != null) {
+					InputStream inputStream = userInfo.getUser().getProfileImg().getBinaryStream();
+					byte[] bytes = new byte[(int) userInfo.getUser().getProfileImg().length()];
+					inputStream.read(bytes);
+					inputStream.close();
+
+					proImg = Base64.getEncoder().encodeToString(bytes);
+					resultUserInfo.setProfileImg(proImg);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			resultUserInfo.setUserNumber(userInfo.getUser().getUserNumber());
 			resultUserInfo.setReady(userInfo.getReady());
 
@@ -290,10 +313,48 @@ public class GameRoomServiceImpl implements GameRoomService {
 		if (gameRoom != null) {
 			gameRoom.setStatus(0); // status를 0으로 변경
 			gameRoomRepository.save(gameRoom); // 변경된 정보 저장
+			resetReadyStatusForGameRoom(roomNumber); // 레디정보 초기화.
 			return 1;
 		} else {
 			// 해당 roomNumber에 해당하는 게임방이 없을 경우 처리
 			return  2;
 		}
+	}
+
+	//게임 끝난 후 게임방으로 돌아올때 해당 유저가 기존 유저인지 확인.
+	@Override
+	public boolean isUserNumberMatching(Long userNumber, int gameRoomNumber) {
+		GameRoomUserInfo userInfo = gameRoomUserInfoRepository.findByUserUserNumber(userNumber);
+		if (userInfo != null && userInfo.getGameRoom().getRoomNumber() == gameRoomNumber) {
+			return true;
+		}
+		return false; // 해당 userInfoNumber에 해당하는 정보가 없을 경우 처리
+	}
+
+	// 게임룸에 있는 유저정보 반환: 레디가 0이 아닌 유저만.
+	@Transactional
+	@Override
+	public void resetReadyStatusForGameRoom(int roomNumber) {
+		List<GameRoomUserInfo> userInfoList = gameRoomUserInfoRepository.findByGameRoomRoomNumberAndReadyNot(roomNumber, 0);
+
+		for (GameRoomUserInfo userInfo : userInfoList) {
+			userInfo.setReady(0);
+		}
+
+		// 업데이트된 엔티티를 데이터베이스에 저장합니다.
+		gameRoomUserInfoRepository.saveAll(userInfoList);
+	}
+
+	@Override
+	@Transactional
+	public void checkLeftUser(int roomNumber, int platCnt, Long userNumber) {
+		// 게임 결과가 기록된 명단.
+		List<RecordsDTO> records = gameService.getRecords(roomNumber, platCnt);
+
+		for(RecordsDTO record : records){
+			if(record.getUserDTO().getUserNumber() == userNumber) return;
+		}
+
+		outRoomUser(userNumber, roomNumber);
 	}
 }
