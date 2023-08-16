@@ -56,7 +56,7 @@
 .MISS,
 .GREAT,
 .PERFECT {
-  font-size: 35px; /* Adjust as needed */
+  font-size: 40px; /* Adjust as needed */
   margin: 0 15px; /* Adjust for spacing */
   text-align: center;
   color: white;
