@@ -1,9 +1,9 @@
 import React, {   } from 'react';
+import { useLocation } from 'react-router-dom';
 import './PlayingPage.css';
 import Grid from '@mui/material/Grid';
 import HandModel from '../components/PlayingComponents/HandModel';
 import OpenVidu from '../components/PlayingComponents/OpenVidu';
-import { useLocation } from 'react-router-dom';
 
 function App() {
   const location = useLocation();
