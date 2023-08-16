@@ -26,6 +26,8 @@ var colors = [
 ];
 
 const ChatRoomItem = () => {
+  
+
   // 게임시작 신호--------------------------------------------------
   const [mySettings, setMySettings] = useState();
   const [gameStart, setGameStart] = useState(0); // gameStart 상태로 추가
@@ -53,6 +55,7 @@ const ChatRoomItem = () => {
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       navigate('/Playing', { state: { gameData: gameStartRes } });
+      // window.open('/Playing', '_blank');
     }
   }, [gameStart]); // 게임시작 신호가 오면 수행
   //------------------------------------------------------------------
