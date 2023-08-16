@@ -42,7 +42,7 @@ const createGestureRecognizer = async () => {
   });
 };
 
-export default function HandModel({ gameData }) {
+export default function HandModel({ gameData, onExit }) {
   // 컴포넌트 상태 및 ref를 선언
   const token = localStorage.getItem("token");
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
@@ -67,17 +67,17 @@ export default function HandModel({ gameData }) {
   const [musicNum, setMusicNum] = useState(null);
   const musicNumRef = useRef(musicNum);
   const location = useLocation();
-  const [volume, setVolume] = useState(gameData.gameSound); // 볼륨 상태
   const audio1 = useRef(new Audio(`/music/${gameData.musicNumber}.mp3`));
   const audio2 = useRef(new Audio("/assets/Finish.mp3"));
-  const [effectVolume, setEffectVolume] = useState(gameData.effectSound); // 볼륨 상태
   const missSound = useRef(new Audio("/assets/Miss.mp3"));
   const greatSound = useRef(new Audio("/assets/Great.mp3"));
   const perfectSound = useRef(new Audio("/assets/Perfect.mp3"));
+  const [volume, setVolume] = useState(gameData.gameSound); // 볼륨 상태
+  const volumeRef = useRef(volume);
+  const [effectVolume, setEffectVolume] = useState(gameData.effectSound); // 볼륨 상태
+  const effectVolumeRef = useRef(effectVolume);
   const [scaleStep, setScaleStep] = useState(gameData.synk);
   const scaleStepRef = useRef(scaleStep);
-  const effectVolumeRef = useRef(effectVolume);
-  const volumeRef = useRef(volume);
   const videoHiddenRef = useRef(videoHidden);
   const controlStyle = gameData.userInfo.length === 1 ? { right: "2rem" } : {};
   const videoOnImg = "/assets/video.png";
@@ -90,6 +90,12 @@ export default function HandModel({ gameData }) {
       videoPaths[Math.floor(Math.random() * videoPaths.length)];
     setVideoSrc(randomVideo);
   }, []);
+
+// prop으로 전달받은 onExit 함수가 있으면 실행
+useEffect(() => {
+  if(onExit) onExit(sendUserData);
+}, [onExit]);
+
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
@@ -349,7 +355,7 @@ export default function HandModel({ gameData }) {
                     }
                   }
                 };
-              }, 800); // 1000ms = 1 second
+              }, 3000); // 1000ms = 1 second
             };
 
             return () => {
