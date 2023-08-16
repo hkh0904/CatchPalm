@@ -107,7 +107,6 @@ const Userinfo = () => {
         if (response.status === 200) {
             setUserInfo(response.data);
             setProfileImg(response.data.profileImg);
-            console.log(response.data.profileImg);
         }
     };
 
