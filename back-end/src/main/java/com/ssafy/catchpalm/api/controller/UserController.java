@@ -151,7 +151,7 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-
+		System.out.println(user.getProfileImg());
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
@@ -194,7 +194,9 @@ public class UserController {
 			user.setSex(Integer.parseInt(userModifyInfo.getSex()));
 		}
 		if (userModifyInfo.getProfileImg() != null && !userModifyInfo.getProfileImg().isEmpty()) {
-			byte[] bytes = Base64.getDecoder().decode(userModifyInfo.getProfileImg());
+
+			String base64Data = userModifyInfo.getProfileImg().split(",")[1];
+			byte[] bytes = Base64.getDecoder().decode(base64Data);
 			// Get a connection and create a Blob
 			try (Connection connection = dataSource.getConnection()) {
 				Blob blob = connection.createBlob();
@@ -272,7 +274,10 @@ public class UserController {
 			return ResponseEntity.status(401).body(UserDuplicatedPostRes.of(401, "failed - userId is required"));
 		}
 		boolean isDuplicated = userService.isDuplicatedUserId(userId);
-		User user = userService.getUserByUserId(userId);
+		User user = userService.getUserByUserId2(userId);
+		if(user == null){
+			return ResponseEntity.ok(UserDuplicatedPostRes.of(200, "Success",false));
+		}
 		int verified = user.getEmailVerified();
 		if(verified == 0){
 			isDuplicated = false;

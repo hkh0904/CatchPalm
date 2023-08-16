@@ -16,9 +16,9 @@ import java.util.List;
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 인터페이스 정의.
  */
 public interface GameRoomService {
-    GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq);
-    void deleteRoom(int roomNumber);
-    GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
+	GameRoom createRoom(GameRoomRegisterPostReq gameRoomRegisterPostReq);
+	void deleteRoom(int roomNumber);
+	GameRoomUserInfo addRoomUser(Long userNumber, int roomNumber);
 
     String outRoomUser(Long userNumber, int gameRoomNumber);
 

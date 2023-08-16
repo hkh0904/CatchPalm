@@ -24,7 +24,9 @@ public interface UserService {
 	void updateRefreshToken(String userId, String refreshToken) throws Exception;
 
 
-    String getRefreshTokenByUserId(String userId) throws Exception;
+	User getUserByUserId2(String userId);
+
+	String getRefreshTokenByUserId(String userId) throws Exception;
 
     User getUserByVerificationToken(String token) throws Exception;
 
