@@ -200,12 +200,7 @@ export default function HandModel({ gameData }) {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
         `${APPLICATION_SERVER_URL}/api/v1/game/log`,
-<<<<<<< HEAD
         data
-=======
-        data,
-        { headers: headers }
->>>>>>> 6e1755adb ([손민우] (add) 게임 이탈시 게임방 유저 나감 처리)
       );
     } catch (error) {
       console.error("Error sending the data:", error);
@@ -360,29 +355,6 @@ export default function HandModel({ gameData }) {
             return () => {
               shouldStopPrediction = true;
               videoRef.current.srcObject = null;
-              alert("언마운트");
-
-              const escapeRoom = async () => {
-                const escapeInfo = {
-                  roomNumber: gameData.roomNumber,
-                  playCnt: gameData.playCnt,
-                  userNumber: userNumRef.current,
-                };
-                try {
-                  const response = await axios.post(
-                    `${APPLICATION_SERVER_URL}/api/v1/gameRooms/escapeGame`,
-                    escapeInfo
-                  );
-                  const data = response.data;
-                  console.log(data);
-                  alert("삭제선공");
-                } catch (error) {
-                  console.error("Error escapeGame user:", error);
-                  alert("삭제실패");
-                }
-              };
-
-              escapeRoom();
             };
           }
         });
