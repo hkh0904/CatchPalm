@@ -10,7 +10,7 @@ class App extends Component {
         super(props);
         // 초기 상태 설정
         this.state = {
-            mySessionId: `sessionA`,
+            mySessionId: `${props.gameData.roomNumber}`,
             myUserName: `${props.gameData.nickname}`,
             session: undefined,
             mainStreamManager: undefined,
