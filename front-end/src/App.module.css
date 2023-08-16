@@ -172,9 +172,14 @@ a span:nth-child(4) {
 
 .mainword {
   color: aqua;
-  display: flex;
+  position: relative;
   justify-content: center; /* 가로 중앙 정렬 */
   top: 10%; /* 세로 중앙 정렬 */
+  left: 25%;
+  width: 50%;
+  
+  background: rgba(0, 0, 0, 0.4); /* 반투명한 흰색 배경 */
+  border-radius: 15px; /* 모서리를 둥글게 만듭니다. 원하는 정도로 조절하세요. */
 }
 
 /* 로그아웃버튼 css */
@@ -237,8 +242,7 @@ a span:nth-child(4) {
 
 /* 버튼 배치 */
 .gamemode {
-  margin-top: 100px;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
@@ -357,4 +361,9 @@ a span:nth-child(4) {
 .main_font {
   font-size: 50px;
   font-family: "Jua", sans-serif;
+}
+
+.introduce{
+    text-shadow: 0 0 5px rgb(179, 57, 149), 0 0 10px rgb(179, 57, 149), 0 0 20px rgb(179, 57, 149), 0 0 30px rgb(179, 57, 149),
+    0 0 40px rgb(179, 57, 149), 0 0 55px rgb(179, 57, 149), 0 0 75px rgb(179, 57, 149);
 }
