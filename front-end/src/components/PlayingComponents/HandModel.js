@@ -355,7 +355,7 @@ useEffect(() => {
                     }
                   }
                 };
-              }, 3000); // 1000ms = 1 second
+              }, 5000); // 1000ms = 1 second
             };
 
             return () => {
