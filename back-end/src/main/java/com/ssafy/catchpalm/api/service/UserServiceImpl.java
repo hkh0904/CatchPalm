@@ -155,9 +155,12 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	@Transactional
 	public void deleteUser(String userId){
-		userRepository.deleteByUserId(userId);
+		User user = getUserByUserId(userId);
+		System.out.println(user.getEmailVerified());
+		user.setEmailVerified(0);
+		userRepository.save(user);
+		System.out.println(user.getEmailVerified());
 	}
 
 }

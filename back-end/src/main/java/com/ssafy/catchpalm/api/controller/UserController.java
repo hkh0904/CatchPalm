@@ -111,7 +111,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@DeleteMapping("/delete")
+	@PostMapping("/delete")
 	@ApiOperation(value = "회원 탈퇴", notes = "회원을 회원탈퇴 시킨다.. header에 accessToken을 입력해야 한다." +
 			"\n 예시 Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.e ...")
 	@ApiResponses({
@@ -129,7 +129,6 @@ public class UserController {
 		// userId를 얻어서
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		// 로그아웃을 진행한다.
 		userService.deleteUser(userId);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
