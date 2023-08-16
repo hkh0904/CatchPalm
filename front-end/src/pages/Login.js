@@ -14,7 +14,23 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import APPLICATION_SERVER_URL from '../ApiConfig';
 
-const theme = createTheme();
+
+const theme = createTheme({
+  typography: {
+    fontFamily: '"Jua", sans-serif', 
+  },
+  palette: {
+    text: {
+      primary: '#ffffff',  // 기본 글씨 색을 흰색으로 설정
+    },
+    primary: {
+      main: '#ffffff', // "Sign Up" 버튼의 색상을 흰색으로 변경
+    },
+    action: {
+      active: '#ffffff', // 테두리의 활성 상태 색상을 흰색으로 변경
+    },
+  },
+});
 
 const Login = () => {
   const [userId, setUserId] = useState('');
@@ -35,6 +51,8 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
+
+  // 제출 눌렀을 때 예외처리
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -74,7 +92,6 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-        
           <Box
             sx={{
               my: 4,
@@ -82,12 +99,13 @@ const Login = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              maxWidth: '100%'
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" color="white">
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -98,6 +116,27 @@ const Login = () => {
                 label="UserID"
                 value={userId}
                 onChange={handleChangeUserId}
+                InputLabelProps={{
+                  style: {
+                    color: 'white'  // 이것은 라벨의 색상을 변경합니다.
+                  },
+                  notchedOutline: {
+                    borderColor: 'white'
+                  }
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: 'white', // 기본 테두리 색상 설정
+                    },
+                    '&:hover fieldset': {
+                      borderColor: 'white', // 호버 상태일 때 테두리 색상 설정
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: 'white', // 포커스 상태일 때 테두리 색상 설정
+                    },
+                  },
+                }}
               />
               <TextField 
                 margin="normal"
@@ -107,7 +146,29 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={handleChangePassword}
+                InputLabelProps={{
+                  style: {
+                    color: 'white'  // 이것은 라벨의 색상을 변경합니다.
+                  },
+                  notchedOutline: {
+                    borderColor: 'white'
+                  }
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: 'white', // 기본 테두리 색상 설정
+                    },
+                    '&:hover fieldset': {
+                      borderColor: 'white', // 호버 상태일 때 테두리 색상 설정
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: 'white', // 포커스 상태일 때 테두리 색상 설정
+                    },
+                  },
+                }}
               />
+              {errorMessage && <Typography color="error">{errorMessage}</Typography>}
               <Button
                 type="submit"
                 fullWidth
@@ -124,19 +185,8 @@ const Login = () => {
               >
                 Sign In with Google
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="/" variant="body2" onClick={handleBackButtonClick}>
-                    비밀번호 찾기(미구현)
-                  </Link>
-
-                </Grid>
-              </Grid>
-              {errorMessage && <Typography color="error">{errorMessage}</Typography>}
             </Box>
           </Box>
-        
-
     </ThemeProvider>
   );
 };
