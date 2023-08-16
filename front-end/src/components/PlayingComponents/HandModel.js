@@ -200,7 +200,12 @@ export default function HandModel({ gameData }) {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
         `${APPLICATION_SERVER_URL}/api/v1/game/log`,
+<<<<<<< HEAD
         data
+=======
+        data,
+        { headers: headers }
+>>>>>>> 6e1755adb ([손민우] (add) 게임 이탈시 게임방 유저 나감 처리)
       );
     } catch (error) {
       console.error("Error sending the data:", error);
@@ -376,7 +381,7 @@ export default function HandModel({ gameData }) {
                   alert("삭제실패");
                 }
               };
-              
+
               escapeRoom();
             };
           }
