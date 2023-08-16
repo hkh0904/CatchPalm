@@ -51,7 +51,12 @@ const ChatRoomItem = () => {
         backSound: mySettings.backSound,
         effectSound: mySettings.effectSound,
         gameSound: mySettings.gameSound,
-        synk: mySettings.synk
+        synk: mySettings.synk,
+        playCnt: roomInfo.playCnt,
+        roomTitle: roomInfo.title,
+        roomCapacity: roomInfo.capacity,
+        roomCategory: roomInfo.category
+
       };
       // 게임 창 페이지로 이동하면서 데이터 전달
       navigate('/Playing', { state: { gameData: gameStartRes } });
