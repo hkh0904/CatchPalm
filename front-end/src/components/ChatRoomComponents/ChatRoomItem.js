@@ -115,6 +115,34 @@ const ChatRoomItem = () => {
   };
   //------------------------------------
 
+  useEffect(() => {
+    // 뒤로 가기 막기
+    const blockBack = () => {
+        window.history.pushState(null, "", window.location.href);
+    };
+    
+    // 초기 실행 시 히스토리 항목 추가
+    blockBack();
+    
+    window.addEventListener('popstate', blockBack);
+
+    // 새로고침 막기 (F5와 Ctrl+R)
+    const blockRefresh = (event) => {
+      if (event.keyCode === 116 || (event.ctrlKey && event.keyCode === 82)) {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("keydown", blockRefresh);
+
+    return () => {
+        window.removeEventListener('popstate', blockBack);
+        document.removeEventListener("keydown", blockRefresh);
+    };
+    
+}, []);
+
+
   // const [messageText, setMessageText] = useState(''); // 받는 메세지
   // 음악 리스트 관련
   const [pickedMusic, setPickedMusic] = useState();

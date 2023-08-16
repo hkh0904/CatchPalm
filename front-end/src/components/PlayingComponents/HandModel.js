@@ -3,7 +3,6 @@ import { useSpring, animated } from "react-spring";
 import { FilesetResolver, GestureRecognizer } from "@mediapipe/tasks-vision"; // 정적 임포트
 import { HAND_CONNECTIONS } from "@mediapipe/hands";
 import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
-// import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import APPLICATION_SERVER_URL from "../../ApiConfig";
@@ -115,20 +114,29 @@ export default function HandModel({ gameData }) {
   }
 
   useEffect(() => {
-    const unblock = window.history.pushState(null, "", window.location.href);
-
-    window.onpopstate = function (event) {
-      window.history.go(1);
-      // alert("게임 중 뒤로 가기는 사용할 수 없습니다."); // 알림 추가
-      navigate(location);
+    // 뒤로 가기 막기
+    const blockBack = () => {
+      window.history.pushState(null, "", window.location.href);
     };
 
-    document.addEventListener("keydown", function (event) {
+    // 초기 실행 시 히스토리 항목 추가
+    blockBack();
+
+    window.addEventListener("popstate", blockBack);
+
+    // 새로고침 막기 (F5와 Ctrl+R)
+    const blockRefresh = (event) => {
       if (event.keyCode === 116 || (event.ctrlKey && event.keyCode === 82)) {
         event.preventDefault();
-        // alert("게임 중 새로고침은 사용할 수 없습니다.");
       }
-    });
+    };
+
+    document.addEventListener("keydown", blockRefresh);
+
+    return () => {
+      window.removeEventListener("popstate", blockBack);
+      document.removeEventListener("keydown", blockRefresh);
+    };
   }, []);
 
   // 배경의 표시 상태를 토글하는 함수
@@ -142,19 +150,6 @@ export default function HandModel({ gameData }) {
     width: window.innerWidth,
     height: window.innerHeight,
   });
-
-  // useEffect(() => {
-  //   const handleBeforeUnload = (e) => {
-  //     e.preventDefault();
-  //     e.returnValue = "정말로 페이지를 떠나시겠습니까?";
-  //   };
-
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
 
   useEffect(() => {
     axios({
@@ -201,16 +196,12 @@ export default function HandModel({ gameData }) {
     };
     console.log(data);
     // 헤더 설정
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
 
     try {
       // POST 요청을 통해 데이터 전송
       const response = await axios.post(
         `${APPLICATION_SERVER_URL}/api/v1/game/log`,
-        data,
-        { headers: headers }
+        data
       );
       console.log("Response:", response.data);
     } catch (error) {
@@ -280,8 +271,8 @@ export default function HandModel({ gameData }) {
     window.addEventListener("resize", updateWindowDimensions);
     return () => {
       window.removeEventListener("resize", updateWindowDimensions);
-    }
-    }, []);
+    };
+  }, []);
 
   // 컴포넌트가 마운트될 때 카운트다운을 시작
   useEffect(() => {
@@ -314,32 +305,36 @@ export default function HandModel({ gameData }) {
             audio1.current.onended = () => {
               sendUserData();
               sendData();
-              audio2.current.play();
 
-              audio2.current.onended = () => {
-                if (videoRef.current && videoRef.current.srcObject) {
-                  const tracks = videoRef.current.srcObject.getTracks();
-                  tracks.forEach((track) => track.stop());
-                  shouldStopPrediction = true;
-                  videoRef.current.srcObject = null;
-                  if (gameData.musicNumber === 0) {
-                    navigate("/");
-                  } else {
-                    // 게임 끝났을때 순위창으로 이동
-                    const gameRoomRes = {
-                      roomNumber: gameData.roomNumber,
-                      userNumber: gameData.userNumber,
-                      roomTitle: gameData.roomTitle,
-                      roomCapacity: gameData.roomCapacity,
-                      roomCategory: gameData.roomCategory,
-                      playCnt: gameData.playCnt,
-                    };
-                    navigate("/result", {
-                      state: { gameRoomRes: gameRoomRes },
-                    });
+              // 1초 텀을 둔 후에 audio2를 시작합니다.
+              setTimeout(() => {
+                audio2.current.play();
+
+                audio2.current.onended = () => {
+                  if (videoRef.current && videoRef.current.srcObject) {
+                    const tracks = videoRef.current.srcObject.getTracks();
+                    tracks.forEach((track) => track.stop());
+                    shouldStopPrediction = true;
+                    videoRef.current.srcObject = null;
+                    if (gameData.musicNumber === 0) {
+                      navigate("/");
+                    } else {
+                      // 게임 끝났을때 순위창으로 이동
+                      const gameRoomRes = {
+                        roomNumber: gameData.roomNumber,
+                        userNumber: gameData.userNumber,
+                        roomTitle: gameData.roomTitle,
+                        roomCapacity: gameData.roomCapacity,
+                        roomCategory: gameData.roomCategory,
+                        playCnt: gameData.playCnt,
+                      };
+                      navigate("/result", {
+                        state: { gameRoomRes: gameRoomRes },
+                      });
+                    }
                   }
-                }
-              };
+                };
+              }, 800); // 1000ms = 1 second
             };
 
             return () => {
@@ -408,7 +403,7 @@ export default function HandModel({ gameData }) {
       console.log(computedStyle);
       console.log(webcamWrapperHeight);
       circlePixel = webcamWrapperHeight * 0.15;
-      circleOutPixel = webcamWrapperHeight * 0.33;
+      circleOutPixel = webcamWrapperHeight * 0.35;
     }
   }, []);
 
@@ -611,16 +606,16 @@ export default function HandModel({ gameData }) {
                 .replace(")", "")
             );
 
-            if (scaleValue >= 0.65) {
+            if (scaleValue >= 0.6) {
               circleOutElement.remove();
               playSound(missSound);
               showValue(valX, valY, "MISS");
-            } else if (scaleValue < 0.65 && scaleValue > 0.58) {
+            } else if (scaleValue < 0.6 && scaleValue > 0.49) {
               circleOutElement.remove();
               playSound(greatSound);
               showValue(valX, valY, "GREAT");
-              increaseScore(200);
-            } else if (scaleValue <= 0.58 && scaleValue >= 0.42) {
+              increaseScore(150);
+            } else if (scaleValue <= 0.49 && scaleValue >= 0.37) {
               circleOutElement.remove();
               playSound(perfectSound);
               showValue(valX, valY, "PERFECT");
@@ -629,7 +624,7 @@ export default function HandModel({ gameData }) {
               circleOutElement.remove();
               playSound(greatSound);
               showValue(valX, valY, "GREAT");
-              increaseScore(200);
+              increaseScore(150);
             }
           }
         }
@@ -648,7 +643,7 @@ export default function HandModel({ gameData }) {
 
     setTimeout(() => {
       webcamWrapper.removeChild(valueDiv);
-    }, 1000);
+    }, 600);
   }
 
   // 컴포넌트의 반환 값 (렌더링 결과)
