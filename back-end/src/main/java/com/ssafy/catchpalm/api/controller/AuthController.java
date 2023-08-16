@@ -41,6 +41,9 @@ public class  AuthController {
 	@Value("${server.address}")
 	String serverAddress;
 
+	@Value("${server.address.port}")
+    String serverUrl;
+
 	@Autowired
 	UserService userService;
 
