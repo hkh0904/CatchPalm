@@ -629,12 +629,12 @@ useEffect(() => {
               circleOutElement.remove();
               playSound(missSound);
               showValue(valX, valY, "MISS");
-            } else if (scaleValue < 0.6 && scaleValue > 0.49) {
+            } else if (scaleValue < 0.63 && scaleValue > 0.53) {
               circleOutElement.remove();
               playSound(greatSound);
               showValue(valX, valY, "GREAT");
               increaseScore(150);
-            } else if (scaleValue <= 0.49 && scaleValue >= 0.37) {
+            } else if (scaleValue <= 0.53 && scaleValue >= 0.37) {
               circleOutElement.remove();
               playSound(perfectSound);
               showValue(valX, valY, "PERFECT");
