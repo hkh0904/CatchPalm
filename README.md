@@ -66,7 +66,7 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 - WebRTC (Openvidu)
   - WebSocket환경에서 게임 시작을 한 뒤 WebRTC환경으로 들어오게 됩니다. 하지만 게임 중에 사용자들이 얼굴이 서로에게 보이는 것은 불쾌할 수 있다고 생각하여 원하는 사람들(EX. 친구들과 게임을 하는 사람들)은 우측에 버튼을 눌러 WebRTC화상 환경에 접속할 수 있도록 구성했습니다.
 - 배포
-  - Docker, NginX를 이용하여 Git에서 코드를 가져와 Build후 배포하는 수동배포를 구현하였습니다. BackEnd와 FrontEnd를 Docker를 활용하여 배포하였습니다.
+  - Docker, NginX, Jenkins를 이용하여 Git에서 코드를 가져와 Build후 배포하는 자동배포를 구현하였습니다. BackEnd와 FrontEnd를 Docker를 활용하여 배포하였습니다.
 
 ## 협업 툴
 - Git
