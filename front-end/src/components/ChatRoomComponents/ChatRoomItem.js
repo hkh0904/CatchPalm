@@ -457,50 +457,54 @@ const ChatRoomItem = () => {
 
   // 레디 정보 전송
   const clickReady = (event) => {
-    event.preventDefault();
-    if (userNumber && roomNumber && stompClient) {
-      // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
-      var readyFlag = {
-        // 레디신호 데이터
-        roomNumber: roomNumber, // 방 번호
-        userNumber: userNumber, // 유저 번호
-      };
-      stompClient.send("/app/ready.click", {}, JSON.stringify(readyFlag));
-    } else {
-      console.log("READY신호 전달 실패.");
+    if(exitStatus === 1){
+      event.preventDefault();
+      if (userNumber && roomNumber && stompClient) {
+        // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+        var readyFlag = {
+          // 레디신호 데이터
+          roomNumber: roomNumber, // 방 번호
+          userNumber: userNumber, // 유저 번호
+        };
+        stompClient.send("/app/ready.click", {}, JSON.stringify(readyFlag));
+      } else {
+        console.log("READY신호 전달 실패.");
+      }
+      event.preventDefault();
     }
-    event.preventDefault();
   };
 
   // 게임 스타트 정보 전송
   const clickStart = (event) => {
-    event.preventDefault();
+    if(exitStatus === 1){
+      event.preventDefault();
 
-    const readyCount = userInfo.filter(
-      (user) => user.nickname !== captain && user.ready === 1
-    ).length;
-    if (readyCount === userInfo.length - 1) {
-      if (userNumber && roomNumber && stompClient) {
-        // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
-        var startReq = {
-          // 시작요청 데이터
-          roomNumber: roomNumber, // 방 번호
-          musicNumber: pickedMusic, // 음악 번호
-          musicName: musicName, // 음악 이름
-        };
+      const readyCount = userInfo.filter(
+        (user) => user.nickname !== captain && user.ready === 1
+      ).length;
+      if (readyCount === userInfo.length - 1) {
+        if (userNumber && roomNumber && stompClient) {
+          // 로그인한 유저정보와 방 정보, 구독설정이 잘 되어 있다면.
+          var startReq = {
+            // 시작요청 데이터
+            roomNumber: roomNumber, // 방 번호
+            musicNumber: pickedMusic, // 음악 번호
+            musicName: musicName, // 음악 이름
+          };
 
-        stompClient.send("/app/game.start", {}, JSON.stringify(startReq));
+          stompClient.send("/app/game.start", {}, JSON.stringify(startReq));
+        } else {
+          console.log("게임 시작 실패.");
+        }
       } else {
-        console.log("게임 시작 실패.");
+        Swal.fire({
+          icon: "warning",
+          title: "아직 레디가 완료되지 않았습니다.",
+          // text: "방 제목을 입력 해주세요",
+        });
       }
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "아직 레디가 완료되지 않았습니다.",
-        // text: "방 제목을 입력 해주세요",
-      });
+      event.preventDefault();
     }
-    event.preventDefault();
   };
 
   // 채팅 보내기.
