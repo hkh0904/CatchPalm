@@ -11,13 +11,13 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 ## 주요 서비스 화면
 
 ### 게임 실행 화면
-
+![게임실행화면](/uploads/9860b76ec4be6c7b4638bf1de1cbf494/게임실행화면.gif)
 ### 대기방
-
+![대기방](/uploads/bd2a1ba71e856218202edeebbfc2f4a0/대기방.gif)
 ### 결과창
-
+![결과창](/uploads/dc295827d0ac71cba5328909423a1d3e/결과창.gif)
 ### 랭킹 창
-
+![랭킹창](/uploads/3afec457adb570dd5650e011bd790728/랭킹창.gif)
 #### 더 자세한 정보는 https://lab.ssafy.com/s09-webmobile1-sub2/S09P12C206/-/blob/master/scenario-details.md 에서!
 
 ---
