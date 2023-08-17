@@ -1,4 +1,4 @@
-import React, {   } from 'react';
+import React, {  useEffect  } from 'react';
 import Grid from '@mui/material/Grid';
 import Result from '../components/ResultComponents/Result';
 import style from './ResultPage.module.css'
