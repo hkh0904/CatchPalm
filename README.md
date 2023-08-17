@@ -43,13 +43,12 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 - Mysql
 - WebSocket
 - OAuth
-- Adding...
 ### FrontEnd
 - Visual Studio Code
-- React
-- Material-UI
-- MediaPipe
-- Adding...
+- React 18.2.0
+- Material-UI 
+- MediaPipe 0.10.0
+- nodejs 18
 ### WebRTC
 - OpenVidu 2.19.0
 ### CI/CD
@@ -77,12 +76,12 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 - Discord
 
 ## 요구사항 정의서
-
-## 코딩 컨벤션
-
-## Git 컨벤션
+![image](/uploads/5b79fcf3490948ac721ac5e13c1ea85d/image.png)
+![image](/uploads/14b8ae3e622d16289031963fca965dea/image.png)
 
 ## ER Diagram
+![image](/uploads/373466011e559dcfcf3d367167bf51b6/image.png)
+![image](/uploads/d213e0a9c736d478a899096ea0c6a518/image.png)
 
 ## EC2 포트 정리
 |Port|내용|
@@ -96,9 +95,10 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 
 
 ## 팀원 역할
-1. 백엔드1(팀장) - CI/CD 총괄 및 코드 종합, 디버깅
-2. 백엔드2 - 
-3. 백엔드3 - 
+1. 백엔드1(팀장) - CI/CD 총괄, [BE], [FE] 코드 병합 및 디버깅
+2. 이수민(백엔드2) - [BE]JAVA jpa entity 객체 구현, 유저 관련 api 구현, 게임 관련 api 구현, openVidu api구현, JWT 구현, 이메일 인증서비스 구현, 구글 로그인 구현 [FE] 랭킹페이지 구현, 결과 페이지 구현, 마이페이지 구현, 로그인 페이지 ui 구현, 회원가입 페이지 ui 구현 
+3. 손민우(백엔드3) - [BE]JAVA jpa entity 객체 구현. 게임 대기방 관련 api 구현. 게임 대기방 웹 소켓 연결 및 api 구현.
+  [FE] 게임 대기방 웹 소켓 연결, 구독설정 및 전체적인 기능 구현&연결. 게임 대기방 페이지 구현. 프로필 사진 업로드 기능 구현.
 4. 프론트엔드1 - MediaPipe를 활용한 리듬 게임 개발 총괄
-5. 프론트엔드2 - 
+5. 임채상(프론트엔드2) - 메인페이지 제작
 6. 프론트엔드3 - 
