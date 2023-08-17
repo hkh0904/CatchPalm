@@ -87,7 +87,13 @@ public class  AuthController {
 		String decodedToken = emailVerificationToken.replace("%2B", "+");
 		User user = userService.getUserByVerificationToken(decodedToken);
 
-		URI redirectUrl = new URI(serverFrontUrl); // Your redirect URL here
+		// 프론트 https로 변경되면 변경해야함
+		//String address = "http://"+serverAddress+":3000";
+		//String address = "https://"+serverAddress;
+		String address = "https://i9c206.p.ssafy.io";
+
+
+		URI redirectUrl = new URI("https://" + serverFrontUrl); // Your redirect URL here
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(redirectUrl);
 
