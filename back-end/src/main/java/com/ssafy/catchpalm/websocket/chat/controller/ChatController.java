@@ -4,6 +4,7 @@ import com.ssafy.catchpalm.api.service.GameRoomService;
 import com.ssafy.catchpalm.db.entity.GameRoomUserInfo;
 import com.ssafy.catchpalm.websocket.chat.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -23,7 +24,7 @@ public class ChatController {
     GameRoomService gameRoomService; // 게임룸 관련 데이터를 가져오기 위해 사용.
 
     @MessageMapping("/chat.sendMessage")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     public void sendMessage(@Payload ChatMessage chatMessage) {
         System.out.println(chatMessage.getContent() + " " + chatMessage.getSender() + " " + chatMessage.getType()
                 + " " + chatMessage.getRoomNumber());
@@ -35,7 +36,7 @@ public class ChatController {
     }
 
     @MessageMapping("/chat.addUser")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     public void addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
         // 채팅을 위한 유저 닉네임과 게임방 번호, 유저번호를 웹소켓 헤더에 담아둔다. 연결이 끊김을 인지하면 해당 헤더에 저장된 정보를 기반으로 데이터 처리.
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
@@ -68,21 +69,8 @@ public class ChatController {
         template.convertAndSend("/topic/chat/" + roomNumber, chatMessage);
     }
 
-    @MessageMapping("/ready.click")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public void clickMessage(@Payload UserReady userReady) {
-
-        // TODO -- 유저번호 레디 신호 받아서 DB에 반영 후 최종 정보 반환
-        userReady = gameRoomService.readyStatus(userReady);
-        userReady.setType(MessageType.READY);
-        // 룸번호 타입 변경
-        String roomNumber = String.valueOf(userReady.getRoomNumber());
-        // 해당 방으로 메시지 브로드캐스팅
-        template.convertAndSend("/topic/chat/" + roomNumber, userReady);
-    }
-
     @MessageMapping("/music.change")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     public void clickMessage(@Payload MusicInfo musicInfo) {
 
         // TODO -- 반장에 의해 변경된 음악정보 소켓전달.
@@ -97,8 +85,21 @@ public class ChatController {
         template.convertAndSend("/topic/chat/" + roomNumber, musicInfo);
     }
 
+    @MessageMapping("/ready.click")
+    @CrossOrigin
+    public void clickMessage(@Payload UserReady userReady) {
+
+        // TODO -- 유저번호 레디 신호 받아서 DB에 반영 후 최종 정보 반환
+        userReady = gameRoomService.readyStatus(userReady);
+        userReady.setType(MessageType.READY);
+        // 룸번호 타입 변경
+        String roomNumber = String.valueOf(userReady.getRoomNumber());
+        // 해당 방으로 메시지 브로드캐스팅
+        template.convertAndSend("/topic/chat/" + roomNumber, userReady);
+    }
+
     @MessageMapping("/game.start")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     public void gameStart(@Payload MusicInfo musicInfo) {
         System.out.println("gameStart");
         // TODO -- 반장에 의해 게임 시작 및 시작 신호 전달.
@@ -115,7 +116,7 @@ public class ChatController {
     }
 
     @MessageMapping("/drop.user")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     public void dropUser(@Payload DropInfo dropInfo) {
 
         // TODO -- 유저번호 레디 신호 받아서 DB에 반영 후 최종 정보 반환
