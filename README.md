@@ -94,7 +94,7 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 
 
 ## 팀원 역할
-1. 백엔드1(팀장, 백엔드1) - AWS Docker(FrontEnd, BackEnd), NginX, OpenVidu 서버 구축, BackEnd, FrontEnd 코드 병합 및 디버깅, 프로젝트 배포 관리 
+1. 이재진(팀장, 백엔드1) - AWS Docker(FrontEnd, BackEnd), NginX, OpenVidu 서버 구축, BackEnd, FrontEnd 코드 병합 및 디버깅, 프로젝트 배포 관리 
 2. 이수민(백엔드2) - [BE]JAVA jpa entity 객체 구현, 유저 관련 api 구현, 게임 관련 api 구현, openVidu api구현, JWT 구현, 이메일 인증서비스 구현, 구글 로그인 구현 / [FE] 랭킹페이지 구현, 결과 페이지 구현, 마이페이지 구현, 로그인 페이지 ui 구현, 회원가입 페이지 ui 구현 
 3. 손민우(백엔드3) - [BE]JAVA jpa entity 객체 구현. 게임 대기방 관련 api 구현. 게임 대기방 웹 소켓 연결 및 api 구현. / [FE] 게임 대기방 웹 소켓 연결, 구독설정 및 전체적인 기능 구현&연결. 게임 대기방 페이지 구현. 프로필 사진 업로드 기능 구현. [ETC] UCC 촬영 보조. 게임 DATA(json) base_model 제작.
 4. 홍경환(프론트엔드1) - MediaPipe를 활용한 리듬 게임 전체 구현, 게임플레이 페이지 디자인 구현, webRTC OpenVidu 라이브러리를 이용하여 게임 멀티플레이시 화상연결, 튜토리얼 페이지 구현
