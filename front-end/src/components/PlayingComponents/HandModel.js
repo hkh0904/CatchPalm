@@ -42,7 +42,7 @@ const createGestureRecognizer = async () => {
   });
 };
 
-export default function HandModel({ gameData, onExit }) {
+export default function HandModel({ gameData }) {
   // 컴포넌트 상태 및 ref를 선언
   const token = localStorage.getItem("token");
   const videoRef = useRef(null); // 비디오 엘리먼트를 참조하기 위한 ref
@@ -67,17 +67,17 @@ export default function HandModel({ gameData, onExit }) {
   const [musicNum, setMusicNum] = useState(null);
   const musicNumRef = useRef(musicNum);
   const location = useLocation();
+  const [volume, setVolume] = useState(gameData.gameSound); // 볼륨 상태
   const audio1 = useRef(new Audio(`/music/${gameData.musicNumber}.mp3`));
   const audio2 = useRef(new Audio("/assets/Finish.mp3"));
+  const [effectVolume, setEffectVolume] = useState(gameData.effectSound); // 볼륨 상태
   const missSound = useRef(new Audio("/assets/Miss.mp3"));
   const greatSound = useRef(new Audio("/assets/Great.mp3"));
   const perfectSound = useRef(new Audio("/assets/Perfect.mp3"));
-  const [volume, setVolume] = useState(gameData.gameSound); // 볼륨 상태
-  const volumeRef = useRef(volume);
-  const [effectVolume, setEffectVolume] = useState(gameData.effectSound); // 볼륨 상태
-  const effectVolumeRef = useRef(effectVolume);
   const [scaleStep, setScaleStep] = useState(gameData.synk);
   const scaleStepRef = useRef(scaleStep);
+  const effectVolumeRef = useRef(effectVolume);
+  const volumeRef = useRef(volume);
   const videoHiddenRef = useRef(videoHidden);
   const controlStyle = gameData.userInfo.length === 1 ? { right: "2rem" } : {};
   const videoOnImg = "/assets/video.png";
@@ -90,12 +90,6 @@ export default function HandModel({ gameData, onExit }) {
       videoPaths[Math.floor(Math.random() * videoPaths.length)];
     setVideoSrc(randomVideo);
   }, []);
-
-// prop으로 전달받은 onExit 함수가 있으면 실행
-useEffect(() => {
-  if(onExit) onExit(sendUserData);
-}, [onExit]);
-
 
   useEffect(() => {
     scaleStepRef.current = scaleStep;
@@ -230,35 +224,29 @@ useEffect(() => {
     };
     try {
       // POST 요청을 통해 데이터 전송
-      const response = await axios.patch(
-        `${APPLICATION_SERVER_URL}/api/v1/users/modify`,
-        data,
-        {
+      const response = await axios
+        .patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, data, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
-      )
-      .catch(error=>{
-        const errorToken = localStorage.getItem('token');
-        if (!errorToken) { // token이 null 또는 undefined 또는 빈 문자열일 때
-          window.location.href = '/'; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
-          return; // 함수 실행을 중단하고 반환합니다.
-        }
-        const token = error.response.headers.authorization.slice(7);
-        localStorage.setItem('token', token);
-        axios.patch(
-          `${APPLICATION_SERVER_URL}/api/v1/users/modify`,
-          data,
-          {
+        })
+        .catch((error) => {
+          const errorToken = localStorage.getItem("token");
+          if (!errorToken) {
+            // token이 null 또는 undefined 또는 빈 문자열일 때
+            window.location.href = "/"; // 이것은 주소창에 도메인 루트로 이동합니다. 원하는 페이지 URL로 변경하세요.
+            return; // 함수 실행을 중단하고 반환합니다.
+          }
+          const token = error.response.headers.authorization.slice(7);
+          localStorage.setItem("token", token);
+          axios.patch(`${APPLICATION_SERVER_URL}/api/v1/users/modify`, data, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-          }
-        )
-      })
+          });
+        });
     } catch (error) {
       console.error("Error sending the data:", error);
     }
@@ -355,7 +343,7 @@ useEffect(() => {
                     }
                   }
                 };
-              }, 5000); // 1000ms = 1 second
+              }, 800); // 1000ms = 1 second
             };
 
             return () => {
@@ -441,6 +429,9 @@ useEffect(() => {
         // MOTION_NUM을 확인하여 'motion' + MOTION_NUM 클래스를 추가합니다.
         circleDiv.classList.add("motion" + node.MOTION_NUM);
 
+        circleDiv.setAttribute("data-id", node.NodeNum);
+        circleOut.setAttribute("data-id", node.NodeNum);
+
         // webcam의 위치와 크기를 얻습니다.
         const webcamRect = webcamWrapper.getBoundingClientRect();
 
@@ -478,12 +469,12 @@ useEffect(() => {
 
           if (scale > 0.2) {
             // circleDiv가 아직 DOM에 있으면 애니메이션을 계속합니다.
-            if (circleDiv.parentNode) {
+            if (circleOut.parentNode) {
               requestAnimationFrame(animate);
             }
           } else {
             // circleDiv의 display 값이 none이 아닐 때만 로직 실행
-            if (circleDiv.parentNode) {
+            if (circleOut.parentNode) {
               const valX =
                 webcamRect.width -
                 (webcamRect.left + node["X-COORDINATE"] * webcamRect.width) -
@@ -497,6 +488,7 @@ useEffect(() => {
               // scale이 0.2 이하가 되면 div를 삭제합니다.
               webcamWrapper.removeChild(circleDiv);
               webcamWrapper.removeChild(circleOut);
+
               playSound(missSound);
             }
           }
@@ -561,6 +553,12 @@ useEffect(() => {
     window.requestAnimationFrame(predictWebcam);
   }
 
+  function removeBoth(circle, circleOut) {
+    if(circle) circle.remove();
+    if(circleOut) circleOut.remove();
+}
+
+
   function hideCircle(handX, handY, categoryName) {
     const circleElements = document.querySelectorAll(".circle");
     circleElements.forEach((circleElement) => {
@@ -592,30 +590,10 @@ useEffect(() => {
         // 거리가 특정 임계값 이하이면 원형 div를 삭제합니다.
         const threshold = 0.05; // 필요에 따라 이 값을 조정할 수 있습니다.
         if (distance <= threshold) {
-          circleElement.remove();
-
-          // circleElement와 동일한 위치에 있는 .circle-out 요소를 찾습니다.
-          const circleOutElement = Array.from(
-            document.querySelectorAll(".circleOut")
-          ).find((element) => {
-            const circleOutX =
-              1 -
-              parseFloat(
-                parseFloat(element.style.left.replace(/[^\d.]/g, "")) +
-                  circleOutPixel / 2
-              ) /
-                document.getElementById("webcamWrapper").offsetWidth;
-            const circleOutY =
-              parseFloat(
-                parseFloat(element.style.top.replace(/[^\d.]/g, "")) +
-                  circleOutPixel / 2
-              ) / document.getElementById("webcamWrapper").offsetHeight;
-
-            return (
-              Math.abs(circleOutX - circleX) < threshold &&
-              Math.abs(circleOutY - circleY) < threshold
-            );
-          });
+          const matchingId = circleElement.getAttribute("data-id");
+          const circleOutElement = document.querySelector(
+            `.circleOut[data-id="${matchingId}"]`
+          );
 
           if (circleOutElement) {
             // Parse the scale value from the transform style
@@ -626,25 +604,22 @@ useEffect(() => {
             );
 
             if (scaleValue >= 0.6) {
-              circleOutElement.remove();
               playSound(missSound);
               showValue(valX, valY, "MISS");
-            } else if (scaleValue < 0.63 && scaleValue > 0.53) {
-              circleOutElement.remove();
+            } else if (scaleValue < 0.6 && scaleValue > 0.49) {
               playSound(greatSound);
               showValue(valX, valY, "GREAT");
               increaseScore(150);
-            } else if (scaleValue <= 0.53 && scaleValue >= 0.37) {
-              circleOutElement.remove();
+            } else if (scaleValue <= 0.49 && scaleValue >= 0.37) {
               playSound(perfectSound);
               showValue(valX, valY, "PERFECT");
               increaseScore(300);
             } else {
-              circleOutElement.remove();
               playSound(greatSound);
               showValue(valX, valY, "GREAT");
               increaseScore(150);
             }
+            removeBoth(circleElement, circleOutElement);
           }
         }
       }
