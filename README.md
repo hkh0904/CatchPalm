@@ -1,5 +1,5 @@
 # CatchPalm - 손으로 리듬을 잡아라!
-![Logo][265906269-9ea0ad26-7dbc-4d0b-bdb1-809c0a6ebd7d](https://github.com/hkh0904/CatchPalm/assets/66843981/7de5045c-a99b-4b94-b147-b5124e5b72a6)
+![Logo]![265906269-9ea0ad26-7dbc-4d0b-bdb1-809c0a6ebd7d](https://github.com/hkh0904/CatchPalm/assets/66843981/7de5045c-a99b-4b94-b147-b5124e5b72a6)
 
 ## 소개 및 시연 영상
 
@@ -12,7 +12,7 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 ## 주요 서비스 화면
 
 ### 게임 실행 화면
-![게임 실행 화면][265924315-2694f07f-a3c0-4049-bef2-93a863791343](https://github.com/hkh0904/CatchPalm/assets/66843981/9ef3e1a7-23a7-4e7e-be53-3f75fae5fb87)
+![게임 실행 화면]![265924315-2694f07f-a3c0-4049-bef2-93a863791343](https://github.com/hkh0904/CatchPalm/assets/66843981/9ef3e1a7-23a7-4e7e-be53-3f75fae5fb87)
 
 ### 대기방
 ![대기방](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/f1b79a6b-aad1-454d-b92c-d013f43c04a1)
