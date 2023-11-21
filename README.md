@@ -1,5 +1,5 @@
 # CatchPalm - 손으로 리듬을 잡아라!
-!(https://github.com/hkh0904/CatchPalm/assets/66843981/7de5045c-a99b-4b94-b147-b5124e5b72a6)
+![265906269-9ea0ad26-7dbc-4d0b-bdb1-809c0a6ebd7d](https://github.com/hkh0904/CatchPalm/assets/66843981/89a2bdba-8682-4775-ad2a-6b9440c448bb)
 
 ## 소개 및 시연 영상
 
