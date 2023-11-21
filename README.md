@@ -1,5 +1,5 @@
 # CatchPalm - 손으로 리듬을 잡아라!
-![image](/uploads/b3b8e6b0d33f350b50090cb42dd6c4d6/image.png)
+![Logo](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/9ea0ad26-7dbc-4d0b-bdb1-809c0a6ebd7d)
 ## 소개 및 시연 영상
 
 ## 개요
@@ -11,19 +11,18 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 ## 주요 서비스 화면
 
 ### 게임 실행 화면
-![게임실행화면](/uploads/9860b76ec4be6c7b4638bf1de1cbf494/게임실행화면.gif)
+![게임 실행 화면](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/2694f07f-a3c0-4049-bef2-93a863791343)
 ### 대기방
-![대기방](/uploads/bd2a1ba71e856218202edeebbfc2f4a0/대기방.gif)
+![대기방](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/f1b79a6b-aad1-454d-b92c-d013f43c04a1)
 ### 결과창
-![결과창](/uploads/dc295827d0ac71cba5328909423a1d3e/결과창.gif)
+![결과창](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/0ecbf7cb-a8de-42d3-8fa0-f51c3f58eb85)
 ### 랭킹 창
-![랭킹창](/uploads/3afec457adb570dd5650e011bd790728/랭킹창.gif)
-#### 더 자세한 정보는 https://lab.ssafy.com/s09-webmobile1-sub2/S09P12C206/-/blob/master/scenario-details.md 에서!
+![랭킹창](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/8c7b14de-0467-4af9-a8ef-da0284dcd9e4)
+#### 더 자세한 정보는 https://github.com/hkh0904/CatchPalm-PJT/blob/main/scenario-details.md 에서!
 
 ---
 
 ## 주요 기능
----
 서비스 설명 : 아무나 VR기기 없이 즐길 수 있는 유사 VR리듬게임
 
 주요 기능 :
@@ -56,8 +55,6 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 - NginX
 - GitLab
 
-## 서비스 아키텍처
-
 ## 기술 상세
 - MediaPipe
   - 현재 사용자의 웹캠 화면에 나오는 손 정보를 분석하여 화면에 띄운 후, 손을 펼쳤을 때 중앙이라고 할 수 있는 중지손가락 관절이 시작되는 부분의 손의 좌표를 인식합니다. Json데이터를 받아와 화면에 원을 생성하고 생성된 원의 좌표와 손의 좌표가 일치할 때 타이밍이 맞게 손 모양을 입력했을 시에, 타이밍에 따라 점수를 차등획득 하도록 하였습니다.
@@ -75,12 +72,12 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 - Discord
 
 ## 요구사항 정의서
-![image](/uploads/5b79fcf3490948ac721ac5e13c1ea85d/image.png)
-![image](/uploads/14b8ae3e622d16289031963fca965dea/image.png)
+![6](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/f0a2dce3-3c14-41a4-9089-14bcb51aba98)
+![6_1](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/60d4c4cc-0040-4943-8723-c2359cb9ccb8)
 
 ## ER Diagram
-![image](/uploads/373466011e559dcfcf3d367167bf51b6/image.png)
-![image](/uploads/d213e0a9c736d478a899096ea0c6a518/image.png)
+![7](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/d852c60b-9af1-4171-a9f2-e358cc0756fd)
+![7_1](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/51fdea52-a94f-43c8-9bdd-b8fa57921661)
 
 ## EC2 포트 정리
 |Port|내용|
