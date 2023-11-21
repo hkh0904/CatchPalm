@@ -36,7 +36,6 @@ back-end/*.properties
 back-end/*.log
 back-end/*.gz
 
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -49,3 +48,5 @@ back-end/*.gz
 ### keystore ###
 *.p12
 *.cer
+
+node_modules/
