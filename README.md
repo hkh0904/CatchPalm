@@ -1,5 +1,5 @@
 # CatchPalm - 손으로 리듬을 잡아라!
-![265906269-9ea0ad26-7dbc-4d0b-bdb1-809c0a6ebd7d](https://github.com/hkh0904/CatchPalm/assets/66843981/7de5045c-a99b-4b94-b147-b5124e5b72a6)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/7de5045c-a99b-4b94-b147-b5124e5b72a6)
 
 ## 소개 및 시연 영상
 
@@ -12,13 +12,13 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 ## 주요 서비스 화면
 
 ### 게임 실행 화면
-![265924315-2694f07f-a3c0-4049-bef2-93a863791343](https://github.com/hkh0904/CatchPalm/assets/66843981/9ef3e1a7-23a7-4e7e-be53-3f75fae5fb87)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/9ef3e1a7-23a7-4e7e-be53-3f75fae5fb87)
 ### 대기방
-![265906430-f1b79a6b-aad1-454d-b92c-d013f43c04a1](https://github.com/hkh0904/CatchPalm/assets/66843981/4521e2c5-1720-4bfc-89cb-3c2b02ddfc91)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/4521e2c5-1720-4bfc-89cb-3c2b02ddfc91)
 ### 결과창
-![265906489-0ecbf7cb-a8de-42d3-8fa0-f51c3f58eb85](https://github.com/hkh0904/CatchPalm/assets/66843981/f4ba8f40-b570-46ed-a7db-d48988d3a482)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/f4ba8f40-b570-46ed-a7db-d48988d3a482)
 ### 랭킹 창
-![265924345-8c7b14de-0467-4af9-a8ef-da0284dcd9e4](https://github.com/hkh0904/CatchPalm/assets/66843981/e8d777b0-8076-4704-b8e5-9616102f99ca)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/e8d777b0-8076-4704-b8e5-9616102f99ca)
 #### 더 자세한 정보는 [https://github.com/hkh0904/CatchPalm/blob/main/scenario-details.md](https://github.com/hkh0904/CatchPalm/blob/master/scenario-details.md) 에서!
 
 ---
@@ -73,12 +73,12 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 - Discord
 
 ## 요구사항 정의서
-![265906670-f0a2dce3-3c14-41a4-9089-14bcb51aba98](https://github.com/hkh0904/CatchPalm/assets/66843981/847c88ca-4fe1-41cf-83ee-9967e36c9005)
-![265906703-60d4c4cc-0040-4943-8723-c2359cb9ccb8](https://github.com/hkh0904/CatchPalm/assets/66843981/5f6fd7ce-1e5c-4c1f-ba35-d5a17fc9e933)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/847c88ca-4fe1-41cf-83ee-9967e36c9005)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/5f6fd7ce-1e5c-4c1f-ba35-d5a17fc9e933)
 
 ## ER Diagram
-![265906745-d852c60b-9af1-4171-a9f2-e358cc0756fd](https://github.com/hkh0904/CatchPalm/assets/66843981/6d10c2ca-7c8f-4519-83df-0e8316808728)
-![265906746-51fdea52-a94f-43c8-9bdd-b8fa57921661](https://github.com/hkh0904/CatchPalm/assets/66843981/8ddcdc12-cfa1-492a-b572-8f3ed0698439)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/6d10c2ca-7c8f-4519-83df-0e8316808728)
+(https://github.com/hkh0904/CatchPalm/assets/66843981/8ddcdc12-cfa1-492a-b572-8f3ed0698439)
 
 ## EC2 포트 정리
 |Port|내용|
