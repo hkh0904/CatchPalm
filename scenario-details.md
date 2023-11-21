@@ -48,31 +48,31 @@ Catchpalm을 재밌게 즐기기 위한 안내 문구, 로그인, 회원가입�
 
 #### 시작 화면
 로고를 눌러서 홈 화면으로 이동할 수 있습니다
-![시작화면](/uploads/3fd3f0ff3f94b66a7787f8e3d7fc80bc/시작화면.gif)
+![시작화면](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/803a7fe2-46db-4ccd-979c-10b259064624)
 
 #### 홈 화면 (비로그인)
 Catchpalm을 재밌게 즐기기 위한 안내 문구, 로그인, 회원가입이 가능합니다
 - 회원가입은 이메일 인증이 필요한 자체 회원 가입이 가능한 대신, 로그인을 구글 로그인을 통해 로그인 할 수 있습니다.
 - 회원가입은 나이, 성별을 입력받습니다.
 - 잘못된 이메일 형식이나 중복된 이메일은 사용할 수 없습니다.
-![홈화면](/uploads/a3c04e69db8434ea406b967f959d2e1a/홈화면.gif)
-![홈화면회원가입](/uploads/a72f87eec144b96b568d98815e642515/홈화면회원가입.gif)
-![이메일인증완료](/uploads/a22a757c213e4afcc982889e211e07ca/이메일인증완료.gif)
+![홈화면](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/c2d303b9-c43a-4dad-b3e3-5ad9f893488e)
+![홈화면회원가입](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/11da1491-852b-423a-81c2-611682db3f48)
+![이메일인증완료](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/f9927f08-1a78-4af2-8790-7e80b89b5e0a)
 
 #### 홈 화면 (로그인)
 튜토리얼, 솔로모드, 멀티모드, 랭킹, 프로필로 접근이 가능한 버튼이 있습니다.
 - 구글 계정으로도 로그인이 가능합니다.
-![구글로그인](/uploads/3fc64ec9c0b92486adc20d415f5575f5/구글로그인.gif)
+![구글로그인](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/0260f473-2676-4488-b2a5-7ac6ce5d4cf0)
 
 #### 프로필 (우측 슬라이드창)
 프로필 사진, 닉네임, 나이 변경이 가능합니다.
 - 중복된 닉네임은 사용할 수 없습니다.
-![홈화면및프로필](/uploads/88e46fa0ed7a348d424b6b50f1fd5820/홈화면및프로필.gif)
+![홈화면및프로필](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/38366878-09cd-4471-b2f7-58f6774d7a5c)
 
 #### 튜토리얼
 게임소개와 함께 게임을 플레이하는 방법을 안내합니다.
-![튜토리얼시작](/uploads/afda1465174f70f9c51d75d4889485a8/튜토리얼시작.gif)
-![튜토리얼진행](/uploads/3f54c319a7d4253bbfdba963317d22d2/튜토리얼진행.gif)
+![튜토리얼시작](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/8d977bdc-c473-4412-8721-49f461b3decc)
+![튜토리얼진행](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/b0068030-06f5-48ff-bb81-67ab2749da5a)
 
 #### 멀티모드
 다른 사람과 함께 즐기는 게임 모드입니다. OpenVidu를 통해 다른 사람의 얼굴을 보면서 게임이 가능합니다.
@@ -85,22 +85,22 @@ Catchpalm을 재밌게 즐기기 위한 안내 문구, 로그인, 회원가입�
 - 방장은 곡 변경이 가능하고, 타 플레이어에게 반영
 - 방장은 방장 권한으로 플레이어를 강퇴 가능
 - 방장 권한은 방장이 나갈 시 일반 플레이어에게 넘어감
-![멀티모드방생성](/uploads/0fe24558eea36f410af723805d76c76b/멀티모드방생성.gif)
-![멀티모드방진입](/uploads/2648c643a29a12005f4a0b58d7f6094f/멀티모드방진입.gif)
-![멀티모드방기능1](/uploads/c4cb55f3f3a1565ea16bd7505e336707/멀티모드방기능1.gif)
-![멀티모드방기능2](/uploads/fa0fd856d7f28cea7411cee0f8d92cd8/멀티모드방기능2.gif)
+![멀티모드방생성](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/97199ae0-7f0e-4618-a2b8-d091aa14056d)
+![멀티모드방진입](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/84ea8024-053a-45e3-a20c-061a74aac9f3)
+![멀티모드방기능1](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/28173137-3ae3-4ee2-a7fb-9ed8452b8f8c)
+![멀티모드방기능2](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/56700062-4600-40bb-a1e7-62915c869bd0)
 
 #### 게임진행
 화면에 뜨는 손 모양을 박자에 맞춰 올바른 위치에 맞추면 맞춘 타이밍에 따라 Perfect, Great, Miss중 하나로 계산되어 점수에 반영됩니다.
 - 멀티모드에서 게임 시, 방에 있는 다른 사람들의 얼굴을 우측에서 확인 가능 (OpenVidu 화상연결) 
 - 게임 종료 시, 방에 있는 다른 사람들의 점수와 해당 방 랭킹을 확인할 수 있습니다.
-![게임실행화면](/uploads/bd6fbc7f4e3323f7e7cbe93f2a63f75c/게임실행화면.gif)
-![결과창](/uploads/6c7dd02a7dee92c57a40ad8df7e72009/결과창.gif)
+![게임 실행 화면](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/2694f07f-a3c0-4049-bef2-93a863791343)
+![결과창](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/c17aa27c-a706-4e72-bd1d-e6bc067bb24f)
 
 #### 랭킹페이지
 곡별로 다른 사람들의 전체 랭킹을 확인할 수 있고, 내 랭킹은 하단에서 확인할 수 있습니다.
-![랭킹창](/uploads/1ce145c621a0e160daa95e614833b021/랭킹창.gif)
+![랭킹창](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/8c7b14de-0467-4af9-a8ef-da0284dcd9e4)
 
 #### 솔로모드
 멀티모드와 기본적으로는 동일하나, 클릭 시 즉시 1인 방이 생성됩니다.
-![솔로모드](/uploads/64de27c886644aadc5342cea9a0a76e8/솔로모드.gif)
+![솔로모드](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/cbf8002d-c4f9-42a5-9c65-1ef8bac3df95)
