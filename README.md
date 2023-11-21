@@ -18,7 +18,7 @@ VR게임의 시대! 그런데 VR기기 너무 비싸고 불편하지 않나요? 
 ![결과창](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/0ecbf7cb-a8de-42d3-8fa0-f51c3f58eb85)
 ### 랭킹 창
 ![랭킹창](https://github.com/hkh0904/CatchPalm-PJT/assets/66843981/8c7b14de-0467-4af9-a8ef-da0284dcd9e4)
-#### 더 자세한 정보는 https://github.com/hkh0904/CatchPalm/blob/main/scenario-details.md 에서!
+#### 더 자세한 정보는 [https://github.com/hkh0904/CatchPalm/blob/main/scenario-details.md](https://github.com/hkh0904/CatchPalm/blob/master/scenario-details.md) 에서!
 
 ---
 
